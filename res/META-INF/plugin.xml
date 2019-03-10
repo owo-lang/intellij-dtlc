@@ -1,0 +1,22 @@
+<idea-plugin>
+	<name>Mini-TT</name>
+	<vendor email="ice1000kotlin@foxmail.com" url="https://ice1000.org">ice1000</vendor>
+	<idea-version since-build="162.0"/>
+
+	<depends>com.intellij.modules.lang</depends>
+
+	<extensions defaultExtensionNs="com.intellij">
+		<fileTypeFactory implementation="org.ice1000.minitt.MiniTTFileTypeFactory"/>
+		<errorHandler implementation="org.ice1000.minitt.error.GitHubErrorReporter"/>
+		<liveTemplateContext implementation="org.ice1000.minitt.editing.MiniTTDefaultContext"/>
+		<defaultLiveTemplatesProvider implementation="org.ice1000.minitt.editing.MiniTTLiveTemplateProvider"/>
+	</extensions>
+
+	<actions>
+		<action
+			id="MiniTT.NewMiniTTFile"
+			class="org.ice1000.minitt.action.NewMiniTTFile">
+			<add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
+		</action>
+	</actions>
+</idea-plugin>

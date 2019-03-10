@@ -1,0 +1,8 @@
+--
+-- Created by intellij-minitt on ${YEAR}-${MONTH}-${DAY}
+-- ${NAME}
+-- Author: ${USER}
+--
+
+let ${NAME_SNAKE}: U = 1;
+

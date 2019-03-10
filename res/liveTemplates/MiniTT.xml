@@ -1,0 +1,36 @@
+<templateSet group="MiniTT">
+	<template
+		name="let" value="let $pattern$: $type$ = $END$;"
+		description="let definition = ..."
+		toReformat="true"
+		toShortenFQNames="true">
+		<variable name="pattern" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="MINI_TT_DEFAULT_CONTEXT" value="true"/>
+		</context>
+	</template>
+	<template
+		name="const"
+		value="const $pattern$ = $END$;"
+		description="const definition = ..."
+		toReformat="true"
+		toShortenFQNames="true">
+		<variable name="pattern" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="MINI_TT_DEFAULT_CONTEXT" value="true"/>
+		</context>
+	</template>
+	<template
+		name="rec"
+		value="rec $pattern$: $type$ = $END$;"
+		description="rec definition = ..."
+		toReformat="false"
+		toShortenFQNames="true">
+		<variable name="pattern" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="MINI_TT_DEFAULT_CONTEXT" value="true"/>
+		</context>
+	</template>
+</templateSet>
