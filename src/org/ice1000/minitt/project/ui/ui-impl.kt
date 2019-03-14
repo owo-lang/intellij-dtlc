@@ -19,7 +19,7 @@ class MiniTTProjectConfigurableImpl(project: Project) : MiniTTProjectConfigurabl
 			MiniTTBundle.message("minitt.ui.project.select-compiler.description"),
 			project,
 			FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor())
-		exePathField.addActionListener { reinit() }
+		exePathField.addPropertyChangeListener { reinit() }
 		versionLabel.text = settings.version
 		guessExeButton.addActionListener {
 			minittPath?.let { exePathField.text = it }
