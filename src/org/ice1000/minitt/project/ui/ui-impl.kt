@@ -3,10 +3,11 @@ package org.ice1000.minitt.project.ui
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
 import org.ice1000.minitt.MiniTTBundle
+import org.ice1000.minitt.project.minittPath
 import org.ice1000.minitt.project.minittSettings
 import org.ice1000.minitt.versionOf
 
-class MiniTTProjectConfigurableImpl(private val project: Project) : MiniTTProjectConfigurable() {
+class MiniTTProjectConfigurableImpl(project: Project) : MiniTTProjectConfigurable() {
 	private val settings = project.minittSettings.settings
 
 	init {
@@ -17,6 +18,9 @@ class MiniTTProjectConfigurableImpl(private val project: Project) : MiniTTProjec
 			FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor())
 		exePathField.addActionListener { reinit() }
 		versionLabel.text = settings.version
+		guessExeButton.addActionListener {
+			minittPath?.let { exePathField.text = it }
+		}
 	}
 
 	private fun reinit() {

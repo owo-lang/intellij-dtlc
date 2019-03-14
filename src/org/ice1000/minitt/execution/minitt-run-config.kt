@@ -6,21 +6,23 @@ import com.intellij.execution.configurations.ConfigurationType
 import com.intellij.execution.configurations.LocatableConfigurationBase
 import com.intellij.execution.runners.ExecutionEnvironment
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.util.JDOMExternalizerUtil
 import icons.MiniTTIcons
 import org.ice1000.minitt.MINI_TT_RUN_CONFIG_ID
 import org.ice1000.minitt.MiniTTBundle
 import org.ice1000.minitt.execution.ui.MiniTTRunConfigurationEditorImpl
+import org.ice1000.minitt.project.minittSettings
 import org.jdom.Element
 
 class MiniTTRunConfiguration(
 	project: Project,
 	factory: ConfigurationFactory
 ) : LocatableConfigurationBase<MiniTTCommandLineState>(project, factory, MiniTTBundle.message("minitt.name")) {
-	var workingDir = ""
+	var workingDir = project.guessProjectDir()?.path.orEmpty()
 	var targetFile = ""
-	var additionalOptions = "--repl"
-	var minittExecutable = ""
+	var additionalOptions = "--repl-plain"
+	var minittExecutable = project.minittSettings.settings.exePath
 
 	override fun getState(executor: Executor, environment: ExecutionEnvironment) = MiniTTCommandLineState(this, environment)
 	override fun getConfigurationEditor() = MiniTTRunConfigurationEditorImpl(this, project)

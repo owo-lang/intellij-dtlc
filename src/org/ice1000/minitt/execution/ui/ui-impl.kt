@@ -36,6 +36,7 @@ class MiniTTRunConfigurationEditorImpl(configuration: MiniTTRunConfiguration, pr
 		additionalArgumentsField.text = s.additionalOptions
 	}
 
+	@Throws(ConfigurationException::class)
 	override fun applyEditorTo(s: MiniTTRunConfiguration) {
 		val targetFile = targetFileField.text
 		if (Files.isReadable(Paths.get(targetFile))) s.targetFile = targetFile
@@ -43,9 +44,7 @@ class MiniTTRunConfigurationEditorImpl(configuration: MiniTTRunConfiguration, pr
 		val workingDirectory = workingDirField.text
 		if (Files.isDirectory(Paths.get(workingDirectory))) s.workingDir = workingDirectory
 		else reportInvalidPath(workingDirectory)
-		val minittExecutable = exePathField.text
-		if (Files.isExecutable(Paths.get(minittExecutable))) s.minittExecutable = minittExecutable
-		else reportInvalidPath(minittExecutable)
+		s.minittExecutable = exePathField.text
 		s.additionalOptions = additionalArgumentsField.text
 	}
 

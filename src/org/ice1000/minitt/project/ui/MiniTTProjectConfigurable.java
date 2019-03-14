@@ -11,4 +11,5 @@ public abstract class MiniTTProjectConfigurable implements Configurable {
 	protected @NotNull JPanel mainPanel;
 	protected @NotNull TextFieldWithBrowseButton exePathField;
 	protected @NotNull JLabel versionLabel;
+	protected @NotNull JButton guessExeButton;
 }

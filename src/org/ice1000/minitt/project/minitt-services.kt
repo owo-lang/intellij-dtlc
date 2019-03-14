@@ -7,11 +7,6 @@ import com.intellij.openapi.components.Storage
 import com.intellij.openapi.project.Project
 import com.intellij.util.xmlb.XmlSerializerUtil
 
-data class MiniTTSettings(
-	var exePath: String = "minittc",
-	var version: String = "Unknown"
-)
-
 interface MiniTTProjectSettingsService {
 	val settings: MiniTTSettings
 }
