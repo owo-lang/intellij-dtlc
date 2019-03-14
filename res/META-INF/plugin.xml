@@ -12,6 +12,13 @@
 		<defaultLiveTemplatesProvider implementation="org.ice1000.minitt.editing.MiniTTLiveTemplateProvider"/>
 	</extensions>
 
+	<project-components>
+		<component>
+			<interface-class>org.ice1000.minitt.project.MiniTTProjectSettingsService</interface-class>
+			<implementation-class>org.ice1000.minitt.project.MiniTTProjectSettingsServiceImpl</implementation-class>
+		</component>
+	</project-components>
+
 	<actions>
 		<action
 			id="MiniTT.NewMiniTTFile"
