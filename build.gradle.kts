@@ -21,7 +21,7 @@ val commitHash = kotlin.run {
 	output.trim()
 }
 
-val pluginComingVersion = "0.0.1"
+val pluginComingVersion = "0.0.2"
 val pluginVersion = if (isCI) "$pluginComingVersion-$commitHash" else pluginComingVersion
 val packageName = "org.ice1000.minitt"
 val kotlinVersion = "1.2.70"
@@ -46,7 +46,7 @@ allprojects {
 			"ice1000" -> {
 				val root = "/home/ice1000/.local/share/JetBrains/Toolbox/apps"
 				localPath = "$root/IDEA-C/ch-0/191.5849.21"
-				alternativeIdePath = "$root/PyCharm-C/ch-0/191.5849.23"
+				alternativeIdePath = "$root/PyCharm-C/ch-0/191.6183.9"
 			}
 		}
 	}

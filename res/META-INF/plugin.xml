@@ -10,6 +10,10 @@
 		<errorHandler implementation="org.ice1000.minitt.error.GitHubErrorReporter"/>
 		<liveTemplateContext implementation="org.ice1000.minitt.editing.MiniTTDefaultContext"/>
 		<defaultLiveTemplatesProvider implementation="org.ice1000.minitt.editing.MiniTTLiveTemplateProvider"/>
+		<projectConfigurable
+			groupId="language"
+			id="MiniTT.Configurable"
+			instance="org.ice1000.minitt.project.ui.MiniTTProjectConfigurableImpl"/>
 	</extensions>
 
 	<project-components>
