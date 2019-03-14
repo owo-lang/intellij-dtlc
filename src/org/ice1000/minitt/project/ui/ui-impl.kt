@@ -3,12 +3,15 @@ package org.ice1000.minitt.project.ui
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
 import org.ice1000.minitt.MiniTTBundle
+import org.ice1000.minitt.project.MiniTTSettings
 import org.ice1000.minitt.project.minittPath
 import org.ice1000.minitt.project.minittSettings
+import org.ice1000.minitt.project.minittSettingsNullable
 import org.ice1000.minitt.versionOf
 
 class MiniTTProjectConfigurableImpl(project: Project) : MiniTTProjectConfigurable() {
-	private val settings = project.minittSettings.settings
+	// For building searchable options
+	private val settings = project.minittSettingsNullable?.settings ?: MiniTTSettings()
 
 	init {
 		exePathField.text = settings.exePath

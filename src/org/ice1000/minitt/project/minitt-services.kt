@@ -14,6 +14,9 @@ interface MiniTTProjectSettingsService {
 val Project.minittSettings: MiniTTProjectSettingsService
 	get() = ServiceManager.getService(this, MiniTTProjectSettingsService::class.java)
 
+val Project.minittSettingsNullable: MiniTTProjectSettingsService?
+	get() = ServiceManager.getService(this, MiniTTProjectSettingsService::class.java)
+
 @State(
 	name = "MiniTTProjectSettings",
 	storages = [Storage(file = "miniTTConfig.xml")])
