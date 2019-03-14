@@ -4,7 +4,7 @@
 [![][v-svg]][jb-url]
 
 IntelliJ plugin for [minitt-rs][minitt-rs].<br/>
-This plugin is not intended to be well-developed, but the basic features should be there.
+This plugin is primarily for personal use.
 
  [minitt-rs]: https://github.com/owo-lang/minitt-rs
  [d-svg]: https://img.shields.io/jetbrains/plugin/d/12075-mini-tt.svg

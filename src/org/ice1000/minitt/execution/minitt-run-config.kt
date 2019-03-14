@@ -1,18 +1,27 @@
 package org.ice1000.minitt.execution
 
 import com.intellij.execution.Executor
+import com.intellij.execution.actions.ConfigurationContext
+import com.intellij.execution.actions.RunConfigurationProducer
 import com.intellij.execution.configurations.ConfigurationFactory
 import com.intellij.execution.configurations.ConfigurationType
 import com.intellij.execution.configurations.LocatableConfigurationBase
 import com.intellij.execution.runners.ExecutionEnvironment
+import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.util.JDOMExternalizerUtil
+import com.intellij.openapi.util.Ref
+import com.intellij.openapi.util.io.FileUtilRt
+import com.intellij.psi.PsiElement
 import icons.MiniTTIcons
 import org.ice1000.minitt.MINI_TT_RUN_CONFIG_ID
 import org.ice1000.minitt.MiniTTBundle
+import org.ice1000.minitt.MiniTTFileType
 import org.ice1000.minitt.execution.ui.MiniTTRunConfigurationEditorImpl
+import org.ice1000.minitt.project.minittPath
 import org.ice1000.minitt.project.minittSettings
+import org.ice1000.minitt.validateMiniTTExe
 import org.jdom.Element
 
 class MiniTTRunConfiguration(
@@ -56,3 +65,33 @@ object MiniTTRunConfigurationType : ConfigurationType {
 	override fun getDisplayName() = MiniTTBundle.message("minitt.name")
 	override fun getConfigurationFactories() = factories
 }
+
+@Suppress("DEPRECATION")
+class MiniTTRunConfigurationProducer : RunConfigurationProducer<MiniTTRunConfiguration>(MiniTTRunConfigurationType) {
+	override fun isConfigurationFromContext(
+		configuration: MiniTTRunConfiguration, context: ConfigurationContext) =
+		configuration.targetFile == context.dataContext.getData(CommonDataKeys.VIRTUAL_FILE)?.path
+
+	override fun setupConfigurationFromContext(
+		configuration: MiniTTRunConfiguration, context: ConfigurationContext, ref: Ref<PsiElement>?): Boolean {
+		val file = context.dataContext.getData(CommonDataKeys.VIRTUAL_FILE)
+		if (file?.fileType != MiniTTFileType) return false
+		configuration.targetFile = file.path
+		configuration.workingDir = context.project.basePath.orEmpty()
+		configuration.name = FileUtilRt
+			.getNameWithoutExtension(configuration.targetFile)
+			.takeLastWhile { it != '/' && it != '\\' }
+		val existPath = context.project
+			.minittSettings
+			.settings
+			.exePath
+		if (validateMiniTTExe(existPath)) configuration.minittExecutable = existPath
+		else {
+			val exePath = minittPath ?: return true
+			if (validateMiniTTExe(exePath)) configuration.minittExecutable = exePath
+		}
+		return true
+	}
+}
+
+
