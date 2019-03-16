@@ -33,7 +33,7 @@ class NewMiniTTFile : CreateFileFromTemplateAction(
 	override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
 		builder
 			.setTitle(MiniTTBundle.message("minitt.actions.new-file.title"))
-			.addKind("File", MiniTTIcons.MINI_TT_FILE, "MiniTT File")
+			.addKind("File", MiniTTIcons.MINI_TT_FILE, "Mini-TT File")
 	}
 
 	override fun createFileFromTemplate(name: String, template: FileTemplate, dir: PsiDirectory) = try {

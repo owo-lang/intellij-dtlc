@@ -4,5 +4,5 @@
 -- Author: ${USER}
 --
 
-let ${NAME_SNAKE}: U = 1;
+let ${NAME_SNAKE}: Type = 1;
 
