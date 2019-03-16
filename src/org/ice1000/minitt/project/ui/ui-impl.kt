@@ -30,7 +30,7 @@ class MiniTTProjectConfigurableImpl(project: Project) : MiniTTProjectConfigurabl
 		versionLabel.text = versionOf(exePathField.text)
 	}
 
-	override fun isModified() = exePathField.text != settings.exePath
+	override fun isModified() = exePathField.text != settings.exePath || versionLabel.text != settings.version
 	override fun getDisplayName() = MiniTTBundle.message("minitt.name")
 	override fun createComponent() = mainPanel
 	override fun apply() {
