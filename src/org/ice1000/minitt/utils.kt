@@ -27,7 +27,7 @@ fun validateMiniTTExe(exePath: String) = try {
 
 fun versionOf(exePath: String) = executeCommand("$exePath --version")
 	.first
-	.first()
+	.firstOrNull() ?: "-- minittc not found"
 
 fun executeCommandToFindPath(command: String) = executeCommand(command, null, 500L)
 	.first
