@@ -3,6 +3,7 @@ package org.ice1000.tt.project
 import com.intellij.execution.configurations.PathEnvironmentVariableUtil
 import com.intellij.openapi.util.SystemInfo
 import org.ice1000.tt.executeCommandToFindPath
+import org.ice1000.tt.validateExe
 
 data class MiniTTSettings(
 	var exePath: String = "minittc",

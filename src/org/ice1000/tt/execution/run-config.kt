@@ -21,7 +21,7 @@ import org.ice1000.tt.MiniTTFileType
 import org.ice1000.tt.execution.ui.MiniTTRunConfigurationEditorImpl
 import org.ice1000.tt.project.minittPath
 import org.ice1000.tt.project.minittSettings
-import org.ice1000.tt.validateMiniTTExe
+import org.ice1000.tt.validateExe
 import org.jdom.Element
 
 class MiniTTRunConfiguration(
@@ -85,10 +85,10 @@ class MiniTTRunConfigurationProducer : RunConfigurationProducer<MiniTTRunConfigu
 			.minittSettings
 			.settings
 			.exePath
-		if (validateMiniTTExe(existPath)) configuration.minittExecutable = existPath
+		if (validateExe(existPath)) configuration.minittExecutable = existPath
 		else {
 			val exePath = minittPath ?: return true
-			if (validateMiniTTExe(exePath)) configuration.minittExecutable = exePath
+			if (validateExe(exePath)) configuration.minittExecutable = exePath
 		}
 		return true
 	}

@@ -18,7 +18,7 @@ inline fun <T> tryRun(lambda: () -> T): T? = try {
 	null
 }
 
-fun validateMiniTTExe(exePath: String) = try {
+fun validateExe(exePath: String) = try {
 	if (exePath.isEmpty()) false
 	else Files.isExecutable(Paths.get(exePath))
 } catch (e: Exception) {
@@ -27,16 +27,17 @@ fun validateMiniTTExe(exePath: String) = try {
 
 fun versionOf(exePath: String) = executeCommand("$exePath --version")
 	.first
-	.firstOrNull() ?: "-- minittc not found"
+	.firstOrNull().orEmpty()
 
-fun executeCommandToFindPath(command: String) = executeCommand(command, null, 500L)
-	.first
-	.firstOrNull()
-	?.split(' ')
-	?.firstOrNull(::validateMiniTTExe)
-	?: System.getenv("PATH")
-		.split(":")
-		.firstOrNull(::validateMiniTTExe)
+inline fun executeCommandToFindPath(command: String, validate: (String) -> Boolean = ::validateExe) =
+	executeCommand(command, null, 500L)
+		.first
+		.firstOrNull()
+		?.split(' ')
+		?.firstOrNull(validate)
+		?: System.getenv("PATH")
+			.split(":")
+			.firstOrNull(validate)
 
 fun executeCommand(
 	command: String, input: String? = null, timeLimit: Long = 1200L): Pair<List<String>, List<String>> {
