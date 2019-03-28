@@ -28,10 +28,16 @@
 	</project-components>
 
 	<actions>
-		<action
-			id="MiniTT.NewMiniTTFile"
-			class="org.ice1000.tt.action.NewMiniTTFile">
-			<add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
-		</action>
+		<group id="TT.NewGroup">
+			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
+			<action
+				id="TT.MiniTT.NewFile"
+				class="org.ice1000.tt.action.NewMiniTTFile">
+			</action>
+			<action
+				id="TT.OwO.NewFile"
+				class="org.ice1000.tt.action.NewOwOFile">
+			</action>
+		</group>
 	</actions>
 </idea-plugin>

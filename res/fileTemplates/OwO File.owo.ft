@@ -4,5 +4,6 @@
 -- Author: ${USER}
 --
 
-let ${NAME_SNAKE}: Type = 1;
+${NAME_SNAKE}: Type
+${NAME_SNAKE} = 1
 

@@ -48,3 +48,14 @@ class NewMiniTTFile : NewTTFile(
 			.addKind("File", TTIcons.MINI_TT_FILE, "Mini-TT File")
 	}
 }
+
+class NewOwOFile : NewTTFile(
+	TTBundle.message("owo.actions.new-file.name"),
+	TTBundle.message("owo.actions.new-file.description"),
+	TTIcons.OWO_FILE) {
+	override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
+		builder
+			.setTitle(TTBundle.message("owo.actions.new-file.title"))
+			.addKind("File", TTIcons.OWO_FILE, "OwO File")
+	}
+}
