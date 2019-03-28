@@ -66,9 +66,9 @@ import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
 private object AnonymousFeedback {
-	private const val tokenFile = "org/ice1000/minitt/error/token.bin"
+	private const val tokenFile = "org/ice1000/tt/error/token.bin"
 	private const val gitRepoUser = "owo-lang"
-	private const val gitRepo = "intellij-minitt"
+	private const val gitRepo = "intellij-owo"
 	private const val issueLabel = "pending"
 
 	/**
@@ -248,7 +248,7 @@ class GitHubErrorBean(
  * Messages and strings used by the error reporter
  */
 private object ErrorReportBundle {
-	@NonNls private const val BUNDLE = "org.ice1000.minitt.error.report-bundle"
+	@NonNls private const val BUNDLE = "org.ice1000.tt.error.report-bundle"
 	private val bundle: ResourceBundle by lazy { ResourceBundle.getBundle(BUNDLE) }
 
 	@JvmStatic

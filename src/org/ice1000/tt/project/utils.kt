@@ -13,7 +13,7 @@ val minittPath by lazy {
 	when {
 		SystemInfo.isWindows -> findPathWindows() ?: "C:\\Program Files"
 		SystemInfo.isMac -> findPathLinux()
-		else -> findPathLinux() ?: "/usr/bin/julia"
+		else -> findPathLinux() ?: "/usr/bin/minittc"
 	}
 }
 

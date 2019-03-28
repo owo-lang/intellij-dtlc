@@ -45,28 +45,27 @@ class MiniTTCommandLineState(
 		.getInstance()
 		.createBuilder(env.project,
 			SearchScopeProvider.createSearchScope(env.project, env.runProfile))
+}
 
-	private class PauseOutputAction(private val console: ConsoleView, private val handler: ProcessHandler) :
-		ToggleAction(
-			ExecutionBundle.message("run.configuration.pause.output.action.name"),
-			null, AllIcons.Actions.Pause), DumbAware {
-		override fun isSelected(event: AnActionEvent) = console.isOutputPaused
-		override fun setSelected(event: AnActionEvent, flag: Boolean) {
-			console.isOutputPaused = flag
-			ApplicationManager.getApplication().invokeLater { update(event) }
-		}
+class PauseOutputAction(private val console: ConsoleView, private val handler: ProcessHandler) :
+	ToggleAction(
+		ExecutionBundle.message("run.configuration.pause.output.action.name"),
+		null, AllIcons.Actions.Pause), DumbAware {
+	override fun isSelected(event: AnActionEvent) = console.isOutputPaused
+	override fun setSelected(event: AnActionEvent, flag: Boolean) {
+		console.isOutputPaused = flag
+		ApplicationManager.getApplication().invokeLater { update(event) }
+	}
 
-		override fun update(event: AnActionEvent) {
-			super.update(event)
-			when {
-				!handler.isProcessTerminated -> event.presentation.isEnabled = true
-				!console.canPause() || !console.hasDeferredOutput() -> event.presentation.isEnabled = false
-				else -> {
-					event.presentation.isEnabled = true
-					console.performWhenNoDeferredOutput { update(event) }
-				}
+	override fun update(event: AnActionEvent) {
+		super.update(event)
+		when {
+			!handler.isProcessTerminated -> event.presentation.isEnabled = true
+			!console.canPause() || !console.hasDeferredOutput() -> event.presentation.isEnabled = false
+			else -> {
+				event.presentation.isEnabled = true
+				console.performWhenNoDeferredOutput { update(event) }
 			}
 		}
 	}
-
 }
