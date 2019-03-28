@@ -1,11 +1,10 @@
 import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
-import org.gradle.language.base.internal.plugins.CleanRule
 import org.jetbrains.intellij.tasks.PatchPluginXmlTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.*
-import java.nio.file.*
+import java.nio.file.Paths
 
 val isCI = !System.getenv("CI").isNullOrBlank()
 val commitHash = kotlin.run {
@@ -36,6 +35,11 @@ plugins {
 	kotlin("jvm") version "1.2.70"
 }
 
+fun fromToolbox(path: String) = file(path).listFiles().orEmpty().filter { it.isDirectory }.maxBy {
+	val (major, minor, patch) = it.name.split('.')
+	String.format("%5s%5s%5s", major, minor, patch)
+}
+
 allprojects {
 	apply { plugin("org.jetbrains.grammarkit") }
 
@@ -46,18 +50,14 @@ allprojects {
 		when (System.getProperty("os.name")) {
 			"Linux" -> {
 				val root = "/home/$user/.local/share/JetBrains/Toolbox/apps"
-				val intellijPath = file("$root/IDEA-C/ch-0").listFiles().filter { it.isDirectory }.maxBy {
-					val (major, minor, patch) = it.name.split('.')
-					String.format("%5s%5s%5s", major, minor, patch)
-				} ?: file("$root/IDEA-U/ch-0").listFiles().filter { it.isDirectory }.maxBy {
-					val (major, minor, patch) = it.name.split('.')
-					String.format("%5s%5s%5s", major, minor, patch)
-				} ?: file("$root/IDEA-JDK11/ch-0").listFiles().filter { it.isDirectory }.maxBy {
-					val (major, minor, patch) = it.name.split('.')
-					String.format("%5s%5s%5s", major, minor, patch)
-				}
+				val intellijPath = fromToolbox("$root/IDEA-C/ch-0")
+					?: fromToolbox("$root/IDEA-U/ch-0")
+					?: fromToolbox("$root/IDEA-JDK11/ch-0")
 				intellijPath?.absolutePath?.let { localPath = it }
-				alternativeIdePath = "$root/PyCharm-C/ch-0/191.6183.9"
+				val pycharmPath = fromToolbox("$root/PyCharm-C/ch-0")
+					?: fromToolbox("$root/IDEA-C/ch-0")
+					?: fromToolbox("$root/IDEA-JDK11/ch-0")
+				pycharmPath?.absolutePath?.let { alternativeIdePath = it }
 			}
 		}
 	}
@@ -119,9 +119,49 @@ task("isCI") {
 	doFirst { println(if (isCI) "Yes, I'm on a CI." else "No, I'm not on CI.") }
 }
 
-fun path(more: Iterable<*>) = more.joinToString(File.separator)
+tasks.withType<KotlinCompile> {
+	kotlinOptions {
+		jvmTarget = "1.8"
+		languageVersion = "1.2"
+		apiVersion = "1.2"
+		freeCompilerArgs = listOf("-Xjvm-default=enable")
+	}
+}
+
+fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
+	val parserRoot = Paths.get("org", "ice1000", "tt")!!
+	val lexerRoot = Paths.get("gen", "org", "ice1000", "tt")!!
+	fun path(more: Iterable<*>) = more.joinToString(File.separator)
+	fun bnf(name: String) = Paths.get("grammar", "$name.bnf").toString()
+	fun flex(name: String) = Paths.get("grammar", "$name.flex").toString()
+
+	val genParser = task<GenerateParser>("gen${name}Parser") {
+		group = tasks["init"].group!!
+		description = "Generate Parser and Psi classes for $name"
+		source = bnf(name.toLowerCase())
+		targetRoot = "gen/"
+		pathToParser = path(parserRoot + "${name}Parser.java")
+		pathToPsiRoot = path(parserRoot + "psi")
+		purgeOldFiles = true
+	}
+
+	return genParser to task<GenerateLexer>("gen${name}Lexer") {
+		group = genParser.group
+		description = "Generate Lexer for $name"
+		source = flex(name.toLowerCase())
+		targetDir = path(lexerRoot)
+		targetClass = "${name}Lexer"
+		purgeOldFiles = true
+	}
+}
+
+val (genMiniTTParser, genMiniTTLexer) = grammar("MiniTT")
 
 tasks.withType<KotlinCompile> {
+	dependsOn(
+		genMiniTTParser,
+		genMiniTTLexer
+	)
 	kotlinOptions {
 		jvmTarget = "1.8"
 		languageVersion = "1.2"
