@@ -1,4 +1,4 @@
-package org.ice1000.minitt.project.ui;
+package org.ice1000.tt.project.ui;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;

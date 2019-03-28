@@ -1,4 +1,4 @@
-package org.ice1000.minitt.project
+package org.ice1000.tt.project
 
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager

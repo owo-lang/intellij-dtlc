@@ -42,10 +42,21 @@ allprojects {
 	intellij {
 		updateSinceUntilBuild = false
 		instrumentCode = true
-		when (System.getProperty("user.name")) {
-			"ice1000" -> {
-				val root = "/home/ice1000/.local/share/JetBrains/Toolbox/apps"
-				localPath = "$root/IDEA-C/ch-0/191.6183.20"
+		val user = System.getProperty("user.name")
+		when (System.getProperty("os.name")) {
+			"Linux" -> {
+				val root = "/home/$user/.local/share/JetBrains/Toolbox/apps"
+				val intellijPath = file("$root/IDEA-C/ch-0").listFiles().filter { it.isDirectory }.maxBy {
+					val (major, minor, patch) = it.name.split('.')
+					String.format("%5s%5s%5s", major, minor, patch)
+				} ?: file("$root/IDEA-U/ch-0").listFiles().filter { it.isDirectory }.maxBy {
+					val (major, minor, patch) = it.name.split('.')
+					String.format("%5s%5s%5s", major, minor, patch)
+				} ?: file("$root/IDEA-JDK11/ch-0").listFiles().filter { it.isDirectory }.maxBy {
+					val (major, minor, patch) = it.name.split('.')
+					String.format("%5s%5s%5s", major, minor, patch)
+				}
+				intellijPath?.absolutePath?.let { localPath = it }
 				alternativeIdePath = "$root/PyCharm-C/ch-0/191.6183.9"
 			}
 		}

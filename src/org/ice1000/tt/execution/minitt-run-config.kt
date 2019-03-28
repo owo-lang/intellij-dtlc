@@ -1,4 +1,4 @@
-package org.ice1000.minitt.execution
+package org.ice1000.tt.execution
 
 import com.intellij.execution.Executor
 import com.intellij.execution.actions.ConfigurationContext
@@ -15,13 +15,13 @@ import com.intellij.openapi.util.Ref
 import com.intellij.openapi.util.io.FileUtilRt
 import com.intellij.psi.PsiElement
 import icons.MiniTTIcons
-import org.ice1000.minitt.MINI_TT_RUN_CONFIG_ID
-import org.ice1000.minitt.MiniTTBundle
-import org.ice1000.minitt.MiniTTFileType
-import org.ice1000.minitt.execution.ui.MiniTTRunConfigurationEditorImpl
-import org.ice1000.minitt.project.minittPath
-import org.ice1000.minitt.project.minittSettings
-import org.ice1000.minitt.validateMiniTTExe
+import org.ice1000.tt.MINI_TT_RUN_CONFIG_ID
+import org.ice1000.tt.MiniTTBundle
+import org.ice1000.tt.MiniTTFileType
+import org.ice1000.tt.execution.ui.MiniTTRunConfigurationEditorImpl
+import org.ice1000.tt.project.minittPath
+import org.ice1000.tt.project.minittSettings
+import org.ice1000.tt.validateMiniTTExe
 import org.jdom.Element
 
 class MiniTTRunConfiguration(

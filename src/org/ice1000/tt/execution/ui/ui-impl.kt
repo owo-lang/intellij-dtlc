@@ -1,10 +1,10 @@
-package org.ice1000.minitt.execution.ui
+package org.ice1000.tt.execution.ui
 
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
-import org.ice1000.minitt.MiniTTBundle
-import org.ice1000.minitt.MiniTTFileType
-import org.ice1000.minitt.execution.MiniTTRunConfiguration
+import org.ice1000.tt.MiniTTBundle
+import org.ice1000.tt.MiniTTFileType
+import org.ice1000.tt.execution.MiniTTRunConfiguration
 import org.jetbrains.annotations.Contract
 import java.nio.file.Files
 import java.nio.file.Paths

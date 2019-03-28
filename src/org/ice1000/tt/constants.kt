@@ -1,4 +1,4 @@
-package org.ice1000.minitt
+package org.ice1000.tt
 
 import org.jetbrains.annotations.Nls
 import org.jetbrains.annotations.NonNls

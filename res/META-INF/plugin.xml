@@ -6,30 +6,30 @@
 	<depends>com.intellij.modules.lang</depends>
 
 	<extensions defaultExtensionNs="com.intellij">
-		<fileTypeFactory implementation="org.ice1000.minitt.MiniTTFileTypeFactory"/>
-		<errorHandler implementation="org.ice1000.minitt.error.GitHubErrorReporter"/>
-		<liveTemplateContext implementation="org.ice1000.minitt.editing.MiniTTDefaultContext"/>
-		<defaultLiveTemplatesProvider implementation="org.ice1000.minitt.editing.MiniTTLiveTemplateProvider"/>
-		<configurationType implementation="org.ice1000.minitt.execution.MiniTTRunConfigurationType"/>
-		<runConfigurationProducer implementation="org.ice1000.minitt.execution.MiniTTRunConfigurationProducer"/>
+		<fileTypeFactory implementation="org.ice1000.tt.TTFileTypeFactory"/>
+		<errorHandler implementation="org.ice1000.tt.error.GitHubErrorReporter"/>
+		<liveTemplateContext implementation="org.ice1000.tt.editing.MiniTTDefaultContext"/>
+		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.MiniTTLiveTemplateProvider"/>
+		<configurationType implementation="org.ice1000.tt.execution.MiniTTRunConfigurationType"/>
+		<runConfigurationProducer implementation="org.ice1000.tt.execution.MiniTTRunConfigurationProducer"/>
 		<projectConfigurable
 			groupId="language"
 			id="MiniTT.Configurable"
 			displayName="MiniTT"
-			instance="org.ice1000.minitt.project.ui.MiniTTProjectConfigurableImpl"/>
+			instance="org.ice1000.tt.project.ui.MiniTTProjectConfigurableImpl"/>
 	</extensions>
 
 	<project-components>
 		<component>
-			<interface-class>org.ice1000.minitt.project.MiniTTProjectSettingsService</interface-class>
-			<implementation-class>org.ice1000.minitt.project.MiniTTProjectSettingsServiceImpl</implementation-class>
+			<interface-class>org.ice1000.tt.project.MiniTTProjectSettingsService</interface-class>
+			<implementation-class>org.ice1000.tt.project.MiniTTProjectSettingsServiceImpl</implementation-class>
 		</component>
 	</project-components>
 
 	<actions>
 		<action
 			id="MiniTT.NewMiniTTFile"
-			class="org.ice1000.minitt.action.NewMiniTTFile">
+			class="org.ice1000.tt.action.NewMiniTTFile">
 			<add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
 		</action>
 	</actions>

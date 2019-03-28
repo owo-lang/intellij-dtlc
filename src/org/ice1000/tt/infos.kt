@@ -1,4 +1,4 @@
-package org.ice1000.minitt
+package org.ice1000.tt
 
 import com.intellij.CommonBundle
 import com.intellij.extapi.psi.PsiFileBase
@@ -22,14 +22,14 @@ class MiniTTFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, Min
 	override fun getFileType() = MiniTTFileType
 }
 
-class MiniTTFileTypeFactory : FileTypeFactory() {
+class TTFileTypeFactory : FileTypeFactory() {
 	override fun createFileTypes(consumer: FileTypeConsumer) {
 		consumer.consume(MiniTTFileType, MINI_TT_EXTENSION)
 	}
 }
 
 object MiniTTBundle {
-	@NonNls private const val BUNDLE = "org.ice1000.minitt.minitt-bundle"
+	@NonNls private const val BUNDLE = "org.ice1000.tt.owo-bundle"
 	private val bundle: ResourceBundle by lazy { ResourceBundle.getBundle(BUNDLE) }
 
 	@JvmStatic

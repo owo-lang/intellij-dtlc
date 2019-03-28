@@ -1,8 +1,8 @@
-package org.ice1000.minitt.project
+package org.ice1000.tt.project
 
 import com.intellij.execution.configurations.PathEnvironmentVariableUtil
 import com.intellij.openapi.util.SystemInfo
-import org.ice1000.minitt.executeCommandToFindPath
+import org.ice1000.tt.executeCommandToFindPath
 
 data class MiniTTSettings(
 	var exePath: String = "minittc",

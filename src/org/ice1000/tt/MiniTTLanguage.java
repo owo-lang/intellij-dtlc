@@ -1,9 +1,9 @@
-package org.ice1000.minitt;
+package org.ice1000.tt;
 
 import com.intellij.lang.Language;
 import org.jetbrains.annotations.NotNull;
 
-import static org.ice1000.minitt.Minitt_constantsKt.MINI_TT_LANGUAGE_NAME;
+import static org.ice1000.tt.ConstantsKt.MINI_TT_LANGUAGE_NAME;
 
 /**
  * @author ice1000

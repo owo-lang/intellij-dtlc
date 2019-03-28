@@ -19,7 +19,7 @@
  * THE SOFTWARE.
  */
 
-package org.ice1000.minitt.error
+package org.ice1000.tt.error
 
 import com.intellij.CommonBundle
 import com.intellij.diagnostic.AbstractMessage
@@ -49,7 +49,7 @@ import org.eclipse.egit.github.core.Label
 import org.eclipse.egit.github.core.RepositoryId
 import org.eclipse.egit.github.core.client.GitHubClient
 import org.eclipse.egit.github.core.service.IssueService
-import org.ice1000.minitt.MINI_TT_PLUGIN_ID
+import org.ice1000.tt.MINI_TT_PLUGIN_ID
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 import java.awt.Component

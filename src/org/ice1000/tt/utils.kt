@@ -1,4 +1,4 @@
-package org.ice1000.minitt
+package org.ice1000.tt
 
 import java.io.InputStream
 import java.nio.file.Files

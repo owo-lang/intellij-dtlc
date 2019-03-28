@@ -1,4 +1,4 @@
-package org.ice1000.minitt.action
+package org.ice1000.tt.action
 
 import com.intellij.ide.actions.CreateFileFromTemplateAction
 import com.intellij.ide.actions.CreateFileFromTemplateDialog
@@ -11,7 +11,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.FileUtilRt
 import com.intellij.psi.PsiDirectory
 import icons.MiniTTIcons
-import org.ice1000.minitt.MiniTTBundle
+import org.ice1000.tt.MiniTTBundle
 import java.util.*
 
 class NewMiniTTFile : CreateFileFromTemplateAction(

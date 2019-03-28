@@ -1,4 +1,4 @@
-package org.ice1000.minitt.execution
+package org.ice1000.tt.execution
 
 import com.intellij.execution.DefaultExecutionResult
 import com.intellij.execution.ExecutionBundle

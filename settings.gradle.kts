@@ -1,2 +1,2 @@
-rootProject.name = "intellij-minitt"
+rootProject.name = "intellij-owo"
 
