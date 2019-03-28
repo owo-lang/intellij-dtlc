@@ -33,4 +33,24 @@
 			<option name="MINI_TT_DEFAULT_CONTEXT" value="true"/>
 		</context>
 	</template>
+	<template
+		name="split"
+		value="split { $END$ }"
+		description="split { ... }"
+		toReformat="true"
+		toShortenFQNames="true">
+		<context>
+			<option name="MINI_TT_DEFAULT_CONTEXT" value="true"/>
+		</context>
+	</template>
+	<template
+		name="sum"
+		value="Sum { $END$ }"
+		description="Sum { ... }"
+		toReformat="true"
+		toShortenFQNames="true">
+		<context>
+			<option name="MINI_TT_DEFAULT_CONTEXT" value="true"/>
+		</context>
+	</template>
 </templateSet>

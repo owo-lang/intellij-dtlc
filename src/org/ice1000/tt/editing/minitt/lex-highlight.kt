@@ -38,6 +38,7 @@ object MiniTTHighlighter : SyntaxHighlighter {
 	private val KEYWORDS_LIST = listOf(
 		MiniTTTypes.LAMBDA,
 		MiniTTTypes.PI,
+		MiniTTTypes.TYPE_UNIVERSE,
 		MiniTTTypes.SIGMA,
 		MiniTTTypes.SUM_KEYWORD,
 		MiniTTTypes.SPLIT_KEYWORD,
