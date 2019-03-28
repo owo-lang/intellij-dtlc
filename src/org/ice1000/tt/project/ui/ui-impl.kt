@@ -2,7 +2,7 @@ package org.ice1000.tt.project.ui
 
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
-import org.ice1000.tt.MiniTTBundle
+import org.ice1000.tt.TTBundle
 import org.ice1000.tt.project.MiniTTSettings
 import org.ice1000.tt.project.minittPath
 import org.ice1000.tt.project.minittSettingsNullable
@@ -14,8 +14,8 @@ class MiniTTProjectConfigurableImpl(project: Project) : MiniTTProjectConfigurabl
 
 	init {
 		exePathField.text = settings.exePath
-		exePathField.addBrowseFolderListener(MiniTTBundle.message("minitt.ui.project.select-compiler"),
-			MiniTTBundle.message("minitt.ui.project.select-compiler.description"),
+		exePathField.addBrowseFolderListener(TTBundle.message("minitt.ui.project.select-compiler"),
+			TTBundle.message("minitt.ui.project.select-compiler.description"),
 			project,
 			FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor())
 		exePathField.addPropertyChangeListener { reinit() }
@@ -30,7 +30,7 @@ class MiniTTProjectConfigurableImpl(project: Project) : MiniTTProjectConfigurabl
 	}
 
 	override fun isModified() = exePathField.text != settings.exePath || versionLabel.text != settings.version
-	override fun getDisplayName() = MiniTTBundle.message("minitt.name")
+	override fun getDisplayName() = TTBundle.message("minitt.name")
 	override fun createComponent() = mainPanel
 	override fun apply() {
 		settings.exePath = exePathField.text

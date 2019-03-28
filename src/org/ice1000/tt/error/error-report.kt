@@ -49,7 +49,7 @@ import org.eclipse.egit.github.core.Label
 import org.eclipse.egit.github.core.RepositoryId
 import org.eclipse.egit.github.core.client.GitHubClient
 import org.eclipse.egit.github.core.service.IssueService
-import org.ice1000.tt.MINI_TT_PLUGIN_ID
+import org.ice1000.tt.TT_PLUGIN_ID
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 import java.awt.Component
@@ -274,7 +274,7 @@ private fun getKeyValuePairs(
 	error: GitHubErrorBean,
 	appInfo: ApplicationInfoEx,
 	namesInfo: ApplicationNamesInfo): MutableMap<String, String> {
-	PluginManager.getPlugin(PluginId.findId(MINI_TT_PLUGIN_ID))?.run {
+	PluginManager.getPlugin(PluginId.findId(TT_PLUGIN_ID))?.run {
 		if (error.pluginName.isBlank()) error.pluginName = name
 		if (error.pluginVersion.isBlank()) error.pluginVersion = version
 	}

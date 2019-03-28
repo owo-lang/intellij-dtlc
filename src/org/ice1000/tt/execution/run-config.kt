@@ -14,9 +14,9 @@ import com.intellij.openapi.util.JDOMExternalizerUtil
 import com.intellij.openapi.util.Ref
 import com.intellij.openapi.util.io.FileUtilRt
 import com.intellij.psi.PsiElement
-import icons.MiniTTIcons
+import icons.TTIcons
 import org.ice1000.tt.MINI_TT_RUN_CONFIG_ID
-import org.ice1000.tt.MiniTTBundle
+import org.ice1000.tt.TTBundle
 import org.ice1000.tt.MiniTTFileType
 import org.ice1000.tt.execution.ui.MiniTTRunConfigurationEditorImpl
 import org.ice1000.tt.project.minittPath
@@ -27,7 +27,7 @@ import org.jdom.Element
 class MiniTTRunConfiguration(
 	project: Project,
 	factory: ConfigurationFactory
-) : LocatableConfigurationBase<MiniTTCommandLineState>(project, factory, MiniTTBundle.message("minitt.name")) {
+) : LocatableConfigurationBase<MiniTTCommandLineState>(project, factory, TTBundle.message("minitt.name")) {
 	var workingDir = project.guessProjectDir()?.path.orEmpty()
 	var targetFile = ""
 	var additionalOptions = "--repl-plain"
@@ -59,10 +59,10 @@ class MiniTTRunConfigurationFactory(type: MiniTTRunConfigurationType) : Configur
 
 object MiniTTRunConfigurationType : ConfigurationType {
 	private val factories = arrayOf(MiniTTRunConfigurationFactory(this))
-	override fun getIcon() = MiniTTIcons.MINI_TT
-	override fun getConfigurationTypeDescription() = MiniTTBundle.message("minitt.run-config.description")
+	override fun getIcon() = TTIcons.MINI_TT
+	override fun getConfigurationTypeDescription() = TTBundle.message("minitt.run-config.description")
 	override fun getId() = MINI_TT_RUN_CONFIG_ID
-	override fun getDisplayName() = MiniTTBundle.message("minitt.name")
+	override fun getDisplayName() = TTBundle.message("minitt.name")
 	override fun getConfigurationFactories() = factories
 }
 

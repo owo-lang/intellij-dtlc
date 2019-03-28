@@ -2,7 +2,7 @@ package org.ice1000.tt.execution.ui
 
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
-import org.ice1000.tt.MiniTTBundle
+import org.ice1000.tt.TTBundle
 import org.ice1000.tt.MiniTTFileType
 import org.ice1000.tt.execution.MiniTTRunConfiguration
 import org.jetbrains.annotations.Contract
@@ -14,16 +14,16 @@ class MiniTTRunConfigurationEditorImpl(configuration: MiniTTRunConfiguration, pr
 	override fun createEditor() = mainPanel
 
 	init {
-		workingDirField.addBrowseFolderListener(MiniTTBundle.message("minitt.ui.run-config.select-working-dir"),
-			MiniTTBundle.message("minitt.ui.run-config.select-working-dir.description"),
+		workingDirField.addBrowseFolderListener(TTBundle.message("minitt.ui.run-config.select-working-dir"),
+			TTBundle.message("minitt.ui.run-config.select-working-dir.description"),
 			project,
 			FileChooserDescriptorFactory.createSingleFolderDescriptor())
-		targetFileField.addBrowseFolderListener(MiniTTBundle.message("minitt.ui.run-config.select-minitt-file"),
-			MiniTTBundle.message("minitt.ui.run-config.select-minitt-file.description"),
+		targetFileField.addBrowseFolderListener(TTBundle.message("minitt.ui.run-config.select-minitt-file"),
+			TTBundle.message("minitt.ui.run-config.select-minitt-file.description"),
 			project,
 			FileChooserDescriptorFactory.createSingleFileDescriptor(MiniTTFileType))
-		exePathField.addBrowseFolderListener(MiniTTBundle.message("minitt.ui.project.select-compiler"),
-			MiniTTBundle.message("minitt.ui.project.select-compiler.description"),
+		exePathField.addBrowseFolderListener(TTBundle.message("minitt.ui.project.select-compiler"),
+			TTBundle.message("minitt.ui.project.select-compiler.description"),
 			project,
 			FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor())
 		resetEditorFrom(configuration)
@@ -51,6 +51,6 @@ class MiniTTRunConfigurationEditorImpl(configuration: MiniTTRunConfiguration, pr
 	@Contract("_ -> fail")
 	@Throws(ConfigurationException::class)
 	private fun reportInvalidPath(path: String) {
-		throw ConfigurationException(MiniTTBundle.message("minitt.ui.run-config.invalid-path", path))
+		throw ConfigurationException(TTBundle.message("minitt.ui.run-config.invalid-path", path))
 	}
 }

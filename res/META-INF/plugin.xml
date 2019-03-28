@@ -9,6 +9,7 @@
 		<fileTypeFactory implementation="org.ice1000.tt.TTFileTypeFactory"/>
 		<errorHandler implementation="org.ice1000.tt.error.GitHubErrorReporter"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.MiniTTDefaultContext"/>
+		<liveTemplateContext implementation="org.ice1000.tt.editing.OwODefaultContext"/>
 		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.MiniTTLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.MiniTTRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.MiniTTRunConfigurationProducer"/>
