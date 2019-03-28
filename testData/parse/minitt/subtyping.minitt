@@ -1,0 +1,11 @@
+const bool = Sum { True | False };
+
+const myTrue = True;
+-- Sum subtyping
+let check: bool = myTrue;
+
+rec nat: Type1 = Sum { Zero | Suc nat };
+
+const myZero = Zero;
+-- Yes, minitt supports shadowing
+let check: nat = myZero;

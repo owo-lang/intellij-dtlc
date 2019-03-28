@@ -57,8 +57,8 @@ sum { return SUM_KEYWORD; }
 "++"  { return CONCAT; }
 split { return SPLIT_KEYWORD; }
 const { return CONST_KEYWORD; }
-->|\u21d2 { return ARROW; }
-=>|\u2192 { return DOUBLE_ARROW; }
+->|\u2192 { return ARROW; }
+=>|\u21d2 { return DOUBLE_ARROW; }
 {MULTIPLY} { return MUL; }
 {COMMENTS} { return LINE_COMMENT; }
 {UNIVERSE} { return TYPE_UNIVERSE; }
