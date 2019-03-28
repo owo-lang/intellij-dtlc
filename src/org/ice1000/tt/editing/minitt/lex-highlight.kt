@@ -58,6 +58,8 @@ object MiniTTHighlighter : SyntaxHighlighter {
 	private val OPERATORS_LIST = listOf(
 		MiniTTTypes.CONCAT,
 		MiniTTTypes.MUL,
+		MiniTTTypes.ARROW,
+		MiniTTTypes.DOUBLE_ARROW,
 		MiniTTTypes.DOT_TWO,
 		MiniTTTypes.DOT_ONE)
 
@@ -85,8 +87,8 @@ class MiniTTColorSettingsPage : ColorSettingsPage {
 		private val DESCRIPTORS = arrayOf(
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.keyword"), MiniTTHighlighter.KEYWORD),
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.identifier"), MiniTTHighlighter.IDENTIFIER),
-			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.constructor-decl"), MiniTTHighlighter.CONSTRUCTOR_DECL),
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.constructor-call"), MiniTTHighlighter.CONSTRUCTOR_CALL),
+			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.constructor-decl"), MiniTTHighlighter.CONSTRUCTOR_DECL),
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.semicolon"), MiniTTHighlighter.SEMICOLON),
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.comma"), MiniTTHighlighter.COMMA),
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.unresolved"), MiniTTHighlighter.UNRESOLVED),
@@ -97,7 +99,8 @@ class MiniTTColorSettingsPage : ColorSettingsPage {
 
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
 			"Unresolved" to MiniTTHighlighter.UNRESOLVED,
-			"ConstructorCall" to MiniTTHighlighter.CONSTRUCTOR_CALL)
+			"CCl" to MiniTTHighlighter.CONSTRUCTOR_CALL,
+			"CDl" to MiniTTHighlighter.CONSTRUCTOR_DECL)
 	}
 
 	override fun getHighlighter(): SyntaxHighlighter = MiniTTHighlighter
@@ -108,13 +111,13 @@ class MiniTTColorSettingsPage : ColorSettingsPage {
 	override fun getDisplayName() = MiniTTFileType.name
 	@Language("Mini-TT")
 	override fun getDemoText() = """
-let _: Type = Sum { True | False } ++ Sum { TT };
+let _: Type = Sum { <CDl>True</CDl> | <CDl>False</CDl> } ++ Sum { <CDl>TT</CDl> };
 
-rec nat : Type = Sum { Zero | Suc nat };
-let one: nat = <ConstructorCall>Suc</ConstructorCall> <ConstructorCall>Zero</ConstructorCall>;
+rec nat : Type = Sum { <CDl>Zero</CDl> | <CDl>Suc</CDl> nat };
+let one: nat = <CCl>Suc</CCl> <CCl>Zero</CCl>;
 -- Comments
-let maybe: Type -> Type = \lambda t. Sum { Just t | Nothing };
+let maybe: Type -> Type = \lambda t. Sum { <CDl>Just</CDl> t | <CDl>Nothing</CDl> };
 let unwrap_type (t : Type): (maybe t) -> Type = split
-  { Just _ => t | Nothing => 1 };
+  { <CDl>Just</CDl> _ => t | <CDl>Nothing</CDl> => 1 };
 """
 }
