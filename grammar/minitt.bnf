@@ -1,8 +1,8 @@
+//noinspection BnfResolveForFile
 {
   generate=[java="8" names="long"]
 
   parserClass="org.ice1000.tt.psi.MiniTTParser"
-  extends="org.ice1000.tt.psi.impl.MiniTTElement"
 
   psiClassPrefix="MiniTT"
   psiImplClassSuffix="Impl"
@@ -13,6 +13,8 @@
   elementTypeClass="org.ice1000.tt.psi.MiniTTElementType"
   tokenTypeClass="org.ice1000.tt.psi.MiniTTTokenType"
 }
+
+file ::= expression
 
 expression ::=
    declaration
@@ -41,14 +43,14 @@ atom ::=
  { extends=expression }
 
 // Syntactic sugars: short-hand for unit patterns
-function_type ::= atom ARROW expression
-pair_type ::= atom MUL expression
+function_type ::= atom ARROW expression { extends=expression }
+pair_type ::= atom MUL expression { extends=expression }
 
 // Higher-level expressions
 first ::= atom DOT_ONE { extends=expression }
 second ::= atom DOT_TWO { extends=expression }
 application ::= atom expression { extends=expression }
-pair ::= atom COLON expression { pin=2 extends=expression }
+pair ::= atom COMMA expression { pin=2 extends=expression }
 merge_sum ::= atom CONCAT expression { pin=2 extends=expression }
 variable ::= IDENTIFIER { extends=expression }
 
@@ -58,11 +60,10 @@ prefix_parameter ::= LEFT_PAREN typed_pattern RIGHT_PAREN
 // Patterns
 pattern ::= pair_pattern | atom_pattern
 atom_pattern ::= IDENTIFIER | META_VAR | LEFT_PAREN pattern RIGHT_PAREN { extends=pattern }
-pair_pattern ::= atom_pattern COLON pattern { pin=2 extends=pattern }
-maybe_pattern ::= pattern? { extends=pattern }
+pair_pattern ::= atom_pattern COMMA pattern { pin=2 extends=pattern }
 
 // Extracted helpers
-typed_pattern ::= pattern COMMA expression { pin=2 }
+typed_pattern ::= pattern COLON expression { pin=2 }
 typed_abstraction ::= typed_pattern DOT expression { pin=2 }
 branches ::= LEFT_BRACE (constructor (SEP constructor)*)? RIGHT_BRACE { pin=1 }
 choices ::= LEFT_BRACE (pattern_match (SEP pattern_match)*)? RIGHT_BRACE { pin=1 }
@@ -73,7 +74,7 @@ lambda_expression ::= LAMBDA pattern DOT expression { pin=1 extends=expression }
 constructor ::= CONSTRUCTOR_NAME expression? { pin=1 extends=expression }
 pattern_match ::=
  CONSTRUCTOR_NAME
- maybe_pattern
+ pattern?
  DOUBLE_ARROW
  expression { pin=1 }
 

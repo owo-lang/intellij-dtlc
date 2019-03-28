@@ -13,6 +13,7 @@
 		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.MiniTTLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.MiniTTRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.MiniTTRunConfigurationProducer"/>
+		<lang.parserDefinition language="Mini-TT" implementationClass="org.ice1000.tt.psi.MiniTTParserDefinition"/>
 		<projectConfigurable
 			groupId="language"
 			id="MiniTT.Configurable"
