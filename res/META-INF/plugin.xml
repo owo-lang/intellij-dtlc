@@ -17,6 +17,8 @@
 		<lang.syntaxHighlighterFactory language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTHighlighterFactory"/>
 		<annotator language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTAnnotator"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.minitt.MiniTTColorSettingsPage"/>
+		<lang.commenter language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTCommenter"/>
+		<lang.braceMatcher language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTBraceMatcher"/>
 		<projectConfigurable
 			groupId="language"
 			id="MiniTT.Configurable"
