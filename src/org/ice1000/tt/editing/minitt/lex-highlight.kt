@@ -5,12 +5,19 @@ import com.intellij.openapi.editor.HighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
+import com.intellij.openapi.options.colors.AttributesDescriptor
+import com.intellij.openapi.options.colors.ColorDescriptor
+import com.intellij.openapi.options.colors.ColorSettingsPage
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.tree.IElementType
+import icons.TTIcons
+import org.ice1000.tt.MiniTTFileType
+import org.ice1000.tt.TTBundle
 import org.ice1000.tt.psi.MiniTTTokenType
 import org.ice1000.tt.psi.MiniTTTypes
 import org.ice1000.tt.psi.minittLexer
+import org.intellij.lang.annotations.Language
 
 object MiniTTHighlighter : SyntaxHighlighter {
 	@JvmField val KEYWORD = TextAttributesKey.createTextAttributesKey("MINITT_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
@@ -71,4 +78,43 @@ object MiniTTHighlighter : SyntaxHighlighter {
 
 class MiniTTHighlighterFactory : SyntaxHighlighterFactory() {
 	override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = MiniTTHighlighter
+}
+
+class MiniTTColorSettingsPage : ColorSettingsPage {
+	private companion object DescriptorHolder {
+		private val DESCRIPTORS = arrayOf(
+			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.keyword"), MiniTTHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.identifier"), MiniTTHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.constructor-decl"), MiniTTHighlighter.CONSTRUCTOR_DECL),
+			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.constructor-call"), MiniTTHighlighter.CONSTRUCTOR_CALL),
+			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.semicolon"), MiniTTHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.comma"), MiniTTHighlighter.COMMA),
+			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.unresolved"), MiniTTHighlighter.UNRESOLVED),
+			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.operator"), MiniTTHighlighter.OPERATOR),
+			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.paren"), MiniTTHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.brace"), MiniTTHighlighter.BRACE),
+			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.comment"), MiniTTHighlighter.COMMENT))
+
+		private val ADDITIONAL_DESCRIPTORS = mapOf(
+			"Unresolved" to MiniTTHighlighter.UNRESOLVED,
+			"ConstructorCall" to MiniTTHighlighter.CONSTRUCTOR_CALL)
+	}
+
+	override fun getHighlighter(): SyntaxHighlighter = MiniTTHighlighter
+	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS
+	override fun getIcon() = TTIcons.MINI_TT
+	override fun getAttributeDescriptors() = DESCRIPTORS
+	override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
+	override fun getDisplayName() = MiniTTFileType.name
+	@Language("Mini-TT")
+	override fun getDemoText() = """
+let _: Type = Sum { True | False } ++ Sum { TT };
+
+rec nat : Type = Sum { Zero | Suc nat };
+let one: nat = <ConstructorCall>Suc</ConstructorCall> <ConstructorCall>Zero</ConstructorCall>;
+-- Comments
+let maybe: Type -> Type = \lambda t. Sum { Just t | Nothing };
+let unwrap_type (t : Type): (maybe t) -> Type = split
+  { Just _ => t | Nothing => 1 };
+"""
 }

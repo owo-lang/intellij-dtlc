@@ -14,7 +14,7 @@
         </constraints>
         <properties>
           <labelFor value="7f931"/>
-          <text resource-bundle="org/ice1000/tt/owo-bundle" key="minitt.ui.run-config.working-dir"/>
+          <text resource-bundle="org/ice1000/tt/tt-bundle" key="minitt.ui.run-config.working-dir"/>
         </properties>
       </component>
       <vspacer id="96185">
@@ -34,7 +34,7 @@
         </constraints>
         <properties>
           <labelFor value="1204a"/>
-          <text resource-bundle="org/ice1000/tt/owo-bundle" key="minitt.ui.run-config.target-file"/>
+          <text resource-bundle="org/ice1000/tt/tt-bundle" key="minitt.ui.run-config.target-file"/>
         </properties>
       </component>
       <component id="1204a" class="com.intellij.openapi.ui.TextFieldWithBrowseButton" binding="targetFileField">
@@ -55,7 +55,7 @@
         </constraints>
         <properties>
           <labelFor value="3c526"/>
-          <text resource-bundle="org/ice1000/tt/owo-bundle" key="minitt.ui.run-config.compiler"/>
+          <text resource-bundle="org/ice1000/tt/tt-bundle" key="minitt.ui.run-config.compiler"/>
         </properties>
       </component>
       <component id="261eb" class="javax.swing.JLabel">
@@ -64,7 +64,7 @@
         </constraints>
         <properties>
           <labelFor value="86ba2"/>
-          <text resource-bundle="org/ice1000/tt/owo-bundle" key="minitt.ui.run-config.argument"/>
+          <text resource-bundle="org/ice1000/tt/tt-bundle" key="minitt.ui.run-config.argument"/>
         </properties>
       </component>
       <component id="86ba2" class="com.intellij.ui.components.fields.ExpandableTextField" binding="additionalArgumentsField">

@@ -16,6 +16,7 @@
 		<lang.parserDefinition language="Mini-TT" implementationClass="org.ice1000.tt.psi.MiniTTParserDefinition"/>
 		<lang.syntaxHighlighterFactory language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTHighlighterFactory"/>
 		<annotator language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTAnnotator"/>
+		<colorSettingsPage implementation="org.ice1000.tt.editing.minitt.MiniTTColorSettingsPage"/>
 		<projectConfigurable
 			groupId="language"
 			id="MiniTT.Configurable"

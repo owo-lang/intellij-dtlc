@@ -41,7 +41,7 @@ class TTFileTypeFactory : FileTypeFactory() {
 }
 
 object TTBundle {
-	@NonNls private const val BUNDLE = "org.ice1000.tt.owo-bundle"
+	@NonNls private const val BUNDLE = "org.ice1000.tt.tt-bundle"
 	private val bundle: ResourceBundle by lazy { ResourceBundle.getBundle(BUNDLE) }
 
 	@JvmStatic
