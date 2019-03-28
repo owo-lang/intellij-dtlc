@@ -13,28 +13,17 @@ import com.intellij.psi.PsiDirectory
 import icons.TTIcons
 import org.ice1000.tt.TTBundle
 import java.util.*
+import javax.swing.Icon
 
-class NewMiniTTFile : CreateFileFromTemplateAction(
-	TTBundle.message("minitt.actions.new-file.name"),
-	TTBundle.message("minitt.actions.new-file.description"),
-	TTIcons.MINI_TT_FILE), DumbAware {
-	companion object {
-		fun createProperties(project: Project, className: String): Properties {
-			val properties = FileTemplateManager.getInstance(project).defaultProperties
-			properties += "NAME" to className
-			properties += "NAME_SNAKE" to className.toLowerCase().replace(Regex("[ \r\t-()!@#~]+"), "_")
-			return properties
-		}
-	}
+fun createProperties(project: Project, className: String): Properties {
+	val properties = FileTemplateManager.getInstance(project).defaultProperties
+	properties += "NAME" to className
+	properties += "NAME_SNAKE" to className.toLowerCase().replace(Regex("[ \\r\\t\\-()!@#~]+"), "_")
+	return properties
+}
 
-	override fun getActionName(directory: PsiDirectory?, s: String, s2: String?) =
-		TTBundle.message("minitt.actions.new-file.name")
-
-	override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
-		builder
-			.setTitle(TTBundle.message("minitt.actions.new-file.title"))
-			.addKind("File", TTIcons.MINI_TT_FILE, "Mini-TT File")
-	}
+sealed class NewTTFile(private val name: String, description: String, icon: Icon) : CreateFileFromTemplateAction(name, description, icon), DumbAware {
+	override fun getActionName(p0: PsiDirectory?, p1: String, p2: String?) = name
 
 	override fun createFileFromTemplate(name: String, template: FileTemplate, dir: PsiDirectory) = try {
 		val className = FileUtilRt.getNameWithoutExtension(name)
@@ -46,5 +35,16 @@ class NewMiniTTFile : CreateFileFromTemplateAction(
 	} catch (e: Exception) {
 		LOG.error("Error while creating new file", e)
 		null
+	}
+}
+
+class NewMiniTTFile : NewTTFile(
+	TTBundle.message("minitt.actions.new-file.name"),
+	TTBundle.message("minitt.actions.new-file.description"),
+	TTIcons.MINI_TT_FILE) {
+	override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
+		builder
+			.setTitle(TTBundle.message("minitt.actions.new-file.title"))
+			.addKind("File", TTIcons.MINI_TT_FILE, "Mini-TT File")
 	}
 }
