@@ -20,10 +20,9 @@ val commitHash = kotlin.run {
 	output.trim()
 }
 
-val pluginComingVersion = "0.0.5"
+val pluginComingVersion = "0.1.0"
 val pluginVersion = if (isCI) "$pluginComingVersion-$commitHash" else pluginComingVersion
 val packageName = "org.ice1000.tt"
-val kotlinVersion = "1.2.70"
 
 group = packageName
 version = pluginVersion
@@ -94,16 +93,12 @@ java.sourceSets {
 repositories { mavenCentral() }
 
 dependencies {
-	compileOnly(kotlin("stdlib", kotlinVersion))
-	compile(kotlin("stdlib-jdk8", kotlinVersion).toString()) {
-		exclude(module = "kotlin-runtime")
-		exclude(module = "kotlin-reflect")
-		exclude(module = "kotlin-stdlib")
-	}
+	compileOnly(kotlin("stdlib"))
+	compile(kotlin("stdlib-jdk8").toString())
 	compile("org.eclipse.mylyn.github", "org.eclipse.egit.github.core", "2.1.5") {
 		exclude(module = "gson")
 	}
-	testCompile(kotlin("test-junit", kotlinVersion))
+	testCompile(kotlin("test-junit"))
 	testCompile("junit", "junit", "4.12")
 }
 

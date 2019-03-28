@@ -14,6 +14,7 @@
 		<configurationType implementation="org.ice1000.tt.execution.MiniTTRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.MiniTTRunConfigurationProducer"/>
 		<lang.parserDefinition language="Mini-TT" implementationClass="org.ice1000.tt.psi.MiniTTParserDefinition"/>
+		<lang.syntaxHighlighterFactory language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTHighlighterFactory"/>
 		<projectConfigurable
 			groupId="language"
 			id="MiniTT.Configurable"
