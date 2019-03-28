@@ -1,0 +1,22 @@
+rec nat : Type = Sum { Zero | Suc nat };
+-- Inductive definition of nat
+
+let one : nat = Zero;
+
+let two : nat = Suc one;
+
+let test_case_split: nat -> Type = split
+ { Zero => 1
+ | Suc  => 1
+ };
+
+let zero_anyway: \Pi n: nat. test_case_split n = split
+ { Zero => 0
+ | Suc  => 0
+ };
+-- Dependent function!
+
+let pred: \Pi n: nat. nat = split
+ { Zero => Zero
+ | Suc n => n
+ };

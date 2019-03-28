@@ -14,4 +14,8 @@ class MiniTTParsingTest : ParsingTestCase("parse/minitt", "minitt", MiniTTParser
 	fun `testsyntacic-sugar`() = doTest(true)
 	fun testunicode() = doTest(true)
 	fun testunivese() = doTest(true)
+	fun testbool() = doTest(true)
+	fun testmaybe() = doTest(true)
+	fun testmerge() = doTest(true)
+	fun testnat() = doTest(true)
 }
