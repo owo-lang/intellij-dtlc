@@ -22,6 +22,7 @@ import org.intellij.lang.annotations.Language
 object MiniTTHighlighter : SyntaxHighlighter {
 	@JvmField val KEYWORD = TextAttributesKey.createTextAttributesKey("MINITT_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
 	@JvmField val IDENTIFIER = TextAttributesKey.createTextAttributesKey("MINITT_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER)
+	@JvmField val FUNCTION_NAME = TextAttributesKey.createTextAttributesKey("MINITT_FUNCTION_NAME", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
 	@JvmField val CONSTRUCTOR_CALL = TextAttributesKey.createTextAttributesKey("MINITT_CONSTRUCTOR_CALL", DefaultLanguageHighlighterColors.FUNCTION_CALL)
 	@JvmField val CONSTRUCTOR_DECL = TextAttributesKey.createTextAttributesKey("MINITT_CONSTRUCTOR_DECL", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
 	@JvmField val SEMICOLON = TextAttributesKey.createTextAttributesKey("MINITT_SEMICOLON", DefaultLanguageHighlighterColors.SEMICOLON)
@@ -89,6 +90,7 @@ class MiniTTColorSettingsPage : ColorSettingsPage {
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.identifier"), MiniTTHighlighter.IDENTIFIER),
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.constructor-call"), MiniTTHighlighter.CONSTRUCTOR_CALL),
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.constructor-decl"), MiniTTHighlighter.CONSTRUCTOR_DECL),
+			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.function-decl"), MiniTTHighlighter.FUNCTION_NAME),
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.semicolon"), MiniTTHighlighter.SEMICOLON),
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.comma"), MiniTTHighlighter.COMMA),
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.unresolved"), MiniTTHighlighter.UNRESOLVED),
@@ -100,6 +102,7 @@ class MiniTTColorSettingsPage : ColorSettingsPage {
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
 			"Unresolved" to MiniTTHighlighter.UNRESOLVED,
 			"CCl" to MiniTTHighlighter.CONSTRUCTOR_CALL,
+			"FDl" to MiniTTHighlighter.FUNCTION_NAME,
 			"CDl" to MiniTTHighlighter.CONSTRUCTOR_DECL)
 	}
 
@@ -113,11 +116,11 @@ class MiniTTColorSettingsPage : ColorSettingsPage {
 	override fun getDemoText() = """
 let _: Type = Sum { <CDl>True</CDl> | <CDl>False</CDl> } ++ Sum { <CDl>TT</CDl> };
 
-rec nat : Type = Sum { <CDl>Zero</CDl> | <CDl>Suc</CDl> nat };
-let one: nat = <CCl>Suc</CCl> <CCl>Zero</CCl>;
+rec <FDl>nat</FDl> : Type = Sum { <CDl>Zero</CDl> | <CDl>Suc</CDl> nat };
+let <FDl>one</FDl>: nat = <CCl>Suc</CCl> <CCl>Zero</CCl>;
 -- Comments
-let maybe: Type -> Type = \lambda t. Sum { <CDl>Just</CDl> t | <CDl>Nothing</CDl> };
-let unwrap_type (t : Type): (maybe t) -> Type = split
+let <FDl>maybe</FDl>: Type -> Type = \lambda t. Sum { <CDl>Just</CDl> t | <CDl>Nothing</CDl> };
+let <FDl>unwrap_type</FDl> (t : Type): (maybe t) -> Type = split
   { <CDl>Just</CDl> _ => t | <CDl>Nothing</CDl> => 1 };
 """
 }

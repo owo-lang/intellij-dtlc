@@ -3,16 +3,32 @@ package org.ice1000.tt.editing.minitt
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.psi.PsiElement
-import org.ice1000.tt.psi.MiniTTBranches
-import org.ice1000.tt.psi.MiniTTConstructor
-import org.ice1000.tt.psi.MiniTTPatternMatch
+import org.ice1000.tt.psi.*
 
 class MiniTTAnnotator : Annotator {
 	override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 		when (element) {
 			is MiniTTConstructor -> constructor(element, holder)
+			is MiniTTDeclaration -> declaration(element, holder)
+			is MiniTTConstDeclaration -> constDeclaration(element, holder)
 			is MiniTTPatternMatch -> patternMatch(element, holder)
 		}
+	}
+
+	private fun constDeclaration(element: MiniTTConstDeclaration, holder: AnnotationHolder) {
+		element.pattern?.let { pattern(it, holder) }
+	}
+
+	private fun pattern(pattern: MiniTTPattern, holder: AnnotationHolder) {
+		when (pattern) {
+			is MiniTTAtomPattern -> holder.createInfoAnnotation(pattern, null)
+				.textAttributes = MiniTTHighlighter.FUNCTION_NAME
+			is MiniTTPairPattern -> pattern.patternList.forEach { pattern(it, holder) }
+		}
+	}
+
+	private fun declaration(element: MiniTTDeclaration, holder: AnnotationHolder) {
+		element.pattern?.let { pattern(it, holder) }
 	}
 
 	private fun constructor(element: MiniTTConstructor, holder: AnnotationHolder) {
