@@ -16,6 +16,9 @@ import org.jetbrains.annotations.NonNls
 @NonNls const val MINI_TT_WEBSITE = "https://github.com/owo-lang/minitt-rs"
 @NonNls const val MINI_TT_FOLDING_PLACEHOLDER = "{...}"
 
+@NonNls const val AGDA_EXTENSION = "agda"
+@NonNls const val AGDA_LANGUAGE_NAME = "Agda"
+
 @NonNls const val OWO_CONTEXT_ID = "OWO_CONTEXT"
 @NonNls const val OWO_LANGUAGE_NAME = "OwO"
 @NonNls const val OWO_EXTENSION = "owo"

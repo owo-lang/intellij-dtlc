@@ -22,6 +22,17 @@ class MiniTTFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, Min
 	override fun getFileType() = MiniTTFileType
 }
 
+object AgdaFileType : LanguageFileType(AgdaLanguage.INSTANCE) {
+	override fun getDefaultExtension() = AGDA_EXTENSION
+	override fun getName() = TTBundle.message("agda.name")
+	override fun getIcon() = TTIcons.OWO_FILE // TODO
+	override fun getDescription() = TTBundle.message("agda.name.description")
+}
+
+class AgdaFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, AgdaLanguage.INSTANCE) {
+	override fun getFileType() = AgdaFileType
+}
+
 object OwOFileType : LanguageFileType(OwOLanguage.INSTANCE) {
 	override fun getDefaultExtension() = OWO_EXTENSION
 	override fun getName() = TTBundle.message("owo.name")
@@ -37,6 +48,7 @@ class TTFileTypeFactory : FileTypeFactory() {
 	override fun createFileTypes(consumer: FileTypeConsumer) {
 		consumer.consume(MiniTTFileType, MINI_TT_EXTENSION)
 		consumer.consume(OwOFileType, OWO_EXTENSION)
+		consumer.consume(AgdaFileType, AGDA_EXTENSION)
 	}
 }
 
