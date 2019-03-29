@@ -13,6 +13,10 @@ class OwODefaultContext : TemplateContextType(OWO_CONTEXT_ID, OWO_LANGUAGE_NAME)
 	override fun isInContext(file: PsiFile, offset: Int) = file.fileType == OwOFileType
 }
 
+class AgdaDefaultContext : TemplateContextType(AGDA_CONTEXT_ID, AGDA_LANGUAGE_NAME) {
+	override fun isInContext(file: PsiFile, offset: Int) = file.fileType == AgdaFileType
+}
+
 class MiniTTLiveTemplateProvider : DefaultLiveTemplatesProvider {
 	private companion object DefaultHolder {
 		private val DEFAULT = arrayOf("/liveTemplates/MiniTT")

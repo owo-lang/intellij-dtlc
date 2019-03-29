@@ -8,13 +8,15 @@
 IntelliJ plugin for several dependently-typed lambda calculus languages,
 including:
 
-+ [minitt-rs][minitt-rs]
-+ [owo][owo]
++ [minitt-rs][minitt-rs] (rich)
++ [agda][agda] (poor)
++ [owo][owo] (poor because this language is not even designed yet)
 
 This plugin is primarily for personal use.
 
  [minitt-rs]: https://github.com/owo-lang/minitt-rs
  [owo]: https://github.com/owo-lang/OwO
+ [agda]: https://github.com/agda/agda
  [d-svg]: https://img.shields.io/jetbrains/plugin/d/12176-dependently-typed-lambda-calculus.svg
  [v-svg]: https://img.shields.io/jetbrains/plugin/v/12176-dependently-typed-lambda-calculus.svg
  [jb-url]: https://plugins.jetbrains.com/plugin/12176-dependently-typed-lambda-calculus
