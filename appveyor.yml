@@ -14,5 +14,5 @@ cache:
 
 artifacts:
   - path: 'build\distributions\*.zip'
-    name: intellij-minitt
+    name: intellij-dtlc
 #
