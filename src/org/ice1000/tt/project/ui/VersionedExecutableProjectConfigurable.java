@@ -2,6 +2,7 @@ package org.ice1000.tt.project.ui;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
+import com.intellij.ui.components.labels.LinkLabel;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -12,4 +13,5 @@ public abstract class VersionedExecutableProjectConfigurable implements Configur
 	protected @NotNull TextFieldWithBrowseButton exePathField;
 	protected @NotNull JLabel versionLabel;
 	protected @NotNull JButton guessExeButton;
+	protected @NotNull LinkLabel<Object> websiteLabel;
 }

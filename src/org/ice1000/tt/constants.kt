@@ -13,9 +13,10 @@ import org.jetbrains.annotations.NonNls
 @NonNls const val MINI_TT_LINE_COMMENT = "-- "
 @NonNls const val MINI_TT_RUN_CONFIG_ID = "MINI_TT_RUN_CONFIG_ID"
 
-@NonNls const val MINI_TT_WEBSITE = "https://github.com/owo-lang/minitt-rs"
-@NonNls const val MINI_TT_FOLDING_PLACEHOLDER = "{...}"
+@NonNls const val MINI_TT_WEBSITE = "https://docs.rs/minitt"
+@NonNls const val MINI_TT_FOLDING_PLACEHOLDER = "..."
 
+@NonNls const val AGDA_WEBSITE = "https://wiki.portal.chalmers.se/agda/pmwiki.php"
 @NonNls const val AGDA_EXTENSION = "agda"
 @NonNls const val AGDA_LANGUAGE_NAME = "Agda"
 @NonNls const val AGDA_CONTEXT_ID = "AGDA_CONTEXT"
