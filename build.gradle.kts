@@ -31,7 +31,7 @@ plugins {
 	java
 	id("org.jetbrains.intellij") version "0.4.6"
 	id("org.jetbrains.grammarkit") version "2018.3.1"
-	kotlin("jvm") version "1.2.70"
+	kotlin("jvm") version "1.3.20"
 }
 
 fun fromToolbox(path: String) = file(path).listFiles().orEmpty().filter { it.isDirectory }.maxBy {
@@ -46,16 +46,32 @@ allprojects {
 		updateSinceUntilBuild = false
 		instrumentCode = true
 		val user = System.getProperty("user.name")
-		when (System.getProperty("os.name")) {
-			"Linux" -> {
+		val os = System.getProperty("os.name")
+		when {
+			os.startsWith("Windows") -> {
+				val root = "C:\\Users\\ice10\\AppData\\Local\\JetBrains\\Toolbox\\apps";
+				val intellijPath = fromToolbox("$root\\IDEA-C-JDK11\\ch-0")
+					?: fromToolbox("$root\\IDEA-C\\ch-0")
+					?: fromToolbox("$root\\IDEA-JDK11\\ch-0")
+					?: fromToolbox("$root\\IDEA-U\\ch-0")
+				intellijPath?.absolutePath?.let { localPath = it }
+				val pycharmPath = fromToolbox("$root\\PyCharm-C\\ch-0")
+					?: fromToolbox("$root\\IDEA-C\\ch-0")
+					?: fromToolbox("$root\\IDEA-C-JDK11\\ch-0")
+					?: fromToolbox("$root\\IDEA-U\\ch-0")
+				pycharmPath?.absolutePath?.let { alternativeIdePath = it }
+			}
+			os == "Linux" -> {
 				val root = "/home/$user/.local/share/JetBrains/Toolbox/apps"
-				val intellijPath = fromToolbox("$root/IDEA-C/ch-0")
-					?: fromToolbox("$root/IDEA-U/ch-0")
+				val intellijPath = fromToolbox("$root/IDEA-C-JDK11/ch-0")
+					?: fromToolbox("$root/IDEA-C/ch-0")
 					?: fromToolbox("$root/IDEA-JDK11/ch-0")
+					?: fromToolbox("$root/IDEA-U/ch-0")
 				intellijPath?.absolutePath?.let { localPath = it }
 				val pycharmPath = fromToolbox("$root/PyCharm-C/ch-0")
 					?: fromToolbox("$root/IDEA-C/ch-0")
-					?: fromToolbox("$root/IDEA-JDK11/ch-0")
+					?: fromToolbox("$root/IDEA-C-JDK11/ch-0")
+					?: fromToolbox("$root/IDEA-U/ch-0")
 				pycharmPath?.absolutePath?.let { alternativeIdePath = it }
 			}
 		}
