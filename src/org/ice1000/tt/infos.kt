@@ -25,7 +25,7 @@ class MiniTTFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, Min
 object AgdaFileType : LanguageFileType(AgdaLanguage.INSTANCE) {
 	override fun getDefaultExtension() = AGDA_EXTENSION
 	override fun getName() = TTBundle.message("agda.name")
-	override fun getIcon() = TTIcons.OWO_FILE // TODO
+	override fun getIcon() = TTIcons.AGDA_FILE
 	override fun getDescription() = TTBundle.message("agda.name.description")
 }
 
