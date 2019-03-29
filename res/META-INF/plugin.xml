@@ -31,6 +31,10 @@
 			<interface-class>org.ice1000.tt.project.MiniTTProjectSettingsService</interface-class>
 			<implementation-class>org.ice1000.tt.project.MiniTTProjectSettingsServiceImpl</implementation-class>
 		</component>
+		<component>
+			<interface-class>org.ice1000.tt.project.AgdaProjectSettingsService</interface-class>
+			<implementation-class>org.ice1000.tt.project.AgdaProjectSettingsServiceImpl</implementation-class>
+		</component>
 	</project-components>
 
 	<actions>
@@ -43,6 +47,10 @@
 			<action
 				id="TT.OwO.NewFile"
 				class="org.ice1000.tt.action.NewOwOFile">
+			</action>
+			<action
+				id="TT.Agda.NewFile"
+				class="org.ice1000.tt.action.NewAgdaFile">
 			</action>
 		</group>
 	</actions>

@@ -3,25 +3,32 @@ package org.ice1000.tt.project
 import com.intellij.execution.configurations.PathEnvironmentVariableUtil
 import com.intellij.openapi.util.SystemInfo
 import org.ice1000.tt.executeCommandToFindPath
-import org.ice1000.tt.validateExe
 
 data class MiniTTSettings(
 	var exePath: String = "minittc",
 	var version: String = "Unknown"
 )
 
-val minittPath by lazy {
+data class AgdaSettings(
+	var exePath: String = "agda",
+	var version: String = "Unknown"
+)
+
+fun lazyExePath(exeName: String) = lazy {
 	when {
-		SystemInfo.isWindows -> findPathWindows() ?: "C:\\Program Files"
-		SystemInfo.isMac -> findPathLinux()
-		else -> findPathLinux() ?: "/usr/bin/minittc"
+		SystemInfo.isWindows -> findPathWindows(exeName) ?: "C:\\Program Files"
+		SystemInfo.isMac -> findPathLinux(exeName)
+		else -> findPathLinux(exeName) ?: "/usr/bin/$exeName"
 	}
 }
 
-fun findPathWindows() =
-	PathEnvironmentVariableUtil.findInPath("minittc.exe")?.absolutePath
-		?: executeCommandToFindPath("where minittc")
+val minittPath by lazyExePath("minittc")
+val agdaPath by lazyExePath("agda")
 
-fun findPathLinux() =
-	PathEnvironmentVariableUtil.findInPath("minittc")?.absolutePath
-		?: executeCommandToFindPath("whereis minittc")
+fun findPathWindows(exeName: String) =
+	PathEnvironmentVariableUtil.findInPath("$exeName.exe")?.absolutePath
+		?: executeCommandToFindPath("where $exeName")
+
+fun findPathLinux(exeName: String) =
+	PathEnvironmentVariableUtil.findInPath(exeName)?.absolutePath
+		?: executeCommandToFindPath("whereis $exeName")

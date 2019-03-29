@@ -59,3 +59,14 @@ class NewOwOFile : NewTTFile(
 			.addKind("File", TTIcons.OWO_FILE, "OwO File")
 	}
 }
+
+class NewAgdaFile : NewTTFile(
+	TTBundle.message("agda.actions.new-file.name"),
+	TTBundle.message("agda.actions.new-file.description"),
+	TTIcons.OWO_FILE) {
+	override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
+		builder
+			.setTitle(TTBundle.message("agda.actions.new-file.title"))
+			.addKind("File", TTIcons.AGDA_FILE, "Agda File")
+	}
+}
