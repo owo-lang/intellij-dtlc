@@ -1,2 +1,2 @@
-rootProject.name = "intellij-owo"
+rootProject.name = "intellij-dtlc"
 

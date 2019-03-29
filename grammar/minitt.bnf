@@ -17,8 +17,8 @@
 file ::= expression
 
 expression ::=
-   declaration
- | const_declaration
+   declaration_expression
+ | const_expression
  | merge_sum
  | application
  | function_type
@@ -91,8 +91,11 @@ const_declaration ::=
  CONST_KEYWORD
  pattern
  EQ expression
- SEMICOLON expression?
- { pin=1 extends=expression }
+ SEMICOLON
+ { pin=1 }
+
+const_expression ::= const_declaration expression?
+ { extends=expression }
 
 declaration ::=
  (LET_KEYWORD | REC_KEYWORD)
@@ -100,5 +103,8 @@ declaration ::=
  prefix_parameter*
  COLON expression
  EQ expression
- SEMICOLON expression?
- { pin=1 extends=expression }
+ SEMICOLON
+ { pin=1 }
+
+declaration_expression ::= declaration expression?
+ { extends=expression }
