@@ -16,9 +16,9 @@ import com.intellij.openapi.util.io.FileUtilRt
 import com.intellij.psi.PsiElement
 import icons.TTIcons
 import org.ice1000.tt.MINI_TT_RUN_CONFIG_ID
-import org.ice1000.tt.TTBundle
 import org.ice1000.tt.MiniTTFileType
-import org.ice1000.tt.execution.ui.MiniTTRunConfigurationEditorImpl
+import org.ice1000.tt.TTBundle
+import org.ice1000.tt.execution.ui.MiniTTRunConfigurationEditor
 import org.ice1000.tt.project.minittPath
 import org.ice1000.tt.project.minittSettings
 import org.ice1000.tt.validateExe
@@ -34,7 +34,7 @@ class MiniTTRunConfiguration(
 	var minittExecutable = project.minittSettings.settings.exePath
 
 	override fun getState(executor: Executor, environment: ExecutionEnvironment) = MiniTTCommandLineState(this, environment)
-	override fun getConfigurationEditor() = MiniTTRunConfigurationEditorImpl(this, project)
+	override fun getConfigurationEditor() = MiniTTRunConfigurationEditor(this, project)
 
 	override fun readExternal(element: Element) {
 		super.readExternal(element)

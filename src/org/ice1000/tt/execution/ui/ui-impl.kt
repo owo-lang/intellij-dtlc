@@ -10,7 +10,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import javax.naming.ConfigurationException
 
-class MiniTTRunConfigurationEditorImpl(configuration: MiniTTRunConfiguration, project: Project) : MiniTTRunConfigurationEditor() {
+class MiniTTRunConfigurationEditor(configuration: MiniTTRunConfiguration, project: Project) : InterpretedRunConfigurationEditor<MiniTTRunConfiguration>() {
 	override fun createEditor() = mainPanel
 
 	init {
