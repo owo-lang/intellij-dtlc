@@ -4,15 +4,20 @@ import com.intellij.execution.configurations.PathEnvironmentVariableUtil
 import com.intellij.openapi.util.SystemInfo
 import org.ice1000.tt.executeCommandToFindPath
 
+interface VersionedExecutableSettings {
+	var exePath: String
+	var version: String
+}
+
 data class MiniTTSettings(
-	var exePath: String = "minittc",
-	var version: String = "Unknown"
-)
+	override var exePath: String = "minittc",
+	override var version: String = "Unknown"
+) : VersionedExecutableSettings
 
 data class AgdaSettings(
-	var exePath: String = "agda",
-	var version: String = "Unknown"
-)
+	override var exePath: String = "agda",
+	override var version: String = "Unknown"
+) : VersionedExecutableSettings
 
 fun lazyExePath(exeName: String) = lazy {
 	when {
