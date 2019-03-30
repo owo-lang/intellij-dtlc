@@ -3,7 +3,7 @@ package org.ice1000.tt.editing.minitt
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.psi.PsiElement
-import org.ice1000.tt.psi.*
+import org.ice1000.tt.psi.minitt.*
 
 class MiniTTAnnotator : Annotator {
 	override fun annotate(element: PsiElement, holder: AnnotationHolder) {

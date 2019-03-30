@@ -52,14 +52,17 @@ second ::= atom DOT_TWO { extends=expression }
 application ::= atom expression { extends=expression }
 pair ::= atom COMMA expression { pin=2 extends=expression }
 merge_sum ::= atom CONCAT expression { pin=2 extends=expression }
-variable ::= IDENTIFIER { extends=expression }
+variable ::= IDENTIFIER {
+	extends=expression
+	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTVariableMixin'
+}
 
 // Prefixed parameters
 prefix_parameter ::= LEFT_PAREN typed_pattern RIGHT_PAREN
 
 // Patterns
 pattern ::= pair_pattern | atom_pattern
-atom_pattern ::= IDENTIFIER | META_VAR | LEFT_PAREN pattern RIGHT_PAREN { extends=pattern }
+atom_pattern ::= variable | META_VAR | LEFT_PAREN pattern RIGHT_PAREN { extends=pattern }
 pair_pattern ::= atom_pattern COMMA pattern { pin=2 extends=pattern }
 
 // Extracted helpers
@@ -103,8 +106,13 @@ declaration ::=
  prefix_parameter*
  COLON expression
  EQ expression
- SEMICOLON
- { pin=1 }
+ SEMICOLON {
+	pin=1
+	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTDeclarationMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+}
 
-declaration_expression ::= declaration expression?
- { extends=expression }
+declaration_expression ::= declaration expression? {
+	extends=expression
+	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTDeclarationExpressionMixin'
+}

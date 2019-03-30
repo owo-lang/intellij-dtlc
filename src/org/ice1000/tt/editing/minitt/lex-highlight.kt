@@ -14,8 +14,8 @@ import com.intellij.psi.tree.IElementType
 import icons.TTIcons
 import org.ice1000.tt.MiniTTFileType
 import org.ice1000.tt.TTBundle
-import org.ice1000.tt.psi.MiniTTTokenType
-import org.ice1000.tt.psi.MiniTTTypes
+import org.ice1000.tt.psi.minitt.MiniTTTokenType
+import org.ice1000.tt.psi.minitt.MiniTTTypes
 import org.ice1000.tt.psi.minitt.minittLexer
 import org.intellij.lang.annotations.Language
 

@@ -14,9 +14,6 @@ import com.intellij.psi.tree.IStubFileElementType
 import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.MiniTTFile
 import org.ice1000.tt.MiniTTLanguage
-import org.ice1000.tt.MiniTTLexer
-import org.ice1000.tt.psi.MiniTTParser
-import org.ice1000.tt.psi.MiniTTTypes
 
 class MiniTTElementType(debugName: String) : IElementType(debugName, MiniTTLanguage.INSTANCE)
 
@@ -28,6 +25,10 @@ class MiniTTTokenType(debugName: String) : IElementType(debugName, MiniTTLanguag
 		@JvmField val IDENTIFIERS = TokenSet.create(MiniTTTypes.IDENTIFIER)
 
 		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(MiniTTLanguage.INSTANCE, text).firstChild
+		fun createConst(text: String, project: Project) = fromText(text, project) as? MiniTTConstExpression
+		fun createPattern(text: String, project: Project) = createConst("const $text = 0;", project)?.constDeclaration
+		fun createAtomPattern(text: String, project: Project) = createPattern(text, project) as? MiniTTAtomPattern
+		fun createVariable(text: String, project: Project) = createAtomPattern(text, project)?.variable
 	}
 }
 

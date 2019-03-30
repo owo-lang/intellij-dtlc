@@ -6,7 +6,7 @@ import com.intellij.lang.PairedBraceMatcher
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
 import org.ice1000.tt.MINI_TT_LINE_COMMENT
-import org.ice1000.tt.psi.MiniTTTypes
+import org.ice1000.tt.psi.minitt.MiniTTTypes
 
 class MiniTTCommenter : Commenter {
 	override fun getCommentedBlockCommentPrefix() = blockCommentPrefix

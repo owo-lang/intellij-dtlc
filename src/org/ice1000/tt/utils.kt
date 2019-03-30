@@ -73,3 +73,6 @@ private fun collectLines(it: InputStream): List<String> {
 	forceRun(reader::close)
 	return ret
 }
+
+fun Boolean?.orFalse() = true == this
+fun Boolean?.orTrue() = false != this

@@ -1,7 +1,7 @@
 package org.ice1000.tt
 
 import com.intellij.testFramework.ParsingTestCase
-import org.ice1000.tt.psi.MiniTTParserDefinition
+import org.ice1000.tt.psi.minitt.MiniTTParserDefinition
 
 class MiniTTParsingTest : ParsingTestCase("parse/minitt", "minitt", MiniTTParserDefinition()) {
 	override fun getTestDataPath() = "testData"

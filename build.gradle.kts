@@ -140,8 +140,9 @@ tasks.withType<KotlinCompile> {
 }
 
 fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
-	val parserRoot = Paths.get("org", "ice1000", "tt")!!
-	val lexerRoot = Paths.get("gen", "org", "ice1000", "tt")!!
+	val lowerCaseName = name.toLowerCase()
+	val parserRoot = Paths.get("org", "ice1000", "tt", "psi", lowerCaseName)!!
+	val lexerRoot = Paths.get("gen", "org", "ice1000", "tt", "psi", lowerCaseName)!!
 	fun path(more: Iterable<*>) = more.joinToString(File.separator)
 	fun bnf(name: String) = Paths.get("grammar", "$name.bnf").toString()
 	fun flex(name: String) = Paths.get("grammar", "$name.flex").toString()
@@ -149,20 +150,21 @@ fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
 	val genParser = task<GenerateParser>("gen${name}Parser") {
 		group = tasks["init"].group!!
 		description = "Generate Parser and Psi classes for $name"
-		source = bnf(name.toLowerCase())
+		source = bnf(lowerCaseName)
 		targetRoot = "gen/"
 		pathToParser = path(parserRoot + "${name}Parser.java")
-		pathToPsiRoot = path(parserRoot + "psi")
+		pathToPsiRoot = path(parserRoot)
 		purgeOldFiles = true
 	}
 
 	return genParser to task<GenerateLexer>("gen${name}Lexer") {
 		group = genParser.group
 		description = "Generate Lexer for $name"
-		source = flex(name.toLowerCase())
+		source = flex(lowerCaseName)
 		targetDir = path(lexerRoot)
 		targetClass = "${name}Lexer"
 		purgeOldFiles = true
+		dependsOn(genParser)
 	}
 }
 

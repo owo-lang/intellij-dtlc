@@ -1,9 +1,9 @@
-package org.ice1000.tt;
+package org.ice1000.tt.psi.minitt;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import static org.ice1000.tt.psi.MiniTTTokenType.*;
-import static org.ice1000.tt.psi.MiniTTTypes.*;
+import static org.ice1000.tt.psi.minitt.MiniTTTokenType.*;
+import static org.ice1000.tt.psi.minitt.MiniTTTypes.*;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
