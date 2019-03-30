@@ -35,24 +35,35 @@ abstract class MiniTTDeclarationExpressionMixin(node: ASTNode) : ASTWrapperPsiEl
 		declaration.processDeclarations(processor, state, lastParent, place)
 }
 
-abstract class MiniTTDeclarationMixin(node: ASTNode) : ASTWrapperPsiElement(node), MiniTTDeclaration {
-	override fun getNameIdentifier(): PsiElement? = pattern
+abstract class MiniTTGeneralDeclaration(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner {
 	override fun getIcon(flags: Int) = TTIcons.MINI_TT
 	override fun getName(): String? = nameIdentifier?.text
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String): PsiElement {
 		val newPattern = MiniTTTokenType.createPattern(newName, project)
 			?: throw IncorrectOperationException("Invalid name: $newName")
-		pattern?.replace(newPattern)
+		nameIdentifier?.replace(newPattern)
 		return this
 	}
 
-	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		nameIdentifier?.let { processor.execute(it, state) }.orTrue()
+	abstract val type: MiniTTExpression?
+}
 
-	val type: MiniTTExpression? get() = expressionList.firstOrNull {
+abstract class MiniTTDeclarationMixin(node: ASTNode) : MiniTTGeneralDeclaration(node), MiniTTDeclaration {
+	override fun getNameIdentifier(): PsiElement? = pattern
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		prefixParameterList.all { it.typedPattern.processDeclarations(processor, state, lastParent, place) }
+			&& nameIdentifier?.let { processor.execute(it, state) }.orTrue()
+	override val type: MiniTTExpression? get() = expressionList.firstOrNull {
 		it.prevSiblingIgnoring<PsiElement>(TokenType.WHITE_SPACE)?.elementType == MiniTTTypes.COLON
 	}
+}
+
+abstract class MiniTTTypedPatternMixin(node: ASTNode) : MiniTTGeneralDeclaration(node), MiniTTTypedPattern {
+	override fun getNameIdentifier(): PsiElement? = pattern
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		nameIdentifier?.let { processor.execute(it, state) }.orTrue()
+	override val type: MiniTTExpression? get() = expression
 }
 
 abstract class MiniTTVariableMixin(node: ASTNode) : MiniTTExpressionImpl(node), MiniTTVariable, PsiPolyVariantReference {
@@ -113,7 +124,7 @@ abstract class MiniTTVariableMixin(node: ASTNode) : MiniTTExpressionImpl(node), 
 				element.visit { variable ->
 					val accessible = variable.text == name
 					if (accessible) {
-						val declaration = PsiTreeUtil.getParentOfType(variable, MiniTTDeclaration::class.java)
+						val declaration = PsiTreeUtil.getParentOfType(variable, MiniTTGeneralDeclaration::class.java)
 						if (declaration != null) candidateSet += PsiElementResolveResult(declaration, true)
 					}
 					!accessible
@@ -131,7 +142,7 @@ abstract class MiniTTVariableMixin(node: ASTNode) : MiniTTExpressionImpl(node), 
 		override fun execute(element: PsiElement, resolveState: ResolveState): Boolean {
 			if (element !is IMiniTTPattern) return true
 			return element.visit { variable ->
-				val declaration = PsiTreeUtil.getParentOfType(variable, MiniTTDeclarationMixin::class.java)
+				val declaration = PsiTreeUtil.getParentOfType(variable, MiniTTGeneralDeclaration::class.java)
 				val type = declaration?.type?.text ?: "Unknown"
 				candidateSet += LookupElementBuilder
 					.create(variable.text)

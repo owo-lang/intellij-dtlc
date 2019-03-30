@@ -1,5 +1,6 @@
 package org.ice1000.tt
 
+import java.io.File
 import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -36,7 +37,7 @@ inline fun executeCommandToFindPath(command: String, validate: (String) -> Boole
 		?.split(' ')
 		?.firstOrNull(validate)
 		?: System.getenv("PATH")
-			.split(":")
+			.split(File.pathSeparatorChar)
 			.firstOrNull(validate)
 
 fun executeCommand(

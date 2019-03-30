@@ -75,10 +75,14 @@ pair_pattern ::= atom_pattern COMMA pattern {
 }
 
 // Extracted helpers
-typed_pattern ::= pattern COLON expression { pin=2 }
 typed_abstraction ::= typed_pattern DOT expression { pin=2 }
 branches ::= LEFT_BRACE (constructor (SEP constructor)*)? RIGHT_BRACE { pin=1 }
 choices ::= LEFT_BRACE (pattern_match (SEP pattern_match)*)? RIGHT_BRACE { pin=1 }
+typed_pattern ::= pattern COLON expression {
+	pin=2
+	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTTypedPatternMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+}
 
 // Atomic expressions
 pi_type ::= PI typed_abstraction { pin=1 extends=expression }
