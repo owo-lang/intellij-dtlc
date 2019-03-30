@@ -80,3 +80,12 @@ class MiniTTCommandLineState(
 		params += minittExecutable
 	}
 }
+
+class AgdaCommandLineState(
+	configuration: AgdaRunConfiguration,
+	env: ExecutionEnvironment
+) : InterpretedCliState<AgdaRunConfiguration>(configuration, env) {
+	override fun AgdaRunConfiguration.pre(params: MutableList<String>) {
+		params += agdaExecutable
+	}
+}

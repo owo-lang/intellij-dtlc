@@ -16,13 +16,12 @@ import com.intellij.openapi.util.Ref
 import com.intellij.openapi.util.io.FileUtilRt
 import com.intellij.psi.PsiElement
 import icons.TTIcons
-import org.ice1000.tt.MINI_TT_RUN_CONFIG_ID
-import org.ice1000.tt.MiniTTFileType
-import org.ice1000.tt.TTBundle
+import org.ice1000.tt.*
+import org.ice1000.tt.execution.ui.AgdaRunConfigurationEditor
 import org.ice1000.tt.execution.ui.MiniTTRunConfigurationEditor
+import org.ice1000.tt.project.agdaSettings
 import org.ice1000.tt.project.minittPath
 import org.ice1000.tt.project.minittSettings
-import org.ice1000.tt.validateExe
 import org.jdom.Element
 
 abstract class InterpretedRunConfiguration<T : RunProfileState>(
@@ -72,6 +71,26 @@ class MiniTTRunConfiguration(
 	}
 }
 
+class AgdaRunConfiguration(
+	project: Project,
+	factory: ConfigurationFactory
+) : InterpretedRunConfiguration<AgdaCommandLineState>(project, factory, TTBundle.message("agda.name")) {
+	var agdaExecutable = project.agdaSettings.settings.exePath
+
+	override fun getState(executor: Executor, environment: ExecutionEnvironment) = AgdaCommandLineState(this, environment)
+	override fun getConfigurationEditor() = AgdaRunConfigurationEditor(this, project)
+
+	override fun readExternal(element: Element) {
+		super.readExternal(element)
+		JDOMExternalizerUtil.readField(element, "agdaExecutable").orEmpty().let { agdaExecutable = it }
+	}
+
+	override fun writeExternal(element: Element) {
+		super.writeExternal(element)
+		JDOMExternalizerUtil.writeField(element, "agdaExecutable", agdaExecutable)
+	}
+}
+
 class MiniTTRunConfigurationFactory(type: MiniTTRunConfigurationType) : ConfigurationFactory(type) {
 	override fun createTemplateConfiguration(project: Project) = MiniTTRunConfiguration(project, this)
 }
@@ -82,6 +101,19 @@ object MiniTTRunConfigurationType : ConfigurationType {
 	override fun getConfigurationTypeDescription() = TTBundle.message("minitt.run-config.description")
 	override fun getId() = MINI_TT_RUN_CONFIG_ID
 	override fun getDisplayName() = TTBundle.message("minitt.name")
+	override fun getConfigurationFactories() = factories
+}
+
+class AgdaRunConfigurationFactory(type: AgdaRunConfigurationType) : ConfigurationFactory(type) {
+	override fun createTemplateConfiguration(project: Project) = AgdaRunConfiguration(project, this)
+}
+
+object AgdaRunConfigurationType : ConfigurationType {
+	private val factories = arrayOf(AgdaRunConfigurationFactory(this))
+	override fun getIcon() = TTIcons.AGDA
+	override fun getConfigurationTypeDescription() = TTBundle.message("agda.run-config.description")
+	override fun getId() = AGDA_RUN_CONFIG_ID
+	override fun getDisplayName() = TTBundle.message("agda.name")
 	override fun getConfigurationFactories() = factories
 }
 

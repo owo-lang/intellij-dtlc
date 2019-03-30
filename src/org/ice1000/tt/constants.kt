@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NonNls
 @NonNls const val AGDA_EXTENSION = "agda"
 @NonNls const val AGDA_LANGUAGE_NAME = "Agda"
 @NonNls const val AGDA_CONTEXT_ID = "AGDA_CONTEXT"
-@NonNls const val AGDA_TT_RUN_CONFIG_ID = "AGDA_RUN_CONFIG_ID"
+@NonNls const val AGDA_RUN_CONFIG_ID = "AGDA_RUN_CONFIG_ID"
 
 @NonNls const val VOILE_EXTENSION = "voile"
 @NonNls const val VOILE_LANGUAGE_NAME = "Voile"

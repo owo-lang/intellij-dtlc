@@ -13,6 +13,7 @@
 		<liveTemplateContext implementation="org.ice1000.tt.editing.AgdaDefaultContext"/>
 		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.MiniTTLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.MiniTTRunConfigurationType"/>
+		<configurationType implementation="org.ice1000.tt.execution.AgdaRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.MiniTTRunConfigurationProducer"/>
 		<lang.parserDefinition language="Mini-TT" implementationClass="org.ice1000.tt.psi.minitt.MiniTTParserDefinition"/>
 		<lang.syntaxHighlighterFactory language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTHighlighterFactory"/>

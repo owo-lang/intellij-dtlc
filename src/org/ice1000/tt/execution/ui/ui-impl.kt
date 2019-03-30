@@ -3,8 +3,10 @@ package org.ice1000.tt.execution.ui
 import com.intellij.execution.configurations.RunProfileState
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
+import org.ice1000.tt.AgdaFileType
 import org.ice1000.tt.MiniTTFileType
 import org.ice1000.tt.TTBundle
+import org.ice1000.tt.execution.AgdaRunConfiguration
 import org.ice1000.tt.execution.InterpretedRunConfiguration
 import org.ice1000.tt.execution.MiniTTRunConfiguration
 import org.jetbrains.annotations.Contract
@@ -12,7 +14,16 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import javax.naming.ConfigurationException
 
-abstract class InterpretedRunConfigurationEditorImpl<T : InterpretedRunConfiguration<out RunProfileState>> : InterpretedRunConfigurationEditor<T>() {
+abstract class InterpretedRunConfigurationEditorImpl<T : InterpretedRunConfiguration<out RunProfileState>>(
+	project: Project
+) : InterpretedRunConfigurationEditor<T>() {
+	init {
+		workingDirField.addBrowseFolderListener(TTBundle.message("minitt.ui.run-config.select-working-dir"),
+			TTBundle.message("minitt.ui.run-config.select-working-dir.description"),
+			project,
+			FileChooserDescriptorFactory.createSingleFolderDescriptor())
+	}
+
 	override fun createEditor() = mainPanel
 	override fun resetEditorFrom(s: T) {
 		workingDirField.text = s.workingDir
@@ -41,12 +52,8 @@ abstract class InterpretedRunConfigurationEditorImpl<T : InterpretedRunConfigura
 class MiniTTRunConfigurationEditor(
 	configuration: MiniTTRunConfiguration,
 	project: Project
-) : InterpretedRunConfigurationEditorImpl<MiniTTRunConfiguration>() {
+) : InterpretedRunConfigurationEditorImpl<MiniTTRunConfiguration>(project) {
 	init {
-		workingDirField.addBrowseFolderListener(TTBundle.message("minitt.ui.run-config.select-working-dir"),
-			TTBundle.message("minitt.ui.run-config.select-working-dir.description"),
-			project,
-			FileChooserDescriptorFactory.createSingleFolderDescriptor())
 		targetFileField.addBrowseFolderListener(TTBundle.message("minitt.ui.run-config.select-minitt-file"),
 			TTBundle.message("minitt.ui.run-config.select-minitt-file.description"),
 			project,
@@ -66,5 +73,32 @@ class MiniTTRunConfigurationEditor(
 	override fun applyEditorTo(s: MiniTTRunConfiguration) {
 		super.applyEditorTo(s)
 		s.minittExecutable = exePathField.text
+	}
+}
+
+class AgdaRunConfigurationEditor(
+	configuration: AgdaRunConfiguration,
+	project: Project
+) : InterpretedRunConfigurationEditorImpl<AgdaRunConfiguration>(project) {
+	init {
+		targetFileField.addBrowseFolderListener(TTBundle.message("agda.ui.run-config.select-agda-file"),
+			TTBundle.message("agda.ui.run-config.select-agda-file.description"),
+			project,
+			FileChooserDescriptorFactory.createSingleFileDescriptor(AgdaFileType))
+		exePathField.addBrowseFolderListener(TTBundle.message("agda.ui.project.select-compiler"),
+			TTBundle.message("agda.ui.project.select-compiler.description"),
+			project,
+			FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor())
+		resetEditorFrom(configuration)
+	}
+
+	override fun resetEditorFrom(s: AgdaRunConfiguration) {
+		super.resetEditorFrom(s)
+		exePathField.text = s.agdaExecutable
+	}
+
+	override fun applyEditorTo(s: AgdaRunConfiguration) {
+		super.applyEditorTo(s)
+		s.agdaExecutable = exePathField.text
 	}
 }
