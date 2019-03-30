@@ -11,7 +11,6 @@ import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
-import org.ice1000.tt.orFalse
 import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.minitt.*
 import org.ice1000.tt.psi.treeWalkUp
@@ -89,13 +88,25 @@ abstract class MiniTTVariableMixin(node: ASTNode) : MiniTTExpressionImpl(node), 
 		private val incompleteCode: Boolean
 	) : ResolveProcessor<PsiElementResolveResult>() {
 		override val candidateSet = ArrayList<PsiElementResolveResult>(3)
-		override fun execute(element: PsiElement, resolveState: ResolveState) = when {
+		override fun execute(element: PsiElement, resolveState: ResolveState): Boolean = when {
 			candidateSet.isNotEmpty() -> false
-			element is MiniTTPattern -> {
-				val accessible = element.text == name
-				if (accessible) candidateSet += PsiElementResolveResult(element, true)
-				!accessible
+			element is MiniTTAtomPattern -> {
+				val pattern = element.pattern
+				val variable = element.variable
+				when {
+					pattern != null -> execute(pattern, resolveState)
+					variable != null -> {
+						val accessible = variable.text == name
+						if (accessible) {
+							val declaration = PsiTreeUtil.getParentOfType(variable, MiniTTDeclaration::class.java)
+							if (declaration != null) candidateSet += PsiElementResolveResult(declaration, true)
+						}
+						!accessible
+					}
+					else -> true
+				}
 			}
+			element is MiniTTPairPattern -> element.patternList.all { execute(it, resolveState) }
 			else -> true
 		}
 	}
@@ -103,11 +114,11 @@ abstract class MiniTTVariableMixin(node: ASTNode) : MiniTTExpressionImpl(node), 
 	class CompletionProcessor(
 		private val incompleteCode: Boolean
 	) : ResolveProcessor<LookupElementBuilder>() {
-		override val candidateSet = ArrayList<LookupElementBuilder>(3)
+		override val candidateSet = ArrayList<LookupElementBuilder>(10)
 		override fun execute(element: PsiElement, resolveState: ResolveState): Boolean {
-			if (element !is MiniTTPattern) return true
+			if (element !is MiniTTPattern && element !is MiniTTVariable) return true
 			candidateSet += LookupElementBuilder
-				.create(element)
+				.create(element.text)
 				.withIcon(TTIcons.MINI_TT)
 			// .withTypeText(type, true)
 			return true

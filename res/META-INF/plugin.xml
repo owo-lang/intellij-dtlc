@@ -20,6 +20,8 @@
 		<colorSettingsPage implementation="org.ice1000.tt.editing.minitt.MiniTTColorSettingsPage"/>
 		<lang.commenter language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTCommenter"/>
 		<lang.braceMatcher language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTBraceMatcher"/>
+		<lang.findUsagesProvider language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTFindUsagesProvider"/>
+		<lang.refactoringSupport language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTRefactoringSupportProvider"/>
 		<projectConfigurable
 			groupId="language"
 			id="TT.MiniTT.Configurable"
