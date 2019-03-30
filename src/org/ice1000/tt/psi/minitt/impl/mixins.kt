@@ -12,7 +12,9 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
 import org.ice1000.tt.orTrue
+import org.ice1000.tt.psi.elementType
 import org.ice1000.tt.psi.minitt.*
+import org.ice1000.tt.psi.prevSiblingIgnoring
 import org.ice1000.tt.psi.treeWalkUp
 
 interface IMiniTTPattern : PsiElement {
@@ -47,6 +49,10 @@ abstract class MiniTTDeclarationMixin(node: ASTNode) : ASTWrapperPsiElement(node
 
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		nameIdentifier?.let { processor.execute(it, state) }.orTrue()
+
+	val type: MiniTTExpression? get() = expressionList.firstOrNull {
+		it.prevSiblingIgnoring<PsiElement>(TokenType.WHITE_SPACE)?.elementType == MiniTTTypes.COLON
+	}
 }
 
 abstract class MiniTTVariableMixin(node: ASTNode) : MiniTTExpressionImpl(node), MiniTTVariable, PsiPolyVariantReference {
@@ -125,10 +131,12 @@ abstract class MiniTTVariableMixin(node: ASTNode) : MiniTTExpressionImpl(node), 
 		override fun execute(element: PsiElement, resolveState: ResolveState): Boolean {
 			if (element !is IMiniTTPattern) return true
 			return element.visit { variable ->
+				val declaration = PsiTreeUtil.getParentOfType(variable, MiniTTDeclarationMixin::class.java)
+				val type = declaration?.type?.text ?: "Unknown"
 				candidateSet += LookupElementBuilder
 					.create(variable.text)
 					.withIcon(TTIcons.MINI_TT)
-				// .withTypeText(type, true)
+					.withTypeText(type, true)
 				true
 			}
 		}
