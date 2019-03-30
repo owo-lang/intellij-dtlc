@@ -71,21 +71,3 @@ class PauseOutputAction(private val console: ConsoleView, private val handler: P
 		}
 	}
 }
-
-class MiniTTCommandLineState(
-	configuration: MiniTTRunConfiguration,
-	env: ExecutionEnvironment
-) : InterpretedCliState<MiniTTRunConfiguration>(configuration, env) {
-	override fun MiniTTRunConfiguration.pre(params: MutableList<String>) {
-		params += minittExecutable
-	}
-}
-
-class AgdaCommandLineState(
-	configuration: AgdaRunConfiguration,
-	env: ExecutionEnvironment
-) : InterpretedCliState<AgdaRunConfiguration>(configuration, env) {
-	override fun AgdaRunConfiguration.pre(params: MutableList<String>) {
-		params += agdaExecutable
-	}
-}
