@@ -6,6 +6,7 @@ import com.intellij.execution.actions.RunConfigurationProducer
 import com.intellij.execution.configurations.ConfigurationFactory
 import com.intellij.execution.configurations.ConfigurationType
 import com.intellij.execution.configurations.LocatableConfigurationBase
+import com.intellij.execution.configurations.RunProfileState
 import com.intellij.execution.runners.ExecutionEnvironment
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.Project
@@ -24,24 +25,20 @@ import org.ice1000.tt.project.minittSettings
 import org.ice1000.tt.validateExe
 import org.jdom.Element
 
-class MiniTTRunConfiguration(
+abstract class InterpretedRunConfiguration<T : RunProfileState>(
 	project: Project,
-	factory: ConfigurationFactory
-) : LocatableConfigurationBase<MiniTTCommandLineState>(project, factory, TTBundle.message("minitt.name")) {
+	factory: ConfigurationFactory,
+	name: String
+) : LocatableConfigurationBase<T>(project, factory, name) {
 	var workingDir = project.guessProjectDir()?.path.orEmpty()
 	var targetFile = ""
-	var additionalOptions = "--repl-plain"
-	var minittExecutable = project.minittSettings.settings.exePath
-
-	override fun getState(executor: Executor, environment: ExecutionEnvironment) = MiniTTCommandLineState(this, environment)
-	override fun getConfigurationEditor() = MiniTTRunConfigurationEditor(this, project)
+	var additionalOptions = ""
 
 	override fun readExternal(element: Element) {
 		super.readExternal(element)
 		JDOMExternalizerUtil.readField(element, "workingDir").orEmpty().let { workingDir = it }
 		JDOMExternalizerUtil.readField(element, "targetFile").orEmpty().let { targetFile = it }
 		JDOMExternalizerUtil.readField(element, "additionalOptions").orEmpty().let { additionalOptions = it }
-		JDOMExternalizerUtil.readField(element, "minittExecutable").orEmpty().let { minittExecutable = it }
 	}
 
 	override fun writeExternal(element: Element) {
@@ -49,6 +46,28 @@ class MiniTTRunConfiguration(
 		JDOMExternalizerUtil.writeField(element, "workingDir", workingDir)
 		JDOMExternalizerUtil.writeField(element, "targetFile", targetFile)
 		JDOMExternalizerUtil.writeField(element, "additionalOptions", additionalOptions)
+	}
+}
+
+class MiniTTRunConfiguration(
+	project: Project,
+	factory: ConfigurationFactory
+) : InterpretedRunConfiguration<MiniTTCommandLineState>(project, factory, TTBundle.message("minitt.name")) {
+	var minittExecutable = project.minittSettings.settings.exePath
+	init {
+		additionalOptions = "--repl-plain"
+	}
+
+	override fun getState(executor: Executor, environment: ExecutionEnvironment) = MiniTTCommandLineState(this, environment)
+	override fun getConfigurationEditor() = MiniTTRunConfigurationEditor(this, project)
+
+	override fun readExternal(element: Element) {
+		super.readExternal(element)
+		JDOMExternalizerUtil.readField(element, "minittExecutable").orEmpty().let { minittExecutable = it }
+	}
+
+	override fun writeExternal(element: Element) {
+		super.writeExternal(element)
 		JDOMExternalizerUtil.writeField(element, "minittExecutable", minittExecutable)
 	}
 }
