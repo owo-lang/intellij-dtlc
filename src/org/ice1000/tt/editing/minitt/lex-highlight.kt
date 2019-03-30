@@ -16,7 +16,7 @@ import org.ice1000.tt.MiniTTFileType
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.psi.MiniTTTokenType
 import org.ice1000.tt.psi.MiniTTTypes
-import org.ice1000.tt.psi.minittLexer
+import org.ice1000.tt.psi.minitt.minittLexer
 import org.intellij.lang.annotations.Language
 
 object MiniTTHighlighter : SyntaxHighlighter {

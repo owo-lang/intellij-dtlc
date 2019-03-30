@@ -2,16 +2,16 @@
 {
   generate=[java="8" names="long"]
 
-  parserClass="org.ice1000.tt.psi.MiniTTParser"
+  parserClass="org.ice1000.tt.psi.minitt.MiniTTParser"
 
   psiClassPrefix="MiniTT"
   psiImplClassSuffix="Impl"
-  psiPackage="org.ice1000.tt.psi"
-  psiImplPackage="org.ice1000.tt.psi.impl"
+  psiPackage="org.ice1000.tt.psi.minitt"
+  psiImplPackage="org.ice1000.tt.psi.minitt.impl"
 
-  elementTypeHolderClass="org.ice1000.tt.psi.MiniTTTypes"
-  elementTypeClass="org.ice1000.tt.psi.MiniTTElementType"
-  tokenTypeClass="org.ice1000.tt.psi.MiniTTTokenType"
+  elementTypeHolderClass="org.ice1000.tt.psi.minitt.MiniTTTypes"
+  elementTypeClass="org.ice1000.tt.psi.minitt.MiniTTElementType"
+  tokenTypeClass="org.ice1000.tt.psi.minitt.MiniTTTokenType"
 }
 
 file ::= expression

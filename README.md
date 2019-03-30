@@ -1,4 +1,4 @@
-# Dependently-Type Lambda Calculus
+# Dependently-Typed Lambda Calculus
 
 [![][d-svg]][jb-url]
 [![][v-svg]][jb-url]

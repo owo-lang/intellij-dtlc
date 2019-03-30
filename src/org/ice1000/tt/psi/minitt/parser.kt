@@ -1,4 +1,4 @@
-package org.ice1000.tt.psi
+package org.ice1000.tt.psi.minitt
 
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
@@ -15,6 +15,8 @@ import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.MiniTTFile
 import org.ice1000.tt.MiniTTLanguage
 import org.ice1000.tt.MiniTTLexer
+import org.ice1000.tt.psi.MiniTTParser
+import org.ice1000.tt.psi.MiniTTTypes
 
 class MiniTTElementType(debugName: String) : IElementType(debugName, MiniTTLanguage.INSTANCE)
 
