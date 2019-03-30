@@ -20,14 +20,16 @@ import com.intellij.openapi.actionSystem.ToggleAction
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.DumbAware
 
-class MiniTTCommandLineState(
-	private val configuration: MiniTTRunConfiguration,
-	env: ExecutionEnvironment) : RunProfileState {
+abstract class InterpretedCliState<T : InterpretedRunConfiguration<out InterpretedCliState<T>>>(
+	protected val configuration: T, env: ExecutionEnvironment
+) : RunProfileState {
+	abstract fun T.pre(params: MutableList<String>)
+
 	override fun execute(executor: Executor?, runner: ProgramRunner<*>): ExecutionResult? {
 		val params = mutableListOf<String>()
 		with(configuration) {
-			params += minittExecutable
-			params += additionalOptions.split(' ', '\n').filter(String::isNotBlank)
+			pre(params)
+			params += additionalOptions.split(' ', '\t', '\n').filter(String::isNotBlank)
 			params += targetFile
 		}
 		val handler = GeneralCommandLine(params)
@@ -67,5 +69,14 @@ class PauseOutputAction(private val console: ConsoleView, private val handler: P
 				console.performWhenNoDeferredOutput { update(event) }
 			}
 		}
+	}
+}
+
+class MiniTTCommandLineState(
+	configuration: MiniTTRunConfiguration,
+	env: ExecutionEnvironment
+) : InterpretedCliState<MiniTTRunConfiguration>(configuration, env) {
+	override fun MiniTTRunConfiguration.pre(params: MutableList<String>) {
+		params += minittExecutable
 	}
 }
