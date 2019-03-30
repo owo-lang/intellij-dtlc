@@ -22,5 +22,5 @@ This plugin is primarily for personal use.
  [jb-url]: https://plugins.jetbrains.com/plugin/12176-dependently-typed-lambda-calculus
  [av-url]: https://ci.appveyor.com/project/ice1000/intellij-owo/branch/master
  [av-svg]: https://ci.appveyor.com/api/projects/status/2t8f42ojh17cim4j/branch/master?svg=true
- [tv-url]: https://travis-ci.org/owo-lang/intellij-owo
- [tv-svg]: https://travis-ci.org/owo-lang/intellij-owo.svg?branch=master
+ [tv-url]: https://travis-ci.org/owo-lang/intellij-dtlc
+ [tv-svg]: https://travis-ci.org/owo-lang/intellij-dtlc.svg?branch=master
