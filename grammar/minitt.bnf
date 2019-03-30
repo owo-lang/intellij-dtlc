@@ -61,9 +61,18 @@ variable ::= IDENTIFIER {
 prefix_parameter ::= LEFT_PAREN typed_pattern RIGHT_PAREN
 
 // Patterns
-pattern ::= pair_pattern | atom_pattern
-atom_pattern ::= variable | META_VAR | LEFT_PAREN pattern RIGHT_PAREN { extends=pattern }
-pair_pattern ::= atom_pattern COMMA pattern { pin=2 extends=pattern }
+pattern ::= pair_pattern | atom_pattern {
+	implements=['org.ice1000.tt.psi.minitt.impl.IMiniTTPattern']
+}
+atom_pattern ::= variable | META_VAR | LEFT_PAREN pattern RIGHT_PAREN {
+	extends=pattern
+	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTAtomPatternMixin'
+}
+pair_pattern ::= atom_pattern COMMA pattern {
+	pin=2
+	extends=pattern
+	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTPairPatternMixin'
+}
 
 // Extracted helpers
 typed_pattern ::= pattern COLON expression { pin=2 }

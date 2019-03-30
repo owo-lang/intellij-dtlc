@@ -15,6 +15,19 @@ import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.minitt.*
 import org.ice1000.tt.psi.treeWalkUp
 
+interface IMiniTTPattern : PsiElement {
+	fun visit(visitor: (MiniTTVariable) -> Boolean): Boolean
+}
+
+abstract class MiniTTAtomPatternMixin(node: ASTNode) : MiniTTPatternImpl(node), MiniTTAtomPattern {
+	override fun visit(visitor: (MiniTTVariable) -> Boolean) =
+		variable?.let(visitor).orTrue() && pattern?.visit(visitor).orTrue()
+}
+
+abstract class MiniTTPairPatternMixin(node: ASTNode) : MiniTTPatternImpl(node), MiniTTPairPattern {
+	override fun visit(visitor: (MiniTTVariable) -> Boolean) = patternList.all { it.visit(visitor) }
+}
+
 abstract class MiniTTDeclarationExpressionMixin(node: ASTNode) : ASTWrapperPsiElement(node), MiniTTDeclarationExpression {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		declaration.processDeclarations(processor, state, lastParent, place)
@@ -90,20 +103,14 @@ abstract class MiniTTVariableMixin(node: ASTNode) : MiniTTExpressionImpl(node), 
 		override val candidateSet = ArrayList<PsiElementResolveResult>(3)
 		override fun execute(element: PsiElement, resolveState: ResolveState): Boolean = when {
 			candidateSet.isNotEmpty() -> false
-			element is MiniTTAtomPattern -> {
-				val pattern = element.pattern
-				val variable = element.variable
-				when {
-					pattern != null -> execute(pattern, resolveState)
-					variable != null -> {
-						val accessible = variable.text == name
-						if (accessible) {
-							val declaration = PsiTreeUtil.getParentOfType(variable, MiniTTDeclaration::class.java)
-							if (declaration != null) candidateSet += PsiElementResolveResult(declaration, true)
-						}
-						!accessible
+			element is IMiniTTPattern -> {
+				element.visit { variable ->
+					val accessible = variable.text == name
+					if (accessible) {
+						val declaration = PsiTreeUtil.getParentOfType(variable, MiniTTDeclaration::class.java)
+						if (declaration != null) candidateSet += PsiElementResolveResult(declaration, true)
 					}
-					else -> true
+					!accessible
 				}
 			}
 			element is MiniTTPairPattern -> element.patternList.all { execute(it, resolveState) }
@@ -116,12 +123,14 @@ abstract class MiniTTVariableMixin(node: ASTNode) : MiniTTExpressionImpl(node), 
 	) : ResolveProcessor<LookupElementBuilder>() {
 		override val candidateSet = ArrayList<LookupElementBuilder>(10)
 		override fun execute(element: PsiElement, resolveState: ResolveState): Boolean {
-			if (element !is MiniTTPattern && element !is MiniTTVariable) return true
-			candidateSet += LookupElementBuilder
-				.create(element.text)
-				.withIcon(TTIcons.MINI_TT)
-			// .withTypeText(type, true)
-			return true
+			if (element !is IMiniTTPattern) return true
+			return element.visit { variable ->
+				candidateSet += LookupElementBuilder
+					.create(variable.text)
+					.withIcon(TTIcons.MINI_TT)
+				// .withTypeText(type, true)
+				true
+			}
 		}
 	}
 }
