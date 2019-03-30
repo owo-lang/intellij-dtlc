@@ -21,6 +21,10 @@ import org.jetbrains.annotations.NonNls
 @NonNls const val AGDA_LANGUAGE_NAME = "Agda"
 @NonNls const val AGDA_CONTEXT_ID = "AGDA_CONTEXT"
 
+@NonNls const val VOILE_EXTENSION = "voile"
+@NonNls const val VOILE_LANGUAGE_NAME = "Voile"
+@NonNls const val VOILE_CONTEXT_ID = "VOILE_CONTEXT"
+
 @NonNls const val OWO_CONTEXT_ID = "OWO_CONTEXT"
 @NonNls const val OWO_LANGUAGE_NAME = "OwO"
 @NonNls const val OWO_EXTENSION = "owo"

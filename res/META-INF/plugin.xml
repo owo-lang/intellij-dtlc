@@ -60,6 +60,10 @@
 				id="TT.Agda.NewFile"
 				class="org.ice1000.tt.action.NewAgdaFile">
 			</action>
+			<action
+				id="TT.Voile.NewFile"
+				class="org.ice1000.tt.action.NewVoileFile">
+			</action>
 		</group>
 	</actions>
 </idea-plugin>

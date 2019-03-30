@@ -29,6 +29,13 @@ object AgdaFileType : LanguageFileType(AgdaLanguage.INSTANCE) {
 	override fun getDescription() = TTBundle.message("agda.name.description")
 }
 
+object VoileFileType : LanguageFileType(VoileLanguage.INSTANCE) {
+	override fun getDefaultExtension() = VOILE_EXTENSION
+	override fun getName() = TTBundle.message("voile.name")
+	override fun getIcon() = TTIcons.VOILE_FILE
+	override fun getDescription() = TTBundle.message("voile.name.description")
+}
+
 class AgdaFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, AgdaLanguage.INSTANCE) {
 	override fun getFileType() = AgdaFileType
 }
@@ -49,6 +56,7 @@ class TTFileTypeFactory : FileTypeFactory() {
 		consumer.consume(MiniTTFileType, MINI_TT_EXTENSION)
 		consumer.consume(OwOFileType, OWO_EXTENSION)
 		consumer.consume(AgdaFileType, AGDA_EXTENSION)
+		consumer.consume(VoileFileType, VOILE_EXTENSION)
 	}
 }
 
