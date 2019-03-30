@@ -26,7 +26,7 @@ class MiniTTTokenType(debugName: String) : IElementType(debugName, MiniTTLanguag
 
 		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(MiniTTLanguage.INSTANCE, text).firstChild
 		fun createConst(text: String, project: Project) = fromText(text, project) as? MiniTTConstExpression
-		fun createPattern(text: String, project: Project) = createConst("const $text = 0;", project)?.constDeclaration
+		fun createPattern(text: String, project: Project) = createConst("const $text = 0;", project)?.constDeclaration?.pattern
 		fun createAtomPattern(text: String, project: Project) = createPattern(text, project) as? MiniTTAtomPattern
 		fun createVariable(text: String, project: Project) = createAtomPattern(text, project)?.variable
 	}
