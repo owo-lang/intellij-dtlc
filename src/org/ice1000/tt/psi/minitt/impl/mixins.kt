@@ -46,14 +46,37 @@ abstract class MiniTTGeneralDeclaration(node: ASTNode) : ASTWrapperPsiElement(no
 		return this
 	}
 
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		nameIdentifier?.let { processor.execute(it, state) }.orTrue()
+
 	abstract val type: MiniTTExpression?
+}
+
+abstract class MiniTTLambdaExpressionMixin(node: ASTNode) : MiniTTGeneralDeclaration(node), MiniTTLambdaExpression {
+	override fun getNameIdentifier() = pattern
+	override val type: MiniTTExpression? get() = null
+}
+
+abstract class MiniTTPiTypedMixin(node: ASTNode) : MiniTTExpressionImpl(node), MiniTTPiType {
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		typedAbstraction?.processDeclarations(processor, state, lastParent, place).orTrue()
+}
+
+abstract class MiniTTSigmaTypedMixin(node: ASTNode) : MiniTTExpressionImpl(node), MiniTTSigmaType {
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		typedAbstraction?.processDeclarations(processor, state, lastParent, place).orTrue()
+}
+
+abstract class MiniTTTypedAbstractionMixin(node: ASTNode) : MiniTTExpressionImpl(node), MiniTTTypedAbstraction {
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		typedPattern.processDeclarations(processor, state, lastParent, place).orTrue()
 }
 
 abstract class MiniTTDeclarationMixin(node: ASTNode) : MiniTTGeneralDeclaration(node), MiniTTDeclaration {
 	override fun getNameIdentifier(): PsiElement? = pattern
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		prefixParameterList.all { it.typedPattern.processDeclarations(processor, state, lastParent, place) }
-			&& nameIdentifier?.let { processor.execute(it, state) }.orTrue()
+			&& super.processDeclarations(processor, state, lastParent, place)
 	override val type: MiniTTExpression? get() = expressionList.firstOrNull {
 		it.prevSiblingIgnoring<PsiElement>(TokenType.WHITE_SPACE)?.elementType == MiniTTTypes.COLON
 	}
@@ -61,8 +84,6 @@ abstract class MiniTTDeclarationMixin(node: ASTNode) : MiniTTGeneralDeclaration(
 
 abstract class MiniTTTypedPatternMixin(node: ASTNode) : MiniTTGeneralDeclaration(node), MiniTTTypedPattern {
 	override fun getNameIdentifier(): PsiElement? = pattern
-	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		nameIdentifier?.let { processor.execute(it, state) }.orTrue()
 	override val type: MiniTTExpression? get() = expression
 }
 
