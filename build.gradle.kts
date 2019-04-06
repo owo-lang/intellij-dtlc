@@ -90,27 +90,26 @@ tasks.withType<PatchPluginXmlTask> {
 	pluginId(packageName)
 }
 
-java.sourceSets {
-	"main" {
+sourceSets {
+	main {
 		withConvention(KotlinSourceSet::class) {
 			listOf(java, kotlin).forEach { it.srcDirs("src", "gen") }
 		}
-		resources.srcDirs("res")
+		resources.srcDir("res")
 	}
 
-	"test" {
+	test {
 		withConvention(KotlinSourceSet::class) {
 			listOf(java, kotlin).forEach { it.srcDirs("test") }
 		}
-		resources.srcDirs("testData")
+		resources.srcDir("testData")
 	}
 }
 
 repositories { mavenCentral() }
 
 dependencies {
-	compileOnly(kotlin("stdlib"))
-	compile(kotlin("stdlib-jdk8").toString())
+	compile(kotlin("stdlib-jdk8"))
 	compile("org.eclipse.mylyn.github", "org.eclipse.egit.github.core", "2.1.5") {
 		exclude(module = "gson")
 	}
@@ -133,8 +132,8 @@ task("isCI") {
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		jvmTarget = "1.8"
-		languageVersion = "1.2"
-		apiVersion = "1.2"
+		languageVersion = "1.3"
+		apiVersion = "1.3"
 		freeCompilerArgs = listOf("-Xjvm-default=enable")
 	}
 }
