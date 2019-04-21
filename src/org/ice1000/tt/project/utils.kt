@@ -9,21 +9,6 @@ interface VersionedExecutableSettings {
 	var version: String
 }
 
-data class MiniTTSettings(
-	override var exePath: String = "minittc",
-	override var version: String = "Unknown"
-) : VersionedExecutableSettings
-
-data class ACoreSettings(
-	override var exePath: String = "agdacore",
-	override var version: String = "Unknown"
-) : VersionedExecutableSettings
-
-data class AgdaSettings(
-	override var exePath: String = "agda",
-	override var version: String = "Unknown"
-) : VersionedExecutableSettings
-
 fun lazyExePath(exeName: String) = lazy {
 	when {
 		SystemInfo.isWindows -> findPathWindows(exeName) ?: "C:\\Program Files"
@@ -31,10 +16,6 @@ fun lazyExePath(exeName: String) = lazy {
 		else -> findPathLinux(exeName) ?: "/usr/bin/$exeName"
 	}
 }
-
-val minittPath by lazyExePath("minittc")
-val acorePath by lazyExePath("agdacore")
-val agdaPath by lazyExePath("agda")
 
 fun findPathWindows(exeName: String) =
 	PathEnvironmentVariableUtil.findInPath("$exeName.exe")?.absolutePath

@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.*
 import java.nio.file.Paths
+import org.ice1000.tt.gradle.LanguageServiceGenerationTask
 
 val isCI = !System.getenv("CI").isNullOrBlank()
 val commitHash = kotlin.run {
@@ -138,7 +139,7 @@ fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
 	fun flex(name: String) = Paths.get("grammar", "$name.flex").toString()
 
 	val genParser = task<GenerateParser>("gen${name}Parser") {
-		group = tasks["init"].group!!
+		group = "code generation"
 		description = "Generate Parser and Psi classes for $name"
 		source = bnf(lowerCaseName)
 		targetRoot = "gen/"
@@ -160,8 +161,29 @@ fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
 
 val (genMiniTTParser, genMiniTTLexer) = grammar("MiniTT")
 
+val genMiniTTService = task<LanguageServiceGenerationTask>("genMiniTTService") {
+	languageName = "MiniTT"
+	constantPrefix = "MINI_TT"
+	exeName = "minittc"
+}
+
+val genACoreService = task<LanguageServiceGenerationTask>("genACoreService") {
+	languageName = "ACore"
+	constantPrefix = "AGDA_CORE"
+	exeName = "agdacore"
+}
+
+val genAgdaService = task<LanguageServiceGenerationTask>("genAgdaService") {
+	languageName = "Agda"
+	constantPrefix = "AGDA"
+	exeName = "agda"
+}
+
 tasks.withType<KotlinCompile> {
 	dependsOn(
+		genMiniTTService,
+		genACoreService,
+		genAgdaService,
 		genMiniTTParser,
 		genMiniTTLexer
 	)

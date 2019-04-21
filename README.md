@@ -8,13 +8,18 @@
 IntelliJ plugin for several dependently-typed lambda calculus languages,
 including:
 
-+ [minitt-rs][minitt-rs] (rich)
-+ [agda][agda] (poor)
-+ [owo][owo] (poor because this language is not even designed yet)
++ [Voile][voile-rs] (WIP)
++ [minitt][minitt-rs] (rich)
++ [Mini-TT][Mini-TT] (aka agdacore) ([GitHub mirror][acore-mirror]) (rich, WIP)
++ [Agda][agda] (poor)
++ [OwO][owo] (poor because this language is not even designed yet)
 
 This plugin is primarily for personal use.
 
  [minitt-rs]: https://github.com/owo-lang/minitt-rs
+ [Mini-TT]: http://www.cse.chalmers.se/research/group/logic/Mini-TT/
+ [acore-mirror]: https://github.com/kino3/Mini-TT
+ [voile-rs]: https://github.com/owo-lang/voile-rs
  [owo]: https://github.com/owo-lang/OwO
  [agda]: https://github.com/agda/agda
  [d-svg]: https://img.shields.io/jetbrains/plugin/d/12176-dependently-typed-lambda-calculus.svg

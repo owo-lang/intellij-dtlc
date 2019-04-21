@@ -1,13 +1,11 @@
 package org.ice1000.tt.project.ui
 
 import com.intellij.ide.browsers.BrowserLauncher
-import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
-import icons.TTIcons
-import org.ice1000.tt.AGDA_WEBSITE
-import org.ice1000.tt.MINI_TT_WEBSITE
-import org.ice1000.tt.TTBundle
-import org.ice1000.tt.project.*
+import org.ice1000.tt.project.ACoreProjectConfigurableBase
+import org.ice1000.tt.project.AgdaProjectConfigurableBase
+import org.ice1000.tt.project.MiniTTProjectConfigurableBase
+import org.ice1000.tt.project.VersionedExecutableSettings
 import org.ice1000.tt.versionOf
 
 abstract class VersionedExecutableProjectConfigurableImpl : VersionedExecutableProjectConfigurable() {
@@ -36,44 +34,14 @@ abstract class VersionedExecutableProjectConfigurableImpl : VersionedExecutableP
 	}
 }
 
-class MiniTTProjectConfigurable(project: Project) : VersionedExecutableProjectConfigurableImpl() {
-	// For building searchable options
-	override val settings: MiniTTSettings = project.minittSettingsNullable?.settings ?: MiniTTSettings()
+class MiniTTProjectConfigurable(project: Project) : MiniTTProjectConfigurableBase(project) {
 	override fun trimVersion(version: String) = version.removePrefix("minittc").trim()
-
-	init {
-		init()
-		websiteLabel.text = MINI_TT_WEBSITE
-		websiteLabel.icon = TTIcons.MINI_TT
-		exePathField.addBrowseFolderListener(TTBundle.message("minitt.ui.project.select-compiler"),
-			TTBundle.message("minitt.ui.project.select-compiler.description"),
-			project,
-			FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor())
-		guessExeButton.addActionListener {
-			minittPath?.let { exePathField.text = it }
-		}
-	}
-
-	override fun getDisplayName() = TTBundle.message("minitt.name")
 }
 
-class AgdaProjectConfigurable(project: Project) : VersionedExecutableProjectConfigurableImpl() {
-	// For building searchable options
-	override val settings: AgdaSettings = project.agdaSettingsNullable?.settings ?: AgdaSettings()
+class AgdaProjectConfigurable(project: Project) : AgdaProjectConfigurableBase(project) {
 	override fun trimVersion(version: String) = version.removePrefix("Agda version").trim()
+}
 
-	init {
-		init()
-		websiteLabel.text = AGDA_WEBSITE
-		websiteLabel.icon = TTIcons.AGDA
-		exePathField.addBrowseFolderListener(TTBundle.message("agda.ui.project.select-compiler"),
-			TTBundle.message("agda.ui.project.select-compiler.description"),
-			project,
-			FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor())
-		guessExeButton.addActionListener {
-			agdaPath?.let { exePathField.text = it }
-		}
-	}
-
-	override fun getDisplayName() = TTBundle.message("agda.name")
+class ACoreProjectConfigurable(project: Project) : ACoreProjectConfigurableBase(project) {
+	override fun trimVersion(version: String) = """(Vanilla Mini-TT does not have "version")"""
 }
