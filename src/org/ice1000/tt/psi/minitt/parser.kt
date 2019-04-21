@@ -13,7 +13,6 @@ import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.IStubFileElementType
 import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.MiniTTFile
-import org.ice1000.tt.MiniTTLanguage
 
 class MiniTTElementType(debugName: String) : IElementType(debugName, MiniTTLanguage.INSTANCE)
 

@@ -6,8 +6,8 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import org.intellij.lang.annotations.Language
 
-open class LanguageServiceGenerationTask : DefaultTask() {
-	@field:Input var packageName: String = "org.ice1000.tt.project"
+open class LanguageUtilityGenerationTask : DefaultTask() {
+	@field:Input var basePackage: String = "org.ice1000.tt"
 	@field:Input var languageName: String = ""
 	@field:Input var constantPrefix: String = ""
 	@field:Input var exeName: String = ""
@@ -20,13 +20,35 @@ open class LanguageServiceGenerationTask : DefaultTask() {
 
 	@TaskAction
 	fun gen() {
-		val dir = packageName.split('.').fold(project.projectDir.resolve("gen")) { dir, p -> dir.resolve(p) }
+		val dir = basePackage.split('.').fold(project.projectDir.resolve("gen")) { dir, p -> dir.resolve(p) }
 		dir.mkdirs()
 		if (languageName.isBlank()) throw GradleException("Language name of $name must not be empty.")
 		if (exeName.isBlank()) throw GradleException("Executable name for $name must not be empty.")
+		@Language("Java")
+		val language = """
+package org.ice1000.tt;
+
+import com.intellij.lang.Language;
+import org.jetbrains.annotations.NotNull;
+
+import static org.ice1000.tt.ConstantsKt.${constantPrefix}_LANGUAGE_NAME;
+
+/**
+ * @author ice1000
+ */
+public class ${languageName}Language extends Language {
+	public static final @NotNull ${languageName}Language INSTANCE =
+			new ${languageName}Language(${constantPrefix}_LANGUAGE_NAME);
+
+	private ${languageName}Language(@NotNull String name) {
+		super(name, "text/" + ${constantPrefix}_LANGUAGE_NAME);
+	}
+}
+"""
+		dir.resolve("${languageName}Language.java").writeText(language)
 		@Language("kotlin")
-		val code = """
-package $packageName
+		val service = """
+package $basePackage.project
 
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager
@@ -90,7 +112,9 @@ abstract class ${languageName}ProjectConfigurableBase(project: Project) : Versio
 
 	override fun getDisplayName() = TTBundle.message("$nickname.name")
 }
-		"""
-		dir.resolve("$nickname-generated.kt").writeText(code)
+"""
+		dir.resolve("project")
+			.apply { mkdirs() }
+			.resolve("$nickname-generated.kt").writeText(service)
 	}
 }
