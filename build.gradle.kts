@@ -29,8 +29,8 @@ version = pluginVersion
 
 plugins {
 	java
-	id("org.jetbrains.intellij") version "0.4.6"
-	id("org.jetbrains.grammarkit") version "2018.3.1"
+	id("org.jetbrains.intellij") version "0.4.8"
+	id("org.jetbrains.grammarkit") version "2019.1"
 	kotlin("jvm") version "1.3.30"
 }
 
@@ -129,15 +129,6 @@ task("isCI") {
 	doFirst { println(if (isCI) "Yes, I'm on a CI." else "No, I'm not on CI.") }
 }
 
-tasks.withType<KotlinCompile> {
-	kotlinOptions {
-		jvmTarget = "1.8"
-		languageVersion = "1.3"
-		apiVersion = "1.3"
-		freeCompilerArgs = listOf("-Xjvm-default=enable")
-	}
-}
-
 fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
 	val lowerCaseName = name.toLowerCase()
 	val parserRoot = Paths.get("org", "ice1000", "tt", "psi", lowerCaseName)!!
@@ -176,8 +167,8 @@ tasks.withType<KotlinCompile> {
 	)
 	kotlinOptions {
 		jvmTarget = "1.8"
-		languageVersion = "1.2"
-		apiVersion = "1.2"
+		languageVersion = "1.3"
+		apiVersion = "1.3"
 		freeCompilerArgs = listOf("-Xjvm-default=enable")
 	}
 }

@@ -11,6 +11,10 @@ interface MiniTTProjectSettingsService {
 	val settings: MiniTTSettings
 }
 
+interface ACoreProjectSettingsService {
+	val settings: ACoreSettings
+}
+
 interface AgdaProjectSettingsService {
 	val settings: AgdaSettings
 }
@@ -26,6 +30,12 @@ val Project.agdaSettings: AgdaProjectSettingsService
 
 val Project.agdaSettingsNullable: AgdaProjectSettingsService?
 	get() = ServiceManager.getService(this, AgdaProjectSettingsService::class.java)
+
+val Project.acoreSettings: ACoreProjectSettingsService
+	get() = acoreSettingsNullable!!
+
+val Project.acoreSettingsNullable: ACoreProjectSettingsService?
+	get() = ServiceManager.getService(this, ACoreProjectSettingsService::class.java)
 
 @State(
 	name = "MiniTTProjectSettings",
@@ -47,6 +57,18 @@ class AgdaProjectSettingsServiceImpl :
 	override val settings = AgdaSettings()
 	override fun getState(): AgdaSettings? = XmlSerializerUtil.createCopy(settings)
 	override fun loadState(state: AgdaSettings) {
+		XmlSerializerUtil.copyBean(state, settings)
+	}
+}
+
+@State(
+	name = "ACoreProjectSettings",
+	storages = [Storage(file = "aCoreConfig.xml")])
+class ACoreProjectSettingsServiceImpl :
+	ACoreProjectSettingsService, PersistentStateComponent<ACoreSettings> {
+	override val settings = ACoreSettings()
+	override fun getState(): ACoreSettings? = XmlSerializerUtil.createCopy(settings)
+	override fun loadState(state: ACoreSettings) {
 		XmlSerializerUtil.copyBean(state, settings)
 	}
 }

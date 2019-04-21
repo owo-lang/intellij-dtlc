@@ -44,6 +44,10 @@
 			<interface-class>org.ice1000.tt.project.AgdaProjectSettingsService</interface-class>
 			<implementation-class>org.ice1000.tt.project.AgdaProjectSettingsServiceImpl</implementation-class>
 		</component>
+		<component>
+			<interface-class>org.ice1000.tt.project.ACoreProjectSettingsService</interface-class>
+			<implementation-class>org.ice1000.tt.project.ACoreProjectSettingsServiceImpl</implementation-class>
+		</component>
 	</project-components>
 
 	<actions>
