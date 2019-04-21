@@ -22,8 +22,8 @@ fun createProperties(project: Project, className: String): Properties {
 	return properties
 }
 
-sealed class NewTTFile(private val name: String, description: String, icon: Icon) : CreateFileFromTemplateAction(name, description, icon), DumbAware {
-	override fun getActionName(p0: PsiDirectory?, p1: String, p2: String?) = name
+abstract class NewTTFile(private val name: String, description: String, icon: Icon) : CreateFileFromTemplateAction(name, description, icon), DumbAware {
+	override fun getActionName(directory: PsiDirectory?, newName: String, templateName: String?) = name
 
 	override fun createFileFromTemplate(name: String, template: FileTemplate, dir: PsiDirectory) = try {
 		val className = FileUtilRt.getNameWithoutExtension(name)
@@ -38,17 +38,6 @@ sealed class NewTTFile(private val name: String, description: String, icon: Icon
 	}
 }
 
-class NewMiniTTFile : NewTTFile(
-	TTBundle.message("minitt.actions.new-file.name"),
-	TTBundle.message("minitt.actions.new-file.description"),
-	TTIcons.MINI_TT_FILE) {
-	override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
-		builder
-			.setTitle(TTBundle.message("minitt.actions.new-file.title"))
-			.addKind("File", TTIcons.MINI_TT_FILE, "Mini-TT File")
-	}
-}
-
 class NewOwOFile : NewTTFile(
 	TTBundle.message("owo.actions.new-file.name"),
 	TTBundle.message("owo.actions.new-file.description"),
@@ -57,17 +46,6 @@ class NewOwOFile : NewTTFile(
 		builder
 			.setTitle(TTBundle.message("owo.actions.new-file.title"))
 			.addKind("File", TTIcons.OWO_FILE, "OwO File")
-	}
-}
-
-class NewAgdaFile : NewTTFile(
-	TTBundle.message("agda.actions.new-file.name"),
-	TTBundle.message("agda.actions.new-file.description"),
-	TTIcons.AGDA_FILE) {
-	override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
-		builder
-			.setTitle(TTBundle.message("agda.actions.new-file.title"))
-			.addKind("File", TTIcons.AGDA_FILE, "Agda File")
 	}
 }
 

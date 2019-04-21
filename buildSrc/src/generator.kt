@@ -140,6 +140,30 @@ abstract class ${languageName}ProjectConfigurableBase(project: Project) : Versio
 		dir.resolve("project")
 			.apply { mkdirs() }
 			.resolve("$nickname-generated.kt").writeText(service)
+	@Language("kotlin")
+		val fileCreation = """
+package $basePackage.action
+
+import com.intellij.ide.actions.CreateFileFromTemplateDialog
+import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiDirectory
+import icons.TTIcons
+import org.ice1000.tt.TTBundle
+
+class New${languageName}File : NewTTFile(
+	TTBundle.message("$nickname.actions.new-file.name"),
+	TTBundle.message("$nickname.actions.new-file.description"),
+	TTIcons.${constantPrefix}_FILE) {
+	override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
+		builder
+			.setTitle(TTBundle.message("$nickname.actions.new-file.title"))
+			.addKind("File", TTIcons.${constantPrefix}_FILE, "$languageName File")
+	}
+}
+"""
+		dir.resolve("action")
+			.apply { mkdirs() }
+			.resolve("$nickname-generated.kt").writeText(fileCreation)
 		@Language("kotlin")
 		val runConfig = """
 package $basePackage.execution

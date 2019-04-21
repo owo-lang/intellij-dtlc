@@ -1,0 +1,9 @@
+--
+-- Created by Dependently-Typed Lambda Calculus on ${YEAR}-${MONTH}-${DAY}
+-- ${NAME}
+-- Author: ${USER}
+--
+
+let ${NAME_SNAKE}: U = 1;
+
+Void
