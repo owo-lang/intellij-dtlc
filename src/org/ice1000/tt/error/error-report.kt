@@ -50,6 +50,7 @@ import org.eclipse.egit.github.core.RepositoryId
 import org.eclipse.egit.github.core.client.GitHubClient
 import org.eclipse.egit.github.core.service.IssueService
 import org.ice1000.tt.TT_PLUGIN_ID
+import org.ice1000.tt.project.acoreSettingsNullable
 import org.ice1000.tt.project.agdaSettingsNullable
 import org.ice1000.tt.project.minittSettingsNullable
 import org.jetbrains.annotations.NonNls
@@ -284,6 +285,7 @@ private fun getKeyValuePairs(
 		"error.description" to error.description,
 		"Mini-TT version" to (project?.minittSettingsNullable?.settings?.version ?: "Unknown"),
 		"Agda version" to (project?.agdaSettingsNullable?.settings?.version ?: "Unknown"),
+		"Vanilla Mini-TT version" to (project?.acoreSettingsNullable?.settings?.version ?: "Unknown"),
 		"Plugin Name" to error.pluginName,
 		"Plugin Version" to error.pluginVersion,
 		"OS Name" to SystemInfo.OS_NAME,
