@@ -11,6 +11,8 @@ open class LanguageUtilityGenerationTask : DefaultTask() {
 	@field:Input var languageName: String = ""
 	@field:Input var constantPrefix: String = ""
 	@field:Input var exeName: String = ""
+	@field:Input var runConfigInit: String = ""
+	@field:Input var generateCliState: Boolean = true
 	private val nickname get() = languageName.toLowerCase()
 	private val configName get() = languageName.decapitalize()
 
@@ -26,7 +28,7 @@ open class LanguageUtilityGenerationTask : DefaultTask() {
 		if (exeName.isBlank()) throw GradleException("Executable name for $name must not be empty.")
 		@Language("Java")
 		val language = """
-package org.ice1000.tt;
+package $basePackage;
 
 import com.intellij.lang.Language;
 import org.jetbrains.annotations.NotNull;
@@ -46,6 +48,28 @@ public class ${languageName}Language extends Language {
 }
 """
 		dir.resolve("${languageName}Language.java").writeText(language)
+		@Language("kotlin")
+		val infos = """
+package org.ice1000.tt
+
+import com.intellij.extapi.psi.PsiFileBase
+import com.intellij.openapi.fileTypes.LanguageFileType
+import com.intellij.psi.FileViewProvider
+import icons.TTIcons
+
+object ${languageName}FileType : LanguageFileType(${languageName}Language.INSTANCE) {
+	override fun getDefaultExtension() = ${constantPrefix}_EXTENSION
+	override fun getName() = TTBundle.message("$nickname.name")
+	override fun getIcon() = TTIcons.${constantPrefix}_FILE
+	override fun getDescription() = TTBundle.message("$nickname.name.description")
+}
+
+@Suppress("unused")
+class ${languageName}File(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ${languageName}Language.INSTANCE) {
+	override fun getFileType() = ${languageName}FileType
+}
+"""
+		dir.resolve("$nickname-generated.kt").writeText(infos)
 		@Language("kotlin")
 		val service = """
 package $basePackage.project
@@ -116,5 +140,104 @@ abstract class ${languageName}ProjectConfigurableBase(project: Project) : Versio
 		dir.resolve("project")
 			.apply { mkdirs() }
 			.resolve("$nickname-generated.kt").writeText(service)
+		@Language("kotlin")
+		val runConfig = """
+package $basePackage.execution
+
+import com.intellij.execution.Executor
+import com.intellij.execution.configurations.ConfigurationFactory
+import com.intellij.execution.configurations.ConfigurationType
+import com.intellij.execution.runners.ExecutionEnvironment
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.JDOMExternalizerUtil
+import icons.TTIcons
+import org.ice1000.tt.${languageName}FileType
+import org.ice1000.tt.TTBundle
+import org.ice1000.tt.execution.ui.InterpretedRunConfigurationEditorImpl
+import org.ice1000.tt.project.${nickname}Settings
+import org.jdom.Element
+
+class ${languageName}RunConfigurationFactory(type: ${languageName}RunConfigurationType) : ConfigurationFactory(type) {
+	override fun createTemplateConfiguration(project: Project) = ${languageName}RunConfiguration(project, this)
+}
+
+object ${languageName}RunConfigurationType : ConfigurationType {
+	private val factories = arrayOf(${languageName}RunConfigurationFactory(this))
+	override fun getIcon() = TTIcons.$constantPrefix
+	override fun getConfigurationTypeDescription() = TTBundle.message("$nickname.run-config.description")
+	override fun getId() = "${constantPrefix}_RUN_CONFIG_ID"
+	override fun getDisplayName() = TTBundle.message("$nickname.name")
+	override fun getConfigurationFactories() = factories
+}
+
+class ${languageName}RunConfiguration(
+	project: Project,
+	factory: ConfigurationFactory
+) : InterpretedRunConfiguration<${languageName}CommandLineState>(project, factory, TTBundle.message("$nickname.name")) {
+	var ${nickname}Executable = project.${nickname}Settings.settings.exePath
+	init { $runConfigInit }
+
+	override fun getState(executor: Executor, environment: ExecutionEnvironment) = ${languageName}CommandLineState(this, environment)
+	override fun getConfigurationEditor() = ${languageName}RunConfigurationEditor(this, project)
+
+	@Suppress("DEPRECATION")
+	override fun readExternal(element: Element) {
+		super.readExternal(element)
+		JDOMExternalizerUtil.readField(element, "${nickname}Executable").orEmpty().let { ${nickname}Executable = it }
+	}
+
+	@Suppress("DEPRECATION")
+	override fun writeExternal(element: Element) {
+		super.writeExternal(element)
+		JDOMExternalizerUtil.writeField(element, "${nickname}Executable", ${nickname}Executable)
+	}
+}
+
+class ${languageName}RunConfigurationEditor(
+	configuration: ${languageName}RunConfiguration,
+	project: Project
+) : InterpretedRunConfigurationEditorImpl<${languageName}RunConfiguration>(project) {
+	init {
+		targetFileField.addBrowseFolderListener(TTBundle.message("$nickname.ui.run-config.select-$nickname-file"),
+			TTBundle.message("$nickname.ui.run-config.select-$nickname-file.description"),
+			project,
+			FileChooserDescriptorFactory.createSingleFileDescriptor(${languageName}FileType))
+		exePathField.addBrowseFolderListener(TTBundle.message("$nickname.ui.project.select-compiler"),
+			TTBundle.message("$nickname.ui.project.select-compiler.description"),
+			project,
+			FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor())
+		resetEditorFrom(configuration)
+	}
+
+	override fun resetEditorFrom(s: ${languageName}RunConfiguration) {
+		super.resetEditorFrom(s)
+		exePathField.text = s.${nickname}Executable
+	}
+
+	override fun applyEditorTo(s: ${languageName}RunConfiguration) {
+		super.applyEditorTo(s)
+		s.${nickname}Executable = exePathField.text
+	}
+}
+"""
+		@Language("kotlin")
+		val cliState = """
+package $basePackage.execution
+
+import com.intellij.execution.runners.ExecutionEnvironment
+
+class ${languageName}CommandLineState(
+	configuration: ${languageName}RunConfiguration,
+	env: ExecutionEnvironment
+) : InterpretedCliState<${languageName}RunConfiguration>(configuration, env) {
+	override fun ${languageName}RunConfiguration.pre(params: MutableList<String>) {
+		params += ${nickname}Executable
+	}
+}
+"""
+		val exe = dir.resolve("execution").apply { mkdirs() }
+		exe.resolve("$nickname-generated.kt").writeText(runConfig)
+		if (generateCliState) exe.resolve("$nickname-cli-state.kt").writeText(cliState)
 	}
 }

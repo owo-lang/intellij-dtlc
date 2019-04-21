@@ -11,6 +11,8 @@ public interface TTIcons {
 	@NotNull Icon OWO_FILE = IconLoader.getIcon("/icons/owo_file.png");
 	// TODO
 	@NotNull Icon AGDA_CORE = IconLoader.getIcon("/icons/owo_file.png");
+	// TODO
+	@NotNull Icon AGDA_CORE_FILE = IconLoader.getIcon("/icons/owo_file.png");
 	@NotNull Icon AGDA_FILE = IconLoader.getIcon("/icons/agda/agda_file.png");
 	@NotNull Icon AGDA = IconLoader.getIcon("/icons/agda/agda.png");
 	@NotNull Icon VOILE_FILE = IconLoader.getIcon("/icons/voile/voile_file.png");

@@ -165,6 +165,7 @@ val genMiniTTUtility = task<LanguageUtilityGenerationTask>("genMiniTTUtility") {
 	languageName = "MiniTT"
 	constantPrefix = "MINI_TT"
 	exeName = "minittc"
+	runConfigInit = """additionalOptions = "--repl-plain""""
 }
 
 val genACoreUtility = task<LanguageUtilityGenerationTask>("genACoreUtility") {

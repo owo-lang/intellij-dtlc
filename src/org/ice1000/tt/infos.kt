@@ -11,33 +11,11 @@ import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 import java.util.*
 
-object MiniTTFileType : LanguageFileType(MiniTTLanguage.INSTANCE) {
-	override fun getDefaultExtension() = MINI_TT_EXTENSION
-	override fun getName() = TTBundle.message("minitt.name")
-	override fun getIcon() = TTIcons.MINI_TT_FILE
-	override fun getDescription() = TTBundle.message("minitt.name.description")
-}
-
-class MiniTTFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, MiniTTLanguage.INSTANCE) {
-	override fun getFileType() = MiniTTFileType
-}
-
-object AgdaFileType : LanguageFileType(AgdaLanguage.INSTANCE) {
-	override fun getDefaultExtension() = AGDA_EXTENSION
-	override fun getName() = TTBundle.message("agda.name")
-	override fun getIcon() = TTIcons.AGDA_FILE
-	override fun getDescription() = TTBundle.message("agda.name.description")
-}
-
 object VoileFileType : LanguageFileType(VoileLanguage.INSTANCE) {
 	override fun getDefaultExtension() = VOILE_EXTENSION
 	override fun getName() = TTBundle.message("voile.name")
 	override fun getIcon() = TTIcons.VOILE_FILE
 	override fun getDescription() = TTBundle.message("voile.name.description")
-}
-
-class AgdaFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, AgdaLanguage.INSTANCE) {
-	override fun getFileType() = AgdaFileType
 }
 
 object OwOFileType : LanguageFileType(OwOLanguage.INSTANCE) {
@@ -54,6 +32,7 @@ class OwOFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, OwOLan
 class TTFileTypeFactory : FileTypeFactory() {
 	override fun createFileTypes(consumer: FileTypeConsumer) {
 		consumer.consume(MiniTTFileType, MINI_TT_EXTENSION)
+		consumer.consume(ACoreFileType, AGDA_CORE_EXTENSION)
 		consumer.consume(OwOFileType, OWO_EXTENSION)
 		consumer.consume(AgdaFileType, AGDA_EXTENSION)
 		consumer.consume(VoileFileType, VOILE_EXTENSION)
