@@ -126,11 +126,16 @@ const_declaration ::=
  CONST_KEYWORD
  pattern
  EQ expression
- SEMICOLON
- { pin=1 }
+ SEMICOLON {
+	pin=1
+	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTConstDeclarationMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+}
 
-const_expression ::= const_declaration expression?
- { extends=expression }
+const_expression ::= const_declaration expression? {
+	extends=expression
+	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTConstExpressionMixin'
+}
 
 declaration ::=
  (LET_KEYWORD | REC_KEYWORD)

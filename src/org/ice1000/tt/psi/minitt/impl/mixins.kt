@@ -35,6 +35,11 @@ abstract class MiniTTDeclarationExpressionMixin(node: ASTNode) : ASTWrapperPsiEl
 		declaration.processDeclarations(processor, state, lastParent, place)
 }
 
+abstract class MiniTTConstExpressionMixin(node: ASTNode) : ASTWrapperPsiElement(node), MiniTTConstExpression {
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		constDeclaration.processDeclarations(processor, state, lastParent, place)
+}
+
 abstract class MiniTTGeneralDeclaration(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner {
 	override fun getIcon(flags: Int) = TTIcons.MINI_TT
 	override fun getName(): String? = nameIdentifier?.text
@@ -82,6 +87,11 @@ abstract class MiniTTDeclarationMixin(node: ASTNode) : MiniTTGeneralDeclaration(
 	}
 }
 
+abstract class MiniTTConstDeclarationMixin(node: ASTNode) : MiniTTGeneralDeclaration(node), MiniTTConstDeclaration {
+	override fun getNameIdentifier(): PsiElement? = pattern
+	override val type: MiniTTExpression? get() = null
+}
+
 abstract class MiniTTTypedPatternMixin(node: ASTNode) : MiniTTGeneralDeclaration(node), MiniTTTypedPattern {
 	override fun getNameIdentifier(): PsiElement? = pattern
 	override val type: MiniTTExpression? get() = expression
@@ -105,7 +115,7 @@ abstract class MiniTTVariableMixin(node: ASTNode) : MiniTTExpressionImpl(node), 
 
 	override fun getElement() = this
 	override fun bindToElement(element: PsiElement): PsiElement = throw IncorrectOperationException("Unsupported")
-	override fun handleElementRename(newName: String) =
+	override fun handleElementRename(newName: String): PsiElement? =
 		replace(MiniTTTokenType.createVariable(newName, project)
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
@@ -151,7 +161,6 @@ abstract class MiniTTVariableMixin(node: ASTNode) : MiniTTExpressionImpl(node), 
 					!accessible
 				}
 			}
-			element is MiniTTPairPattern -> element.patternList.all { execute(it, resolveState) }
 			else -> true
 		}
 	}
