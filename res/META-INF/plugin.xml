@@ -15,6 +15,9 @@
 
 		<configurationType implementation="org.ice1000.tt.execution.ACoreRunConfigurationType"/>
 		<lang.parserDefinition language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.psi.acore.ACoreParserDefinition"/>
+		<lang.syntaxHighlighterFactory language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreHighlighterFactory"/>
+		<colorSettingsPage implementation="org.ice1000.tt.editing.acore.ACoreColorSettingsPage"/>
+		<lang.refactoringSupport language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 
 		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.MiniTTLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.MiniTTRunConfigurationType"/>
@@ -26,7 +29,7 @@
 		<lang.commenter language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTCommenter"/>
 		<lang.braceMatcher language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTBraceMatcher"/>
 		<lang.findUsagesProvider language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTFindUsagesProvider"/>
-		<lang.refactoringSupport language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTRefactoringSupportProvider"/>
+		<lang.refactoringSupport language="Mini-TT" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 
 		<projectConfigurable
 			groupId="language"

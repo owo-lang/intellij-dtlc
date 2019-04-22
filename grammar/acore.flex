@@ -66,6 +66,7 @@ _ { return META_VAR; }
 U { return TYPE_UNIVERSE; }
 \* { return MUL; }
 \| { return SEP; }
+\$ { return DOLLAR; }
 \( { return LEFT_PAREN; }
 \) { return RIGHT_PAREN; }
 \.1 { return DOT_ONE; }
