@@ -10,7 +10,7 @@ including:
 
 + [Voile][voile-rs] (WIP)
 + [minitt][minitt-rs] (rich)
-+ [Mini-TT][Mini-TT] (aka agdacore) ([GitHub mirror][acore-mirror]) (rich, WIP)
++ [Mini-TT][Mini-TT] (aka agdacore) ([GitHub mirror][acore-mirror]) (rich)
 + [Agda][agda] (poor)
 + [OwO][owo] (poor because this language is not even designed yet)
 
