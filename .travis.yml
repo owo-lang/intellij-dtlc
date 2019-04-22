@@ -2,9 +2,7 @@ language: java
 jdk:
 - oraclejdk8
 script:
-- bash gradlew displayCommitHash
-- bash gradlew isCI
-- bash gradlew buildPlugin
+- bash gradlew displayCommitHash isCI test --no-daemon --info --stacktrace
 cache:
   directories:
     - $HOME/.gradle/caches/
