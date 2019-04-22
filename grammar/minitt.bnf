@@ -54,7 +54,7 @@ pair ::= atom COMMA expression { pin=2 extends=expression }
 merge_sum ::= atom CONCAT expression { pin=2 extends=expression }
 variable ::= IDENTIFIER {
 	extends=expression
-	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTVariableMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTVariableMixin'
 }
 
 // Prefixed parameters
@@ -62,29 +62,29 @@ prefix_parameter ::= LEFT_PAREN typed_pattern RIGHT_PAREN
 
 // Patterns
 pattern ::= pair_pattern | atom_pattern {
-	implements=['org.ice1000.tt.psi.minitt.impl.IMiniTTPattern']
+	implements=['org.ice1000.tt.psi.minitt.IMiniTTPattern']
 }
 atom_pattern ::= variable | META_VAR | LEFT_PAREN pattern RIGHT_PAREN {
 	extends=pattern
-	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTAtomPatternMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTAtomPatternMixin'
 }
 pair_pattern ::= atom_pattern COMMA pattern {
 	pin=2
 	extends=pattern
-	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTPairPatternMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTPairPatternMixin'
 }
 
 // Extracted helpers
 typed_abstraction ::= typed_pattern DOT expression {
 	pin=2
-	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTTypedAbstractionMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTTypedAbstractionMixin'
 }
 
 branches ::= LEFT_BRACE (constructor (SEP constructor)*)? RIGHT_BRACE { pin=1 }
 choices ::= LEFT_BRACE (pattern_match (SEP pattern_match)*)? RIGHT_BRACE { pin=1 }
 typed_pattern ::= pattern COLON expression {
 	pin=2
-	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTTypedPatternMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTTypedPatternMixin'
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 }
 
@@ -92,13 +92,13 @@ typed_pattern ::= pattern COLON expression {
 pi_type ::= PI typed_abstraction {
 	pin=1
 	extends=expression
-	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTPiTypedMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTPiTypedMixin'
 }
 
 lambda_expression ::= LAMBDA pattern DOT expression {
 	pin=1
 	extends=expression
-	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTLambdaExpressionMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTLambdaExpressionMixin'
 }
 
 constructor ::= CONSTRUCTOR_NAME expression? { pin=1 extends=expression }
@@ -111,7 +111,7 @@ pattern_match ::=
 sigma_type ::= SIGMA typed_abstraction {
 	pin=1
 	extends=expression
-	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTSigmaTypedMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTSigmaTypedMixin'
 }
 
 split ::= SPLIT_KEYWORD choices { pin=1 extends=expression }
@@ -128,13 +128,13 @@ const_declaration ::=
  EQ expression
  SEMICOLON {
 	pin=1
-	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTConstDeclarationMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTConstDeclarationMixin'
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 }
 
 const_expression ::= const_declaration expression? {
 	extends=expression
-	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTConstExpressionMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTConstExpressionMixin'
 }
 
 declaration ::=
@@ -145,11 +145,11 @@ declaration ::=
  EQ expression
  SEMICOLON {
 	pin=1
-	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTDeclarationMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTDeclarationMixin'
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 }
 
 declaration_expression ::= declaration expression? {
 	extends=expression
-	mixin='org.ice1000.tt.psi.minitt.impl.MiniTTDeclarationExpressionMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTDeclarationExpressionMixin'
 }

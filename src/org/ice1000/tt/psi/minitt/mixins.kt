@@ -1,4 +1,4 @@
-package org.ice1000.tt.psi.minitt.impl
+package org.ice1000.tt.psi.minitt
 
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.extapi.psi.ASTWrapperPsiElement
@@ -13,7 +13,8 @@ import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
 import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.elementType
-import org.ice1000.tt.psi.minitt.*
+import org.ice1000.tt.psi.minitt.impl.MiniTTExpressionImpl
+import org.ice1000.tt.psi.minitt.impl.MiniTTPatternImpl
 import org.ice1000.tt.psi.prevSiblingIgnoring
 import org.ice1000.tt.psi.treeWalkUp
 

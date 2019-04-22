@@ -12,9 +12,6 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 
 %{
   public MiniTTLexer() { this((java.io.Reader)null); }
-
-  private int commentStart = 0;
-  private int commentDepth = 0;
 %}
 
 %public
