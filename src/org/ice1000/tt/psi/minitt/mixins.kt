@@ -7,7 +7,6 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.resolve.ResolveCache
 import com.intellij.psi.scope.PsiScopeProcessor
-import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
 import org.ice1000.tt.orTrue
@@ -112,7 +111,7 @@ abstract class MiniTTVariableMixin(node: ASTNode) : MiniTTExpressionImpl(node), 
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
 	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = CompletionProcessor(true)
+		val variantsProcessor = CompletionProcessor(true, TTIcons.MINI_TT)
 		treeWalkUp(variantsProcessor, element, element.containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}
@@ -122,48 +121,4 @@ abstract class MiniTTVariableMixin(node: ASTNode) : MiniTTExpressionImpl(node), 
 			resolveWith(SymbolResolveProcessor(ref.canonicalText, incompleteCode), ref)
 		}
 	}
-
-	class SymbolResolveProcessor(
-		@JvmField private val name: String,
-		private val incompleteCode: Boolean
-	) : ResolveProcessor<PsiElementResolveResult>() {
-		override val candidateSet = ArrayList<PsiElementResolveResult>(3)
-		override fun execute(element: PsiElement, resolveState: ResolveState): Boolean = when {
-			candidateSet.isNotEmpty() -> false
-			element is IMiniTTPattern<*> -> {
-				@Suppress("UNCHECKED_CAST")
-				element as IMiniTTPattern<PsiElement>
-				element.visit { variable ->
-					val accessible = variable.text == name
-					if (accessible) {
-						val declaration = PsiTreeUtil.getParentOfType(variable, PsiNameIdentifierOwner::class.java)
-						if (declaration != null) candidateSet += PsiElementResolveResult(declaration, true)
-					}
-					!accessible
-				}
-			}
-			else -> true
-		}
-	}
-
-	class CompletionProcessor(
-		private val incompleteCode: Boolean
-	) : ResolveProcessor<LookupElementBuilder>() {
-		override val candidateSet = ArrayList<LookupElementBuilder>(10)
-		override fun execute(element: PsiElement, resolveState: ResolveState): Boolean {
-			if (element !is IMiniTTPattern<*>) return true
-			@Suppress("UNCHECKED_CAST")
-			element as IMiniTTPattern<PsiElement>
-			return element.visit { variable ->
-				val declaration = PsiTreeUtil.getParentOfType(variable, GeneralDeclaration::class.java)
-				val type = declaration?.type?.text ?: "Unknown"
-				candidateSet += LookupElementBuilder
-					.create(variable.text)
-					.withIcon(TTIcons.MINI_TT)
-					.withTypeText(type, true)
-				true
-			}
-		}
-	}
 }
-

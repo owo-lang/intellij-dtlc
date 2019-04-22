@@ -57,12 +57,11 @@ constructor ::= DOLLAR IDENTIFIER expression { extends=expression }
 variable ::= IDENTIFIER {
 	extends=expression
 	mixin='org.ice1000.tt.psi.acore.ACoreVariableMixin'
-	implements=['org.ice1000.tt.psi.acore.ACoreVariable']
 }
 
 // Patterns
 pattern ::= pair_pattern | atom_pattern {
-	implements=['org.ice1000.tt.psi.acore.IACorePattern']
+	implements=['org.ice1000.tt.psi.IMiniTTPattern<ACoreVariable>']
 }
 atom_pattern ::= variable | META_VAR | LEFT_PAREN pattern RIGHT_PAREN {
 	extends=pattern
@@ -99,7 +98,7 @@ pi_type ::= PI typed_abstraction {
 lambda ::= BACKSLASH pattern DOT expression {
 	pin=1
 	extends=expression
-	mixin='org.ice1000.tt.psi.acore.ACoreLambdaExpressionMixin'
+	mixin='org.ice1000.tt.psi.acore.ACoreLambdaMixin'
 }
 
 branch ::= IDENTIFIER ARROW expression { pin=1 }
