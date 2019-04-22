@@ -22,10 +22,21 @@
 		</context>
 	</template>
 	<template
+		name="type"
+		value="Type$LEVEL$"
+		description="Type{level}"
+		toReformat="true"
+		toShortenFQNames="true">
+		<variable name="LEVEL" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="MINI_TT_DEFAULT_CONTEXT" value="true"/>
+		</context>
+	</template>
+	<template
 		name="rec"
 		value="rec $pattern$: $type$ = $END$;"
 		description="rec definition = ..."
-		toReformat="false"
+		toReformat="true"
 		toShortenFQNames="true">
 		<variable name="pattern" expression="" defaultValue="" alwaysStopAt="true"/>
 		<variable name="type" expression="" defaultValue="" alwaysStopAt="true"/>

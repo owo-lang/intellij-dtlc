@@ -48,6 +48,7 @@ object ACoreHighlighter : SyntaxHighlighter {
 		ACoreTypes.LETREC_TOKEN,
 		ACoreTypes.LET_TOKEN,
 		ACoreTypes.UNIT_TOKEN,
+		ACoreTypes.VOID,
 		ACoreTypes.ONE_TOKEN)
 
 	private val OPERATORS_LIST = listOf(
