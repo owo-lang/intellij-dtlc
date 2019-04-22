@@ -30,7 +30,7 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 %state INSIDE_COMMENT
 
 WHITE_SPACE=[\ \t\f\r\n]+
-IDENTIFIER=[a-zA-Z_'\\][a-zA-Z_0-9'\\]*
+IDENTIFIER=[a-zA-Z_][a-zA-Z_0-9]*
 COMMENTS = --[^\n\r]*
 
 %%
