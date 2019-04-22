@@ -46,16 +46,6 @@ abstract class ACoreLambdaMixin(node: ASTNode) : ACoreGeneralDeclaration(node), 
 	override val type: ACoreExpression? get() = null
 }
 
-abstract class ACorePiTypedMixin(node: ASTNode) : ACoreExpressionImpl(node), ACorePiType {
-	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		typedAbstraction?.processDeclarations(processor, state, lastParent, place).orTrue()
-}
-
-abstract class ACoreSigmaTypedMixin(node: ASTNode) : ACoreExpressionImpl(node), ACoreSigmaType {
-	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		typedAbstraction?.processDeclarations(processor, state, lastParent, place).orTrue()
-}
-
 abstract class ACoreTypedAbstractionMixin(node: ASTNode) : ACoreExpressionImpl(node), ACoreTypedAbstraction {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		typedPattern.processDeclarations(processor, state, lastParent, place).orTrue()
@@ -97,7 +87,7 @@ abstract class ACoreVariableMixin(node: ASTNode) : ACoreExpressionImpl(node), AC
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
 	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = CompletionProcessor(true, TTIcons.MINI_TT)
+		val variantsProcessor = CompletionProcessor(true, TTIcons.AGDA_CORE)
 		treeWalkUp(variantsProcessor, element, element.containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}

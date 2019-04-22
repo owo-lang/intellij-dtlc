@@ -51,16 +51,6 @@ abstract class MiniTTLambdaExpressionMixin(node: ASTNode) : MiniTTGeneralDeclara
 	override val type: MiniTTExpression? get() = null
 }
 
-abstract class MiniTTPiTypedMixin(node: ASTNode) : MiniTTExpressionImpl(node), MiniTTPiType {
-	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		typedAbstraction?.processDeclarations(processor, state, lastParent, place).orTrue()
-}
-
-abstract class MiniTTSigmaTypedMixin(node: ASTNode) : MiniTTExpressionImpl(node), MiniTTSigmaType {
-	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		typedAbstraction?.processDeclarations(processor, state, lastParent, place).orTrue()
-}
-
 abstract class MiniTTTypedAbstractionMixin(node: ASTNode) : MiniTTExpressionImpl(node), MiniTTTypedAbstraction {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		typedPattern.processDeclarations(processor, state, lastParent, place).orTrue()

@@ -1,11 +1,15 @@
 package org.ice1000.tt.psi
 
 import com.intellij.codeInsight.lookup.LookupElementBuilder
+import com.intellij.extapi.psi.ASTWrapperPsiElement
+import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementResolveResult
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.ResolveState
+import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.util.PsiTreeUtil
+import org.ice1000.tt.orTrue
 import javax.swing.Icon
 
 interface IMiniTTPattern<Var> : PsiElement {
@@ -14,6 +18,12 @@ interface IMiniTTPattern<Var> : PsiElement {
 
 interface TypedAbstractionOwner<Psi : PsiElement> : PsiElement {
 	val typedAbstraction: Psi?
+}
+
+abstract class TypedAbstractionOwnerMixin<Psi: PsiElement>(node: ASTNode)
+	: ASTWrapperPsiElement(node), TypedAbstractionOwner<Psi> {
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		typedAbstraction?.processDeclarations(processor, state, lastParent, place).orTrue()
 }
 
 class SymbolResolveProcessor(
