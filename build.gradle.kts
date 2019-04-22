@@ -160,6 +160,7 @@ fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
 }
 
 val (genMiniTTParser, genMiniTTLexer) = grammar("MiniTT")
+val (genACoreParser, genACoreLexer) = grammar("ACore")
 
 val genMiniTTUtility = task<LanguageUtilityGenerationTask>("genMiniTTUtility") {
 	languageName = "MiniTT"
@@ -185,6 +186,8 @@ tasks.withType<KotlinCompile> {
 		genMiniTTUtility,
 		genACoreUtility,
 		genAgdaUtility,
+		genACoreParser,
+		genACoreLexer,
 		genMiniTTParser,
 		genMiniTTLexer
 	)

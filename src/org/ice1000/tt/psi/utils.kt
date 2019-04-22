@@ -3,8 +3,10 @@ package org.ice1000.tt.psi
 import com.intellij.openapi.progress.ProgressIndicatorProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.ResolveState
+import com.intellij.psi.TokenType
 import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.TokenSet
 
 val PsiElement.elementType get() = node.elementType
 
@@ -50,3 +52,5 @@ inline fun <reified Psi : PsiElement> PsiElement.prevSiblingIgnoring(vararg type
 		else localNext as? Psi
 	}
 }
+
+@JvmField val WHITE_SPACE = TokenSet.create(TokenType.WHITE_SPACE)

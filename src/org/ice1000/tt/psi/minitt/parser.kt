@@ -7,13 +7,13 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
-import com.intellij.psi.TokenType
 import com.intellij.psi.stubs.PsiFileStubImpl
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.IStubFileElementType
 import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.MiniTTFile
 import org.ice1000.tt.MiniTTLanguage
+import org.ice1000.tt.psi.WHITE_SPACE
 
 class MiniTTElementType(debugName: String) : IElementType(debugName, MiniTTLanguage.INSTANCE)
 
@@ -21,7 +21,6 @@ class MiniTTTokenType(debugName: String) : IElementType(debugName, MiniTTLanguag
 	companion object Builtin {
 		@JvmField val LINE_COMMENT = MiniTTTokenType("line comment")
 		@JvmField val COMMENTS = TokenSet.create(LINE_COMMENT)
-		@JvmField val WHITE_SPACE = TokenSet.create(TokenType.WHITE_SPACE)
 		@JvmField val IDENTIFIERS = TokenSet.create(MiniTTTypes.IDENTIFIER)
 
 		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(MiniTTLanguage.INSTANCE, text).firstChild
@@ -44,7 +43,7 @@ class MiniTTParserDefinition : ParserDefinition {
 	override fun createElement(node: ASTNode?): PsiElement = MiniTTTypes.Factory.createElement(node)
 	override fun createFile(viewProvider: FileViewProvider) = MiniTTFile(viewProvider)
 	override fun getStringLiteralElements() = TokenSet.EMPTY
-	override fun getWhitespaceTokens() = MiniTTTokenType.WHITE_SPACE
+	override fun getWhitespaceTokens() = WHITE_SPACE
 	override fun getCommentTokens() = MiniTTTokenType.COMMENTS
 	override fun getFileNodeType() = FILE
 	// TODO: replace after dropping support for 183

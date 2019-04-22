@@ -1,6 +1,7 @@
 package org.ice1000.tt
 
 import com.intellij.testFramework.ParsingTestCase
+import org.ice1000.tt.psi.acore.ACoreParserDefinition
 import org.ice1000.tt.psi.minitt.MiniTTParserDefinition
 
 class MiniTTParsingTest : ParsingTestCase("parse/minitt", "minitt", MiniTTParserDefinition()) {
@@ -18,4 +19,9 @@ class MiniTTParsingTest : ParsingTestCase("parse/minitt", "minitt", MiniTTParser
 	fun testmaybe() = doTest(true)
 	fun testmerge() = doTest(true)
 	fun testnat() = doTest(true)
+}
+
+class ACoreParsingTest : ParsingTestCase("parse/acore", "mtt", ACoreParserDefinition()) {
+	override fun getTestDataPath() = "testData"
+	fun testExample() = doTest(true)
 }

@@ -1,0 +1,133 @@
+//noinspection BnfResolveForFile
+{
+  generate=[java="8" names="long"]
+
+  parserClass="org.ice1000.tt.psi.acore.ACoreParser"
+
+  psiClassPrefix="ACore"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.ice1000.tt.psi.acore"
+  psiImplPackage="org.ice1000.tt.psi.acore.impl"
+
+  elementTypeHolderClass="org.ice1000.tt.psi.acore.ACoreTypes"
+  elementTypeClass="org.ice1000.tt.psi.acore.ACoreElementType"
+  tokenTypeClass="org.ice1000.tt.psi.acore.ACoreTokenType"
+}
+
+// Reference: https://github.com/kino3/Mini-TT/blob/master/Core.cf
+file ::= expression
+
+expression ::= exp1 | exp2 | exp3
+
+private exp1 ::=
+   declaration_expression
+ | function_type
+ | pair_type
+ | first
+ | second
+ | pair
+
+private exp2 ::= application | constructor
+
+exp3 ::=
+   universe
+ | variable
+ | eof_void
+ | sum
+ | fun
+ | one
+ | unit
+ | pi_type
+ | sigma_type
+ | lambda
+ | parenthesis { extends=expression }
+
+parenthesis ::= LEFT_PAREN expression RIGHT_PAREN { extends=expression }
+
+// Syntactic sugars: short-hand for unit patterns
+function_type ::= expression ARROW expression { extends=expression }
+pair_type ::= expression MUL expression { extends=expression }
+
+// Higher-level expressions
+first ::= expression DOT_ONE { extends=expression }
+second ::= expression DOT_TWO { extends=expression }
+application ::= exp3 expression { extends=expression }
+pair ::= expression COMMA expression { extends=expression }
+constructor ::= DOLLAR IDENTIFIER expression { extends=expression }
+variable ::= IDENTIFIER {
+	extends=expression
+	// mixin='org.ice1000.tt.psi.acore.impl.ACoreVariableMixin'
+}
+
+// Patterns
+pattern ::= pair_pattern | atom_pattern {
+	// implements=['org.ice1000.tt.psi.acore.impl.IACorePattern']
+}
+atom_pattern ::= variable | META_VAR | LEFT_PAREN pattern RIGHT_PAREN {
+	extends=pattern
+	// mixin='org.ice1000.tt.psi.acore.impl.ACoreAtomPatternMixin'
+}
+pair_pattern ::= atom_pattern COMMA pattern {
+	pin=2
+	extends=pattern
+	// mixin='org.ice1000.tt.psi.acore.impl.ACorePairPatternMixin'
+}
+
+// Extracted helpers
+typed_abstraction ::= typed_pattern DOT expression {
+	pin=2
+	// mixin='org.ice1000.tt.psi.acore.impl.ACoreTypedAbstractionMixin'
+}
+
+summand ::= IDENTIFIER expression? { pin=1 }
+sum_data ::= LEFT_PAREN (summand (SEP summand)*)? RIGHT_PAREN { pin=1 }
+fun_case ::= LEFT_PAREN (branch  (SEP branch )*)? RIGHT_PAREN { pin=1 }
+typed_pattern ::= pattern COLON expression {
+	pin=2
+	// mixin='org.ice1000.tt.psi.acore.impl.ACoreTypedPatternMixin'
+	// implements=['com.intellij.psi.PsiNameIdentifierOwner']
+}
+
+// Atomic expressions
+pi_type ::= PI typed_abstraction {
+	pin=1
+	extends=expression
+	// mixin='org.ice1000.tt.psi.acore.impl.ACorePiTypedMixin'
+}
+
+lambda ::= BACKSLASH pattern DOT expression {
+	pin=1
+	extends=expression
+	// mixin='org.ice1000.tt.psi.acore.impl.ACoreLambdaExpressionMixin'
+}
+
+branch ::= IDENTIFIER ARROW expression { pin=1 }
+sigma_type ::= SIGMA typed_abstraction {
+	pin=1
+	extends=expression
+	// mixin='org.ice1000.tt.psi.acore.impl.ACoreSigmaTypedMixin'
+}
+
+fun ::= FUN_TOKEN fun_case { pin=1 extends=expression }
+sum ::= SUM_TOKEN sum_data { pin=1 extends=expression }
+
+one ::= ONE_TOKEN { extends=expression }
+unit ::= UNIT_TOKEN { extends=expression }
+universe ::= TYPE_UNIVERSE { extends=expression }
+eof_void ::= VOID { extends=expression }
+
+declaration ::=
+ (LET_TOKEN | LETREC_TOKEN)
+ pattern
+ COLON expression
+ EQ expression
+ SEMICOLON {
+	pin=1
+//	mixin='org.ice1000.tt.psi.acore.impl.ACoreDeclarationMixin'
+//	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+}
+
+declaration_expression ::= declaration expression {
+	extends=expression
+//	mixin='org.ice1000.tt.psi.acore.impl.ACoreDeclarationExpressionMixin'
+}
