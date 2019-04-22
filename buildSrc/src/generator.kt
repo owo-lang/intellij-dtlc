@@ -165,6 +165,31 @@ class New${languageName}File : NewTTFile(
 			.apply { mkdirs() }
 			.resolve("$nickname-generated.kt").writeText(fileCreation)
 		@Language("kotlin")
+		val editing = """
+package $basePackage.editing
+
+import com.intellij.codeInsight.template.TemplateContextType
+import com.intellij.codeInsight.template.impl.DefaultLiveTemplatesProvider
+import com.intellij.psi.PsiFile
+import org.ice1000.tt.*
+
+class ${languageName}DefaultContext : TemplateContextType("${constantPrefix}_DEFAULT_CONTEXT_ID", ${constantPrefix}_LANGUAGE_NAME) {
+	override fun isInContext(file: PsiFile, offset: Int) = file.fileType == ${languageName}FileType
+}
+
+class ${languageName}LiveTemplateProvider : DefaultLiveTemplatesProvider {
+	private companion object DefaultHolder {
+		private val DEFAULT = arrayOf("/liveTemplates/$languageName")
+	}
+
+	override fun getDefaultLiveTemplateFiles() = DEFAULT
+	override fun getHiddenLiveTemplateFiles(): Array<String>? = null
+}
+"""
+		dir.resolve("editing")
+			.apply { mkdirs() }
+			.resolve("$nickname-generated.kt").writeText(editing)
+		@Language("kotlin")
 		val runConfig = """
 package $basePackage.execution
 

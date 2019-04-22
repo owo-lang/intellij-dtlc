@@ -7,7 +7,7 @@
 		<variable name="pattern" expression="" defaultValue="" alwaysStopAt="true"/>
 		<variable name="type" expression="" defaultValue="" alwaysStopAt="true"/>
 		<context>
-			<option name="MINI_TT_DEFAULT_CONTEXT" value="true"/>
+			<option name="MINI_TT_DEFAULT_CONTEXT_ID" value="true"/>
 		</context>
 	</template>
 	<template
@@ -18,7 +18,7 @@
 		toShortenFQNames="true">
 		<variable name="pattern" expression="" defaultValue="" alwaysStopAt="true"/>
 		<context>
-			<option name="MINI_TT_DEFAULT_CONTEXT" value="true"/>
+			<option name="MINI_TT_DEFAULT_CONTEXT_ID" value="true"/>
 		</context>
 	</template>
 	<template
@@ -29,7 +29,7 @@
 		toShortenFQNames="true">
 		<variable name="LEVEL" expression="" defaultValue="" alwaysStopAt="true"/>
 		<context>
-			<option name="MINI_TT_DEFAULT_CONTEXT" value="true"/>
+			<option name="MINI_TT_DEFAULT_CONTEXT_ID" value="true"/>
 		</context>
 	</template>
 	<template
@@ -41,17 +41,19 @@
 		<variable name="pattern" expression="" defaultValue="" alwaysStopAt="true"/>
 		<variable name="type" expression="" defaultValue="" alwaysStopAt="true"/>
 		<context>
-			<option name="MINI_TT_DEFAULT_CONTEXT" value="true"/>
+			<option name="MINI_TT_DEFAULT_CONTEXT_ID" value="true"/>
 		</context>
 	</template>
 	<template
 		name="split"
-		value="split { $END$ }"
+		value="split { $name$ $pat$ =&gt; $END$ }"
 		description="split { ... }"
 		toReformat="true"
 		toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="" alwaysStopAt="true" />
+		<variable name="pat" expression="" defaultValue="" alwaysStopAt="true" />
 		<context>
-			<option name="MINI_TT_DEFAULT_CONTEXT" value="true"/>
+			<option name="MINI_TT_DEFAULT_CONTEXT_ID" value="true"/>
 		</context>
 	</template>
 	<template
@@ -61,7 +63,7 @@
 		toReformat="true"
 		toShortenFQNames="true">
 		<context>
-			<option name="MINI_TT_DEFAULT_CONTEXT" value="true"/>
+			<option name="MINI_TT_DEFAULT_CONTEXT_ID" value="true"/>
 		</context>
 	</template>
 </templateSet>

@@ -11,8 +11,10 @@
 		<liveTemplateContext implementation="org.ice1000.tt.editing.MiniTTDefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.OwODefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.AgdaDefaultContext"/>
+		<liveTemplateContext implementation="org.ice1000.tt.editing.ACoreDefaultContext"/>
 		<configurationType implementation="org.ice1000.tt.execution.AgdaRunConfigurationType"/>
 
+		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.ACoreLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.ACoreRunConfigurationType"/>
 		<lang.parserDefinition language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.psi.acore.ACoreParserDefinition"/>
 		<lang.syntaxHighlighterFactory language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreHighlighterFactory"/>

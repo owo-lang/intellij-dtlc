@@ -1,0 +1,49 @@
+<templateSet group="Vanilla Mini-TT">
+	<template
+		name="let"
+		value="let $pattern$: $type$ = $END$;"
+		description="let definition = ..."
+		toReformat="false"
+		toShortenFQNames="true">
+		<variable name="pattern" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="AGDA_CORE_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
+	<template
+		name="letrec"
+		value="letrec $pattern$: $type$ = $END$;"
+		description="letrec definition = ..."
+		toReformat="false"
+		toShortenFQNames="true">
+		<variable name="pattern" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="AGDA_CORE_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
+	<template
+		name="fun"
+		value="fun ( $name$ -&gt; &#92;$pat$. $END$ )"
+		description="fun ( ... )"
+		toReformat="false"
+		toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="pat" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="AGDA_CORE_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
+	<template
+		name="sum"
+		value="Sum ( $name$ $END$ )"
+		description="Sum ( ... )"
+		toReformat="false"
+		toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="AGDA_CORE_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
+</templateSet>
