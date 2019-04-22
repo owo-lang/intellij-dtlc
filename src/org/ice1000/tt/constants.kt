@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NonNls
 
 @NonNls const val AGDA_CORE_EXTENSION = "mtt"
 @NonNls const val AGDA_CORE_WEBSITE = "http://www.cse.chalmers.se/~bengt/papers/GKminiTT.pdf"
-@NonNls const val AGDA_CORE_LANGUAGE_NAME = "Vanilla-Mini-TT"
+@NonNls const val AGDA_CORE_LANGUAGE_NAME = "Vanilla Mini-TT"
 
 @NonNls const val AGDA_WEBSITE = "https://wiki.portal.chalmers.se/agda/pmwiki.php"
 @NonNls const val AGDA_EXTENSION = "agda"

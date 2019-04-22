@@ -62,7 +62,7 @@ prefix_parameter ::= LEFT_PAREN typed_pattern RIGHT_PAREN
 
 // Patterns
 pattern ::= pair_pattern | atom_pattern {
-	implements=['org.ice1000.tt.psi.minitt.IMiniTTPattern']
+	implements=['org.ice1000.tt.psi.IMiniTTPattern<MiniTTVariable>']
 }
 atom_pattern ::= variable | META_VAR | LEFT_PAREN pattern RIGHT_PAREN {
 	extends=pattern

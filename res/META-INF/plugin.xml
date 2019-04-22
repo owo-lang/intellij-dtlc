@@ -14,7 +14,7 @@
 		<configurationType implementation="org.ice1000.tt.execution.AgdaRunConfigurationType"/>
 
 		<configurationType implementation="org.ice1000.tt.execution.ACoreRunConfigurationType"/>
-		<lang.parserDefinition language="Vanilla-Mini-TT" implementationClass="org.ice1000.tt.psi.acore.ACoreParserDefinition"/>
+		<lang.parserDefinition language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.psi.acore.ACoreParserDefinition"/>
 
 		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.MiniTTLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.MiniTTRunConfigurationType"/>
