@@ -17,6 +17,7 @@
 		<lang.parserDefinition language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.psi.acore.ACoreParserDefinition"/>
 		<lang.syntaxHighlighterFactory language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreHighlighterFactory"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.acore.ACoreColorSettingsPage"/>
+		<annotator language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreAnnotator"/>
 		<lang.refactoringSupport language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<lang.findUsagesProvider language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreFindUsagesProvider"/>
 		<lang.commenter language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreCommenter"/>

@@ -24,4 +24,5 @@ class MiniTTParsingTest : ParsingTestCase("parse/minitt", "minitt", MiniTTParser
 class ACoreParsingTest : ParsingTestCase("parse/acore", "mtt", ACoreParserDefinition()) {
 	override fun getTestDataPath() = "testData"
 	fun testExample() = doTest(true)
+	fun testBlockComment() = doTest(true)
 }

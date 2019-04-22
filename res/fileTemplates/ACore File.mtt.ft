@@ -6,5 +6,5 @@
 
 let ${NAME_SNAKE}: U = 1;
 
-// This is needed at the end of file
+-- This is needed at the end of file
 Void

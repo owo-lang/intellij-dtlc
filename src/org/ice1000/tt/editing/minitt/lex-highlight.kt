@@ -86,18 +86,18 @@ class MiniTTHighlighterFactory : SyntaxHighlighterFactory() {
 class MiniTTColorSettingsPage : ColorSettingsPage {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
-			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.keyword"), MiniTTHighlighter.KEYWORD),
-			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.identifier"), MiniTTHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), MiniTTHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), MiniTTHighlighter.IDENTIFIER),
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.constructor-call"), MiniTTHighlighter.CONSTRUCTOR_CALL),
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.constructor-decl"), MiniTTHighlighter.CONSTRUCTOR_DECL),
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.function-decl"), MiniTTHighlighter.FUNCTION_NAME),
-			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.semicolon"), MiniTTHighlighter.SEMICOLON),
-			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.comma"), MiniTTHighlighter.COMMA),
-			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.unresolved"), MiniTTHighlighter.UNRESOLVED),
-			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.operator"), MiniTTHighlighter.OPERATOR),
-			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.paren"), MiniTTHighlighter.PAREN),
-			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.brace"), MiniTTHighlighter.BRACE),
-			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.comment"), MiniTTHighlighter.COMMENT))
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), MiniTTHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), MiniTTHighlighter.COMMA),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), MiniTTHighlighter.UNRESOLVED),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), MiniTTHighlighter.OPERATOR),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), MiniTTHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), MiniTTHighlighter.BRACE),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comment"), MiniTTHighlighter.COMMENT))
 
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
 			"Unresolved" to MiniTTHighlighter.UNRESOLVED,

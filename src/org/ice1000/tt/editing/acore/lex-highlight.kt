@@ -78,15 +78,15 @@ class ACoreHighlighterFactory : SyntaxHighlighterFactory() {
 class ACoreColorSettingsPage : ColorSettingsPage {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
-			AttributesDescriptor(TTBundle.message("acore.highlighter.settings.keyword"), ACoreHighlighter.KEYWORD),
-			AttributesDescriptor(TTBundle.message("acore.highlighter.settings.identifier"), ACoreHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), ACoreHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), ACoreHighlighter.IDENTIFIER),
 			AttributesDescriptor(TTBundle.message("acore.highlighter.settings.function-decl"), ACoreHighlighter.FUNCTION_NAME),
-			AttributesDescriptor(TTBundle.message("acore.highlighter.settings.semicolon"), ACoreHighlighter.SEMICOLON),
-			AttributesDescriptor(TTBundle.message("acore.highlighter.settings.comma"), ACoreHighlighter.COMMA),
-			AttributesDescriptor(TTBundle.message("acore.highlighter.settings.unresolved"), ACoreHighlighter.UNRESOLVED),
-			AttributesDescriptor(TTBundle.message("acore.highlighter.settings.operator"), ACoreHighlighter.OPERATOR),
-			AttributesDescriptor(TTBundle.message("acore.highlighter.settings.paren"), ACoreHighlighter.PAREN),
-			AttributesDescriptor(TTBundle.message("acore.highlighter.settings.comment"), ACoreHighlighter.COMMENT))
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), ACoreHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), ACoreHighlighter.COMMA),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), ACoreHighlighter.UNRESOLVED),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), ACoreHighlighter.OPERATOR),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), ACoreHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comment"), ACoreHighlighter.COMMENT))
 
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
 			"Unresolved" to ACoreHighlighter.UNRESOLVED,

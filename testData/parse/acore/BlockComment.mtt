@@ -1,0 +1,10 @@
+{-
+ - Created by Dependently-Typed Lambda Calculus on 2019-04-21
+ - AA
+ - Author: yqz5714
+ -}
+
+let aa: U = 1;
+
+-- This is needed at the end of file
+Void
