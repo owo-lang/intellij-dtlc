@@ -25,4 +25,5 @@ class ACoreParsingTest : ParsingTestCase("parse/acore", "mtt", ACoreParserDefini
 	override fun getTestDataPath() = "testData"
 	fun testExample() = doTest(true)
 	fun testBlockComment() = doTest(true)
+	fun testFunSum() = doTest(true)
 }
