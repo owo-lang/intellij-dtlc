@@ -1,0 +1,18 @@
+{-
+ - Created by Dependently-Typed Lambda Calculus on 2019-04-26
+ - Maybe
+ - Author: yqz5714
+ -}
+
+-- let Bool : U = Sum (true 1 | false 1);
+-- letrec Nat : U = Sum ( zero 1 | succ Nat );
+-- let zro : Nat = zero 0;
+
+let Maybe : Pi A : U . U = \A.
+  Sum ( Nothing 1 | Just A );
+let Unwrap : Pi A : U . Pi x : Maybe A . U = \A.
+  fun ( Nothing -> \_. 1 | Just -> \_. A );
+let unwrap : Pi A : U . Pi x : Maybe A . Unwrap A x = \A.
+  fun ( Nothing -> \_. 0 | Just -> \a. a );
+
+Void

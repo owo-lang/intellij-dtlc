@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import org.ice1000.tt.ACoreFile
 import org.ice1000.tt.editing.*
 import org.ice1000.tt.psi.acore.ACoreDeclaration
+import org.ice1000.tt.psi.acore.ACoreEofVoid
 import org.ice1000.tt.psi.acore.ACoreTypes
 import org.ice1000.tt.psi.acore.ACoreVisitor
 import org.ice1000.tt.psi.elementType
@@ -23,6 +24,7 @@ class ACoreFoldingBuilder : FoldingBuilderEx(), DumbAware {
 		ACoreTypes.SIGMA -> CAP_SIGMA
 		ACoreTypes.MUL -> MULTIPLY
 		ACoreTypes.ARROW -> ARROW
+		ACoreTypes.VOID, ACoreTypes.EOF_VOID -> ""
 		else -> "..."
 	}
 
@@ -56,6 +58,10 @@ class FoldingVisitor(
 	override fun visitElement(o: PsiElement?) {
 		if (o == null) return
 		if (o.elementType in types) descriptors.add(FoldingDescriptor(o, o.textRange))
+	}
+
+	override fun visitEofVoid(o: ACoreEofVoid) {
+		descriptors.add(FoldingDescriptor(o, o.textRange))
 	}
 
 	override fun visitDeclaration(o: ACoreDeclaration) {
