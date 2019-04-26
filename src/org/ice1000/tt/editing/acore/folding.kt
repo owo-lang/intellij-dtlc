@@ -9,10 +9,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import org.ice1000.tt.ACoreFile
 import org.ice1000.tt.editing.*
-import org.ice1000.tt.psi.acore.ACoreDeclaration
-import org.ice1000.tt.psi.acore.ACoreEofVoid
-import org.ice1000.tt.psi.acore.ACoreTypes
-import org.ice1000.tt.psi.acore.ACoreVisitor
+import org.ice1000.tt.psi.acore.*
 import org.ice1000.tt.psi.elementType
 import org.ice1000.tt.psi.endOffset
 import org.ice1000.tt.psi.startOffset
@@ -68,8 +65,7 @@ class FoldingVisitor(
 		val startLine = document.getLineNumber(o.startOffset)
 		val endLine = document.getLineNumber(o.endOffset)
 		val body = o.expressionList.getOrNull(1)
-		if (body != null &&
-			document.getLineNumber(startLine) != document.getLineNumber(endLine)) {
+		if (body != null && startLine != endLine) {
 			descriptors.add(FoldingDescriptor(o, body.textRange))
 		}
 	}

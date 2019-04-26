@@ -64,8 +64,7 @@ private class FoldingVisitor(
 		val startLine = document.getLineNumber(o.startOffset)
 		val endLine = document.getLineNumber(o.endOffset)
 		val body = o.expressionList.getOrNull(1)
-		if (body != null &&
-			document.getLineNumber(startLine) != document.getLineNumber(endLine)) {
+		if (body != null && startLine != endLine) {
 			descriptors.add(FoldingDescriptor(o, body.textRange))
 		}
 	}
