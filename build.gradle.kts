@@ -35,10 +35,19 @@ plugins {
 	kotlin("jvm") version "1.3.30"
 }
 
-fun fromToolbox(path: String) = file(path).listFiles().orEmpty().filter { it.isDirectory }.maxBy {
-	val (major, minor, patch) = it.name.split('.')
-	String.format("%5s%5s%5s", major, minor, patch)
-}
+fun fromToolbox(root: String, ide: String) = file(root)
+	.resolve(ide)
+	.takeIf { it.exists() }
+	?.resolve("ch-0")
+	?.listFiles()
+	.orEmpty()
+	.filterNotNull()
+	.filter { it.isDirectory }
+	.maxBy {
+		val (major, minor, patch) = it.name.split('.')
+		String.format("%5s%5s%5s", major, minor, patch)
+	}
+	?.also { println("Picked: $it") }
 
 allprojects {
 	apply { plugin("org.jetbrains.grammarkit") }
@@ -48,34 +57,18 @@ allprojects {
 		instrumentCode = true
 		val user = System.getProperty("user.name")
 		val os = System.getProperty("os.name")
-		when {
-			os.startsWith("Windows") -> {
-				val root = "C:\\Users\\$user\\AppData\\Local\\JetBrains\\Toolbox\\apps";
-				val intellijPath = fromToolbox("$root\\IDEA-C-JDK11\\ch-0")
-					?: fromToolbox("$root\\IDEA-C\\ch-0")
-					?: fromToolbox("$root\\IDEA-JDK11\\ch-0")
-					?: fromToolbox("$root\\IDEA-U\\ch-0")
-				intellijPath?.absolutePath?.let { localPath = it }
-				val pycharmPath = fromToolbox("$root\\PyCharm-C\\ch-0")
-					?: fromToolbox("$root\\IDEA-C\\ch-0")
-					?: fromToolbox("$root\\IDEA-C-JDK11\\ch-0")
-					?: fromToolbox("$root\\IDEA-U\\ch-0")
-				pycharmPath?.absolutePath?.let { alternativeIdePath = it }
-			}
-			os == "Linux" -> {
-				val root = "/home/$user/.local/share/JetBrains/Toolbox/apps"
-				val intellijPath = fromToolbox("$root/IDEA-C-JDK11/ch-0")
-					?: fromToolbox("$root/IDEA-C/ch-0")
-					?: fromToolbox("$root/IDEA-JDK11/ch-0")
-					?: fromToolbox("$root/IDEA-U/ch-0")
-				intellijPath?.absolutePath?.let { localPath = it }
-				val pycharmPath = fromToolbox("$root/PyCharm-C/ch-0")
-					?: fromToolbox("$root/IDEA-C/ch-0")
-					?: fromToolbox("$root/IDEA-C-JDK11/ch-0")
-					?: fromToolbox("$root/IDEA-U/ch-0")
-				pycharmPath?.absolutePath?.let { alternativeIdePath = it }
-			}
+		val root = when {
+			os.startsWith("Windows") -> "C:\\Users\\$user\\AppData\\Local\\JetBrains\\Toolbox\\apps"
+			os == "Linux" -> "/home/$user/.local/share/JetBrains/Toolbox/apps"
+			else -> return@intellij
 		}
+		val intellijPath = sequenceOf("IDEA-C-JDK11", "IDEA-C", "IDEA-JDK11", "IDEA-U")
+			.mapNotNull { fromToolbox(root, it) }.firstOrNull()
+		intellijPath?.absolutePath?.let { localPath = it }
+		val pycharmPath = sequenceOf("PyCharm-C", "IDEA-C-JDK11", "IDEA-C", "IDEA-JDK11", "IDEA-U")
+			.mapNotNull { fromToolbox(root, it) }.firstOrNull()
+		pycharmPath?.absolutePath?.let { alternativeIdePath = it }
+
 	}
 }
 
