@@ -18,7 +18,7 @@ import org.ice1000.tt.psi.startOffset
 
 class ACoreFoldingBuilder : FoldingBuilderEx(), DumbAware {
 	override fun getPlaceholderText(node: ASTNode) = when (node.elementType) {
-		ACoreTypes.LAMBDA -> LAMBDA
+		ACoreTypes.BACKSLASH -> LAMBDA
 		ACoreTypes.PI -> CAP_PI
 		ACoreTypes.SIGMA -> CAP_SIGMA
 		ACoreTypes.MUL -> MULTIPLY
@@ -46,7 +46,7 @@ class FoldingVisitor(
 ) : ACoreVisitor() {
 	private companion object {
 		private val types = listOf(
-			ACoreTypes.LAMBDA,
+			ACoreTypes.BACKSLASH,
 			ACoreTypes.ARROW,
 			ACoreTypes.MUL,
 			ACoreTypes.PI,
