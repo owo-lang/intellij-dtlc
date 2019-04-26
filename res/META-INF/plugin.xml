@@ -37,6 +37,7 @@
 		<lang.braceMatcher language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTBraceMatcher"/>
 		<lang.findUsagesProvider language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTFindUsagesProvider"/>
 		<lang.refactoringSupport language="Mini-TT" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
+		<lang.foldingBuilder language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTFoldingBuilder"/>
 
 		<projectConfigurable
 			groupId="language"
