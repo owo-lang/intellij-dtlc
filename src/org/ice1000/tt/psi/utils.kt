@@ -7,6 +7,9 @@ import com.intellij.psi.tree.TokenSet
 
 val PsiElement.elementType get() = node.elementType
 
+val PsiElement.startOffset get() = textRange.startOffset
+val PsiElement.endOffset get() = textRange.endOffset
+
 inline fun <reified Psi : PsiElement> PsiElement.nextSiblingIgnoring(vararg types: IElementType): Psi? {
 	var next: PsiElement? = nextSibling
 	while (true) {

@@ -50,7 +50,7 @@ allprojects {
 		val os = System.getProperty("os.name")
 		when {
 			os.startsWith("Windows") -> {
-				val root = "C:\\Users\\ice10\\AppData\\Local\\JetBrains\\Toolbox\\apps";
+				val root = "C:\\Users\\$user\\AppData\\Local\\JetBrains\\Toolbox\\apps";
 				val intellijPath = fromToolbox("$root\\IDEA-C-JDK11\\ch-0")
 					?: fromToolbox("$root\\IDEA-C\\ch-0")
 					?: fromToolbox("$root\\IDEA-JDK11\\ch-0")

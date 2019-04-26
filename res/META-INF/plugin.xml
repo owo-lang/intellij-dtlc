@@ -24,6 +24,7 @@
 		<lang.findUsagesProvider language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreFindUsagesProvider"/>
 		<lang.commenter language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreCommenter"/>
 		<lang.braceMatcher language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreBraceMatcher"/>
+		<lang.foldingBuilder language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreFoldingBuilder"/>
 
 		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.MiniTTLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.MiniTTRunConfigurationType"/>
