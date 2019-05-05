@@ -22,6 +22,10 @@ import org.jetbrains.annotations.NonNls
 @NonNls const val AGDA_EXTENSION = "agda"
 @NonNls const val AGDA_LANGUAGE_NAME = "Agda"
 
+@NonNls const val MLPOLYR_WEBSITE = "https://github.com/LdBeth/mlpolyr"
+@NonNls const val MLPOLYR_EXTENSION = "mlpr"
+@NonNls const val MLPOLYR_LANGUAGE_NAME = "MLPolyR"
+
 @NonNls const val VOILE_EXTENSION = "voile"
 @NonNls const val VOILE_LANGUAGE_NAME = "Voile"
 

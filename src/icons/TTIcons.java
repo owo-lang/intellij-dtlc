@@ -9,9 +9,13 @@ public interface TTIcons {
 	@NotNull Icon MINI_TT_FILE = IconLoader.getIcon("/icons/minitt/minitt_file.png");
 	@NotNull Icon MINI_TT = IconLoader.getIcon("/icons/minitt/minitt.png");
 	@NotNull Icon OWO_FILE = IconLoader.getIcon("/icons/owo_file.png");
-	// TODO
-	@NotNull Icon AGDA_CORE = IconLoader.getIcon("/icons/mtt/mtt_file.png");
 	@NotNull Icon AGDA_CORE_FILE = IconLoader.getIcon("/icons/mtt/mtt_file.png");
+	// TODO
+	@NotNull Icon AGDA_CORE = AGDA_CORE_FILE;
+	// TODO
+	@NotNull Icon MLPOLYR_FILE = IconLoader.getIcon("/icons/mlpr/mlpr_file.png");
+	// TODO
+	@NotNull Icon MLPOLYR = MLPOLYR_FILE;
 	@NotNull Icon AGDA_FILE = IconLoader.getIcon("/icons/agda/agda_file.png");
 	@NotNull Icon AGDA = IconLoader.getIcon("/icons/agda/agda.png");
 	@NotNull Icon VOILE_FILE = IconLoader.getIcon("/icons/voile/voile_file.png");

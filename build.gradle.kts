@@ -174,9 +174,16 @@ val genAgdaUtility = task<LanguageUtilityGenerationTask>("genAgdaUtility") {
 	exeName = "agda"
 }
 
+val genMLPolyRUtility = task<LanguageUtilityGenerationTask>("genMLPolyRUtility") {
+	languageName = "MLPolyR"
+	constantPrefix = "MLPOLYR"
+	exeName = "mlpolyrc"
+}
+
 tasks.withType<KotlinCompile> {
 	dependsOn(
 		genMiniTTUtility,
+		genMLPolyRUtility,
 		genACoreUtility,
 		genAgdaUtility,
 		genACoreParser,

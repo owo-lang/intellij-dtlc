@@ -36,6 +36,7 @@ class TTFileTypeFactory : FileTypeFactory() {
 		consumer.consume(OwOFileType, OWO_EXTENSION)
 		consumer.consume(AgdaFileType, AGDA_EXTENSION)
 		consumer.consume(VoileFileType, VOILE_EXTENSION)
+		consumer.consume(MLPolyRFileType, MLPOLYR_EXTENSION)
 	}
 }
 

@@ -16,6 +16,9 @@
 		<configurationType implementation="org.ice1000.tt.execution.AgdaRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.AgdaRunConfigurationProducer"/>
 
+		<configurationType implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationType"/>
+		<runConfigurationProducer implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationProducer"/>
+
 		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.ACoreLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.ACoreRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.ACoreRunConfigurationProducer"/>
