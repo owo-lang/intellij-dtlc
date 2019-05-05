@@ -210,8 +210,7 @@ import icons.TTIcons
 import org.ice1000.tt.${languageName}FileType
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.execution.ui.InterpretedRunConfigurationEditorImpl
-import org.ice1000.tt.project.${nickname}Settings
-import org.ice1000.tt.project.${nickname}Path
+import org.ice1000.tt.project.*
 import org.ice1000.tt.validateExe
 import org.jdom.Element
 
@@ -232,7 +231,7 @@ class ${languageName}RunConfiguration(
 	project: Project,
 	factory: ConfigurationFactory
 ) : InterpretedRunConfiguration<${languageName}CommandLineState>(project, factory, TTBundle.message("$nickname.name")) {
-	var ${nickname}Executable = project.${nickname}Settings.settings.exePath
+	var ${nickname}Executable = (project.${nickname}SettingsNullable?.settings ?: ${languageName}Settings()).exePath
 	init { $runConfigInit }
 
 	override fun getState(executor: Executor, environment: ExecutionEnvironment) = ${languageName}CommandLineState(this, environment)
@@ -288,14 +287,12 @@ class ${languageName}RunConfigurationProducer : RunConfigurationProducer<${langu
 		configuration: ${languageName}RunConfiguration, context: ConfigurationContext, ref: Ref<PsiElement>?): Boolean {
 		val file = context.dataContext.getData(CommonDataKeys.VIRTUAL_FILE)
 		if (file?.fileType != ${languageName}FileType) return false
+		val config = context.project.${nickname}SettingsNullable ?: return false
 		configuration.targetFile = file.path
 		configuration.workingDir = context.project.basePath.orEmpty()
 		configuration.name = FileUtilRt.getNameWithoutExtension(configuration.targetFile)
 			.takeLastWhile { it != '/' && it != '\\' }
-		val existPath = context.project
-			.${nickname}Settings
-			.settings
-			.exePath
+		val existPath = config.settings.exePath
 		if (validateExe(existPath)) configuration.${nickname}Executable = existPath
 		else {
 			val exePath = ${nickname}Path ?: return true
