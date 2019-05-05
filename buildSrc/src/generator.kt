@@ -231,7 +231,7 @@ class ${languageName}RunConfiguration(
 	project: Project,
 	factory: ConfigurationFactory
 ) : InterpretedRunConfiguration<${languageName}CommandLineState>(project, factory, TTBundle.message("$nickname.name")) {
-	var ${nickname}Executable = (project.${nickname}SettingsNullable?.settings ?: ${languageName}Settings()).exePath
+	var ${nickname}Executable = project.${nickname}Settings.settings.exePath
 	init { $runConfigInit }
 
 	override fun getState(executor: Executor, environment: ExecutionEnvironment) = ${languageName}CommandLineState(this, environment)

@@ -60,6 +60,11 @@
 			id="TT.ACore.Configurable"
 			displayName="Vanilla Mini-TT"
 			instance="org.ice1000.tt.project.ui.ACoreProjectConfigurable"/>
+		<projectConfigurable
+			groupId="language"
+			id="TT.MLPolyR.Configurable"
+			displayName="MLPolyR"
+			instance="org.ice1000.tt.project.ui.MLPolyRProjectConfigurable"/>
 	</extensions>
 
 	<project-components>
@@ -75,6 +80,10 @@
 			<interface-class>org.ice1000.tt.project.ACoreProjectSettingsService</interface-class>
 			<implementation-class>org.ice1000.tt.project.ACoreProjectSettingsServiceImpl</implementation-class>
 		</component>
+		<component>
+			<interface-class>org.ice1000.tt.project.MLPolyRProjectSettingsService</interface-class>
+			<implementation-class>org.ice1000.tt.project.MLPolyRProjectSettingsServiceImpl</implementation-class>
+		</component>
 	</project-components>
 
 	<actions>
@@ -85,6 +94,7 @@
 			<action id="TT.Agda.NewFile" class="org.ice1000.tt.action.NewAgdaFile"/>
 			<action id="TT.ACore.NewFile" class="org.ice1000.tt.action.NewACoreFile"/>
 			<action id="TT.Voile.NewFile" class="org.ice1000.tt.action.NewVoileFile"/>
+			<action id="TT.MLPolyR.NewFile" class="org.ice1000.tt.action.NewMLPolyRFile"/>
 		</group>
 	</actions>
 </idea-plugin>

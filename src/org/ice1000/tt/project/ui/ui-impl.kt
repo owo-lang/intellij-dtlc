@@ -2,10 +2,7 @@ package org.ice1000.tt.project.ui
 
 import com.intellij.ide.browsers.BrowserLauncher
 import com.intellij.openapi.project.Project
-import org.ice1000.tt.project.ACoreProjectConfigurableBase
-import org.ice1000.tt.project.AgdaProjectConfigurableBase
-import org.ice1000.tt.project.MiniTTProjectConfigurableBase
-import org.ice1000.tt.project.VersionedExecutableSettings
+import org.ice1000.tt.project.*
 import org.ice1000.tt.versionOf
 
 abstract class VersionedExecutableProjectConfigurableImpl : VersionedExecutableProjectConfigurable() {
@@ -44,4 +41,8 @@ class AgdaProjectConfigurable(project: Project) : AgdaProjectConfigurableBase(pr
 
 class ACoreProjectConfigurable(project: Project) : ACoreProjectConfigurableBase(project) {
 	override fun trimVersion(version: String) = """(Vanilla Mini-TT does not have "version")"""
+}
+
+class MLPolyRProjectConfigurable(project: Project) : MLPolyRProjectConfigurableBase(project) {
+	override fun trimVersion(version: String) = """(MLPolyR does not have "version")"""
 }
