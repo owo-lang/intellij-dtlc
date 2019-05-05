@@ -1,4 +1,4 @@
-let Bool : U = Sum (true | false);
+let Bool : U = Sum (true 1 | false 1);
 
 let if: Pi A : U. Bool -> A -> A -> A =
  \A. fun ( true  -> \a. \_. a
