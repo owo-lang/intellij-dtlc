@@ -194,17 +194,25 @@ class ${languageName}LiveTemplateProvider : DefaultLiveTemplatesProvider {
 package $basePackage.execution
 
 import com.intellij.execution.Executor
+import com.intellij.execution.actions.ConfigurationContext
+import com.intellij.execution.actions.RunConfigurationProducer
 import com.intellij.execution.configurations.ConfigurationFactory
 import com.intellij.execution.configurations.ConfigurationType
 import com.intellij.execution.runners.ExecutionEnvironment
+import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.JDOMExternalizerUtil
+import com.intellij.openapi.util.Ref
+import com.intellij.openapi.util.io.FileUtilRt
+import com.intellij.psi.PsiElement
 import icons.TTIcons
 import org.ice1000.tt.${languageName}FileType
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.execution.ui.InterpretedRunConfigurationEditorImpl
 import org.ice1000.tt.project.${nickname}Settings
+import org.ice1000.tt.project.${nickname}Path
+import org.ice1000.tt.validateExe
 import org.jdom.Element
 
 class ${languageName}RunConfigurationFactory(type: ${languageName}RunConfigurationType) : ConfigurationFactory(type) {
@@ -267,6 +275,33 @@ class ${languageName}RunConfigurationEditor(
 	override fun applyEditorTo(s: ${languageName}RunConfiguration) {
 		super.applyEditorTo(s)
 		s.${nickname}Executable = exePathField.text
+	}
+}
+
+@Suppress("DEPRECATION")
+class ${languageName}RunConfigurationProducer : RunConfigurationProducer<${languageName}RunConfiguration>(${languageName}RunConfigurationType) {
+	override fun isConfigurationFromContext(
+		configuration: ${languageName}RunConfiguration, context: ConfigurationContext) =
+		configuration.targetFile == context.dataContext.getData(CommonDataKeys.VIRTUAL_FILE)?.path
+
+	override fun setupConfigurationFromContext(
+		configuration: ${languageName}RunConfiguration, context: ConfigurationContext, ref: Ref<PsiElement>?): Boolean {
+		val file = context.dataContext.getData(CommonDataKeys.VIRTUAL_FILE)
+		if (file?.fileType != ${languageName}FileType) return false
+		configuration.targetFile = file.path
+		configuration.workingDir = context.project.basePath.orEmpty()
+		configuration.name = FileUtilRt.getNameWithoutExtension(configuration.targetFile)
+			.takeLastWhile { it != '/' && it != '\\' }
+		val existPath = context.project
+			.${nickname}Settings
+			.settings
+			.exePath
+		if (validateExe(existPath)) configuration.${nickname}Executable = existPath
+		else {
+			val exePath = ${nickname}Path ?: return true
+			if (validateExe(exePath)) configuration.${nickname}Executable = exePath
+		}
+		return true
 	}
 }
 """
