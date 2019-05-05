@@ -7,6 +7,7 @@ import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import org.ice1000.tt.MINI_TT_FOLDING_PLACEHOLDER
 import org.ice1000.tt.MiniTTFile
 import org.ice1000.tt.editing.*
 import org.ice1000.tt.psi.elementType
@@ -24,7 +25,7 @@ class MiniTTFoldingBuilder : FoldingBuilderEx(), DumbAware {
 		MiniTTTypes.ARROW -> ARROW
 		MiniTTTypes.DOUBLE_ARROW -> DOUBLE_ARROW
 		MiniTTTypes.SIGMA -> CAP_SIGMA
-		else -> "..."
+		else -> MINI_TT_FOLDING_PLACEHOLDER
 	}
 
 	override fun isCollapsedByDefault(node: ASTNode) = node.psi !is MiniTTDeclaration
