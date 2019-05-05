@@ -79,7 +79,7 @@ typed_abstraction ::= typed_pattern DOT expression {
 	mixin='org.ice1000.tt.psi.acore.ACoreTypedAbstractionMixin'
 }
 
-summand ::= IDENTIFIER expression? { pin=1 }
+summand ::= IDENTIFIER expression { pin=1 }
 sum_data ::= LEFT_PAREN (summand (SEP summand)*)? RIGHT_PAREN { pin=1 }
 fun_case ::= LEFT_PAREN (branch  (SEP branch )*)? RIGHT_PAREN { pin=1 }
 typed_pattern ::= pattern COLON expression {
