@@ -22,7 +22,7 @@ program ::= exp
 
 function ::= namePat pat* EQ exp {
 	pin=1
-	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.mlpolyr.MLPolyRPatListOwner']
 	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRFunctionMixin'
 }
 private functions ::= function functionRest*
@@ -158,7 +158,10 @@ exp ::=
 
 private dtMatch2 ::= pat DCOLON handlingImpl BAR LSB RSB DARROW exp { pin=1 }
 private dtMatch1 ::= LSB RSB DARROW exp BAR pat DCOLON handlingImpl { pin=1 }
-dtMatch ::= dtMatch1 | dtMatch2
+dtMatch ::= dtMatch1 | dtMatch2 {
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatListOwnerMixin'
+	implements=['org.ice1000.tt.psi.mlpolyr.MLPolyRPatListOwner']
+}
 
 suffixExp ::= atomicExp
  ( DOT label

@@ -27,11 +27,15 @@ abstract class MLPolyRDeclaration(node: ASTNode) : GeneralDeclaration(node) {
 	}
 }
 
-abstract class MLPolyRFunctionMixin(node: ASTNode) : MLPolyRDeclaration(node), MLPolyRFunction {
-	override fun getNameIdentifier() = namePat
+abstract class MLPolyRPatListOwnerMixin(node: ASTNode) : MLPolyRDeclaration(node), MLPolyRPatListOwner {
+	override fun getNameIdentifier(): PsiElement? = null
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		patList.asReversed().all { it.processDeclarations(processor, state, lastParent, place) }
 			&& super.processDeclarations(processor, state, lastParent, place)
+}
+
+abstract class MLPolyRFunctionMixin(node: ASTNode) : MLPolyRPatListOwnerMixin(node), MLPolyRFunction {
+	override fun getNameIdentifier() = namePat
 }
 
 abstract class MLPolyRCbbPatMixin(node: ASTNode) : MLPolyRGeneralPat(node), MLPolyRCbbPat {
@@ -67,6 +71,10 @@ abstract class MLPolyRGeneralPat(node: ASTNode) : GeneralNameIdentifier(node), I
 
 interface MLPolyRPatOwner : PsiElement {
 	val pat: MLPolyRPat?
+}
+
+interface MLPolyRPatListOwner : PsiElement {
+	val patList: List<MLPolyRPat>
 }
 
 abstract class MLPolyRPatOwnerMixin(node: ASTNode) : MLPolyRDeclaration(node), MLPolyRPatOwner {
