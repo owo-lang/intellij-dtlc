@@ -1,0 +1,3 @@
+let fun f x = x.person.name
+in 0
+end

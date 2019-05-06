@@ -38,3 +38,7 @@ class ACoreParsingTest : DtlcParsingTestCase("parse/acore", "mtt", ACoreParserDe
 	fun testBlockComment() = doTest(true, true)
 	fun testFunSum() = doTest(true, true)
 }
+
+class MLPolyRParsingTest : DtlcParsingTestCase("parse/mlpolyr", "mlpr", MLPolyRParserDefinition()) {
+	fun `test twosel`() = doTest(true, true)
+}

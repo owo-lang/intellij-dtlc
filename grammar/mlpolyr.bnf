@@ -89,14 +89,14 @@ tryExp ::= KW_TRY pat EQ exp KW_IN exp handlers KW_END {
 fnExp ::= KW_FN pat DARROW exp {
 	pin=1
 }
-appExp ::= prefixExp+
+appExp ::= (atomicExp | prefixExp | suffixExp)+
 prefixExp ::=
  ( MINUS
  | KW_ISNULL
  | KW_NOT
  | con
- ) exp
-assignExp ::= selExp EXCLAM label ASSIGN exp { pin=2 }
+ )+ exp
+assignExp ::= suffixExp EXCLAM label ASSIGN exp { pin=2 }
 
 exp ::=
    whereExp
@@ -114,9 +114,8 @@ exp ::=
  | timesExp
  | divExp
  | modExp
- | appExp
  | prefixExp
- | selExp
+ | suffixExp
  | letExp
  | ifExp
  | caseExp
@@ -126,17 +125,18 @@ exp ::=
  | casesExp
  | fnExp
  | assignExp
+ | appExp
  | atomicExp
 
 dtMatch ::=
    LSB RSB DARROW exp BAR pat DCOLON pat DARROW exp
  | pat DCOLON pat DARROW exp BAR LSB RSB DARROW exp
 
-selExp ::= atomicExp
+suffixExp ::= atomicExp
  ( DOT label
  | EXCLAM label
  | PLUSPLUS label
- )
+ )+
 
 atomicExp ::=
    KW_TRUE
