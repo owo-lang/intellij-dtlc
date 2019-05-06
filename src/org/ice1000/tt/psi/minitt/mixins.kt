@@ -119,7 +119,7 @@ abstract class MiniTTVariableMixin(node: ASTNode) : ASTWrapperPsiElement(node), 
 		private val resolver = ResolveCache.PolyVariantResolver<MiniTTVariableMixin> { ref, incompleteCode ->
 			val name = ref.canonicalText
 			resolveWith(PatternResolveProcessor(name, incompleteCode) {
-				if ((it as? IPattern<*>)?.parent !is MiniTTTypedAbstractionMixin) it.text == name
+				if ((it as? IPattern<*>)?.parent !is MiniTTTypedPatternMixin) it.text == name
 				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MiniTTGeneralDeclaration::class.java), ref, true)
 			}, ref)
 		}

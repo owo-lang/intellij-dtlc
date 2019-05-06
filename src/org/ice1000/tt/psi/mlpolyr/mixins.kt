@@ -12,7 +12,6 @@ import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
-import org.ice1000.tt.orFalse
 import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.mlpolyr.impl.MLPolyRExpImpl
 
@@ -136,10 +135,12 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 	}
 
 	private companion object ResolverHolder {
+		val paramFamily = listOf(SymbolKind.Parameter, SymbolKind.Pattern)
+
 		private val resolver = ResolveCache.PolyVariantResolver<MLPolyRIdentifierMixin> { ref, incompleteCode ->
 			val name = ref.canonicalText
 			resolveWith(PatternResolveProcessor(name, incompleteCode) {
-				if ((it as? MLPolyRGeneralPat)?.kind != SymbolKind.Parameter) it.text == name
+				if ((it as? MLPolyRGeneralPat)?.kind !in paramFamily) it.text == name
 				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, ref, false)
 			}, ref)
 		}
