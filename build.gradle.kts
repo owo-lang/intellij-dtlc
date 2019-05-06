@@ -179,6 +179,7 @@ val genMLPolyRUtility = task<LanguageUtilityGenerationTask>("genMLPolyRUtility")
 	languageName = "MLPolyR"
 	constantPrefix = "MLPOLYR"
 	exeName = "mlpolyrc"
+	runConfigInit = """additionalOptions = "-t""""
 }
 
 tasks.withType<KotlinCompile> {

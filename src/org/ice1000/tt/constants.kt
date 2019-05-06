@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NonNls
 @NonNls const val AGDA_EXTENSION = "agda"
 @NonNls const val AGDA_LANGUAGE_NAME = "Agda"
 
-@NonNls const val MLPOLYR_WEBSITE = "https://github.com/LdBeth/mlpolyr"
+@NonNls const val MLPOLYR_WEBSITE = "https://github.com/owo-lang/MLPolyR"
 @NonNls const val MLPOLYR_EXTENSION = "mlpr"
 @NonNls const val MLPOLYR_LANGUAGE_NAME = "MLPolyR"
 
@@ -32,8 +32,6 @@ import org.jetbrains.annotations.NonNls
 @NonNls const val OWO_CONTEXT_ID = "OWO_CONTEXT"
 @NonNls const val OWO_LANGUAGE_NAME = "OwO"
 @NonNls const val OWO_EXTENSION = "owo"
-@NonNls const val OWO_BLOCK_COMMENT_BEGIN = "{-#"
-@NonNls const val OWO_BLOCK_COMMENT_END = "#-}"
 @NonNls const val OWO_MODULE_ID = "OWO_MODULE_TYPE"
 
 @NonNls const val OWO_DEFAULT_MODULE_NAME = "Kawaii"
