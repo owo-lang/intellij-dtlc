@@ -30,17 +30,16 @@ optRcl ::= KW_WITH KW_CASES rcl
 private formals ::= pat*
 
 asPat ::= pat KW_AS pat
-listPat ::= LP patList RP
-cbPat ::= LCB rowPat RCB
-cbbPat ::= LCBB rowPat RCBB
-bqPat ::= BQ cbPat
+listPat ::= LP patList RP { pin=2 }
+cbPat ::= LCB rowPat RCB { pin=1 }
+cbbPat ::= LCBB rowPat RCBB { pin=1 }
+bqPat ::= BQ cbPat { pin=1 }
 wildPat ::= WILD
 emptyPat ::= LP RP
-parenPat ::= LP pat RP
+parenPat ::= LP pat RP { pin=2 }
 namePat ::= ID
 pat ::=
    asPat
- | emptyPat
  | parenPat
  | listPat
  | cbPat
@@ -48,6 +47,7 @@ pat ::=
  | namePat
  | wildPat
  | bqPat
+ | emptyPat
 
 private patList ::= pat (COMMA pat)*
 private fieldPatList ::= fieldPat (COMMA fieldPat)*
@@ -89,7 +89,8 @@ tryExp ::= KW_TRY pat EQ exp KW_IN exp handlers KW_END {
 fnExp ::= KW_FN pat DARROW exp {
 	pin=1
 }
-appExp ::= (atomicExp | prefixExp | suffixExp)+
+appExp ::= canApp canApp+
+private canApp ::= atomicExp | prefixExp | suffixExp
 prefixExp ::=
  ( MINUS
  | KW_ISNULL
@@ -161,7 +162,7 @@ fieldExp ::=
  | DOTDOTDOT EQ exp
 
 label ::= identifier | number
-con ::= NQ label
+con ::= BQ label
 
 private expList ::= exp (COMMA exp)*
 private expSeq ::= exp (SEMI exp)*

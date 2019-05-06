@@ -32,7 +32,7 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 %state INSIDE_COMMENT
 
 WHITE_SPACE=[\ \t\f\r\n]+
-ID=[a-zA-Z][a-zA-Z0-9]*
+ID=[a-zA-Z_][a-zA-Z_0-9]*
 STR=\"([^\\\"]|\\t|\\n|\\\"|\\\\)*\"
 INT=[0-9]+
 
@@ -73,7 +73,6 @@ INT=[0-9]+
 ":=" { return ASSIGN; }
 "=>" { return DARROW; }
 ">=" { return GTEQ; }
-"<" { return LT; }
 \! { return EXCLAM; }
 \* { return TIMES; }
 \+ { return PLUS; }
@@ -87,13 +86,15 @@ INT=[0-9]+
 \. { return DOT; }
 \( { return LP; }
 \) { return RP; }
-; { return SEMI; }
+\= { return EQ; }
+\< { return LT; }
 - { return MINUS; }
 : { return COLON; }
 , { return COMMA; }
+; { return SEMI; }
 _ { return WILD; }
+` { return BQ; }
 > { return GT; }
-= { return EQ; }
 rehandling { return KW_REHANDLING; }
 handling { return KW_HANDLING; }
 default { return KW_DEFAULT; }
