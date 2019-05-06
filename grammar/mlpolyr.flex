@@ -31,7 +31,7 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 %state INSIDE_COMMENT
 
 WHITE_SPACE=[\ \t\f\r\n]+
-ID=[a-zA-Z_][a-zA-Z_0-9]*
+ID=[a-zA-Z_'][a-zA-Z_'0-9]*
 STR=\"([^\\\"]|\\t|\\n|\\\"|\\\\)*\"
 INT=[0-9]+
 

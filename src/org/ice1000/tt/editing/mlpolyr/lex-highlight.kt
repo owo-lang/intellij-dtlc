@@ -24,6 +24,7 @@ object MLPolyRHighlighter : SyntaxHighlighter {
 	@JvmField val COMMENT = TextAttributesKey.createTextAttributesKey("ML_POLY_R_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
 	@JvmField val DOT = TextAttributesKey.createTextAttributesKey("ML_POLY_R_DOT", DefaultLanguageHighlighterColors.DOT)
 	@JvmField val INT = TextAttributesKey.createTextAttributesKey("ML_POLY_R_INT", DefaultLanguageHighlighterColors.NUMBER)
+	@JvmField val STRING = TextAttributesKey.createTextAttributesKey("ML_POLY_R_STRING", DefaultLanguageHighlighterColors.STRING)
 
 	@JvmField val KEYWORD_KEY = arrayOf(KEYWORD)
 	@JvmField val IDENTIFIER_KEY = arrayOf(IDENTIFIER)
@@ -37,6 +38,7 @@ object MLPolyRHighlighter : SyntaxHighlighter {
 	@JvmField val COMMENT_KEY = arrayOf(COMMENT)
 	@JvmField val DOT_KEY = arrayOf(DOT)
 	@JvmField val INT_KEY = arrayOf(INT)
+	@JvmField val STRING_KEY = arrayOf(STRING)
 
 	private val KEYWORDS_LIST = listOf(
 		MLPolyRTypes.KW_REHANDLING,
@@ -94,8 +96,9 @@ object MLPolyRHighlighter : SyntaxHighlighter {
 	override fun getTokenHighlights(type: IElementType?): Array<TextAttributesKey> = when (type) {
 		MLPolyRTypes.COMMA -> COMMA_KEY
 		MLPolyRTypes.SEMI -> SEMICOLON_KEY
-		MLPolyRTypes.IDENTIFIER -> IDENTIFIER_KEY
+		MLPolyRTypes.ID -> IDENTIFIER_KEY
 		MLPolyRTypes.DOT -> DOT_KEY
+		MLPolyRTypes.STR -> STRING_KEY
 		MLPolyRTypes.INT -> INT_KEY
 		MLPolyRTypes.LP, MLPolyRTypes.RP -> PAREN_KEY
 		MLPolyRTypes.LSB, MLPolyRTypes.RSB -> BRACK_KEY
