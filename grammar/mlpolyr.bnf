@@ -62,7 +62,7 @@ private patRest ::= COMMA pat { pin=1 }
 private fieldPatterns ::= fieldPattern fieldPatternRest*
 private fieldPatternRest ::= COMMA fieldPattern { pin=1 }
 private cbPatImpl ::= LCB fieldPatterns? RCB { pin=1 }
-private labelPattern ::= namePat | number
+private labelPattern ::= ID | INT
 private dotDotDotPattern ::= DOTDOTDOT (EQ pat)? { pin=1 }
 private labelPatternImpl ::= labelPattern EQ pat { pin=1 }
 fieldPattern ::=
@@ -173,7 +173,7 @@ atomicExp ::=
    KW_TRUE
  | KW_FALSE
  | KW_NOCASES
- | number
+ | INT
  | string
  | identifier
  | LP RP
@@ -194,7 +194,7 @@ field ::=
 private labelField ::= label EQ exp { pin=2 }
 private dotDotDotField ::= DOTDOTDOT EQ exp { pin=1 }
 
-label ::= identifier | number
+label ::= ID | INT
 con ::= BQ label { pin=1 }
 
 private expList ::= exp expListRest*
@@ -223,5 +223,4 @@ handlers ::= handlingImpl3? rehandling?
 defaultMatch ::= KW_DEFAULT COLON exp { pin=1 }
 
 identifier ::= ID { mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRIdentifierMixin' }
-number ::= INT
 string ::= STR

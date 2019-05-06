@@ -30,6 +30,7 @@
 		<lang.refactoringSupport language="MLPolyR" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.mlpolyr.MLPolyRColorSettingsPage"/>
 		<annotator language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRAnnotator"/>
+		<completion.contributor language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRCompletionContributor"/>
 
 		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.ACoreLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.ACoreRunConfigurationType"/>

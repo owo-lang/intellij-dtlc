@@ -21,13 +21,9 @@ class MLPolyRAnnotator : Annotator {
 	}
 
 	private fun identifier(element: MLPolyRIdentifierMixin, holder: AnnotationHolder) = when ((element.resolve() as? MLPolyRGeneralPat)?.kind) {
-		null -> {
-			val daddy = element.parent
-			if (daddy is MLPolyRMr || daddy is MLPolyRCon || daddy is MLPolyRLabel) Unit
-			else holder.createInfoAnnotation(element, TTBundle.message("tt.lint.unresolved")).run {
-				highlightType = ProblemHighlightType.LIKE_UNKNOWN_SYMBOL
-				textAttributes = MLPolyRHighlighter.UNRESOLVED
-			}
+		null -> holder.createInfoAnnotation(element, TTBundle.message("tt.lint.unresolved")).run {
+			highlightType = ProblemHighlightType.LIKE_UNKNOWN_SYMBOL
+			textAttributes = MLPolyRHighlighter.UNRESOLVED
 		}
 		SymbolKind.Function -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.FUNCTION_CALL

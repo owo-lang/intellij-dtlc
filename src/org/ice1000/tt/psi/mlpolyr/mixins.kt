@@ -117,9 +117,9 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
 	override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
-		val file = element.containingFile ?: return emptyArray()
-		if (!element.isValid || element.project.isDisposed) return emptyArray()
-		return ResolveCache.getInstance(element.project)
+		val file = containingFile ?: return emptyArray()
+		if (!isValid || project.isDisposed) return emptyArray()
+		return ResolveCache.getInstance(project)
 			.resolveWithCaching(this, resolver, true, incompleteCode, file)
 	}
 
