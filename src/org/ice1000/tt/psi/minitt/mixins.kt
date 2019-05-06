@@ -109,14 +109,14 @@ abstract class MiniTTVariableMixin(node: ASTNode) : ASTWrapperPsiElement(node), 
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
 	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = CompletionProcessor(true, TTIcons.MINI_TT, "Unknown")
+		val variantsProcessor = PatternCompletionProcessor(true, TTIcons.MINI_TT, "Unknown")
 		treeWalkUp(variantsProcessor, element, element.containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}
 
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<MiniTTVariableMixin> { ref, incompleteCode ->
-			resolveWith(SymbolResolveProcessor(ref.canonicalText, incompleteCode), ref)
+			resolveWith(PatternResolveProcessor(ref.canonicalText, incompleteCode), ref)
 		}
 	}
 }

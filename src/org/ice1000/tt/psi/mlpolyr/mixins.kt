@@ -97,14 +97,14 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 	}
 
 	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = CompletionProcessor(true, TTIcons.MLPOLYR, "")
+		val variantsProcessor = PatternCompletionProcessor(true, TTIcons.MLPOLYR, "")
 		treeWalkUp(variantsProcessor, element, element.containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}
 
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<MLPolyRIdentifierMixin> { ref, incompleteCode ->
-			resolveWith(SymbolResolveProcessor(ref.canonicalText, incompleteCode), ref)
+			resolveWith(PatternResolveProcessor(ref.canonicalText, incompleteCode), ref)
 		}
 	}
 }

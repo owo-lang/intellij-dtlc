@@ -26,7 +26,7 @@ abstract class TypedAbstractionOwnerMixin<Psi: PsiElement>(node: ASTNode)
 		typedAbstraction?.processDeclarations(processor, state, lastParent, place).orTrue()
 }
 
-class SymbolResolveProcessor(
+class PatternResolveProcessor(
 	@JvmField private val name: String,
 	private val incompleteCode: Boolean
 ) : ResolveProcessor<PsiElementResolveResult>() {
@@ -47,7 +47,7 @@ class SymbolResolveProcessor(
 	}
 }
 
-class CompletionProcessor(
+class PatternCompletionProcessor(
 	private val incompleteCode: Boolean,
 	private val icon: Icon,
 	private val unknownType: String
