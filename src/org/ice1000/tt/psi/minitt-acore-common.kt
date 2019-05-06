@@ -12,7 +12,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import org.ice1000.tt.orTrue
 import javax.swing.Icon
 
-interface IMiniTTPattern<Var> : PsiElement {
+interface IMiniTTPattern<Var : PsiElement> : PsiElement {
 	fun visit(visitor: (Var) -> Boolean): Boolean
 }
 
@@ -35,11 +35,10 @@ class SymbolResolveProcessor(
 		candidateSet.isNotEmpty() -> false
 		element is IMiniTTPattern<*> -> {
 			@Suppress("UNCHECKED_CAST")
-			element as IMiniTTPattern<PsiElement>
 			element.visit { variable ->
 				val accessible = variable.text == name
 				if (accessible) {
-					val declaration = PsiTreeUtil.getParentOfType(variable, PsiNameIdentifierOwner::class.java)
+					val declaration = PsiTreeUtil.getParentOfType(variable, PsiNameIdentifierOwner::class.java, false)
 					if (declaration != null) candidateSet += PsiElementResolveResult(declaration, true)
 				}
 				!accessible

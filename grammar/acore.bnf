@@ -61,16 +61,19 @@ variable ::= IDENTIFIER {
 
 // Patterns
 pattern ::= pair_pattern | atom_pattern {
-	implements=['org.ice1000.tt.psi.IMiniTTPattern<ACoreVariable>']
+	implements=['org.ice1000.tt.psi.IMiniTTPattern<ACoreVariable>' 'com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.acore.ACoreGeneralPattern'
 }
 atom_pattern ::= variable | META_VAR | LEFT_PAREN pattern RIGHT_PAREN {
 	extends=pattern
 	mixin='org.ice1000.tt.psi.acore.ACoreAtomPatternMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 }
 pair_pattern ::= atom_pattern COMMA pattern {
 	pin=2
 	extends=pattern
 	mixin='org.ice1000.tt.psi.acore.ACorePairPatternMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 }
 
 // Extracted helpers

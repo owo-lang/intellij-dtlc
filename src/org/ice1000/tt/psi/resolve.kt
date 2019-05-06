@@ -10,11 +10,7 @@ import com.intellij.psi.PsiReference
 import com.intellij.psi.ResolveState
 import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.util.IncorrectOperationException
-import icons.TTIcons
 import org.ice1000.tt.orTrue
-import org.ice1000.tt.psi.minitt.MiniTTExpression
-import org.ice1000.tt.psi.minitt.MiniTTTokenType
 
 abstract class ResolveProcessor<ResolveResult> : PsiScopeProcessor {
 	abstract val candidateSet: ArrayList<ResolveResult>
@@ -56,4 +52,10 @@ abstract class GeneralDeclaration(node: ASTNode) : ASTWrapperPsiElement(node), P
 	override fun getName(): String? = nameIdentifier?.text
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		nameIdentifier?.let { processor.execute(it, state) }.orTrue()
+}
+
+abstract class GeneralNameIdentifier(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner {
+	override fun getName(): String? = text
+	override fun getNameIdentifier() = this
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) = processor.execute(this, state)
 }

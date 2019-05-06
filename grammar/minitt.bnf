@@ -62,16 +62,19 @@ prefix_parameter ::= LEFT_PAREN typed_pattern RIGHT_PAREN
 
 // Patterns
 pattern ::= pair_pattern | atom_pattern {
-	implements=['org.ice1000.tt.psi.IMiniTTPattern<MiniTTVariable>']
+	implements=['org.ice1000.tt.psi.IMiniTTPattern<MiniTTVariable>' 'com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.minitt.MiniTTGeneralPattern'
 }
 atom_pattern ::= variable | META_VAR | LEFT_PAREN pattern RIGHT_PAREN {
 	extends=pattern
 	mixin='org.ice1000.tt.psi.minitt.MiniTTAtomPatternMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 }
 pair_pattern ::= atom_pattern COMMA pattern {
 	pin=2
 	extends=pattern
 	mixin='org.ice1000.tt.psi.minitt.MiniTTPairPatternMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 }
 
 // Extracted helpers
@@ -85,7 +88,6 @@ choices ::= LEFT_BRACE (pattern_match (SEP pattern_match)*)? RIGHT_BRACE { pin=1
 typed_pattern ::= pattern COLON expression {
 	pin=2
 	mixin='org.ice1000.tt.psi.minitt.MiniTTTypedPatternMixin'
-	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 }
 
 // Atomic expressions
@@ -131,7 +133,6 @@ const_declaration ::=
  SEMICOLON {
 	pin=1
 	mixin='org.ice1000.tt.psi.minitt.MiniTTConstDeclarationMixin'
-	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 }
 
 const_expression ::= const_declaration expression? {
@@ -148,7 +149,6 @@ declaration ::=
  SEMICOLON {
 	pin=1
 	mixin='org.ice1000.tt.psi.minitt.MiniTTDeclarationMixin'
-	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 }
 
 declaration_expression ::= declaration expression? {

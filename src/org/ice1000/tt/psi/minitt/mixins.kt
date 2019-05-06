@@ -35,7 +35,6 @@ abstract class MiniTTConstExpressionMixin(node: ASTNode) : ASTWrapperPsiElement(
 
 abstract class MiniTTGeneralDeclaration(node: ASTNode) : GeneralDeclaration(node) {
 	override fun getIcon(flags: Int) = TTIcons.MINI_TT
-	override fun getName() = nameIdentifier?.text
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String): PsiElement {
 		val newPattern = MiniTTTokenType.createPattern(newName, project)
@@ -45,6 +44,14 @@ abstract class MiniTTGeneralDeclaration(node: ASTNode) : GeneralDeclaration(node
 	}
 
 	abstract override val type: MiniTTExpression?
+}
+
+abstract class MiniTTGeneralPattern(node: ASTNode) : GeneralNameIdentifier(node) {
+	override fun getIcon(flags: Int) = TTIcons.MINI_TT
+	@Throws(IncorrectOperationException::class)
+	override fun setName(newName: String) =
+		replace(MiniTTTokenType.createPattern(newName, project)
+			?: throw IncorrectOperationException("Invalid name: $newName"))
 }
 
 abstract class MiniTTLambdaExpressionMixin(node: ASTNode) : MiniTTGeneralDeclaration(node), MiniTTLambdaExpression {

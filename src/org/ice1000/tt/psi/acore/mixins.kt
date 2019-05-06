@@ -30,7 +30,6 @@ abstract class ACoreDeclarationExpressionMixin(node: ASTNode) : ASTWrapperPsiEle
 
 abstract class ACoreGeneralDeclaration(node: ASTNode) : GeneralDeclaration(node) {
 	override fun getIcon(flags: Int) = TTIcons.AGDA_CORE
-	override fun getName() = nameIdentifier?.text
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String): PsiElement {
 		val newPattern = ACoreTokenType.createPattern(newName, project)
@@ -40,6 +39,14 @@ abstract class ACoreGeneralDeclaration(node: ASTNode) : GeneralDeclaration(node)
 	}
 
 	abstract override val type: ACoreExpression?
+}
+
+abstract class ACoreGeneralPattern(node: ASTNode) : GeneralNameIdentifier(node) {
+	override fun getIcon(flags: Int) = TTIcons.AGDA_CORE
+	@Throws(IncorrectOperationException::class)
+	override fun setName(newName: String) =
+		replace(ACoreTokenType.createPattern(newName, project)
+			?: throw IncorrectOperationException("Invalid name: $newName"))
 }
 
 abstract class ACoreLambdaMixin(node: ASTNode) : ACoreGeneralDeclaration(node), ACoreLambda {
