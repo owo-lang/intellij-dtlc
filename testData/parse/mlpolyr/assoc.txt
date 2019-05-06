@@ -181,9 +181,7 @@ FILE
                                   MLPolyRIdentifierImpl(IDENTIFIER)
                                     PsiElement(ID)('e')
                                 PsiElement(RP)(')')
-                          PsiWhiteSpace('\n            ')
-                          MLPolyRDefaultMatchImpl(DEFAULT_MATCH)
-                            <empty list>
+            PsiWhiteSpace('\n            ')
             MLPolyRDefImpl(DEF)
               PsiElement(KW_FUN)('fun')
               PsiWhiteSpace(' ')
@@ -294,9 +292,7 @@ FILE
                                 MLPolyRIdentifierImpl(IDENTIFIER)
                                   PsiElement(ID)('wl')
                             PsiElement(RP)(')')
-                      PsiWhiteSpace('\n\t')
-                      MLPolyRDefaultMatchImpl(DEFAULT_MATCH)
-                        <empty list>
+            PsiWhiteSpace('\n\t')
             PsiElement(KW_IN)('in')
             PsiWhiteSpace(' ')
             MLPolyRAppExpImpl(APP_EXP)
@@ -373,9 +369,7 @@ FILE
                         MLPolyRAtomicExpImpl(ATOMIC_EXP)
                           MLPolyRNumberImpl(NUMBER)
                             PsiElement(INT)('1')
-                      PsiWhiteSpace('\n\t')
-                      MLPolyRDefaultMatchImpl(DEFAULT_MATCH)
-                        <empty list>
+            PsiWhiteSpace('\n\t')
             PsiElement(KW_IN)('in')
             PsiWhiteSpace(' ')
             MLPolyRMatchExpImpl(MATCH_EXP)
@@ -445,9 +439,7 @@ FILE
                         MLPolyRAtomicExpImpl(ATOMIC_EXP)
                           MLPolyRIdentifierImpl(IDENTIFIER)
                             PsiElement(ID)('e')
-                PsiWhiteSpace('\n\t')
-                MLPolyRDefaultMatchImpl(DEFAULT_MATCH)
-                  <empty list>
+            PsiWhiteSpace('\n\t')
             PsiElement(KW_END)('end')
     PsiWhiteSpace('\n\n    ')
     MLPolyRDefImpl(DEF)

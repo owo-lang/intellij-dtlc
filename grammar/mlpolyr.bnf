@@ -79,12 +79,6 @@ minusExp ::= exp MINUS exp
 timesExp ::= exp TIMES exp
 divExp ::= exp DIV exp
 modExp ::= exp MOD exp
-tryExp ::= KW_TRY pat EQ exp KW_IN exp handlers KW_END {
-	pin=1
-}
-fnExp ::= KW_FN pat DARROW exp {
-	pin=1
-}
 appExp ::= exp exp+
 prefixExp ::=
  ( MINUS
@@ -92,7 +86,13 @@ prefixExp ::=
  | KW_NOT
  | con
  )+ exp
-assignExp ::= suffixExp EXCLAM label ASSIGN exp { pin=2 }
+assignExp ::= exp ASSIGN exp
+tryExp ::= KW_TRY pat EQ exp KW_IN exp handlers KW_END {
+	pin=1
+}
+fnExp ::= KW_FN pat DARROW exp {
+	pin=1
+}
 
 exp ::=
    whereExp
