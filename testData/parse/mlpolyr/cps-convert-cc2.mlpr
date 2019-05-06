@@ -1,0 +1,161 @@
+let val n = {| i = 1000 |}
+    fun withfresh f = let val i = n!i in n!i := i+1; f i end
+    fun out s = String.output s
+
+    (* ---- utilities ---- *)
+
+    fun Let (x, e1, e2) = `App (`Lam ([x], e2), [e1])
+    fun kx2kb kx v = `App (`Var kx, [v])
+    fun kb2kv kb = withfresh (fn x => `Lam ([x], kb (`Var x)))
+    fun exceptApp `{ App, ... = other } = other
+
+    (* converter for App, given the continuation value kv *)
+    fun app_cvt (cvt, e, el, kv) =
+	let fun cl (el, kb) =
+		case el of [] => kb []
+			 | e::el => cvt (e, fn v => cl (el, fn vl => kb (v::vl)))
+	in cvt (e, fn v => cl (el, fn vl => `App (v, kv::vl)))
+	end
+
+    (* converter for Lam, given the continuation builder k *)
+    fun lam_cvt (tail_cvt, xl, e) =
+	withfresh (fn kx => `Lam (kx :: xl, tail_cvt (e, kx)))
+
+    (* make a converter given the generic and tail match makers
+     * by tying the recursive knot: *)
+    fun mkConvert (cvt_m, cvt_t_m, e) =
+	let fun cvt (e, kb) = match e with cvt_m cvt tail_cvt kb
+	    and tail_cvt (e, kx) = match e with cvt_t_m cvt tail_cvt kx
+	in lam_cvt (tail_cvt, [], e)
+	end
+
+    (* conversion match for expressions in general position *)
+    fun cvt_m cvt tail_cvt kb =
+	cases `Const i => kb (`Const i)
+            | `Var x => kb (`Var x)
+	    | `Lam (xl, e) => kb (lam_cvt (tail_cvt, xl, e))
+	    | `App (e, el) => app_cvt (cvt, e, el, kb2kv kb)
+
+    (* conversion match for expression in tail position *)
+    fun cvt_t_m cvt tail_cvt kx =
+	cases `App (e, el) => app_cvt (cvt, e, el, `Var kx)
+        default: exceptApp (cvt_m cvt tail_cvt (kx2kb kx))
+
+    (* instantiate converter for lambda expressions: *)
+    fun convert e = mkConvert (cvt_m, cvt_t_m, e)
+
+    (* ---- now let's do LetCC ---- *)
+
+    (* converter for LetCC given the continuation variable kv *)
+    fun lcc_cvt (tail_cvt, cx, e, kx) =
+	withfresh (fn d => withfresh (fn r =>
+	  Let (cx, `Lam ([d, r], `App (`Var kx, [`Var r])), tail_cvt (e, kx))))
+
+    (* conversion match for LetCC-enhanced expressions in general position *)
+    fun cvt_cc_m cvt tail_cvt kb =
+	cases `LetCC (cx, e) => withfresh (fn kx =>
+			Let (kx, kb2kv kb, lcc_cvt (tail_cvt, cx, e, kx)))
+        default: cvt_m cvt tail_cvt kb
+
+    (* conversion match for LetCC-enhanced expressions in tail position: *)
+    fun cvt_cc_t_m cvt tail_cvt kv =
+	cases `LetCC (ccx, e) => lcc_cvt (tail_cvt, ccx, e, kv)
+        default: cvt_t_m cvt tail_cvt kv
+
+    (* instantiate converter for LetCC-enhanced lambda expressions: *)
+    fun convert_cc e = mkConvert (cvt_cc_m, cvt_cc_t_m, e)
+
+    (* ---- evaluation ---- *)
+
+    fun map f l = case l of [] => [] | h :: t => f h :: map f t
+    fun bind (x, v, env) x' = if x == x' then v else env x'
+    fun bindl (xl, vl, env) =
+	case xl of
+	    [] => env
+	  | x :: xl =>
+	    (case vl of
+		 [] => env (* really an error! *)
+	       | v :: vl => bind (x, v, bindl (xl, vl, env)))
+
+    fun eval_v_m env =
+	cases `Const i => `Int i
+            | `Var x => env x
+            | `Lam (xl, e) => `Fun (xl, e, env)
+
+    fun eval_v env v = match v with eval_v_m env
+
+    fun eval_m env eval =
+	cases `App (e, el) =>
+	        let val v = eval env e
+		    val vl = map (eval env) el
+		in match v with
+                     cases `Int i => (out "error: applied int"; `Int 0)
+                         | `Fun (xl, e, env) => eval (bindl (xl, vl, env)) e
+                end
+        default: eval_v_m env
+
+    fun eval env e = match e with eval_m env eval
+
+    fun eval_cps env e = match e with eval_m env eval_v
+
+    (* ---- printing ---- *)
+
+    fun var v = (out "x"; out (String.fromInt v))
+    fun par f x = (out "("; f x; out ")")
+    fun sp () = out " "
+    fun form (t, f, g, x, y) = (out "("; out t; sp (); f x; sp (); g y; out ")")
+
+    (* print a non-empty list (head h, tail t): *)
+    fun ht f (h, t) = (f h; case t of [] => () | h :: t => (sp (); ht f (h, t)))
+    (* print a list using f for elements: *)
+    fun list f xs = case xs of [] => () | x :: xs => ht f (x, xs)
+
+    (* match for printing values *)
+    fun print_value_m exp =
+        cases `Const i => out (String.fromInt i)
+            | `Var v => var v
+	    | `Lam (xl, e) => form ("lambda", par (list var), exp, xl, e)
+
+    (* match for printing general expressions *)
+    fun print_exp_m { body, arg } =
+	cases `App (a, al) => par (ht arg) (a, al)
+        default: print_value_m body
+
+    (* printer for general lambda expressions *)
+    fun print e =
+	let fun exp e = match e with print_exp_m { body = exp, arg = exp }
+	in exp e; out "\n" end
+
+    (* printer for general lambda expressions, including LetCC *)
+    fun print_cc e =
+	let fun exp e = match e with
+                 cases `LetCC (ccx, e) => form ("letcc", var, exp, ccx, e)
+                 default: print_exp_m { body = exp, arg = exp }
+	in exp e; out "\n" end
+
+    (* printer for lambda expressions that satisfy CPS invariant *)
+    fun print_cps e =
+	let fun value v = match v with print_value_m exp
+            and exp e = match e with print_exp_m { body = exp, arg = value }
+	in value e; out "\n" end
+
+    (* test case: *)
+    val e = `Lam ([0,1,2], `App (`Var 0, [`App (`Var 1, [`Var 2])]))
+    val ecc = `LetCC (0, `App (`Var 0, [`Const 10]))
+in print e;
+   print (convert e);
+   print_cps (convert e);
+
+(* This would be a type error:
+   print ecc;
+ *)
+   print_cc ecc;
+   print (convert_cc ecc);
+   print_cps (convert_cc ecc);
+
+(* These would be type errors:
+   print_cps e;
+   print_cps ecc;
+*)
+   0
+end
