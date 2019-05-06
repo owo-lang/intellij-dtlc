@@ -41,11 +41,6 @@ abstract class MLPolyRCbbPatMixin(node: ASTNode) : MLPolyRGeneralPat(node), MLPo
 
 abstract class MLPolyRNamePatMixin(node: ASTNode) : MLPolyRGeneralPat(node), MLPolyRNamePat {
 	override fun visit(visitor: (MLPolyRNamePat) -> Boolean) = visitor(this)
-	override val kind: SymbolKind
-		get() = when (parent) {
-			is MLPolyRFunction -> SymbolKind.Function
-			else -> SymbolKind.Unknown
-		}
 }
 
 abstract class MLPolyRGeneralPat(node: ASTNode) : GeneralNameIdentifier(node), IPattern<MLPolyRNamePat> {
