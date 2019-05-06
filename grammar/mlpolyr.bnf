@@ -56,19 +56,25 @@ pat ::=
 	implements=['org.ice1000.tt.psi.IPattern<MLPolyRNamePat>' 'com.intellij.psi.PsiNameIdentifierOwner']
 }
 
-private patList ::= pat (COMMA pat)*
-private fieldPatterns ::= fieldPattern (COMMA fieldPattern)*
-private cbPatImpl ::= LCB fieldPatterns? RCB
+private patList ::= pat patRest*
+private patRest ::= COMMA pat { pin=1 }
+private fieldPatterns ::= fieldPattern fieldPatternRest*
+private fieldPatternRest ::= COMMA fieldPattern { pin=1 }
+private cbPatImpl ::= LCB fieldPatterns? RCB { pin=1 }
 private labelPattern ::= namePat | number
+private dotDotDotPattern ::= DOTDOTDOT (EQ pat)? { pin=1 }
+private labelPatternImpl ::= labelPattern EQ pat { pin=1 }
 fieldPattern ::=
    namePat
- | labelPattern EQ pat
- | DOTDOTDOT (EQ pat)?
+ | labelPatternImpl
+ | dotDotDotPattern
 
 private defs ::= def*
+private funDef ::= KW_FUN functions? optRcl? { pin=1 }
+private valDef ::= KW_VAL pat EQ exp { pin=1 }
 def ::=
-   KW_VAL pat EQ exp
- | KW_FUN functions? optRcl? {
+   valDef
+ | funDef {
 	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwner']
 	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRDefMixin'
 }
