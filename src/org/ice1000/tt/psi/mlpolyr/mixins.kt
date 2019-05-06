@@ -12,6 +12,7 @@ import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
+import org.ice1000.tt.orFalse
 import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.mlpolyr.impl.MLPolyRExpImpl
 
@@ -49,12 +50,13 @@ abstract class MLPolyRNamePatMixin(node: ASTNode) : MLPolyRGeneralPat(node), MLP
 
 abstract class MLPolyRGeneralPat(node: ASTNode) : GeneralNameIdentifier(node), IPattern<MLPolyRNamePat> {
 	open val kind: SymbolKind by lazy {
+		val parent = parent
 		when {
 			parent.firstChild?.elementType == MLPolyRTypes.KW_VAL -> SymbolKind.Variable
 			parent is MLPolyRFunction ->
 				if (this === parent.firstChild) SymbolKind.Function
 				else SymbolKind.Parameter
-			parent is MLPolyRMr -> SymbolKind.Pattern
+			parent is MLPolyRMr || parent is MLPolyRPat -> SymbolKind.Pattern
 			else -> SymbolKind.Unknown
 		}
 	}
@@ -124,6 +126,10 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 	override fun getVariants(): Array<LookupElementBuilder> {
 		val variantsProcessor = PatternCompletionProcessor(true,
 			{ (it as? MLPolyRGeneralPat)?.kind?.icon },
+			{
+				if ((it as? MLPolyRGeneralPat)?.kind != SymbolKind.Parameter) true
+				else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, this, false)
+			},
 			{ (it as? MLPolyRGeneralPat)?.kind?.name ?: "??" })
 		treeWalkUp(variantsProcessor, element, element.containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
@@ -131,7 +137,11 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<MLPolyRIdentifierMixin> { ref, incompleteCode ->
-			resolveWith(PatternResolveProcessor(ref.canonicalText, incompleteCode), ref)
+			val name = ref.canonicalText
+			resolveWith(PatternResolveProcessor(name, incompleteCode) {
+				if ((it as? MLPolyRGeneralPat)?.kind != SymbolKind.Parameter) it.text == name
+				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, ref, false)
+			}, ref)
 		}
 	}
 }

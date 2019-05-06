@@ -28,19 +28,20 @@ abstract class TypedAbstractionOwnerMixin<Psi : PsiElement>(node: ASTNode)
 
 class PatternResolveProcessor(
 	@JvmField private val name: String,
-	private val incompleteCode: Boolean
+	private val incompleteCode: Boolean,
+	private val accessible: (PsiElement) -> Boolean = { it.text == name }
 ) : ResolveProcessor<PsiElementResolveResult>() {
 	override val candidateSet = ArrayList<PsiElementResolveResult>(3)
 	override fun execute(element: PsiElement, resolveState: ResolveState): Boolean = when {
 		candidateSet.isNotEmpty() -> false
 		element is IPattern<*> -> {
 			element.visit { variable ->
-				val accessible = variable.text == name
-				if (accessible) {
+				val access = accessible(variable)
+				if (access) {
 					val declaration = PsiTreeUtil.getParentOfType(variable, PsiNameIdentifierOwner::class.java, false)
 					if (declaration != null) candidateSet += PsiElementResolveResult(declaration, true)
 				}
-				!accessible
+				!access
 			}
 		}
 		else -> true
@@ -50,18 +51,22 @@ class PatternResolveProcessor(
 class PatternCompletionProcessor(
 	private val incompleteCode: Boolean,
 	private val icon: (PsiElement) -> Icon?,
+	private val accessible: (PsiElement) -> Boolean = { true },
 	private val typeText: (PsiElement) -> String = {
 		val declaration = PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
 		declaration?.type?.text ?: "Unknown"
-	}
+	},
+	private val tailText: (PsiElement) -> String = { "" }
 ) : ResolveProcessor<LookupElementBuilder>() {
 	override val candidateSet = ArrayList<LookupElementBuilder>(10)
 	override fun execute(element: PsiElement, resolveState: ResolveState): Boolean {
 		if (element !is IPattern<*>) return true
 		return element.visit { variable ->
+			if (!accessible(variable)) return@visit true
 			candidateSet += LookupElementBuilder
 				.create(variable.text)
 				.withIcon(icon(variable))
+				.withTailText(tailText(variable))
 				.withTypeText(typeText(variable), true)
 			true
 		}

@@ -7,6 +7,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.resolve.ResolveCache
 import com.intellij.psi.scope.PsiScopeProcessor
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
 import org.ice1000.tt.orTrue
@@ -116,7 +117,11 @@ abstract class MiniTTVariableMixin(node: ASTNode) : ASTWrapperPsiElement(node), 
 
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<MiniTTVariableMixin> { ref, incompleteCode ->
-			resolveWith(PatternResolveProcessor(ref.canonicalText, incompleteCode), ref)
+			val name = ref.canonicalText
+			resolveWith(PatternResolveProcessor(name, incompleteCode) {
+				if ((it as? IPattern<*>)?.parent !is MiniTTTypedAbstractionMixin) it.text == name
+				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MiniTTGeneralDeclaration::class.java), ref, true)
+			}, ref)
 		}
 	}
 }
