@@ -41,9 +41,23 @@ abstract class MLPolyRCbbPatMixin(node: ASTNode) : MLPolyRGeneralPat(node), MLPo
 
 abstract class MLPolyRNamePatMixin(node: ASTNode) : MLPolyRGeneralPat(node), MLPolyRNamePat {
 	override fun visit(visitor: (MLPolyRNamePat) -> Boolean) = visitor(this)
+	override val kind: SymbolKind get() = when (parent) {
+		is MLPolyRFunction -> SymbolKind.Function
+		else -> SymbolKind.Unknown
+	}
 }
 
 abstract class MLPolyRGeneralPat(node: ASTNode) : GeneralNameIdentifier(node), IPattern<MLPolyRNamePat> {
+	open val kind: SymbolKind by lazy {
+		when {
+			parent.firstChild?.elementType == MLPolyRTypes.KW_VAL -> SymbolKind.Variable
+			parent is MLPolyRFunction ->
+				if (this === parent.firstChild) SymbolKind.Function
+				else SymbolKind.Parameter
+			else -> SymbolKind.Unknown
+		}
+	}
+
 	override fun getIcon(flags: Int) = TTIcons.MLPOLYR
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) =

@@ -5,4 +5,24 @@
 			<option name="FOREGROUND" value="44b1c6"/>
 		</value>
 	</option>
+	<option name="ML_POLY_R_PARAMETER_CALL">
+		<value>
+			<option name="FOREGROUND" value="aac6b1"/>
+		</value>
+	</option>
+	<option name="ML_POLY_R_PARAMETER_DECL">
+		<value>
+			<option name="FOREGROUND" value="aac6b1"/>
+		</value>
+	</option>
+	<option name="ML_POLY_R_VARIABLE_CALL">
+		<value>
+			<option name="FOREGROUND" value="a9b7c6"/>
+		</value>
+	</option>
+	<option name="ML_POLY_R_VARIABLE_DECL">
+		<value>
+			<option name="FOREGROUND" value="c6aabc"/>
+		</value>
+	</option>
 </list>

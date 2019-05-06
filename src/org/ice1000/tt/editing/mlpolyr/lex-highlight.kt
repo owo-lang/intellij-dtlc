@@ -39,6 +39,8 @@ object MLPolyRHighlighter : SyntaxHighlighter {
 	@JvmField val FUNCTION_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_FUNCTION_DECL", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
 	@JvmField val VARIABLE_CALL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_VARIABLE_CALL", DefaultLanguageHighlighterColors.GLOBAL_VARIABLE)
 	@JvmField val VARIABLE_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_VARIABLE_DECL", DefaultLanguageHighlighterColors.GLOBAL_VARIABLE)
+	@JvmField val PARAMETER_CALL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_PARAMETER_CALL", DefaultLanguageHighlighterColors.PARAMETER)
+	@JvmField val PARAMETER_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_PARAMETER_DECL", DefaultLanguageHighlighterColors.PARAMETER)
 	@JvmField val CONSTRUCTOR = TextAttributesKey.createTextAttributesKey("ML_POLY_R_CONSTRUCTOR", DefaultLanguageHighlighterColors.LABEL)
 
 	@JvmField val KEYWORD_KEY = arrayOf(KEYWORD)
@@ -135,6 +137,8 @@ class MLPolyRColorSettingsPage : ColorSettingsPage {
 		private val DESCRIPTORS = arrayOf(
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.function-call"), MLPolyRHighlighter.FUNCTION_CALL),
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.function-decl"), MLPolyRHighlighter.FUNCTION_DECL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.parameter-call"), MLPolyRHighlighter.PARAMETER_CALL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.parameter-decl"), MLPolyRHighlighter.PARAMETER_DECL),
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.variable-call"), MLPolyRHighlighter.VARIABLE_CALL),
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.variable-decl"), MLPolyRHighlighter.VARIABLE_DECL),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), MLPolyRHighlighter.KEYWORD),
@@ -155,6 +159,8 @@ class MLPolyRColorSettingsPage : ColorSettingsPage {
 			"FD" to MLPolyRHighlighter.FUNCTION_DECL,
 			"VC" to MLPolyRHighlighter.VARIABLE_CALL,
 			"VD" to MLPolyRHighlighter.VARIABLE_DECL,
+			"PC" to MLPolyRHighlighter.PARAMETER_CALL,
+			"PD" to MLPolyRHighlighter.PARAMETER_DECL,
 			"C" to MLPolyRHighlighter.CONSTRUCTOR,
 			"Unresolved" to MLPolyRHighlighter.UNRESOLVED)
 	}
@@ -168,10 +174,10 @@ class MLPolyRColorSettingsPage : ColorSettingsPage {
 	@Language("MLPolyR")
 	override fun getDemoText() = """
 let val <VD>n</VD> = { i := 1000 }
-    fun <FD>withfresh</FD> f = let val <VD>i</VD> = n!i in n!i := i+1; f i end
+    fun <FD>withfresh</FD> <PD>f</PD> = let val <VD>i</VD> = n!i in n!i := i+1; f i end
 
     (* ---- utilities ---- *)
-    fun Let (x, e1, e2) = <C>`App</C> (<C>`Lam</C> ([x], e2), [e1])
+    fun <FD>Let</FD> (x, e1, e2) = <C>`App</C> (<C>`Lam</C> ([x], e2), [e1])
     fun kv2kb kv = fn v => <C>`App</C> (kv, [v])
     fun kb2kv kb = withfresh (fn rx => <C>`Lam</C> ([rx], kb (<C>`Var</C> rx)))
 
