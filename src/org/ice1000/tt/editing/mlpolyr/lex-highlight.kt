@@ -39,6 +39,8 @@ object MLPolyRHighlighter : SyntaxHighlighter {
 	@JvmField val FUNCTION_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_FUNCTION_DECL", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
 	@JvmField val VARIABLE_CALL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_VARIABLE_CALL", DefaultLanguageHighlighterColors.GLOBAL_VARIABLE)
 	@JvmField val VARIABLE_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_VARIABLE_DECL", DefaultLanguageHighlighterColors.GLOBAL_VARIABLE)
+	@JvmField val PATTERN_CALL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_PATTERN_CALL", DefaultLanguageHighlighterColors.LOCAL_VARIABLE)
+	@JvmField val PATTERN_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_PATTERN_DECL", DefaultLanguageHighlighterColors.LOCAL_VARIABLE)
 	@JvmField val PARAMETER_CALL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_PARAMETER_CALL", DefaultLanguageHighlighterColors.PARAMETER)
 	@JvmField val PARAMETER_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_PARAMETER_DECL", DefaultLanguageHighlighterColors.PARAMETER)
 	@JvmField val CONSTRUCTOR = TextAttributesKey.createTextAttributesKey("ML_POLY_R_CONSTRUCTOR", DefaultLanguageHighlighterColors.LABEL)
@@ -139,6 +141,8 @@ class MLPolyRColorSettingsPage : ColorSettingsPage {
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.function-decl"), MLPolyRHighlighter.FUNCTION_DECL),
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.parameter-call"), MLPolyRHighlighter.PARAMETER_CALL),
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.parameter-decl"), MLPolyRHighlighter.PARAMETER_DECL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.pattern-call"), MLPolyRHighlighter.PATTERN_CALL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.pattern-decl"), MLPolyRHighlighter.PATTERN_DECL),
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.variable-call"), MLPolyRHighlighter.VARIABLE_CALL),
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.variable-decl"), MLPolyRHighlighter.VARIABLE_DECL),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), MLPolyRHighlighter.KEYWORD),
@@ -161,6 +165,8 @@ class MLPolyRColorSettingsPage : ColorSettingsPage {
 			"VD" to MLPolyRHighlighter.VARIABLE_DECL,
 			"PC" to MLPolyRHighlighter.PARAMETER_CALL,
 			"PD" to MLPolyRHighlighter.PARAMETER_DECL,
+			"AC" to MLPolyRHighlighter.PATTERN_CALL,
+			"AD" to MLPolyRHighlighter.PATTERN_DECL,
 			"C" to MLPolyRHighlighter.CONSTRUCTOR,
 			"Unresolved" to MLPolyRHighlighter.UNRESOLVED)
 	}
@@ -171,16 +177,22 @@ class MLPolyRColorSettingsPage : ColorSettingsPage {
 	override fun getAttributeDescriptors() = DESCRIPTORS
 	override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 	override fun getDisplayName() = MLPolyRFileType.name
-	@Language("MLPolyR")
+	@Language("HTML")
 	override fun getDemoText() = """
 let val <VD>n</VD> = { i := 1919810 }
     val <VD>m</VD> = {| j := 114514 |}
     fun <FD>withfresh</FD> <PD>f</PD> = let
-        val <VD>i</VD> = n!i in n!i := i+1; <PC>f</PC> <VC>i</VC> end
+        val <VD>i</VD> = <VC>n</VC>!<VC>i</VC> in <VC>n</VC>!<VC>i</VC> := <VC>i</VC>+1; <PC>f</PC> <VC>i</VC> end
 
     (* ---- utilities ---- *)
-    fun <FD>Let</FD> (<PD>x</PD>, <PD>e1</PD>, <PD>e2</PD>) = <C>`App</C> (<C>`Lam</C> ([x], e2), [e1])
-    fun <FD>kv2kb</FD> kv = fn v => <C>`App</C> (kv, [v])
+    fun <FD>Let</FD> (<PD>x</PD>, <PD>e1</PD>, <PD>e2</PD>) = <C>`App</C> (<C>`Lam</C> ([<PC>x</PC>], <PC>e2</PC>), [<PC>e1</PC>])
+    fun <FD>kv2kb</FD> <PD>kv</PD> = fn <PD>v</PD> => <C>`App</C> (<PC>kv</PC>, [<PC>v</PC>])
+
+    fun <FD>cvt_c</FD> (<PD>cvt</PD>, <PD>kb</PD>) =
+    cases <C>`Const</C> <AD>i</AD> => <PC>kb</PC> (<C>`Const</C> <AC>i</AC>)
+            | <C>`Var</C> <AD>x</AD> => <PC>kb</PC> (<C>`Var</C> <AC>x</AC>)
+        | <C>`Lam</C> (<PD>xl</PD>, <PD>e</PD>) => <PC>kb</PC> (<Unresolved>cvt_lam</Unresolved> (<Unresolved>cvt</Unresolved>, <PD>xl</PD>, <PD>e</PD>))
+        | <C>`App</C> (<PD>e</PD>, <PD>el</PD>) => <Unresolved>cvt_app</Unresolved> (<Unresolved>cvt</Unresolved>, <PD>e</PD>, <PD>el</PD>, <FC>kv2kb</FC> <PC>kb</PC>)
 in 0
 end
 """

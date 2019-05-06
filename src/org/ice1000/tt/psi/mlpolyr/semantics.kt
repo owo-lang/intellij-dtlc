@@ -7,5 +7,6 @@ enum class SymbolKind(val icon: Icon?) {
 	Function(PlatformIcons.FUNCTION_ICON),
 	Parameter(PlatformIcons.PARAMETER_ICON),
 	Variable(PlatformIcons.VARIABLE_ICON),
+	Pattern(PlatformIcons.FIELD_ICON),
 	Unknown(null);
 }

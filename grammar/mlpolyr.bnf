@@ -83,7 +83,6 @@ def ::=
 ifExp ::= KW_IF exp KW_THEN exp KW_ELSE exp { pin=1 }
 raiseExp ::= KW_RAISE exp { pin=1 }
 matchExp ::= KW_MATCH exp KW_WITH exp { pin=1 }
-casesExp ::= KW_CASES mrList defaultMatch? { pin=1 }
 caseExp ::= KW_CASE exp KW_OF dtMatch { pin=1 }
 whereExp ::= exp KW_WHERE recordExp
 orElseExp ::= exp KW_ORELSE exp
@@ -121,6 +120,10 @@ fnExp ::= KW_FN handlingImpl {
 letExp ::= KW_LET defs KW_IN expSeq KW_END {
 	pin=1
 	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRLetExpMixin'
+}
+casesExp ::= KW_CASES mrList defaultMatch? {
+	pin=1
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRCasesExpMixin'
 }
 
 exp ::=
@@ -196,9 +199,12 @@ private expListRest ::= COMMA exp { pin=1 }
 private expSeq ::= exp expSeqRest*
 private expSeqRest ::= SEMI exp { pin=1 }
 
-mr ::= BQ label handlingImpl { pin=1 }
 private mrList ::= mr mrRest*
 private mrRest ::= BAR mr { pin=1 }
+mr ::= BQ label handlingImpl {
+	pin=1
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerMixin'
+}
 
 rehandling ::= KW_REHANDLING mrList { pin=1 }
 private handlingImpl ::= pat DARROW exp { pin=2 }

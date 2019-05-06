@@ -50,6 +50,7 @@ abstract class MLPolyRGeneralPat(node: ASTNode) : GeneralNameIdentifier(node), I
 			parent is MLPolyRFunction ->
 				if (this === parent.firstChild) SymbolKind.Function
 				else SymbolKind.Parameter
+			parent is MLPolyRMr -> SymbolKind.Pattern
 			else -> SymbolKind.Unknown
 		}
 	}
@@ -81,6 +82,12 @@ abstract class MLPolyRDefMixin(node: ASTNode) : MLPolyRPatOwnerMixin(node), MLPo
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		functionList.all { it.processDeclarations(processor, state, lastParent, place) }
 			&& super.processDeclarations(processor, state, lastParent, place)
+}
+
+abstract class MLPolyRCasesExpMixin(node: ASTNode) : MLPolyRDeclaration(node), MLPolyRCasesExp {
+	override fun getNameIdentifier(): PsiElement? = null
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		mrList.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
 abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLPolyRIdentifier, PsiPolyVariantReference {

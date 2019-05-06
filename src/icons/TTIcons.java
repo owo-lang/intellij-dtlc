@@ -12,7 +12,6 @@ public interface TTIcons {
 	@NotNull Icon AGDA_CORE_FILE = IconLoader.getIcon("/icons/mtt/mtt_file.png");
 	// TODO
 	@NotNull Icon AGDA_CORE = AGDA_CORE_FILE;
-	// TODO
 	@NotNull Icon MLPOLYR_FILE = IconLoader.getIcon("/icons/mlpr/mlpr_file.png");
 	// TODO
 	@NotNull Icon MLPOLYR = MLPOLYR_FILE;

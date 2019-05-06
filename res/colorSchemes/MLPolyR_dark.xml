@@ -5,6 +5,11 @@
 			<option name="FOREGROUND" value="44b1c6"/>
 		</value>
 	</option>
+	<option name="DEFAULT_FUNCTION_CALL">
+		<value>
+			<option name="FOREGROUND" value="ffc66d"/>
+		</value>
+	</option>
 	<option name="ML_POLY_R_PARAMETER_CALL">
 		<value>
 			<option name="FOREGROUND" value="aac6b1"/>
@@ -23,6 +28,13 @@
 	<option name="ML_POLY_R_VARIABLE_DECL">
 		<value>
 			<option name="FOREGROUND" value="c6aabc"/>
+		</value>
+	</option>
+	<option name="ML_POLY_R_UNRESOLVED">
+		<value>
+			<option name="FOREGROUND" value="969997"/>
+			<option name="EFFECT_COLOR" value="8c8c8c"/>
+			<option name="EFFECT_TYPE" value="1"/>
 		</value>
 	</option>
 </list>
