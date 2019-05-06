@@ -29,7 +29,7 @@ private exp1 ::=
 
 private exp2 ::= application | constructor
 
-exp3 ::=
+private exp3 ::=
    universe
  | variable
  | eof_void
@@ -51,7 +51,7 @@ pair_type ::= expression MUL expression { extends=expression }
 // Higher-level expressions
 first ::= expression DOT_ONE { extends=expression }
 second ::= expression DOT_TWO { extends=expression }
-application ::= exp3 expression { extends=expression }
+application ::= expression expression+ { extends=expression }
 pair ::= expression COMMA expression { extends=expression }
 constructor ::= DOLLAR IDENTIFIER expression { extends=expression }
 variable ::= IDENTIFIER {

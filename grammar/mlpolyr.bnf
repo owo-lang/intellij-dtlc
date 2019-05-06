@@ -89,8 +89,7 @@ tryExp ::= KW_TRY pat EQ exp KW_IN exp handlers KW_END {
 fnExp ::= KW_FN pat DARROW exp {
 	pin=1
 }
-appExp ::= canApp canApp+
-private canApp ::= atomicExp | prefixExp | suffixExp
+appExp ::= exp exp+
 prefixExp ::=
  ( MINUS
  | KW_ISNULL
@@ -147,19 +146,18 @@ atomicExp ::=
  | string
  | identifier
  | LP RP
- | LP exp RP
  | LP expSeq RP
  | LP expList RP
  | LSB expList? RSB
  | recordExp
 
-recordExp ::= LCB rowExp RCB | LCBB rowExp RCBB
-rowExp ::= fieldExpSeq?
-private fieldExpSeq ::= fieldExp (COMMA fieldExp)*
-fieldExp ::=
-   identifier
- | label EQ exp
+recordExp ::= LCB row RCB | LCBB row RCBB
+row ::= fields?
+private fields ::= field (COMMA field)*
+field ::=
+   label EQ exp
  | DOTDOTDOT EQ exp
+ | identifier
 
 label ::= identifier | number
 con ::= BQ label

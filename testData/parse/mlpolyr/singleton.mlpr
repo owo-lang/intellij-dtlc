@@ -1,0 +1,3 @@
+let fun f () = { a = `Fun_ f }
+in 0
+end
