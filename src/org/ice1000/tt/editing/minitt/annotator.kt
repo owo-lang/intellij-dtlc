@@ -52,6 +52,6 @@ class MiniTTAnnotator : Annotator {
 
 	private fun patternMatch(element: MiniTTPatternMatch, holder: AnnotationHolder) {
 		holder.createInfoAnnotation(element.firstChild, null)
-			.textAttributes = MiniTTHighlighter.CONSTRUCTOR_CALL
+			.textAttributes = MiniTTHighlighter.CONSTRUCTOR_DECL
 	}
 }

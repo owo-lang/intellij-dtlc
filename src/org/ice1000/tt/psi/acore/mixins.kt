@@ -95,7 +95,7 @@ abstract class ACoreVariableMixin(node: ASTNode) : ACoreExpressionImpl(node), AC
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
 	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = CompletionProcessor(true, TTIcons.AGDA_CORE)
+		val variantsProcessor = CompletionProcessor(true, TTIcons.AGDA_CORE, "Unknown")
 		treeWalkUp(variantsProcessor, element, element.containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}

@@ -4,16 +4,18 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiPolyVariantReference
 import com.intellij.psi.ResolveResult
+import com.intellij.psi.ResolveState
 import com.intellij.psi.impl.source.resolve.ResolveCache
+import com.intellij.psi.scope.PsiScopeProcessor
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
 import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.mlpolyr.impl.MLPolyRExpImpl
 
-abstract class MLPolyRDeclaration(node: ASTNode) : GeneralDeclaration(node), PsiNameIdentifierOwner {
+abstract class MLPolyRDeclaration(node: ASTNode) : GeneralDeclaration(node) {
 	override val type: PsiElement? get() = null
 	override fun getIcon(flags: Int) = TTIcons.MLPOLYR
 	@Throws(IncorrectOperationException::class)
@@ -23,6 +25,33 @@ abstract class MLPolyRDeclaration(node: ASTNode) : GeneralDeclaration(node), Psi
 		nameIdentifier?.replace(newPattern)
 		return this
 	}
+}
+
+abstract class MLPolyRFunctionMixin(node: ASTNode) : MLPolyRDeclaration(node), MLPolyRFunction {
+	override fun getNameIdentifier() = namePat
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		patList.asReversed().all { it.processDeclarations(processor, state, lastParent, place) }
+			&& super.processDeclarations(processor, state, lastParent, place)
+}
+
+abstract class MLPolyRCbbPatMixin(node: ASTNode) : MLPolyRGeneralPat(node), MLPolyRCbbPat {
+	override fun visit(visitor: (MLPolyRNamePat) -> Boolean) =
+		fieldPatternList.all { PsiTreeUtil.findChildrenOfType(it, MLPolyRGeneralPat::class.java).all { it.visit(visitor) } }
+}
+
+abstract class MLPolyRNamePatMixin(node: ASTNode) : MLPolyRGeneralPat(node), MLPolyRNamePat {
+	override fun visit(visitor: (MLPolyRNamePat) -> Boolean) = visitor(this)
+}
+
+abstract class MLPolyRGeneralPat(node: ASTNode) : GeneralNameIdentifier(node), IPattern<MLPolyRNamePat> {
+	override fun getIcon(flags: Int) = TTIcons.MLPOLYR
+	@Throws(IncorrectOperationException::class)
+	override fun setName(newName: String) =
+		replace(MLPolyRTokenType.createPat(newName, project)
+			?: throw IncorrectOperationException("Invalid name: $newName"))
+
+	override fun visit(visitor: (MLPolyRNamePat) -> Boolean): Boolean =
+		PsiTreeUtil.findChildrenOfType(this, MLPolyRGeneralPat::class.java).all { it.visit(visitor) }
 }
 
 interface MLPolyRPatOwner : PsiElement {
@@ -57,7 +86,7 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 	}
 
 	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = CompletionProcessor(true, TTIcons.MINI_TT)
+		val variantsProcessor = CompletionProcessor(true, TTIcons.MLPOLYR, "")
 		treeWalkUp(variantsProcessor, element, element.containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}

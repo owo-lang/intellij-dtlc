@@ -67,7 +67,7 @@ abstract class MiniTTTypedAbstractionMixin(node: ASTNode) : MiniTTExpressionImpl
 abstract class MiniTTDeclarationMixin(node: ASTNode) : MiniTTGeneralDeclaration(node), MiniTTDeclaration {
 	override fun getNameIdentifier(): PsiElement? = pattern
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		prefixParameterList.all { it.typedPattern.processDeclarations(processor, state, lastParent, place) }
+		prefixParameterList.asReversed().all { it.typedPattern.processDeclarations(processor, state, lastParent, place) }
 			&& super.processDeclarations(processor, state, lastParent, place)
 
 	override val type: MiniTTExpression?
@@ -86,7 +86,7 @@ abstract class MiniTTTypedPatternMixin(node: ASTNode) : MiniTTGeneralDeclaration
 	override val type: MiniTTExpression? get() = expression
 }
 
-abstract class MiniTTVariableMixin(node: ASTNode) : MiniTTExpressionImpl(node), MiniTTVariable, PsiPolyVariantReference {
+abstract class MiniTTVariableMixin(node: ASTNode) : ASTWrapperPsiElement(node), MiniTTVariable, PsiPolyVariantReference {
 	override fun isSoft() = true
 	override fun getRangeInElement() = TextRange(0, textLength)
 
@@ -109,7 +109,7 @@ abstract class MiniTTVariableMixin(node: ASTNode) : MiniTTExpressionImpl(node), 
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
 	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = CompletionProcessor(true, TTIcons.MINI_TT)
+		val variantsProcessor = CompletionProcessor(true, TTIcons.MINI_TT, "Unknown")
 		treeWalkUp(variantsProcessor, element, element.containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}

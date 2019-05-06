@@ -20,10 +20,13 @@
 // Reference: https://github.com/owo-lang/MLPolyR/blob/master/mlpolyr.grm
 program ::= exp
 
-function ::= identifier formals EQ exp
-functions ::= function (KW_AND function)*
+function ::= namePat formals EQ exp {
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRFunctionMixin'
+}
+private functions ::= function (KW_AND function)*
 
-rc ::= identifier EQ exp
+rc ::= namePat EQ exp
 rcl ::= (rc (KW_AND rc))?
 optRcl ::= KW_WITH KW_CASES rcl
 
@@ -32,10 +35,15 @@ private formals ::= pat*
 asPat ::= pat KW_AS pat
 listPat ::= LP patList? RP { pin=2 }
 cbPat ::= cbPatImpl { pin=1 }
-cbbPat ::= LCBB fieldPatList? RCBB { pin=1 }
+cbbPat ::= LCBB fieldPatterns? RCBB {
+	pin=1
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRCbbPatMixin'
+}
 bqPat ::= BQ cbPatImpl { pin=1 }
 wildPat ::= WILD
-namePat ::= ID
+namePat ::= ID {
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRNamePatMixin'
+}
 pat ::=
    asPat
  | bqPat
@@ -43,20 +51,27 @@ pat ::=
  | cbPat
  | cbbPat
  | namePat
- | wildPat
+ | wildPat {
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRGeneralPat'
+	implements=['org.ice1000.tt.psi.IPattern<MLPolyRNamePat>' 'com.intellij.psi.PsiNameIdentifierOwner']
+}
 
 private patList ::= pat (COMMA pat)*
-private fieldPatList ::= fieldPat (COMMA fieldPat)*
-private cbPatImpl ::= LCB fieldPatList? RCB
-fieldPat ::=
-   identifier
- | label EQ pat
+private fieldPatterns ::= fieldPattern (COMMA fieldPattern)*
+private cbPatImpl ::= LCB fieldPatterns? RCB
+private labelPattern ::= namePat | number
+fieldPattern ::=
+   namePat
+ | labelPattern EQ pat
  | DOTDOTDOT (EQ pat)?
 
 private defs ::= def*
 def ::=
    KW_VAL pat EQ exp
- | KW_FUN functions? optRcl?
+ | KW_FUN functions? optRcl? {
+	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwner']
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerMixin'
+}
 
 ifExp ::= KW_IF exp KW_THEN exp KW_ELSE exp { pin=1 }
 raiseExp ::= KW_RAISE exp { pin=1 }
@@ -185,6 +200,6 @@ handlers ::= handlingImpl3? rehandling?
 
 defaultMatch ::= KW_DEFAULT COLON exp { pin=1 }
 
-identifier ::= ID
+identifier ::= ID { mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRIdentifierMixin' }
 number ::= INT
 string ::= STR
