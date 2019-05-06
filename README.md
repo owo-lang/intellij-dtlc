@@ -11,12 +11,14 @@ usages), including:
 
 + [Voile][voile-rs] (WIP)
 + [minitt][minitt-rs] (rich)
-+ [Mini-TT][Mini-TT] (aka agdacore) ([GitHub mirror][acore-mirror]) (rich)
++ [MLPolyR][MLPolyR] (rich)
++ [Vanilla Mini-TT][Mini-TT] (rich) ([GitHub mirror][acore-mirror])
 + [Agda][agda] (poor)
 + [OwO][owo] (poor because this language is not even designed yet)
 
 This plugin is primarily for personal use.
 
+ [MLPolyR]: https://github.com/owo-lang/MLPolyR
  [minitt-rs]: https://github.com/owo-lang/minitt-rs
  [Mini-TT]: http://www.cse.chalmers.se/research/group/logic/Mini-TT/
  [acore-mirror]: https://github.com/owo-lang/Mini-TT
