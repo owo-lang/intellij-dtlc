@@ -1,5 +1,11 @@
 package org.ice1000.tt.psi.mlpolyr
 
-enum class SymbolKind {
-	Function, Parameter, Variable, Unknown;
+import com.intellij.util.PlatformIcons
+import javax.swing.Icon
+
+enum class SymbolKind(val icon: Icon?) {
+	Function(PlatformIcons.FUNCTION_ICON),
+	Parameter(PlatformIcons.PARAMETER_ICON),
+	Variable(PlatformIcons.VARIABLE_ICON),
+	Unknown(null);
 }

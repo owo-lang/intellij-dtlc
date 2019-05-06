@@ -41,10 +41,11 @@ abstract class MLPolyRCbbPatMixin(node: ASTNode) : MLPolyRGeneralPat(node), MLPo
 
 abstract class MLPolyRNamePatMixin(node: ASTNode) : MLPolyRGeneralPat(node), MLPolyRNamePat {
 	override fun visit(visitor: (MLPolyRNamePat) -> Boolean) = visitor(this)
-	override val kind: SymbolKind get() = when (parent) {
-		is MLPolyRFunction -> SymbolKind.Function
-		else -> SymbolKind.Unknown
-	}
+	override val kind: SymbolKind
+		get() = when (parent) {
+			is MLPolyRFunction -> SymbolKind.Function
+			else -> SymbolKind.Unknown
+		}
 }
 
 abstract class MLPolyRGeneralPat(node: ASTNode) : GeneralNameIdentifier(node), IPattern<MLPolyRNamePat> {
@@ -111,7 +112,9 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 	}
 
 	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = PatternCompletionProcessor(true, TTIcons.MLPOLYR, "")
+		val variantsProcessor = PatternCompletionProcessor(true,
+			{ (it as? MLPolyRGeneralPat)?.kind?.icon },
+			{ (it as? MLPolyRGeneralPat)?.kind?.name ?: "??" })
 		treeWalkUp(variantsProcessor, element, element.containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}

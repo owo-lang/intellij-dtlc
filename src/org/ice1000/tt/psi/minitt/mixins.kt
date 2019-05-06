@@ -109,7 +109,7 @@ abstract class MiniTTVariableMixin(node: ASTNode) : ASTWrapperPsiElement(node), 
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
 	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = PatternCompletionProcessor(true, TTIcons.MINI_TT, "Unknown")
+		val variantsProcessor = PatternCompletionProcessor(true, { TTIcons.MINI_TT })
 		treeWalkUp(variantsProcessor, element, element.containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}

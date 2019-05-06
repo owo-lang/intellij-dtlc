@@ -173,47 +173,14 @@ class MLPolyRColorSettingsPage : ColorSettingsPage {
 	override fun getDisplayName() = MLPolyRFileType.name
 	@Language("MLPolyR")
 	override fun getDemoText() = """
-let val <VD>n</VD> = { i := 1000 }
-    fun <FD>withfresh</FD> <PD>f</PD> = let val <VD>i</VD> = n!i in n!i := i+1; f i end
+let val <VD>n</VD> = { i := 1919810 }
+    val <VD>m</VD> = {| j := 114514 |}
+    fun <FD>withfresh</FD> <PD>f</PD> = let
+        val <VD>i</VD> = n!i in n!i := i+1; <PC>f</PC> <VC>i</VC> end
 
     (* ---- utilities ---- *)
-    fun <FD>Let</FD> (x, e1, e2) = <C>`App</C> (<C>`Lam</C> ([x], e2), [e1])
-    fun kv2kb kv = fn v => <C>`App</C> (kv, [v])
-    fun kb2kv kb = withfresh (fn rx => <C>`Lam</C> ([rx], kb (<C>`Var</C> rx)))
-
-    fun cvt_app (cvt, e, el, kv) =
-    let fun lc (el, kb) =
-        case el of [] => kb []
-             | e :: el => pc (e, el, fn (v, vl) => kb (v :: vl))
-        and pc (e, el, kb) = cvt (e, fn v => lc (el, fn vl => kb (v, vl)))
-    in pc (e, el, fn (v, vl) => <C>`App</C> (v, kv :: vl))
-    end
-
-    fun cvt_lam (cvt, xl, e) =
-    withfresh (fn xk => <C>`Lam</C> (xk :: xl, cvt (e, kv2kb (<C>`Var</C> xk))))
-
-    fun cvt_c (cvt, kb) =
-    cases <C>`Const</C> i => kb (<C>`Const</C> i)
-            | <C>`Var</C> x => kb (<C>`Var</C> x)
-        | <C>`Lam</C> (xl, e) => kb (cvt_lam (cvt, xl, e))
-        | <C>`App</C> (e, el) => cvt_app (cvt, e, el, kb2kv kb)
-    fun mkConvert (c, e) =
-    let fun cvt (e, kb) = match e with c (cvt, kb)
-    in cvt_lam (cvt, [], e)
-    end
-    fun convert e = mkConvert (cvt_c, e)
-    fun cvt_if_c other (cvt, kb) =
-    cases <C>`If</C> (e1, e2, e3) =>
-        withfresh (fn xk =>
-        Let (xk, kb2kv kb, cvt (e1, fn v1 =>
-            let val kb' = kv2kb (<C>`Var</C> xk)
-            in <C>`If</C> (v1, cvt (e2, kb'), cvt (e3, kb'))
-        end)))
-        default: other (cvt, kb)
-    fun cvt_lcc_c other (cvt, kb) =
-    cases <C>`LetCC</C> (x, e) => bla
-    default: other (cvt, kb)
-    fun convert_if e = mkConvert (cvt_if_c cvt_c, e)
+    fun <FD>Let</FD> (<PD>x</PD>, <PD>e1</PD>, <PD>e2</PD>) = <C>`App</C> (<C>`Lam</C> ([x], e2), [e1])
+    fun <FD>kv2kb</FD> kv = fn v => <C>`App</C> (kv, [v])
 in 0
 end
 """

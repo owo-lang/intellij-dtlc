@@ -20,7 +20,7 @@ interface TypedAbstractionOwner<Psi : PsiElement> : PsiElement {
 	val typedAbstraction: Psi?
 }
 
-abstract class TypedAbstractionOwnerMixin<Psi: PsiElement>(node: ASTNode)
+abstract class TypedAbstractionOwnerMixin<Psi : PsiElement>(node: ASTNode)
 	: ASTWrapperPsiElement(node), TypedAbstractionOwner<Psi> {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		typedAbstraction?.processDeclarations(processor, state, lastParent, place).orTrue()
@@ -49,19 +49,20 @@ class PatternResolveProcessor(
 
 class PatternCompletionProcessor(
 	private val incompleteCode: Boolean,
-	private val icon: Icon,
-	private val unknownType: String
+	private val icon: (PsiElement) -> Icon?,
+	private val typeText: (PsiElement) -> String = {
+		val declaration = PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
+		declaration?.type?.text ?: "Unknown"
+	}
 ) : ResolveProcessor<LookupElementBuilder>() {
 	override val candidateSet = ArrayList<LookupElementBuilder>(10)
 	override fun execute(element: PsiElement, resolveState: ResolveState): Boolean {
 		if (element !is IPattern<*>) return true
 		return element.visit { variable ->
-			val declaration = PsiTreeUtil.getParentOfType(variable, GeneralDeclaration::class.java)
-			val type = declaration?.type?.text ?: unknownType
 			candidateSet += LookupElementBuilder
 				.create(variable.text)
-				.withIcon(icon)
-				.withTypeText(type, true)
+				.withIcon(icon(variable))
+				.withTypeText(typeText(variable), true)
 			true
 		}
 	}
