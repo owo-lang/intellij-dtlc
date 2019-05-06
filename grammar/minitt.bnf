@@ -62,7 +62,7 @@ prefix_parameter ::= LEFT_PAREN typed_pattern RIGHT_PAREN
 
 // Patterns
 pattern ::= pair_pattern | atom_pattern {
-	implements=['org.ice1000.tt.psi.IMiniTTPattern<MiniTTVariable>' 'com.intellij.psi.PsiNameIdentifierOwner']
+	implements=['org.ice1000.tt.psi.IPattern<MiniTTVariable>' 'com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.minitt.MiniTTGeneralPattern'
 }
 atom_pattern ::= variable | META_VAR | LEFT_PAREN pattern RIGHT_PAREN {

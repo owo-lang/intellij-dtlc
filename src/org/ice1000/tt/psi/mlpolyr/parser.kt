@@ -28,6 +28,8 @@ class MLPolyRTokenType(debugName: String) : IElementType(debugName, MLPolyRLangu
 		fun createLet(text: String, project: Project) = fromText(text, project) as? MLPolyRLetExp
 		fun createDef(text: String, project: Project) = PsiTreeUtil.findChildOfType(createLet("let $text in 0 end", project), MLPolyRDef::class.java)
 		fun createPat(text: String, project: Project) = createDef("val $text = 0", project)?.pat
+		fun createExp(text: String, project: Project) = PsiTreeUtil.findChildOfType(createLet("let in = $text end", project), MLPolyRExp::class.java)
+		fun createIdentifier(text: String, project: Project) = createExp(text, project) as? MLPolyRIdentifier
 	}
 }
 

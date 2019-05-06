@@ -61,7 +61,7 @@ variable ::= IDENTIFIER {
 
 // Patterns
 pattern ::= pair_pattern | atom_pattern {
-	implements=['org.ice1000.tt.psi.IMiniTTPattern<ACoreVariable>' 'com.intellij.psi.PsiNameIdentifierOwner']
+	implements=['org.ice1000.tt.psi.IPattern<ACoreVariable>' 'com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.acore.ACoreGeneralPattern'
 }
 atom_pattern ::= variable | META_VAR | LEFT_PAREN pattern RIGHT_PAREN {
