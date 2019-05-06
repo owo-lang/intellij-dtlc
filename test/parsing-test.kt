@@ -1,30 +1,40 @@
 package org.ice1000.tt
 
+import com.intellij.lang.ParserDefinition
 import com.intellij.testFramework.ParsingTestCase
 import org.ice1000.tt.psi.acore.ACoreParserDefinition
 import org.ice1000.tt.psi.minitt.MiniTTParserDefinition
+import org.ice1000.tt.psi.mlpolyr.MLPolyRParserDefinition
 
-class MiniTTParsingTest : ParsingTestCase("parse/minitt", "minitt", MiniTTParserDefinition()) {
+abstract class DtlcParsingTestCase(
+	dataPath: String,
+	fileExt: String,
+	parserDefinition: ParserDefinition
+) : ParsingTestCase(dataPath, fileExt, parserDefinition) {
 	override fun getTestDataPath() = "testData"
-	fun `testparse-only`() = doTest(true)
-	fun `testlocal-binding`() = doTest(true)
-	fun testreference() = doTest(true)
-	fun testsimple() = doTest(true)
-	fun testsubtyping() = doTest(true)
-	fun `testsum-literals`() = doTest(true)
-	fun `testsyntacic-sugar`() = doTest(true)
-	fun testunicode() = doTest(true)
-	fun testunivese() = doTest(true)
-	fun testbool() = doTest(true)
-	fun testmaybe() = doTest(true)
-	fun testmerge() = doTest(true)
-	fun testnat() = doTest(true)
+	override fun getTestName(lowercaseFirstLetter: Boolean) =
+		super.getTestName(lowercaseFirstLetter).trim()
 }
 
-class ACoreParsingTest : ParsingTestCase("parse/acore", "mtt", ACoreParserDefinition()) {
-	override fun getTestDataPath() = "testData"
-	fun testExample() = doTest(true)
-	fun testMaybe() = doTest(true)
-	fun testBlockComment() = doTest(true)
-	fun testFunSum() = doTest(true)
+class MiniTTParsingTest : DtlcParsingTestCase("parse/minitt", "minitt", MiniTTParserDefinition()) {
+	fun `test parse-only`() = doTest(true, true)
+	fun `test local-binding`() = doTest(true, true)
+	fun `test reference`() = doTest(true, true)
+	fun `test simple`() = doTest(true, true)
+	fun `test subtyping`() = doTest(true, true)
+	fun `test sum-literals`() = doTest(true, true)
+	fun `test syntacic-sugar`() = doTest(true, true)
+	fun `test unicode`() = doTest(true, true)
+	fun `test univese`() = doTest(true, true)
+	fun `test bool`() = doTest(true, true)
+	fun `test maybe`() = doTest(true, true)
+	fun `test merge`() = doTest(true, true)
+	fun `test nat`() = doTest(true, true)
+}
+
+class ACoreParsingTest : DtlcParsingTestCase("parse/acore", "mtt", ACoreParserDefinition()) {
+	fun testExample() = doTest(true, true)
+	fun testMaybe() = doTest(true, true)
+	fun testBlockComment() = doTest(true, true)
+	fun testFunSum() = doTest(true, true)
 }
