@@ -11,6 +11,7 @@ import com.intellij.psi.stubs.PsiFileStubImpl
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.IStubFileElementType
 import com.intellij.psi.tree.TokenSet
+import com.intellij.psi.util.PsiTreeUtil
 import org.ice1000.tt.MLPolyRFile
 import org.ice1000.tt.MLPolyRLanguage
 import org.ice1000.tt.psi.WHITE_SPACE
@@ -24,6 +25,9 @@ class MLPolyRTokenType(debugName: String) : IElementType(debugName, MLPolyRLangu
 		@JvmField val IDENTIFIERS = TokenSet.create(MLPolyRTypes.ID, MLPolyRTypes.IDENTIFIER)
 
 		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(MLPolyRLanguage.INSTANCE, text).firstChild
+		fun createLet(text: String, project: Project) = fromText(text, project) as? MLPolyRLetExp
+		fun createDef(text: String, project: Project) = PsiTreeUtil.findChildOfType(createLet("let $text in 0 end", project), MLPolyRDef::class.java)
+		fun createPat(text: String, project: Project) = createDef("val $text = 0", project)?.pat
 	}
 }
 

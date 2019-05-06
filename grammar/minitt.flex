@@ -49,7 +49,7 @@ _ { return META_VAR; }
 \.  { return DOT; }
 let { return LET_KEYWORD; }
 rec { return REC_KEYWORD; }
-sum { return SUM_KEYWORD; }
+Sum { return SUM_KEYWORD; }
 "++"  { return CONCAT; }
 split { return SPLIT_KEYWORD; }
 const { return CONST_KEYWORD; }

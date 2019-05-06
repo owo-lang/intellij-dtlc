@@ -89,9 +89,13 @@ prefixExp ::=
 assignExp ::= exp ASSIGN exp
 tryExp ::= KW_TRY pat EQ exp KW_IN exp handlers KW_END {
 	pin=1
+	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwner']
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerMixin'
 }
-fnExp ::= KW_FN pat DARROW exp {
+fnExp ::= KW_FN handlingImpl {
 	pin=1
+	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwner']
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerMixin'
 }
 
 exp ::=
@@ -124,9 +128,9 @@ exp ::=
  | appExp
  | atomicExp
 
-dtMatch ::=
-   LSB RSB DARROW exp BAR pat DCOLON pat DARROW exp
- | pat DCOLON pat DARROW exp BAR LSB RSB DARROW exp
+private dtMatch2 ::= pat DCOLON handlingImpl BAR LSB RSB DARROW exp { pin=1 }
+private dtMatch1 ::= LSB RSB DARROW exp BAR pat DCOLON handlingImpl { pin=1 }
+dtMatch ::= dtMatch1 | dtMatch2
 
 suffixExp ::= atomicExp
  ( DOT label
@@ -147,7 +151,9 @@ atomicExp ::=
  | LSB expList? RSB
  | recordExp
 
-recordExp ::= LCB fields? RCB | LCBB fields? RCBB
+private bbRecord ::= LCBB fields? RCBB { pin=1 }
+private bRecord ::= LCB fields? RCB { pin=1 }
+recordExp ::= bRecord | bbRecord
 private fields ::= field (COMMA field)*
 field ::=
    label EQ exp
@@ -155,19 +161,29 @@ field ::=
  | identifier
 
 label ::= identifier | number
-con ::= BQ label
+con ::= BQ label { pin=1 }
 
-private expList ::= exp (COMMA exp)*
-private expSeq ::= exp (SEMI exp)*
+private expList ::= exp expListRest*
+private expListRest ::= COMMA exp { pin=1 }
+private expSeq ::= exp expSeqRest*
+private expSeqRest ::= SEMI exp { pin=1 }
 
-mr ::= BQ label pat DARROW exp
-private mrList ::= mr (BAR mr)*
+mr ::= BQ label handlingImpl { pin=1 }
+private mrList ::= mr mrRest*
+private mrRest ::= BAR mr { pin=1 }
 
-rehandling ::= (KW_REHANDLING mrList)?
-handling ::= pat DARROW exp | mr | mr BAR handling
-handlers ::= (KW_HANDLING handling)? rehandling
+rehandling ::= KW_REHANDLING mrList { pin=1 }
+private handlingImpl ::= pat DARROW exp { pin=2 }
+private handlingImpl2 ::= mr BAR handling { pin=2 }
+private handlingImpl3 ::= KW_HANDLING handling { pin=1 }
+handling ::= handlingImpl | mr | handlingImpl2 {
+	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwner']
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerMixin'
+}
 
-defaultMatch ::= KW_DEFAULT COLON exp
+handlers ::= handlingImpl3? rehandling?
+
+defaultMatch ::= KW_DEFAULT COLON exp { pin=1 }
 
 identifier ::= ID
 number ::= INT
