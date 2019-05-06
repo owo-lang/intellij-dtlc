@@ -20,6 +20,9 @@
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationProducer"/>
 		<lang.parserDefinition language="MLPolyR" implementationClass="org.ice1000.tt.psi.mlpolyr.MLPolyRParserDefinition"/>
 		<lang.syntaxHighlighterFactory language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRHighlighterFactory"/>
+		<lang.commenter language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRCommenter"/>
+		<lang.findUsagesProvider language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRFindUsagesProvider"/>
+		<lang.braceMatcher language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRBraceMatcher"/>
 
 		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.ACoreLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.ACoreRunConfigurationType"/>
