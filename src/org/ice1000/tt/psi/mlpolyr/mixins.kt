@@ -62,6 +62,17 @@ abstract class MLPolyRPatOwnerMixin(node: ASTNode) : MLPolyRDeclaration(node), M
 	override fun getNameIdentifier() = pat
 }
 
+abstract class MLPolyRLetExpMixin(node: ASTNode) : MLPolyRExpImpl(node), MLPolyRLetExp {
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		defList.all { it.processDeclarations(processor, state, lastParent, place) }
+}
+
+abstract class MLPolyRDefMixin(node: ASTNode) : MLPolyRPatOwnerMixin(node), MLPolyRDef {
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		functionList.all { it.processDeclarations(processor, state, lastParent, place) }
+			&& super.processDeclarations(processor, state, lastParent, place)
+}
+
 abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLPolyRIdentifier, PsiPolyVariantReference {
 	override fun isSoft() = true
 	override fun getRangeInElement() = TextRange(0, textLength)

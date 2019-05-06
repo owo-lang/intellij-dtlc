@@ -70,14 +70,13 @@ def ::=
    KW_VAL pat EQ exp
  | KW_FUN functions? optRcl? {
 	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwner']
-	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerMixin'
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRDefMixin'
 }
 
 ifExp ::= KW_IF exp KW_THEN exp KW_ELSE exp { pin=1 }
 raiseExp ::= KW_RAISE exp { pin=1 }
 matchExp ::= KW_MATCH exp KW_WITH exp { pin=1 }
 casesExp ::= KW_CASES mrList defaultMatch? { pin=1 }
-letExp ::= KW_LET defs KW_IN expSeq KW_END { pin=1 }
 caseExp ::= KW_CASE exp KW_OF dtMatch { pin=1 }
 whereExp ::= exp KW_WHERE recordExp
 orElseExp ::= exp KW_ORELSE exp
@@ -111,6 +110,10 @@ fnExp ::= KW_FN handlingImpl {
 	pin=1
 	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwner']
 	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerMixin'
+}
+letExp ::= KW_LET defs KW_IN expSeq KW_END {
+	pin=1
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRLetExpMixin'
 }
 
 exp ::=
@@ -169,11 +172,14 @@ atomicExp ::=
 private bbRecord ::= LCBB fields? RCBB { pin=1 }
 private bRecord ::= LCB fields? RCB { pin=1 }
 recordExp ::= bRecord | bbRecord
-private fields ::= field (COMMA field)*
+private fields ::= field fieldRest*
+private fieldRest ::= COMMA field { pin=1 }
 field ::=
-   label EQ exp
- | DOTDOTDOT EQ exp
+   labelField
+ | dotDotDotField
  | identifier
+private labelField ::= label EQ exp { pin=2 }
+private dotDotDotField ::= DOTDOTDOT EQ exp { pin=1 }
 
 label ::= identifier | number
 con ::= BQ label { pin=1 }
