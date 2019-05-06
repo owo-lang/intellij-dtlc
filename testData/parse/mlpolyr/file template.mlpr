@@ -4,6 +4,6 @@
  * Author: ice10
  *)
 
-let fun file-template () = { }
+let fun file_template () = 233
 in 0
 end

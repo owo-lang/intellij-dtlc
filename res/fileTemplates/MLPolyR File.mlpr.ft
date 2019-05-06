@@ -4,6 +4,6 @@
  * Author: ${USER}
  *)
 
-let fun ${NAME_SNAKE} () = { }
+let fun ${NAME_SNAKE} () = "Hello World!"
 in 0
 end
