@@ -20,20 +20,21 @@
 // Reference: https://github.com/owo-lang/MLPolyR/blob/master/mlpolyr.grm
 program ::= exp
 
-function ::= namePat formals EQ exp {
+function ::= namePat pat* EQ exp {
+	pin=1
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRFunctionMixin'
 }
-private functions ::= function (KW_AND function)*
+private functions ::= function functionRest*
+private functionRest ::= KW_AND function { pin=1 }
 
-rc ::= namePat EQ exp
-rcl ::= (rc (KW_AND rc))?
-optRcl ::= KW_WITH KW_CASES rcl
-
-private formals ::= pat*
+private rcRest ::= KW_AND rc { pin=1 }
+rc ::= namePat EQ exp { pin=2 }
+rcl ::= rc rcRest*
+optRcl ::= KW_WITH KW_CASES rcl? { pin=1 }
 
 asPat ::= pat KW_AS pat
-listPat ::= LP patList? RP { pin=2 }
+listPat ::= LP patList? RP { pin=1 }
 cbPat ::= cbPatImpl { pin=1 }
 cbbPat ::= LCBB fieldPatterns? RCBB {
 	pin=1
