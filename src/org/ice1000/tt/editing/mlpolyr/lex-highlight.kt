@@ -1,19 +1,28 @@
 package org.ice1000.tt.editing.mlpolyr
 
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
+import com.intellij.openapi.editor.HighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
+import com.intellij.openapi.options.colors.AttributesDescriptor
+import com.intellij.openapi.options.colors.ColorDescriptor
+import com.intellij.openapi.options.colors.ColorSettingsPage
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.tree.IElementType
+import icons.TTIcons
+import org.ice1000.tt.MLPolyRFileType
+import org.ice1000.tt.TTBundle
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTokenType
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTypes
 import org.ice1000.tt.psi.mlpolyr.mlpolyrLexer
+import org.intellij.lang.annotations.Language
 
 object MLPolyRHighlighter : SyntaxHighlighter {
 	@JvmField val KEYWORD = TextAttributesKey.createTextAttributesKey("ML_POLY_R_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
 	@JvmField val IDENTIFIER = TextAttributesKey.createTextAttributesKey("ML_POLY_R_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER)
+	@JvmField val UNRESOLVED = TextAttributesKey.createTextAttributesKey("ML_POLY_R_UNRESOLVED", HighlighterColors.BAD_CHARACTER)
 	@JvmField val SEMICOLON = TextAttributesKey.createTextAttributesKey("ML_POLY_R_SEMICOLON", DefaultLanguageHighlighterColors.SEMICOLON)
 	@JvmField val COMMA = TextAttributesKey.createTextAttributesKey("ML_POLY_R_COMMA", DefaultLanguageHighlighterColors.COMMA)
 	@JvmField val OPERATOR = TextAttributesKey.createTextAttributesKey("ML_POLY_R_OPERATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN)
@@ -25,6 +34,12 @@ object MLPolyRHighlighter : SyntaxHighlighter {
 	@JvmField val DOT = TextAttributesKey.createTextAttributesKey("ML_POLY_R_DOT", DefaultLanguageHighlighterColors.DOT)
 	@JvmField val INT = TextAttributesKey.createTextAttributesKey("ML_POLY_R_INT", DefaultLanguageHighlighterColors.NUMBER)
 	@JvmField val STRING = TextAttributesKey.createTextAttributesKey("ML_POLY_R_STRING", DefaultLanguageHighlighterColors.STRING)
+
+	@JvmField val FUNCTION_CALL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_FUNCTION_CALL", DefaultLanguageHighlighterColors.FUNCTION_CALL)
+	@JvmField val FUNCTION_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_FUNCTION_DECL", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
+	@JvmField val VARIABLE_CALL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_VARIABLE_CALL", DefaultLanguageHighlighterColors.GLOBAL_VARIABLE)
+	@JvmField val VARIABLE_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_VARIABLE_DECL", DefaultLanguageHighlighterColors.GLOBAL_VARIABLE)
+	@JvmField val CONSTRUCTOR = TextAttributesKey.createTextAttributesKey("ML_POLY_R_CONSTRUCTOR", DefaultLanguageHighlighterColors.LABEL)
 
 	@JvmField val KEYWORD_KEY = arrayOf(KEYWORD)
 	@JvmField val IDENTIFIER_KEY = arrayOf(IDENTIFIER)
@@ -113,4 +128,87 @@ object MLPolyRHighlighter : SyntaxHighlighter {
 
 class MLPolyRHighlighterFactory : SyntaxHighlighterFactory() {
 	override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = MLPolyRHighlighter
+}
+
+class MLPolyRColorSettingsPage : ColorSettingsPage {
+	private companion object DescriptorHolder {
+		private val DESCRIPTORS = arrayOf(
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.function-call"), MLPolyRHighlighter.FUNCTION_CALL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.function-decl"), MLPolyRHighlighter.FUNCTION_DECL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.variable-call"), MLPolyRHighlighter.VARIABLE_CALL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.variable-decl"), MLPolyRHighlighter.VARIABLE_DECL),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), MLPolyRHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), MLPolyRHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), MLPolyRHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), MLPolyRHighlighter.COMMA),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), MLPolyRHighlighter.UNRESOLVED),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.constructor"), MLPolyRHighlighter.CONSTRUCTOR),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), MLPolyRHighlighter.OPERATOR),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), MLPolyRHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.bracket"), MLPolyRHighlighter.BRACK),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), MLPolyRHighlighter.BRACE),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.brace"), MLPolyRHighlighter.BRACE2),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comment"), MLPolyRHighlighter.COMMENT))
+
+		private val ADDITIONAL_DESCRIPTORS = mapOf(
+			"FC" to MLPolyRHighlighter.FUNCTION_CALL,
+			"FD" to MLPolyRHighlighter.FUNCTION_DECL,
+			"VC" to MLPolyRHighlighter.VARIABLE_CALL,
+			"VD" to MLPolyRHighlighter.VARIABLE_DECL,
+			"C" to MLPolyRHighlighter.CONSTRUCTOR,
+			"Unresolved" to MLPolyRHighlighter.UNRESOLVED)
+	}
+
+	override fun getHighlighter(): SyntaxHighlighter = MLPolyRHighlighter
+	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS
+	override fun getIcon() = TTIcons.MLPOLYR
+	override fun getAttributeDescriptors() = DESCRIPTORS
+	override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
+	override fun getDisplayName() = MLPolyRFileType.name
+	@Language("MLPolyR")
+	override fun getDemoText() = """
+let val <VD>n</VD> = { i := 1000 }
+    fun <FD>withfresh</FD> f = let val <VD>i</VD> = n!i in n!i := i+1; f i end
+
+    (* ---- utilities ---- *)
+    fun Let (x, e1, e2) = <C>`App</C> (<C>`Lam</C> ([x], e2), [e1])
+    fun kv2kb kv = fn v => <C>`App</C> (kv, [v])
+    fun kb2kv kb = withfresh (fn rx => <C>`Lam</C> ([rx], kb (<C>`Var</C> rx)))
+
+    fun cvt_app (cvt, e, el, kv) =
+    let fun lc (el, kb) =
+        case el of [] => kb []
+             | e :: el => pc (e, el, fn (v, vl) => kb (v :: vl))
+        and pc (e, el, kb) = cvt (e, fn v => lc (el, fn vl => kb (v, vl)))
+    in pc (e, el, fn (v, vl) => <C>`App</C> (v, kv :: vl))
+    end
+
+    fun cvt_lam (cvt, xl, e) =
+    withfresh (fn xk => <C>`Lam</C> (xk :: xl, cvt (e, kv2kb (<C>`Var</C> xk))))
+
+    fun cvt_c (cvt, kb) =
+    cases <C>`Const</C> i => kb (<C>`Const</C> i)
+            | <C>`Var</C> x => kb (<C>`Var</C> x)
+        | <C>`Lam</C> (xl, e) => kb (cvt_lam (cvt, xl, e))
+        | <C>`App</C> (e, el) => cvt_app (cvt, e, el, kb2kv kb)
+    fun mkConvert (c, e) =
+    let fun cvt (e, kb) = match e with c (cvt, kb)
+    in cvt_lam (cvt, [], e)
+    end
+    fun convert e = mkConvert (cvt_c, e)
+    fun cvt_if_c other (cvt, kb) =
+    cases <C>`If</C> (e1, e2, e3) =>
+        withfresh (fn xk =>
+        Let (xk, kb2kv kb, cvt (e1, fn v1 =>
+            let val kb' = kv2kb (<C>`Var</C> xk)
+            in <C>`If</C> (v1, cvt (e2, kb'), cvt (e3, kb'))
+        end)))
+        default: other (cvt, kb)
+    fun cvt_lcc_c other (cvt, kb) =
+    cases <C>`LetCC</C> (x, e) => bla
+    default: other (cvt, kb)
+    fun convert_if e = mkConvert (cvt_if_c cvt_c, e)
+in 0
+end
+"""
 }
