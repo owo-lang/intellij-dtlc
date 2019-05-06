@@ -122,5 +122,7 @@ let <FDl>one</FDl>: nat = <CCl>Suc</CCl> <CCl>Zero</CCl>;
 let <FDl>maybe</FDl>: Type -> Type = \lambda t. Sum { <CDl>Just</CDl> t | <CDl>Nothing</CDl> };
 let <FDl>unwrap_type</FDl> (t : Type): (maybe t) -> Type = split
   { <CDl>Just</CDl> _ => t | <CDl>Nothing</CDl> => 1 };
+
+const bad = <Unresolved>bbba</Unresolved>;
 """
 }

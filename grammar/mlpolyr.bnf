@@ -61,7 +61,7 @@ def ::=
 ifExp ::= KW_IF exp KW_THEN exp KW_ELSE exp { pin=1 }
 raiseExp ::= KW_RAISE exp { pin=1 }
 matchExp ::= KW_MATCH exp KW_WITH exp { pin=1 }
-casesExp ::= KW_CASES mrList defaultMatch { pin=1 }
+casesExp ::= KW_CASES mrList defaultMatch? { pin=1 }
 letExp ::= KW_LET defs KW_IN expSeq KW_END { pin=1 }
 caseExp ::= KW_CASE exp KW_OF dtMatch { pin=1 }
 whereExp ::= exp KW_WHERE recordExp
@@ -167,7 +167,7 @@ rehandling ::= (KW_REHANDLING mrList)?
 handling ::= pat DARROW exp | mr | mr BAR handling
 handlers ::= (KW_HANDLING handling)? rehandling
 
-defaultMatch ::= (KW_DEFAULT COLON exp)?
+defaultMatch ::= KW_DEFAULT COLON exp
 
 identifier ::= ID
 number ::= INT
