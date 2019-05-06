@@ -21,13 +21,13 @@
 program ::= exp
 
 function ::= identifier formals EQ exp
-functions ::= (function (KW_AND function)*)?
+functions ::= function (KW_AND function)*
 
 rc ::= identifier EQ exp
 rcl ::= (rc (KW_AND rc))?
-optRcl ::= (KW_WITH KW_CASES rcl)?
+optRcl ::= KW_WITH KW_CASES rcl
 
-formals ::= pat*
+private formals ::= pat*
 
 asPat ::= pat KW_AS pat
 listPat ::= LP patList RP
@@ -37,15 +37,15 @@ bqPat ::= BQ cbPat
 wildPat ::= WILD
 emptyPat ::= LP RP
 parenPat ::= LP pat RP
-namePat ::= identifier
+namePat ::= ID
 pat ::=
    asPat
- | namePat
  | emptyPat
  | parenPat
  | listPat
  | cbPat
  | cbbPat
+ | namePat
  | wildPat
  | bqPat
 
@@ -60,7 +60,7 @@ fieldPat ::=
 private defs ::= def*
 def ::=
    KW_VAL pat EQ exp
- | KW_FUN functions optRcl
+ | KW_FUN functions? optRcl?
 
 ifExp ::= KW_IF exp KW_THEN exp KW_ELSE exp { pin=1 }
 raiseExp ::= KW_RAISE exp { pin=1 }
@@ -126,6 +126,7 @@ exp ::=
  | casesExp
  | fnExp
  | assignExp
+ | atomicExp
 
 dtMatch ::=
    LSB RSB DARROW exp BAR pat DCOLON pat DARROW exp

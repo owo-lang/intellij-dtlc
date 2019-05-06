@@ -7,7 +7,7 @@
 		<polygon fill-opacity=".8" fill="#9aa7b0" points="8,1 8,6 3,6 3,8 13,8 13,1"/>
 		<polygon fill-opacity=".7" fill="#c6a700" points="1,16 16,16 16,9 1,9"/>
 	</g>
-	<text class="mtt" fill="rgb(30, 30, 30)" font-size="5.5" font-weight="bold" textLength="14" x="1.5" y="14.8">
+	<text class="mtt" fill="rgb(30, 30, 30)" font-size="6" font-weight="bold" textLength="14" x="1.5" y="14.8">
 		MPR
 	</text>
 </svg>
