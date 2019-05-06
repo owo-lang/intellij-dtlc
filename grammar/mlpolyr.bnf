@@ -30,27 +30,24 @@ optRcl ::= KW_WITH KW_CASES rcl
 private formals ::= pat*
 
 asPat ::= pat KW_AS pat
-listPat ::= LP patList RP { pin=2 }
-cbPat ::= LCB fieldPatList? RCB { pin=1 }
+listPat ::= LP patList? RP { pin=2 }
+cbPat ::= cbPatImpl { pin=1 }
 cbbPat ::= LCBB fieldPatList? RCBB { pin=1 }
-bqPat ::= BQ cbPat { pin=1 }
+bqPat ::= BQ cbPatImpl { pin=1 }
 wildPat ::= WILD
-emptyPat ::= LP RP
-parenPat ::= LP pat RP { pin=2 }
 namePat ::= ID
 pat ::=
    asPat
- | parenPat
+ | bqPat
  | listPat
  | cbPat
  | cbbPat
  | namePat
  | wildPat
- | bqPat
- | emptyPat
 
 private patList ::= pat (COMMA pat)*
 private fieldPatList ::= fieldPat (COMMA fieldPat)*
+private cbPatImpl ::= LCB fieldPatList? RCB
 fieldPat ::=
    identifier
  | label EQ pat

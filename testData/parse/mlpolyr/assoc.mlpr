@@ -1,0 +1,25 @@
+let fun straighten e =
+	let fun build (wl, e) =
+		case wl of
+		    [] => e
+		  | h :: t =>
+		      match h with
+                        cases `Num i => build (t, `Plus (`Num i, e))
+                            | `Plus (x, y) => build (y :: x :: t, e)
+            fun start (e, wl) =
+		match e with
+                  cases `Num i => build (wl, `Num i)
+                      | `Plus (x, y) => start (y, x :: wl)
+	in start (e, [])
+	end
+
+    fun count e =
+        let fun isnum e = match e with cases `Num _ => 1
+	in match e with
+             cases `Num i => 1
+                 | `Plus (n, e) => isnum n + count e
+	end
+
+    fun foo e = count (straighten e)
+in 0
+end

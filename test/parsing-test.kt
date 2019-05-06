@@ -45,4 +45,7 @@ class MLPolyRParsingTest : DtlcParsingTestCase("parse/mlpolyr", "mlpr", MLPolyRP
 	fun `test catchall`() = doTest(true, true)
 	fun `test catchall2`() = doTest(true, true)
 	fun `test catchall3`() = doTest(true, true)
+	fun `test assoc`() = doTest(true, true)
+	fun `test astest`() = doTest(true, true)
+	fun `test file template`() = doTest(true, true)
 }

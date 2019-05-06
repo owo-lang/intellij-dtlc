@@ -1,0 +1,9 @@
+(*
+ * Created by Dependently-Typed Lambda Calculus on 2019-05-06
+ * AA
+ * Author: ice10
+ *)
+
+let fun file-template () = { }
+in 0
+end

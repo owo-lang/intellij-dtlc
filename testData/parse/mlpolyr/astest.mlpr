@@ -1,0 +1,8 @@
+let fun f (r as { a, b, ... = rest }) =
+	if a > 0 then r
+	else { a = 10, b = "foo", ... = rest }
+    fun show { a, b, c, ... } = String.output (String.concat [b, "\n"])
+in show (f { a = 0, b = "test1", c = 22 });
+   show (f { a = 1, b = "test2", c = 33, d = 4 });
+   0
+end
