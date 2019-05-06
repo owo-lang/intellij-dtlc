@@ -31,8 +31,8 @@ private formals ::= pat*
 
 asPat ::= pat KW_AS pat
 listPat ::= LP patList RP { pin=2 }
-cbPat ::= LCB rowPat RCB { pin=1 }
-cbbPat ::= LCBB rowPat RCBB { pin=1 }
+cbPat ::= LCB fieldPatList? RCB { pin=1 }
+cbbPat ::= LCBB fieldPatList? RCBB { pin=1 }
 bqPat ::= BQ cbPat { pin=1 }
 wildPat ::= WILD
 emptyPat ::= LP RP
@@ -51,7 +51,6 @@ pat ::=
 
 private patList ::= pat (COMMA pat)*
 private fieldPatList ::= fieldPat (COMMA fieldPat)*
-rowPat ::= fieldPatList?
 fieldPat ::=
    identifier
  | label EQ pat
@@ -66,7 +65,7 @@ ifExp ::= KW_IF exp KW_THEN exp KW_ELSE exp { pin=1 }
 raiseExp ::= KW_RAISE exp { pin=1 }
 matchExp ::= KW_MATCH exp KW_WITH exp { pin=1 }
 casesExp ::= KW_CASES mrList defaultMatch { pin=1 }
-letExp ::= KW_LET defs KW_IN seqExp KW_END { pin=1 }
+letExp ::= KW_LET defs KW_IN expSeq KW_END { pin=1 }
 caseExp ::= KW_CASE exp KW_OF dtMatch { pin=1 }
 whereExp ::= exp KW_WHERE recordExp
 orElseExp ::= exp KW_ORELSE exp
@@ -151,8 +150,7 @@ atomicExp ::=
  | LSB expList? RSB
  | recordExp
 
-recordExp ::= LCB row RCB | LCBB row RCBB
-row ::= fields?
+recordExp ::= LCB fields? RCB | LCBB fields? RCBB
 private fields ::= field (COMMA field)*
 field ::=
    label EQ exp
@@ -164,7 +162,6 @@ con ::= BQ label
 
 private expList ::= exp (COMMA exp)*
 private expSeq ::= exp (SEMI exp)*
-seqExp ::= expSeq
 
 mr ::= BQ label pat DARROW exp
 private mrList ::= mr (BAR mr)*

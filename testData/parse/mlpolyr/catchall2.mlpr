@@ -1,0 +1,15 @@
+let fun ignore _ = ()
+    fun f () =
+	let val l = String.inputLine ()
+	in if String.compare (l, "!\n") == 0 then
+	       raise `Exn ()
+	   else if String.compare (l, ".\n") == 0 then
+	       (String.output "done\n"; 0)
+	   else (String.output "hello, world!\n"; ignore (f ());
+		 String.output ":-)\n"; 0)
+	end
+in try r = f ()
+   in (String.output "It's a success!! :-)\n"; r)
+   handling _ => (String.output "Bummer! :-(\n"; 1)
+   end
+end

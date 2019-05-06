@@ -42,4 +42,7 @@ class ACoreParsingTest : DtlcParsingTestCase("parse/acore", "mtt", ACoreParserDe
 class MLPolyRParsingTest : DtlcParsingTestCase("parse/mlpolyr", "mlpr", MLPolyRParserDefinition()) {
 	fun `test singleton`() = doTest(true, true)
 	fun `test twosel`() = doTest(true, true)
+	fun `test catchall`() = doTest(true, true)
+	fun `test catchall2`() = doTest(true, true)
+	fun `test catchall3`() = doTest(true, true)
 }

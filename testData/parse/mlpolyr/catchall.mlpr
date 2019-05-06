@@ -1,0 +1,15 @@
+let fun f () =
+	if String.compare (String.inputLine (), "!\n") == 0 then
+	    raise `Exn ()
+	else String.output "hello, world!\n"
+    fun g () =
+	(try _ = f ()
+         in String.output "It's a success!! :-)\n"
+         handling _ => String.output "Bummer! :-(\n"
+         end;
+         String.output "done\n";
+         0)
+    val r = g ()
+in String.output "good bye\n";
+   r
+end
