@@ -18,6 +18,7 @@
 
 		<configurationType implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationProducer"/>
+		<lang.parserDefinition language="MLPolyR" implementationClass="org.ice1000.tt.psi.mlpolyr.MLPolyRParserDefinition"/>
 
 		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.ACoreLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.ACoreRunConfigurationType"/>

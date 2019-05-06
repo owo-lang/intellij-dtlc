@@ -14,7 +14,7 @@
   tokenTypeClass="org.ice1000.tt.psi.acore.ACoreTokenType"
 }
 
-// Reference: https://github.com/kino3/Mini-TT/blob/master/Core.cf
+// Reference: https://github.com/owo-lang/Mini-TT/blob/master/Core.cf
 file ::= expression
 
 expression ::= exp1 | exp2 | exp3

@@ -1,0 +1,180 @@
+//noinspection BnfResolveForFile
+{
+  generate=[java="8" names="long"]
+
+  parserClass="org.ice1000.tt.psi.mlpolyr.MLPolyRParser"
+
+  psiClassPrefix="MLPolyR"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.ice1000.tt.psi.mlpolyr"
+  psiImplPackage="org.ice1000.tt.psi.mlpolyr.impl"
+
+  elementTypeHolderClass="org.ice1000.tt.psi.mlpolyr.MLPolyRTypes"
+  elementTypeClass="org.ice1000.tt.psi.mlpolyr.MLPolyRElementType"
+  tokenTypeClass="org.ice1000.tt.psi.mlpolyr.MLPolyRTokenType"
+
+  extends(".*Exp")=exp
+  extends(".*Pat")=pat
+}
+
+// Reference: https://github.com/owo-lang/MLPolyR/blob/master/mlpolyr.grm
+program ::= exp
+
+function ::= identifier formals EQ exp
+functions ::= (function (KW_AND function)*)?
+
+rc ::= identifier EQ exp
+rcl ::= (rc (KW_AND rc))?
+optRcl ::= (KW_WITH KW_CASES rcl)?
+
+formals ::= pat*
+
+asPat ::= pat KW_AS pat
+listPat ::= LP patList RP
+cbPat ::= LCB rowPat RCB
+cbbPat ::= LCBB rowPat RCBB
+bqPat ::= BQ cbPat
+wildPat ::= WILD
+emptyPat ::= LP RP
+parenPat ::= LP pat RP
+namePat ::= identifier
+pat ::=
+   asPat
+ | namePat
+ | emptyPat
+ | parenPat
+ | listPat
+ | cbPat
+ | cbbPat
+ | wildPat
+ | bqPat
+
+private patList ::= pat (COMMA pat)*
+private fieldPatList ::= fieldPat (COMMA fieldPat)*
+rowPat ::= fieldPatList?
+fieldPat ::=
+   identifier
+ | label EQ pat
+ | DOTDOTDOT (EQ pat)?
+
+private defs ::= def*
+def ::=
+   KW_VAL pat EQ exp
+ | KW_FUN functions optRcl
+
+ifExp ::= KW_IF exp KW_THEN exp KW_ELSE exp { pin=1 }
+raiseExp ::= KW_RAISE exp { pin=1 }
+matchExp ::= KW_MATCH exp KW_WITH exp { pin=1 }
+casesExp ::= KW_CASES mrList defaultMatch { pin=1 }
+letExp ::= KW_LET defs KW_IN seqExp KW_END { pin=1 }
+caseExp ::= KW_CASE exp KW_OF dtMatch { pin=1 }
+whereExp ::= exp KW_WHERE recordExp
+orElseExp ::= exp KW_ORELSE exp
+andAlsoExp ::= exp KW_ANDALSO exp
+deqExp ::= exp DEQ exp
+ltEqExp ::= exp LTEQ exp
+gtEqExp ::= exp GTEQ exp
+ltExp ::= exp LT exp
+gtExp ::= exp GT exp
+neqExp ::= exp NEQ exp
+dColonExp ::= exp DCOLON exp { rightAssociative=true }
+plusExp ::= exp PLUS exp
+minusExp ::= exp MINUS exp
+timesExp ::= exp TIMES exp
+divExp ::= exp DIV exp
+modExp ::= exp MOD exp
+tryExp ::= KW_TRY pat EQ exp KW_IN exp handlers KW_END {
+	pin=1
+}
+fnExp ::= KW_FN pat DARROW exp {
+	pin=1
+}
+appExp ::= prefixExp+
+prefixExp ::=
+ ( MINUS
+ | KW_ISNULL
+ | KW_NOT
+ | con
+ ) exp
+assignExp ::= selExp EXCLAM label ASSIGN exp { pin=2 }
+
+exp ::=
+   whereExp
+ | orElseExp
+ | andAlsoExp
+ | deqExp
+ | ltEqExp
+ | gtEqExp
+ | ltExp
+ | gtExp
+ | neqExp
+ | dColonExp
+ | plusExp
+ | minusExp
+ | timesExp
+ | divExp
+ | modExp
+ | appExp
+ | prefixExp
+ | selExp
+ | letExp
+ | ifExp
+ | caseExp
+ | raiseExp
+ | tryExp
+ | matchExp
+ | casesExp
+ | fnExp
+ | assignExp
+
+dtMatch ::=
+   LSB RSB DARROW exp BAR pat DCOLON pat DARROW exp
+ | pat DCOLON pat DARROW exp BAR LSB RSB DARROW exp
+
+selExp ::= atomicExp
+ ( DOT label
+ | EXCLAM label
+ | PLUSPLUS label
+ )
+
+atomicExp ::=
+   KW_TRUE
+ | KW_FALSE
+ | KW_NOCASES
+ | number
+ | string
+ | identifier
+ | LP RP
+ | LP exp RP
+ | LP expSeq RP
+ | LP expList RP
+ | LSB expList? RSB
+ | recordExp
+
+recordExp ::= LCB rowExp RCB | LCBB rowExp RCBB
+rowExp ::= fieldExpSeq?
+private fieldExpSeq ::= fieldExp (COMMA fieldExp)*
+fieldExp ::=
+   identifier
+ | label EQ exp
+ | DOTDOTDOT EQ exp
+
+label ::= identifier | number
+con ::= NQ label
+
+private expList ::= exp (COMMA exp)*
+private expSeq ::= exp (SEMI exp)*
+seqExp ::= expSeq
+
+mr ::= BQ label pat DARROW exp
+private mrList ::= mr (BAR mr)*
+
+rehandling ::= (KW_REHANDLING mrList)?
+handling ::= pat DARROW exp | mr | mr BAR handling
+handlers ::= (KW_HANDLING handling)? rehandling
+
+defaultMatch ::= (KW_DEFAULT COLON exp)?
+
+identifier ::= ID
+number ::= INT
+string ::= STR
