@@ -35,5 +35,5 @@ class MLPolyRBraceMatcher : PairedBraceMatcher {
 }
 
 class MLPolyRFindUsagesProvider : DefaultFindUsagesProvider() {
-	override fun getWordsScanner() = DefaultWordsScanner(mlpolyrLexer(), MLPolyRTokenType.IDENTIFIERS, MLPolyRTokenType.COMMENTS, TokenSet.EMPTY)
+	override fun getWordsScanner() = DefaultWordsScanner(mlpolyrLexer(), MLPolyRTokenType.IDENTIFIERS, MLPolyRTokenType.COMMENTS, MLPolyRTokenType.STRINGS)
 }

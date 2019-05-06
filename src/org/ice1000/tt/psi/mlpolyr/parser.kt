@@ -22,6 +22,7 @@ class MLPolyRTokenType(debugName: String) : IElementType(debugName, MLPolyRLangu
 	companion object Builtin {
 		@JvmField val COMMENT = MLPolyRTokenType("comment")
 		@JvmField val COMMENTS = TokenSet.create(COMMENT)
+		@JvmField val STRINGS = TokenSet.create(MLPolyRTypes.STR, MLPolyRTypes.STRING, COMMENT)
 		@JvmField val IDENTIFIERS = TokenSet.create(MLPolyRTypes.ID, MLPolyRTypes.IDENTIFIER)
 
 		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(MLPolyRLanguage.INSTANCE, text).firstChild

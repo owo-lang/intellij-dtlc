@@ -23,6 +23,7 @@
 		<lang.commenter language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRCommenter"/>
 		<lang.findUsagesProvider language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRFindUsagesProvider"/>
 		<lang.braceMatcher language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRBraceMatcher"/>
+		<lang.refactoringSupport language="MLPolyR" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 
 		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.ACoreLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.ACoreRunConfigurationType"/>
