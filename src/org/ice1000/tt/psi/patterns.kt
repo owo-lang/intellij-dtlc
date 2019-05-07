@@ -66,7 +66,7 @@ class PatternCompletionProcessor(
 			candidateSet += LookupElementBuilder
 				.create(variable.text)
 				.withIcon(icon(variable))
-				.withTailText(tailText(variable))
+				.withTailText(tailText(variable), true)
 				.withTypeText(typeText(variable), true)
 			true
 		}

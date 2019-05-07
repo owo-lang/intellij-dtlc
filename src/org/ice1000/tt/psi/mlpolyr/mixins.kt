@@ -173,7 +173,12 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 				if ((it as? MLPolyRGeneralPat)?.kind != SymbolKind.Parameter) true
 				else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, this, false)
 			},
-			{ (it as? MLPolyRGeneralPat)?.kind?.name ?: "??" })
+			{ (it as? MLPolyRGeneralPat)?.kind?.name ?: "??" },
+			{ pat ->
+				val parent = pat.parent
+				if (parent !is MLPolyRFunction) ""
+				else parent.patList.drop(1).joinToString(prefix = " ", separator = " ") { it.text }
+			})
 		treeWalkUp(variantsProcessor, this, containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}

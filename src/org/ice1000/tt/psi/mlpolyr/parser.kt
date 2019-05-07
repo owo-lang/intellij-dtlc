@@ -16,9 +16,9 @@ import org.ice1000.tt.MLPolyRLanguage
 import org.ice1000.tt.psi.WHITE_SPACE
 
 class MLPolyRFileImpl(viewProvider: FileViewProvider) : MLPolyRFile(viewProvider) {
-	@get:Synchronized private val consCache = ArrayList<MLPolyRLabelMixin>(50)
+	private val consCache = ArrayList<MLPolyRLabelMixin>(50)
 	fun addConstructor(element: MLPolyRLabelMixin) = consCache.add(element)
-	@get:Synchronized val constructors get() = run {
+	val constructors get() = synchronized(consCache) {
 		consCache.retainAll { it.isValid }
 		consCache
 	}
