@@ -36,15 +36,35 @@ class MLPolyRCompletionContributor : CompletionContributor() {
 		"fn",
 		"as",
 		"of",
-		"in").map {
+		"in"
+	).map {
 		LookupElementBuilder
 			.create(it)
 			.withTypeText("Keyword")
-			.withIcon(TTIcons.MLPOLYR)
 			.bold()
 	}
 
+	private val builtins = listOf(
+		Triple("String.toInt", "string", "int"),
+		Triple("String.fromInt", "int", "string"),
+		Triple("String.inputLine", "()", "string"),
+		Triple("String.size", "string", "int"),
+		Triple("String.output", "string", "()"),
+		Triple("String.sub", "(string, int)", "string"),
+		Triple("String.concat", "string", "string list"),
+		Triple("String.substring", "(string, int, int)", "string"),
+		Triple("String.compare", "(string, string)", "int")
+	).map { (it, tail, type) ->
+		LookupElementBuilder
+			.create(it)
+			.withTypeText(type)
+			.withTailText(" $tail")
+			.withIcon(TTIcons.MLPOLYR)
+	}
+
+	private val all = keywords + builtins
+
 	init {
-		extend(CompletionType.BASIC, psiElement(), SimpleProvider(keywords))
+		extend(CompletionType.BASIC, psiElement(), SimpleProvider(all))
 	}
 }
