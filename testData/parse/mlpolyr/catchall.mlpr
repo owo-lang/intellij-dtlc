@@ -1,9 +1,9 @@
 let fun f () =
-	if String.compare (String.inputLine (), "!\n") == 0 then
-	    raise `Exn ()
-	else String.output "hello, world!\n"
+    if String.compare (String.inputLine (), "!\n") == 0 then
+        raise `Exn ()
+    else String.output "hello, world!\n"
     fun g () =
-	(try _ = f ()
+    (try _ = f ()
          in String.output "It's a success!! :-)\n"
          handling _ => String.output "Bummer! :-(\n"
          end;
