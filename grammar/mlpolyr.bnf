@@ -29,9 +29,9 @@ private functions ::= function functionRest*
 private functionRest ::= KW_AND function { pin=1 }
 
 private rcRest ::= KW_AND rc { pin=1 }
+private rcList ::= rc rcRest*
 rc ::= namePat EQ exp { pin=2 }
-rcl ::= rc rcRest*
-optRcl ::= KW_WITH KW_CASES rcl? { pin=1 }
+optRcl ::= KW_WITH KW_CASES rcList? { pin=1 }
 
 asPat ::= pat KW_AS pat
 listPat ::= LP patList? RP { pin=1 }

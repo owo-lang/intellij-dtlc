@@ -12,6 +12,7 @@ import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
+import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.mlpolyr.impl.MLPolyRExpImpl
 
@@ -90,6 +91,7 @@ abstract class MLPolyRLetExpMixin(node: ASTNode) : MLPolyRExpImpl(node), MLPolyR
 abstract class MLPolyRDefMixin(node: ASTNode) : MLPolyRPatOwnerMixin(node), MLPolyRDef {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		functionList.all { it.processDeclarations(processor, state, lastParent, place) }
+			&& optRcl?.rcList?.all { it.processDeclarations(processor, state, lastParent, place) }.orTrue()
 			&& super.processDeclarations(processor, state, lastParent, place)
 }
 
