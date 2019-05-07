@@ -38,7 +38,7 @@ import static org.ice1000.tt.ConstantsKt.${constantPrefix}_LANGUAGE_NAME;
 /**
  * @author ice1000
  */
-public class ${languageName}Language extends Language {
+public final class ${languageName}Language extends Language {
 	public static final @NotNull ${languageName}Language INSTANCE =
 			new ${languageName}Language(${constantPrefix}_LANGUAGE_NAME);
 
@@ -65,7 +65,7 @@ object ${languageName}FileType : LanguageFileType(${languageName}Language.INSTAN
 }
 
 @Suppress("unused")
-class ${languageName}File(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ${languageName}Language.INSTANCE) {
+open class ${languageName}File(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ${languageName}Language.INSTANCE) {
 	override fun getFileType() = ${languageName}FileType
 }
 """

@@ -91,6 +91,7 @@ abstract class MiniTTVariableMixin(node: ASTNode) : ASTWrapperPsiElement(node), 
 	override fun isSoft() = true
 	override fun getRangeInElement() = TextRange(0, textLength)
 
+	override fun getElement() = this
 	override fun getReference() = this
 	override fun getReferences() = arrayOf(reference)
 	override fun isReferenceTo(reference: PsiElement) = reference == resolve()
@@ -103,7 +104,6 @@ abstract class MiniTTVariableMixin(node: ASTNode) : ASTWrapperPsiElement(node), 
 			.resolveWithCaching(this, resolver, true, incompleteCode, file)
 	}
 
-	override fun getElement() = this
 	override fun bindToElement(element: PsiElement): PsiElement = throw IncorrectOperationException("Unsupported")
 	override fun handleElementRename(newName: String): PsiElement? =
 		replace(MiniTTTokenType.createVariable(newName, project)

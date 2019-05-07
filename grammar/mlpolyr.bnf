@@ -198,7 +198,7 @@ field ::=
 private labelField ::= label EQ exp { pin=2 }
 private dotDotDotField ::= DOTDOTDOT EQ exp { pin=1 }
 
-label ::= ID | INT
+label ::= ID | INT { mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRLabelMixin' }
 con ::= BQ label { pin=1 }
 
 private expList ::= exp expListRest*
