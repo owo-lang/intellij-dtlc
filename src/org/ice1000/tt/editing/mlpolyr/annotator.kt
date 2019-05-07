@@ -25,7 +25,7 @@ class MLPolyRAnnotator : Annotator {
 			highlightType = ProblemHighlightType.LIKE_UNKNOWN_SYMBOL
 			textAttributes = MLPolyRHighlighter.UNRESOLVED
 		}
-		SymbolKind.Function -> holder.createInfoAnnotation(element, null)
+		SymbolKind.Function, SymbolKind.RcFunction -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.FUNCTION_CALL
 		SymbolKind.Parameter -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.PARAMETER_CALL
@@ -37,7 +37,7 @@ class MLPolyRAnnotator : Annotator {
 	}
 
 	private fun generalPat(element: MLPolyRGeneralPat, holder: AnnotationHolder) = when (element.kind) {
-		SymbolKind.Function -> holder.createInfoAnnotation(element, null)
+		SymbolKind.Function, SymbolKind.RcFunction -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.FUNCTION_DECL
 		SymbolKind.Parameter -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.PARAMETER_DECL

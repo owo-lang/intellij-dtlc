@@ -53,6 +53,7 @@ abstract class MLPolyRGeneralPat(node: ASTNode) : GeneralNameIdentifier(node), I
 		val parent = parent
 		when {
 			parent.firstChild?.elementType == MLPolyRTypes.KW_VAL -> SymbolKind.Variable
+			parent is MLPolyRRc -> SymbolKind.RcFunction
 			parent is MLPolyRFunction ->
 				if (this === parent.firstChild) SymbolKind.Function
 				else SymbolKind.Parameter
@@ -77,6 +78,10 @@ interface MLPolyRPatOwner : PsiElement {
 
 interface MLPolyRPatListOwner : PsiElement {
 	val patList: List<MLPolyRPat>
+}
+
+abstract class MLPolyRRcMixin(node: ASTNode) : MLPolyRDeclaration(node), MLPolyRRc {
+	override fun getNameIdentifier() = namePat
 }
 
 abstract class MLPolyRPatOwnerMixin(node: ASTNode) : MLPolyRDeclaration(node), MLPolyRPatOwner {
