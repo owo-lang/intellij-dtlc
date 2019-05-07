@@ -3,11 +3,12 @@ package org.ice1000.tt.editing.mlpolyr
 import com.intellij.codeInsight.completion.CompletionContributor
 import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.codeInsight.lookup.LookupElementBuilder
+import com.intellij.openapi.project.DumbAware
 import com.intellij.patterns.PlatformPatterns.psiElement
 import icons.TTIcons
 import org.ice1000.tt.editing.SimpleProvider
 
-class MLPolyRCompletionContributor : CompletionContributor() {
+class MLPolyRCompletionContributor : CompletionContributor(), DumbAware {
 	private val keywords = listOf(
 		"rehandling",
 		"handling",

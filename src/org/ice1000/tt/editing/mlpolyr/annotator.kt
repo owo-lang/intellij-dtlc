@@ -15,6 +15,7 @@ class MLPolyRAnnotator : Annotator {
 		when (element) {
 			is MLPolyRCon -> constructor(element, holder)
 			is MLPolyRMr -> constructor(element, holder)
+			is MLPolyRCbbPat, is MLPolyRCbPat, is MLPolyRAsPat -> Unit
 			is MLPolyRGeneralPat -> generalPat(element, holder)
 			is MLPolyRIdentifierMixin -> identifier(element, holder)
 		}
