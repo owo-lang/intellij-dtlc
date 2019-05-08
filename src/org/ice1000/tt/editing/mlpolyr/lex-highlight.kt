@@ -185,14 +185,14 @@ let val <VD>n</VD> = { i := 1919810 }
         val <VD>i</VD> = <VC>n</VC>!<VC>i</VC> in <VC>n</VC>!<VC>i</VC> := <VC>i</VC>+1; <PC>f</PC> <VC>i</VC> end
 
     (* ---- utilities ---- *)
-    fun <FD>Let</FD> (<PD>x</PD>, <PD>e1</PD>, <PD>e2</PD>) = <C>`App</C> (<C>`Lam</C> ([<PC>x</PC>], <PC>e2</PC>), [<PC>e1</PC>])
+    fun <FD>Let</FD> <PD>(<AD>x</AD>, <AD>e1</AD>, <AD>e2</AD>)</PD> = <C>`App</C> (<C>`Lam</C> ([<AC>x</AC>], <AC>e2</AC>), [<AC>e1</AC>])
     fun <FD>kv2kb</FD> <PD>kv</PD> = fn <PD>v</PD> => <C>`App</C> (<PC>kv</PC>, [<PC>v</PC>])
 
-    fun <FD>cvt_c</FD> (<PD>cvt</PD>, <PD>kb</PD>) =
+    fun <FD>cvt_c</FD> <PD>(<AD>cvt</AD>, <AD>kb</AD>)</PD> =
     cases <C>`Const</C> <AD>i</AD> => <PC>kb</PC> (<C>`Const</C> <AC>i</AC>)
             | <C>`Var</C> <AD>x</AD> => <PC>kb</PC> (<C>`Var</C> <AC>x</AC>)
-        | <C>`Lam</C> (<PD>xl</PD>, <PD>e</PD>) => <PC>kb</PC> (<Unresolved>cvt_lam</Unresolved> (<Unresolved>cvt</Unresolved>, <PD>xl</PD>, <PD>e</PD>))
-        | <C>`App</C> (<PD>e</PD>, <PD>el</PD>) => <Unresolved>cvt_app</Unresolved> (<Unresolved>cvt</Unresolved>, <PD>e</PD>, <PD>el</PD>, <FC>kv2kb</FC> <PC>kb</PC>)
+        | <C>`Lam</C> <PD>(<AD>xl</AD>, <AD>e</AD>)</PD> => <PC>kb</PC> (<Unresolved>cvt_lam</Unresolved> (<AC>cvt</AC>, <AC>xl</AC>, <AC>e</AC>))
+        | <C>`App</C> <PD>(<AD>e</AD>, <AD>el</AD>)</PD> => <Unresolved>cvt_app</Unresolved> (<AC>cvt</AC>, <AC>e</AC>, <AC>el</AC>, <FC>kv2kb</FC> <PC>kb</PC>)
 in 0
 end
 """

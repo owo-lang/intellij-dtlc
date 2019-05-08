@@ -20,6 +20,16 @@
 			<option name="FOREGROUND" value="aac6b1"/>
 		</value>
 	</option>
+	<option name="ML_POLY_R_PATTERN_CALL">
+		<value>
+			<option name="FOREGROUND" value="66c671"/>
+		</value>
+	</option>
+	<option name="ML_POLY_R_PATTERN_DECL">
+		<value>
+			<option name="FOREGROUND" value="66c671"/>
+		</value>
+	</option>
 	<option name="ML_POLY_R_VARIABLE_CALL">
 		<value>
 			<option name="FOREGROUND" value="c6aabc"/>

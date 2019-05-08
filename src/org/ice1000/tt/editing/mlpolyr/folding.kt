@@ -49,7 +49,9 @@ private class FoldingVisitor(
 	override fun visitLetExp(o: MLPolyRLetExp) {
 		val `in` = o.childrenWithLeaves.firstOrNull { it.elementType == MLPolyRTypes.KW_IN } ?: return
 		val letLine = document.getLineNumber(o.startOffset)
-		val inLine = document.getLineNumber(`in`.startOffset).coerceAtLeast(letLine + 1)
-		descriptors += FoldingDescriptor(o, TextRange(o.firstChild.startOffset, document.getLineEndOffset(inLine-1)))
+		val inStart = `in`.startOffset
+		val inLine = document.getLineNumber(inStart).coerceAtLeast(letLine + 1)
+		val endOffset = document.getLineEndOffset(inLine - 1).coerceAtMost(inStart)
+		descriptors += FoldingDescriptor(o, TextRange(o.firstChild.startOffset, endOffset))
 	}
 }
