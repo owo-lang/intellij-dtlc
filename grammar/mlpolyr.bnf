@@ -38,7 +38,10 @@ rc ::= namePat EQ exp {
 }
 
 asPat ::= pat KW_AS pat
-listPat ::= LP patList? RP { pin=1 }
+listPat ::= LP patList? RP {
+	pin=1
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRParameterPatMixin'
+}
 cbPat ::= cbPatImpl { pin=1 }
 cbbPat ::= LCBB fieldPatterns? RCBB {
 	pin=1

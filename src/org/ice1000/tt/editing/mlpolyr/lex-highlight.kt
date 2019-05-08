@@ -41,6 +41,8 @@ object MLPolyRHighlighter : SyntaxHighlighter {
 	@JvmField val VARIABLE_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_VARIABLE_DECL", DefaultLanguageHighlighterColors.GLOBAL_VARIABLE)
 	@JvmField val PATTERN_CALL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_PATTERN_CALL", DefaultLanguageHighlighterColors.LOCAL_VARIABLE)
 	@JvmField val PATTERN_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_PATTERN_DECL", DefaultLanguageHighlighterColors.LOCAL_VARIABLE)
+	@JvmField val FIELD_CALL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_FIELD_CALL", DefaultLanguageHighlighterColors.INSTANCE_FIELD)
+	@JvmField val FIELD_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_FIELD_DECL", DefaultLanguageHighlighterColors.INSTANCE_FIELD)
 	@JvmField val PARAMETER_CALL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_PARAMETER_CALL", DefaultLanguageHighlighterColors.PARAMETER)
 	@JvmField val PARAMETER_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_PARAMETER_DECL", DefaultLanguageHighlighterColors.PARAMETER)
 	@JvmField val CONSTRUCTOR = TextAttributesKey.createTextAttributesKey("ML_POLY_R_CONSTRUCTOR", DefaultLanguageHighlighterColors.LABEL)
@@ -145,6 +147,8 @@ class MLPolyRColorSettingsPage : ColorSettingsPage {
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.pattern-decl"), MLPolyRHighlighter.PATTERN_DECL),
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.variable-call"), MLPolyRHighlighter.VARIABLE_CALL),
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.variable-decl"), MLPolyRHighlighter.VARIABLE_DECL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.field-call"), MLPolyRHighlighter.FIELD_CALL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.field-decl"), MLPolyRHighlighter.FIELD_DECL),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), MLPolyRHighlighter.KEYWORD),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), MLPolyRHighlighter.IDENTIFIER),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), MLPolyRHighlighter.SEMICOLON),
@@ -167,6 +171,8 @@ class MLPolyRColorSettingsPage : ColorSettingsPage {
 			"PD" to MLPolyRHighlighter.PARAMETER_DECL,
 			"AC" to MLPolyRHighlighter.PATTERN_CALL,
 			"AD" to MLPolyRHighlighter.PATTERN_DECL,
+			"FC" to MLPolyRHighlighter.FIELD_CALL,
+			"FD" to MLPolyRHighlighter.FIELD_DECL,
 			"C" to MLPolyRHighlighter.CONSTRUCTOR,
 			"Unresolved" to MLPolyRHighlighter.UNRESOLVED)
 	}
@@ -185,7 +191,7 @@ let val <VD>n</VD> = { i := 1919810 }
         val <VD>i</VD> = <VC>n</VC>!<VC>i</VC> in <VC>n</VC>!<VC>i</VC> := <VC>i</VC>+1; <PC>f</PC> <VC>i</VC> end
 
     (* ---- utilities ---- *)
-    fun <FD>Let</FD> <PD>(<AD>x</AD>, <AD>e1</AD>, <AD>e2</AD>)</PD> = <C>`App</C> (<C>`Lam</C> ([<AC>x</AC>], <AC>e2</AC>), [<AC>e1</AC>])
+    fun <FD>Let</FD> <PD>{<FD>x</FD>, <FD>e1</FD>, <FD>e2</FD>}</PD> = <C>`App</C> (<C>`Lam</C> ([<FC>x</FC>], <FC>e2</FC>), [<FC>e1</FC>])
     fun <FD>kv2kb</FD> <PD>kv</PD> = fn <PD>v</PD> => <C>`App</C> (<PC>kv</PC>, [<PC>v</PC>])
 
     fun <FD>cvt_c</FD> <PD>(<AD>cvt</AD>, <AD>kb</AD>)</PD> =

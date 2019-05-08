@@ -37,13 +37,17 @@ abstract class MLPolyRFunctionMixin(node: ASTNode) : MLPolyRPatListOwnerMixin(no
 	override fun getNameIdentifier() = namePat
 }
 
-abstract class MLPolyRCbbPatMixin(node: ASTNode) : MLPolyRGeneralPat(node), MLPolyRCbbPat {
+abstract class MLPolyRCbbPatMixin(node: ASTNode) : MLPolyRParameterPatMixin(node), MLPolyRCbbPat {
 	override fun visit(visitor: (MLPolyRNamePat) -> Boolean) =
 		fieldPatternList.all { PsiTreeUtil.findChildrenOfType(it, MLPolyRGeneralPat::class.java).all { it.visit(visitor) } }
 }
 
 abstract class MLPolyRNamePatMixin(node: ASTNode) : MLPolyRGeneralPat(node), MLPolyRNamePat {
 	override fun visit(visitor: (MLPolyRNamePat) -> Boolean) = visitor(this)
+}
+
+abstract class MLPolyRParameterPatMixin(node: ASTNode) : MLPolyRGeneralPat(node), IPattern<MLPolyRNamePat> {
+	override val kind get() = SymbolKind.Parameter
 }
 
 abstract class MLPolyRGeneralPat(node: ASTNode) : GeneralNameIdentifier(node), IPattern<MLPolyRNamePat> {
@@ -55,7 +59,8 @@ abstract class MLPolyRGeneralPat(node: ASTNode) : GeneralNameIdentifier(node), I
 			parent is MLPolyRFunction ->
 				if (this === parent.firstChild) SymbolKind.Function
 				else SymbolKind.Parameter
-			parent is MLPolyRMr || parent is MLPolyRPat -> SymbolKind.Pattern
+			parent is MLPolyRMr || parent is MLPolyRPat || parent is MLPolyRDtMatch -> SymbolKind.Pattern
+			parent is MLPolyRFieldPattern -> SymbolKind.Field
 			else -> SymbolKind.Unknown
 		}
 	}

@@ -34,6 +34,8 @@ class MLPolyRAnnotator : Annotator {
 			.textAttributes = MLPolyRHighlighter.VARIABLE_CALL
 		SymbolKind.Pattern -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.PATTERN_CALL
+		SymbolKind.Field -> holder.createInfoAnnotation(element, null)
+			.textAttributes = MLPolyRHighlighter.FIELD_CALL
 		SymbolKind.Unknown -> Unit
 	}
 
@@ -46,6 +48,8 @@ class MLPolyRAnnotator : Annotator {
 			.textAttributes = MLPolyRHighlighter.VARIABLE_DECL
 		SymbolKind.Pattern -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.PATTERN_DECL
+		SymbolKind.Field -> holder.createInfoAnnotation(element, null)
+			.textAttributes = MLPolyRHighlighter.FIELD_DECL
 		SymbolKind.Unknown -> Unit
 	}
 
