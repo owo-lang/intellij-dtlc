@@ -150,6 +150,8 @@ class MLPolyRColorSettingsPage : ColorSettingsPage {
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.field-call"), MLPolyRHighlighter.FIELD_CALL),
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.field-decl"), MLPolyRHighlighter.FIELD_DECL),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), MLPolyRHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.string"), MLPolyRHighlighter.STRING),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.number"), MLPolyRHighlighter.INT),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), MLPolyRHighlighter.IDENTIFIER),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), MLPolyRHighlighter.SEMICOLON),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), MLPolyRHighlighter.COMMA),
@@ -183,7 +185,7 @@ class MLPolyRColorSettingsPage : ColorSettingsPage {
 	override fun getAttributeDescriptors() = DESCRIPTORS
 	override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 	override fun getDisplayName() = MLPolyRFileType.name
-	@Language("HTML")
+	@Language("MLPolyR")
 	override fun getDemoText() = """
 let val <VD>n</VD> = { i := 1919810 }
     val <VD>m</VD> = {| j := 114514 |}
@@ -199,7 +201,9 @@ let val <VD>n</VD> = { i := 1919810 }
             | <C>`Var</C> <AD>x</AD> => <PC>kb</PC> (<C>`Var</C> <AC>x</AC>)
         | <C>`Lam</C> <PD>(<AD>xl</AD>, <AD>e</AD>)</PD> => <PC>kb</PC> (<Unresolved>cvt_lam</Unresolved> (<AC>cvt</AC>, <AC>xl</AC>, <AC>e</AC>))
         | <C>`App</C> <PD>(<AD>e</AD>, <AD>el</AD>)</PD> => <Unresolved>cvt_app</Unresolved> (<AC>cvt</AC>, <AC>e</AC>, <AC>el</AC>, <FC>kv2kb</FC> <PC>kb</PC>)
-in 0
+in
+    String.output "24 years old student.";
+    114514
 end
 """
 }
