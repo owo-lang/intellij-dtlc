@@ -6,6 +6,7 @@ import com.intellij.lang.folding.FoldingDescriptor
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.util.TextRange
+import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import org.ice1000.tt.FOLDING_PLACEHOLDER
@@ -19,6 +20,8 @@ class MLPolyRFoldingBuilder : FoldingBuilderEx(), DumbAware {
 	override fun getPlaceholderText(node: ASTNode) = when (node.elementType) {
 		MLPolyRTypes.RECORD_EXP -> "${node.firstChildNode?.text.orEmpty()}$FOLDING_PLACEHOLDER${node.lastChildNode?.text.orEmpty()}"
 		MLPolyRTypes.LET_EXP -> "let $FOLDING_PLACEHOLDER"
+		MLPolyRTypes.CASES_EXP -> "cases $FOLDING_PLACEHOLDER"
+		MLPolyRTokenType.COMMENT -> "(***)"
 		else -> FOLDING_PLACEHOLDER
 	}
 
@@ -44,6 +47,14 @@ private class FoldingVisitor(
 
 	override fun visitRecordExp(o: MLPolyRRecordExp) {
 		descriptors += FoldingDescriptor(o, o.textRange)
+	}
+
+	override fun visitCasesExp(o: MLPolyRCasesExp) {
+		descriptors += FoldingDescriptor(o, o.textRange)
+	}
+
+	override fun visitComment(comment: PsiComment?) {
+		if (comment != null) descriptors += FoldingDescriptor(comment, comment.textRange)
 	}
 
 	override fun visitLetExp(o: MLPolyRLetExp) {
