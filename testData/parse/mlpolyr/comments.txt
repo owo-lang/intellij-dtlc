@@ -1,0 +1,5 @@
+FILE
+  PsiComment(comment)('(*******)')
+  PsiWhiteSpace('\n')
+  MLPolyRAtomicExpImpl(ATOMIC_EXP)
+    PsiElement(INT)('114514')
