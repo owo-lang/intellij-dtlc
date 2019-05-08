@@ -16,11 +16,12 @@ import org.ice1000.tt.MLPolyRLanguage
 import org.ice1000.tt.psi.WHITE_SPACE
 
 class MLPolyRFileImpl(viewProvider: FileViewProvider) : MLPolyRFile(viewProvider) {
-	private val consCache = ArrayList<MLPolyRLabelMixin>(50)
+	private val consCache = HashSet<MLPolyRLabelMixin>(50)
 	fun addConstructor(element: MLPolyRLabelMixin) = consCache.add(element)
-	val constructors get() = synchronized(consCache) {
+
+	fun <T> useConstructors(f: Collection<MLPolyRLabelMixin>.() -> T): T = synchronized(consCache) {
 		consCache.retainAll { it.isValid }
-		consCache
+		consCache.f()
 	}
 }
 

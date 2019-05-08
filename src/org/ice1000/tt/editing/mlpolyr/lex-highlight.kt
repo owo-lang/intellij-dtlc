@@ -171,8 +171,8 @@ class MLPolyRColorSettingsPage : ColorSettingsPage {
 			"PD" to MLPolyRHighlighter.PARAMETER_DECL,
 			"AC" to MLPolyRHighlighter.PATTERN_CALL,
 			"AD" to MLPolyRHighlighter.PATTERN_DECL,
-			"FC" to MLPolyRHighlighter.FIELD_CALL,
-			"FD" to MLPolyRHighlighter.FIELD_DECL,
+			"EC" to MLPolyRHighlighter.FIELD_CALL,
+			"ED" to MLPolyRHighlighter.FIELD_DECL,
 			"C" to MLPolyRHighlighter.CONSTRUCTOR,
 			"Unresolved" to MLPolyRHighlighter.UNRESOLVED)
 	}
@@ -191,7 +191,7 @@ let val <VD>n</VD> = { i := 1919810 }
         val <VD>i</VD> = <VC>n</VC>!<VC>i</VC> in <VC>n</VC>!<VC>i</VC> := <VC>i</VC>+1; <PC>f</PC> <VC>i</VC> end
 
     (* ---- utilities ---- *)
-    fun <FD>Let</FD> <PD>{<FD>x</FD>, <FD>e1</FD>, <FD>e2</FD>}</PD> = <C>`App</C> (<C>`Lam</C> ([<FC>x</FC>], <FC>e2</FC>), [<FC>e1</FC>])
+    fun <FD>Let</FD> <PD>{<ED>x</ED>, <ED>e1</ED>, <ED>e2</ED>}</PD> = <C>`App</C> (<C>`Lam</C> ([<EC>x</EC>], <EC>e2</EC>), [<EC>e1</EC>])
     fun <FD>kv2kb</FD> <PD>kv</PD> = fn <PD>v</PD> => <C>`App</C> (<PC>kv</PC>, [<PC>v</PC>])
 
     fun <FD>cvt_c</FD> <PD>(<AD>cvt</AD>, <AD>kb</AD>)</PD> =

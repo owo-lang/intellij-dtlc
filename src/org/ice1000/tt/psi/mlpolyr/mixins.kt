@@ -131,7 +131,7 @@ abstract class MLPolyRLabelMixin(node: ASTNode) : MLPolyRExpImpl(node), MLPolyRL
 	override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
 		val file = containingFile as? MLPolyRFileImpl ?: return emptyArray()
 		if (!isValid || project.isDisposed) return emptyArray()
-		val resolved = file.constructors.find { it !== this && it.name == name }
+		val resolved = file.useConstructors { find { it !== this && it.name == name } }
 		file.addConstructor(this)
 		return resolved?.let { arrayOf(PsiElementResolveResult(it, true)) } ?: emptyArray()
 	}
@@ -139,12 +139,14 @@ abstract class MLPolyRLabelMixin(node: ASTNode) : MLPolyRExpImpl(node), MLPolyRL
 	override fun getVariants(): Array<LookupElementBuilder> {
 		val file = containingFile as? MLPolyRFileImpl ?: return emptyArray()
 		if (!isValid || project.isDisposed) return emptyArray()
-		return file.constructors.map {
-			LookupElementBuilder
-				.create(it.text)
-				.withIcon(PlatformIcons.CLASS_ICON)
-				.withTypeText("Label")
-		}.toTypedArray()
+		return file.useConstructors {
+			map {
+				LookupElementBuilder
+					.create(it.text)
+					.withIcon(PlatformIcons.CLASS_ICON)
+					.withTypeText("Label")
+			}.toTypedArray()
+		}
 	}
 }
 
