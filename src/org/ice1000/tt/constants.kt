@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nls
 import org.jetbrains.annotations.NonNls
 
 @NonNls const val TT_PLUGIN_ID = "org.ice1000.tt"
+@NonNls const val FOLDING_PLACEHOLDER = "..."
 
 @NonNls const val MINI_TT_LOCAL_CONTEXT_ID = "MINI_TT_LOCAL_CONTEXT"
 @Nls const val MINI_TT_LOCAL_CONTEXT_NAME = "Expression"
@@ -12,7 +13,6 @@ import org.jetbrains.annotations.NonNls
 @NonNls const val MINI_TT_LINE_COMMENT = "-- "
 
 @NonNls const val MINI_TT_WEBSITE = "https://docs.rs/minitt"
-@NonNls const val MINI_TT_FOLDING_PLACEHOLDER = "..."
 
 @NonNls const val AGDA_CORE_EXTENSION = "mtt"
 @NonNls const val AGDA_CORE_WEBSITE = "https://github.com/owo-lang/Mini-TT"

@@ -8,7 +8,7 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import org.ice1000.tt.ACoreFile
-import org.ice1000.tt.MINI_TT_FOLDING_PLACEHOLDER
+import org.ice1000.tt.FOLDING_PLACEHOLDER
 import org.ice1000.tt.editing.*
 import org.ice1000.tt.psi.acore.*
 import org.ice1000.tt.psi.elementType
@@ -23,7 +23,7 @@ class ACoreFoldingBuilder : FoldingBuilderEx(), DumbAware {
 		ACoreTypes.MUL -> MULTIPLY
 		ACoreTypes.ARROW -> ARROW
 		ACoreTypes.VOID, ACoreTypes.EOF_VOID -> ""
-		else -> MINI_TT_FOLDING_PLACEHOLDER
+		else -> FOLDING_PLACEHOLDER
 	}
 
 	override fun isCollapsedByDefault(node: ASTNode) = node.psi !is ACoreDeclaration

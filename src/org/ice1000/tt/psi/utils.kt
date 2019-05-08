@@ -1,9 +1,11 @@
 package org.ice1000.tt.psi
 
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
+import com.intellij.psi.util.PsiTreeUtil
 
 val PsiElement.elementType get() = node.elementType
 
@@ -11,23 +13,37 @@ val PsiElement.startOffset get() = textRange.startOffset
 val PsiElement.endOffset get() = textRange.endOffset
 
 inline fun <reified Psi : PsiElement> PsiElement.nextSiblingIgnoring(vararg types: IElementType): Psi? {
-	var next: PsiElement? = nextSibling
+	var next: PsiElement = nextSibling ?: return null
 	while (true) {
-		val localNext = next ?: return null
-		next = localNext.nextSibling
-		return if (types.any { localNext.node.elementType == it }) continue
-		else localNext as? Psi
+		next = next.nextSibling ?: return null
+		return if (types.any { next.node.elementType == it }) continue
+		else next as? Psi
 	}
 }
 
 inline fun <reified Psi : PsiElement> PsiElement.prevSiblingIgnoring(vararg types: IElementType): Psi? {
-	var next: PsiElement? = prevSibling
+	var next: PsiElement = prevSibling ?: return null
 	while (true) {
-		val localNext = next ?: return null
-		next = localNext.prevSibling
-		return if (types.any { localNext.node.elementType == it }) continue
-		else localNext as? Psi
+		next = next.prevSibling ?: return null
+		return if (types.any { next.node.elementType == it }) continue
+		else next as? Psi
 	}
+}
+
+val PsiElement.leftLeaves: Sequence<PsiElement>
+	get() = generateSequence(this, PsiTreeUtil::prevLeaf).drop(1)
+
+val PsiElement.rightSiblings: Sequence<PsiElement>
+	get() = generateSequence(this.nextSibling) { it.nextSibling }
+
+val PsiElement.leftSiblings: Sequence<PsiElement>
+	get() = generateSequence(this.prevSibling) { it.prevSibling }
+
+val PsiElement.childrenWithLeaves: Sequence<PsiElement>
+	get() = generateSequence(this.firstChild) { it.nextSibling }
+
+val PsiElement.ancestors: Sequence<PsiElement> get() = generateSequence(this) {
+	if (it is PsiFile) null else it.parent
 }
 
 @JvmField

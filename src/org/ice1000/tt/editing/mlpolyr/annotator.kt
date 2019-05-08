@@ -15,10 +15,15 @@ class MLPolyRAnnotator : Annotator {
 		when (element) {
 			is MLPolyRCon -> constructor(element, holder)
 			is MLPolyRMr -> constructor(element, holder)
-			is MLPolyRCbbPat, is MLPolyRCbPat, is MLPolyRAsPat -> Unit
+			is MLPolyRCbbPat, is MLPolyRCbPat, is MLPolyRAsPat, is MLPolyRBqPat -> Unit
 			is MLPolyRGeneralPat -> generalPat(element, holder)
+			is MLPolyRListPat -> listPat(element, holder)
 			is MLPolyRIdentifierMixin -> identifier(element, holder)
 		}
+	}
+
+	private fun listPat(element: MLPolyRListPat, holder: AnnotationHolder) {
+		element.patList.filterIsInstance<MLPolyRGeneralPat>().forEach { generalPat(it, holder) }
 	}
 
 	private fun identifier(element: MLPolyRIdentifierMixin, holder: AnnotationHolder) = when ((element.resolve() as? MLPolyRGeneralPat)?.kind) {
