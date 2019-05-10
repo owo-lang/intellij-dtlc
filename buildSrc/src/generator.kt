@@ -119,7 +119,7 @@ val Project.${nickname}Settings: ${languageName}ProjectSettingsService
 val Project.${nickname}SettingsNullable: ${languageName}ProjectSettingsService?
 	get() = ServiceManager.getService(this, ${languageName}ProjectSettingsService::class.java)
 
-
+${if (generateSettings) """
 abstract class ${languageName}ProjectConfigurableBase(project: Project) : VersionedExecutableProjectConfigurableImpl() {
 	/** For building searchable options */
 	override val settings: ${languageName}Settings = project.${nickname}SettingsNullable?.settings ?: ${languageName}Settings()
@@ -139,6 +139,7 @@ abstract class ${languageName}ProjectConfigurableBase(project: Project) : Versio
 
 	override fun getDisplayName() = TTBundle.message("$nickname.name")
 }
+""" else ""}
 """
 		dir.resolve("project")
 			.apply { mkdirs() }

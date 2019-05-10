@@ -73,12 +73,12 @@
 			groupId="language"
 			id="TT.ACore.Configurable"
 			displayName="Vanilla Mini-TT"
-			instance="org.ice1000.tt.project.ui.ACoreProjectConfigurable"/>
+			instance="org.ice1000.tt.project.ACoreProjectConfigurable"/>
 		<projectConfigurable
 			groupId="language"
 			id="TT.MLPolyR.Configurable"
 			displayName="MLPolyR"
-			instance="org.ice1000.tt.project.ui.MLPolyRProjectConfigurable"/>
+			instance="org.ice1000.tt.project.MLPolyRProjectConfigurable"/>
 	</extensions>
 
 	<project-components>

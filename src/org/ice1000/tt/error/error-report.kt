@@ -285,7 +285,6 @@ private fun getKeyValuePairs(
 		"error.description" to error.description,
 		"Mini-TT version" to (project?.minittSettingsNullable?.settings?.version ?: "Unknown"),
 		"Agda version" to (project?.agdaSettingsNullable?.settings?.version ?: "Unknown"),
-		"Vanilla Mini-TT version" to (project?.acoreSettingsNullable?.settings?.version ?: "Unknown"),
 		"Plugin Name" to error.pluginName,
 		"Plugin Version" to error.pluginVersion,
 		"OS Name" to SystemInfo.OS_NAME,

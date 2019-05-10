@@ -2,7 +2,9 @@ package org.ice1000.tt.project.ui
 
 import com.intellij.ide.browsers.BrowserLauncher
 import com.intellij.openapi.project.Project
-import org.ice1000.tt.project.*
+import org.ice1000.tt.project.AgdaProjectConfigurableBase
+import org.ice1000.tt.project.MiniTTProjectConfigurableBase
+import org.ice1000.tt.project.VersionedExecutableSettings
 import org.ice1000.tt.versionOf
 
 abstract class VersionedExecutableProjectConfigurableImpl : VersionedExecutableProjectConfigurable() {
@@ -31,18 +33,18 @@ abstract class VersionedExecutableProjectConfigurableImpl : VersionedExecutableP
 	}
 }
 
+abstract class OnlyExecutableProjectConfigurableImpl : OnlyExecutableProjectConfigurable() {
+	init {
+		websiteLabel.setListener({ _, _ -> BrowserLauncher.instance.open(websiteLabel.text) }, null)
+	}
+
+	override fun createComponent() = mainPanel
+}
+
 class MiniTTProjectConfigurable(project: Project) : MiniTTProjectConfigurableBase(project) {
 	override fun trimVersion(version: String) = version.removePrefix("minittc").trim()
 }
 
 class AgdaProjectConfigurable(project: Project) : AgdaProjectConfigurableBase(project) {
 	override fun trimVersion(version: String) = version.removePrefix("Agda version").trim()
-}
-
-class ACoreProjectConfigurable(project: Project) : ACoreProjectConfigurableBase(project) {
-	override fun trimVersion(version: String) = """(Vanilla Mini-TT does not have "version")"""
-}
-
-class MLPolyRProjectConfigurable(project: Project) : MLPolyRProjectConfigurableBase(project) {
-	override fun trimVersion(version: String) = """(MLPolyR does not have "version")"""
 }

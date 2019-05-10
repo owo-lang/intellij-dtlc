@@ -167,6 +167,7 @@ val genACoreUtility = task<LanguageUtilityGenerationTask>("genACoreUtility") {
 	languageName = "ACore"
 	constantPrefix = "AGDA_CORE"
 	exeName = "agdacore"
+	generateSettings = false
 }
 
 val genAgdaUtility = task<LanguageUtilityGenerationTask>("genAgdaUtility") {
@@ -180,6 +181,7 @@ val genMLPolyRUtility = task<LanguageUtilityGenerationTask>("genMLPolyRUtility")
 	constantPrefix = "MLPOLYR"
 	exeName = "mlpolyrc"
 	runConfigInit = """additionalOptions = "-t""""
+	generateSettings = false
 }
 
 val generateCode = task("generateCode") {
