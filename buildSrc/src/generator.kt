@@ -101,16 +101,11 @@ data class ${languageName}Settings(
 """ else ""}
 val ${nickname}Path by lazyExePath("$exeName")
 
-interface ${languageName}ProjectSettingsService {
-	val settings: ${languageName}Settings
-}
-
 @State(
 	name = "${languageName}ProjectSettings",
 	storages = [Storage(file = "${configName}Config.xml")])
-class ${languageName}ProjectSettingsServiceImpl :
-		${languageName}ProjectSettingsService, PersistentStateComponent<${languageName}Settings> {
-	override val settings: ${languageName}Settings = ${languageName}Settings()
+class ${languageName}ProjectSettingsService : PersistentStateComponent<${languageName}Settings> {
+	val settings: ${languageName}Settings = ${languageName}Settings()
 	override fun getState(): ${languageName}Settings? = XmlSerializerUtil.createCopy(settings)
 	override fun loadState(state: ${languageName}Settings) {
 		XmlSerializerUtil.copyBean(state, settings)

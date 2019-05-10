@@ -83,20 +83,16 @@
 
 	<project-components>
 		<component>
-			<interface-class>org.ice1000.tt.project.MiniTTProjectSettingsService</interface-class>
-			<implementation-class>org.ice1000.tt.project.MiniTTProjectSettingsServiceImpl</implementation-class>
+			<implementation-class>org.ice1000.tt.project.MiniTTProjectSettingsService</implementation-class>
 		</component>
 		<component>
-			<interface-class>org.ice1000.tt.project.AgdaProjectSettingsService</interface-class>
-			<implementation-class>org.ice1000.tt.project.AgdaProjectSettingsServiceImpl</implementation-class>
+			<implementation-class>org.ice1000.tt.project.AgdaProjectSettingsService</implementation-class>
 		</component>
 		<component>
-			<interface-class>org.ice1000.tt.project.ACoreProjectSettingsService</interface-class>
-			<implementation-class>org.ice1000.tt.project.ACoreProjectSettingsServiceImpl</implementation-class>
+			<implementation-class>org.ice1000.tt.project.ACoreProjectSettingsService</implementation-class>
 		</component>
 		<component>
-			<interface-class>org.ice1000.tt.project.MLPolyRProjectSettingsService</interface-class>
-			<implementation-class>org.ice1000.tt.project.MLPolyRProjectSettingsServiceImpl</implementation-class>
+			<implementation-class>org.ice1000.tt.project.MLPolyRProjectSettingsService</implementation-class>
 		</component>
 	</project-components>
 
