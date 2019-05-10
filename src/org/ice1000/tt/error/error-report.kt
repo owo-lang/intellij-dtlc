@@ -51,7 +51,7 @@ import org.eclipse.egit.github.core.client.GitHubClient
 import org.eclipse.egit.github.core.service.IssueService
 import org.ice1000.tt.TT_PLUGIN_ID
 import org.ice1000.tt.project.agdaSettingsNullable
-import org.ice1000.tt.project.minittSettingsNullable
+import org.ice1000.tt.project.miniTTSettingsNullable
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 import java.awt.Component
@@ -282,7 +282,7 @@ private fun getKeyValuePairs(
 	}
 	val params = mutableMapOf(
 		"error.description" to error.description,
-		"Mini-TT version" to (project?.minittSettingsNullable?.settings?.version ?: "Unknown"),
+		"Mini-TT version" to (project?.miniTTSettingsNullable?.settings?.version ?: "Unknown"),
 		"Agda version" to (project?.agdaSettingsNullable?.settings?.version ?: "Unknown"),
 		"Plugin Name" to error.pluginName,
 		"Plugin Version" to error.pluginVersion,
