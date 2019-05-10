@@ -20,23 +20,24 @@ class RedPrlElementType(debugName: String) : IElementType(debugName, RedPrlLangu
 class RedPrlTokenType(debugName: String) : IElementType(debugName, RedPrlLanguage.INSTANCE) {
 	companion object Builtin {
 		@JvmField val LINE_COMMENT = RedPrlTokenType("line comment")
-		@JvmField val COMMENTS = TokenSet.create(LINE_COMMENT)
-		@JvmField val IDENTIFIERS = TokenSet.create(TODO(/*RedPrlTypes.IDENTIFIER*/))
+		@JvmField val BLOCK_COMMENT = RedPrlTokenType("block comment")
+		@JvmField val COMMENTS = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT)
+		@JvmField val IDENTIFIERS = TokenSet.create(RedPrlTypes.OPNAME, RedPrlTypes.VARNAME, RedPrlTypes.HOLENAME)
 
 		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(RedPrlLanguage.INSTANCE, text).firstChild
 	}
 }
 
-fun redPrlLexer() = FlexAdapter(TODO(/*RedPrlLexer()*/))
+fun redPrlLexer() = FlexAdapter(RedPrlLexer())
 
 class RedPrlParserDefinition : ParserDefinition {
 	private companion object {
 		private val FILE = IStubFileElementType<PsiFileStubImpl<RedPrlFile>>(RedPrlLanguage.INSTANCE)
 	}
 
-	override fun createParser(project: Project?) = TODO(/*RedPrlParser()*/)
+	override fun createParser(project: Project?) = RedPrlParser()
 	override fun createLexer(project: Project?) = redPrlLexer()
-	override fun createElement(node: ASTNode?): PsiElement = TODO(/*RedPrlTypes.Factory.createElement(node)*/)
+	override fun createElement(node: ASTNode?): PsiElement = RedPrlTypes.Factory.createElement(node)
 	override fun createFile(viewProvider: FileViewProvider) = RedPrlFile(viewProvider)
 	override fun getStringLiteralElements() = TokenSet.EMPTY
 	override fun getWhitespaceTokens() = WHITE_SPACE

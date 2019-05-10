@@ -1,0 +1,19 @@
+//noinspection BnfResolveForFile
+{
+  generate=[java="8" names="long"]
+
+  parserClass="org.ice1000.tt.psi.redprl.RedPrlParser"
+
+  psiClassPrefix="RedPrl"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.ice1000.tt.psi.redprl"
+  psiImplPackage="org.ice1000.tt.psi.redprl.impl"
+
+  elementTypeHolderClass="org.ice1000.tt.psi.redprl.RedPrlTypes"
+  elementTypeClass="org.ice1000.tt.psi.redprl.RedPrlElementType"
+  tokenTypeClass="org.ice1000.tt.psi.redprl.RedPrlTokenType"
+}
+
+// TODO: Placeholders
+file ::= VARNAME OPNAME
+hole ::= HOLENAME
