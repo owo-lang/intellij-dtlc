@@ -22,14 +22,11 @@
 // Regular expressions:
 //  s/\(Ast\.\$\$[^\n]+//rg
 
-// TODO: Placeholders
 file ::= mlDecl
 ident ::= VARNAME | OPNAME
 
-private boundVars ::= boundVar+
 boundVar ::= VARNAME | UNDER
 
-private sorts ::= sort+
 sort ::=
    EXP
  | TAC
@@ -45,24 +42,19 @@ varDecl ::= VARNAME
 
 numAsDimension ::= NUMERAL
 
-bindingSig ::= LSQUARE sorts RSQUARE DOT
+bindingSig ::= LSQUARE sort+ RSQUARE DOT
 valence ::= bindingSig sort
 
-private dimensions ::= dimension+
-dimension ::= varUsage | metavar | numAsDimension
+dimension ::= varUsage | metaVar | numAsDimension
 dir ::= dimension SQUIGGLE_RIGHT_ARROW dimension
 backDir ::= dimension SQUIGGLE_LEFT_ARROW dimension
 equation ::= dimension EQUALS dimension
 tube ::= LSQUARE equation binding RSQUARE
 boundary ::= LSQUARE equation term RSQUARE
-private tubeVec ::= tube*
-private boundaryVec ::= boundary*
-metavar ::= HASH ident
+metaVar ::= HASH ident
 
-private typedBinders ::= typedBinder+
-typedBinder ::= LSQUARE boundVars COLON term RSQUARE
-
-dimBinder ::= LSQUARE boundVars COLON DIM RSQUARE
+typedBinder ::= LSQUARE boundVar+ COLON term RSQUARE
+dimBinder ::= LSQUARE boundVar+ COLON DIM RSQUARE
 
 arrowQuantifierData ::=
  ( typedBinder
@@ -72,11 +64,8 @@ arrowQuantifierData ::=
  )* term
 timesQuantifierData ::= (typedBinder | term)* term
 
-private fields ::= field+
 field ::= LSQUARE ident term RSQUARE
-
-private binder ::= LSQUARE boundVars RSQUARE
-private bindings ::= binding+
+private binder ::= LSQUARE boundVar+ RSQUARE
 binding ::= binder? term
 
 nullaryOperator ::=
@@ -133,28 +122,27 @@ multinaryOperator ::=
  | VIN
  | VPROJ
 
-customOpTerm ::= opUsage | LPAREN opUsage bindings RPAREN
+customOpTerm ::= opUsage | LPAREN opUsage binding+ RPAREN
 
 private inductiveTermInside ::=
-   TYPE bindings?
- | ident bindings?
- | REC bindings
+   TYPE binding*
+ | ident binding*
+ | REC binding+
 inductiveTerm ::= LPAREN DOT opUsage inductiveTermInside RPAREN
 
 patVar ::=
    PERCENT LSQUARE varDecl COLON sort RSQUARE
  | PERCENT varDecl
-private patVarBindings ::= varDecl+
 
 termAndTac ::=
    varUsage
  /* meta variable */
- | metavar
- | LPAREN metavar terms RPAREN
+ | metaVar
+ | LPAREN metaVar term+ RPAREN
 
  /* pattern variables */
  | patVar
- | LPAREN patVar termsAnySort RPAREN
+ | LPAREN patVar term+ RPAREN
 
  /* custom operators */
  | customOpTerm
@@ -164,19 +152,19 @@ termAndTac ::=
 
  /* built-in operators that can be handled uniformly */
  | nullaryOperator
- | LPAREN multinaryOperator bindings RPAREN
+ | LPAREN multinaryOperator binding+ RPAREN
  | LPAREN UNIVERSE level RPAREN
  | LPAREN UNIVERSE level term RPAREN
  | LPAREN LOOP dimension RPAREN
 
  /* Kan operators */
  | LPAREN COE dir binding term RPAREN
- | LPAREN FCOM dir term tubeVec RPAREN
- | LPAREN HCOM dir binding term tubeVec RPAREN
- | LPAREN COM dir binding term tubeVec RPAREN
- | LPAREN BOX dir term boundaryVec RPAREN
- | LPAREN CAP backDir term tubeVec RPAREN
- | LPAREN ECOM dir term tubeVec RPAREN
+ | LPAREN FCOM dir term tube* RPAREN
+ | LPAREN HCOM dir binding term tube* RPAREN
+ | LPAREN COM dir binding term tube* RPAREN
+ | LPAREN BOX dir term boundary* RPAREN
+ | LPAREN CAP backDir term tube* RPAREN
+ | LPAREN ECOM dir term tube* RPAREN
 
  /* numbers */
  | NUMERAL
@@ -186,23 +174,23 @@ termAndTac ::=
 
  /* function types */
  | LPAREN RIGHT_ARROW arrowQuantifierData RPAREN
- | LPAREN LAMBDA LSQUARE boundVars RSQUARE term RPAREN
- | LPAREN DOLLAR_SIGN term terms RPAREN
+ | LPAREN LAMBDA LSQUARE boundVar+ RSQUARE term RPAREN
+ | LPAREN DOLLAR_SIGN term term+ RPAREN
 
  /* pair types */
  | LPAREN TIMES timesQuantifierData RPAREN
 
  /* dependent record types */
  | RECORD
- | LPAREN RECORD typedBinders RPAREN
+ | LPAREN RECORD typedBinder+ RPAREN
  | TUPLE
- | LPAREN TUPLE fields RPAREN
- | LPAREN TUPLE terms RPAREN
+ | LPAREN TUPLE field+ RPAREN
+ | LPAREN TUPLE term+ RPAREN
  | LPAREN BANG ident term RPAREN
 
  /* paths */
- | LPAREN ABS LSQUARE boundVars RSQUARE term RPAREN
- | LPAREN AT_SIGN term dimensions RPAREN
+ | LPAREN ABS LSQUARE boundVar+ RSQUARE term RPAREN
+ | LPAREN AT_SIGN term dimension+ RPAREN
 
  /* Abbreviation for membership */
  | LPAREN MEM term term RPAREN
@@ -210,18 +198,16 @@ termAndTac ::=
  /* levels */
  | LPAREN PLUS level NUMERAL RPAREN
  | LPAREN DOUBLE_PLUS level RPAREN
- | LPAREN LMAX levels RPAREN
+ | LPAREN LMAX level+ RPAREN
 
-private levels ::= level+
-level ::= 
+level ::=
    NUMERAL
  | LPAREN PLUS level NUMERAL RPAREN
  | LPAREN DOUBLE_PLUS level RPAREN
- | LPAREN LMAX levels RPAREN
- | metavar
+ | LPAREN LMAX level+ RPAREN
+ | metaVar
  | PERCENT varUsage
 
-private terms ::= term+
 term ::=
    termAndTac
  | HASH TAC LBRACKET tactic RBRACKET
@@ -245,41 +231,37 @@ judgment ::=
 
 specTube ::= LSQUARE equation specBinding RSQUARE
 specBoundary ::= LSQUARE equation specTerm RSQUARE
-private specTubeVec ::= specTube+
-private specBoundaryVec ::= specBoundary+
 
 specArrowQuantifierData ::= (typedBinder | term)* specType
 specType ::= SELF | LPAREN SELF RIGHT_ARROW specArrowQuantifierData RPAREN
-specTypedBinder ::= LSQUARE boundVars COLON specType RSQUARE
+specTypedBinder ::= LSQUARE boundVar+ COLON specType RSQUARE
 
 specBinding ::= binder? specTerm
-private specBindings ::= specBinding+
 
 specTerm ::=
    term
 
  /* intro */
- | LPAREN SELF ident specBindings? RPAREN
+ | LPAREN SELF ident specBinding* RPAREN
 
  /* fcom */
- | LPAREN SELF FCOM dir specTerm specTubeVec RPAREN
+ | LPAREN SELF FCOM dir specTerm specTube+ RPAREN
 
  /* lambda and applications */
- | LPAREN SELF LAMBDA LSQUARE boundVars RSQUARE specTerm RPAREN
- | LPAREN SELF DOLLAR_SIGN specTerm terms RPAREN
+ | LPAREN SELF LAMBDA LSQUARE boundVar+ RSQUARE specTerm RPAREN
+ | LPAREN SELF DOLLAR_SIGN specTerm term+ RPAREN
 
 private possibleDataConstructor ::=
    typedBinder
  | dimBinder
  | specTypedBinder
  | specType
- | specBoundaryVec
+ | specBoundary+
  | term
  | DIM
-private dataConstructorArgs ::= possibleDataConstructor*
 private dataConstructors ::= dataConstructor dataConstructorRest*
 private dataConstructorRest ::= COMMA dataConstructor { pin=1 }
-dataConstructor ::= ident dataConstructorArgs
+dataConstructor ::= ident possibleDataConstructor*
 
 dataDecl ::=
  (typedBinder | dimBinder)*
@@ -293,7 +275,6 @@ private devAppSpineRest ::= COMMA devAppSpine { pin=1 }
 private bracketedDevAppSpine ::= LSQUARE devAppSpine? RSQUARE { pin=1 }
 devAppSpine ::= tactic devAppSpineRest*
 
-private devDecompPatterns ::= devDecompPattern+
 devDecompPattern ::= varDecl | UNDER | LBRACKET tupleDecompPattern RBRACKET
 labeledDecompPattern ::= varDecl EQUALS devDecompPattern { pin=2 }
 
@@ -306,20 +287,13 @@ anonTupleDecompPattern ::= devDecompPattern devDecompPatternRest*
 private tupleDecompPattern ::=
    anonTupleDecompPattern
  | labeledTupleDecompPattern?
-private devMatchClausesOpt ::= devMatchClauses?
-devMatchClauses ::= LSQUARE (patVarBindings PIPE)? termAnySort
+devMatchClauses ::= LSQUARE (varDecl+ PIPE)? term
  DOUBLE_RIGHT_ARROW tactic RSQUARE
 
-private accessors ::= accessor+
-private selectors ::= selector+
-selector ::= CONCL | elimTargetAnySort
+selector ::= CONCL | elimTarget
 accessor ::= TYPE | LEFT | RIGHT
 
-private opNames ::= opUsage+
-private termAnySort ::= term
-private termsAnySort ::= termAnySort+
-private elimTarget ::= varUsage | metavar
-private elimTargetAnySort ::= elimTarget
+private elimTarget ::= varUsage | metaVar
 
 tac ::=
    refineTac
@@ -352,45 +326,44 @@ tac ::=
  | termAndTac
 
 // No-pin tactics
-useElimTac ::= USE elimTargetAnySort bracketedDevAppSpine?
+useElimTac ::= USE elimTarget bracketedDevAppSpine?
 useCustomTac ::= USE customOpTerm bracketedDevAppSpine?
 letCustomTac ::= LET devDecompPattern EQUALS
  customOpTerm bracketedDevAppSpine? SEMI tactic
 letElimTac ::= LET devDecompPattern EQUALS
- elimTargetAnySort bracketedDevAppSpine? SEMI tactic
+ elimTarget bracketedDevAppSpine? SEMI tactic
 
 // Simple (can-pin) tactics
-elimTac ::= TAC_ELIM elimTargetAnySort { pin=1 }
+elimTac ::= TAC_ELIM elimTarget { pin=1 }
 refineTac ::= REFINE varUsage { pin=1 }
 queryTac ::= QUERY varDecl LEFT_ARROW selector SEMI tactic { pin=1 }
-printTac ::= PRINT termAnySort { pin=1 }
+printTac ::= PRINT term { pin=1 }
 caseTac ::= CASE elimTarget OF
  BASE DOUBLE_RIGHT_ARROW tactic
- PIPE LOOP VARNAME DOUBLE_RIGHT_ARROW tactic { pin=1 }
-matchTac ::= MATCH termAnySort LBRACKET devMatchClausesOpt RBRACKET { pin=1 }
+ PIPE LOOP varDecl DOUBLE_RIGHT_ARROW tactic { pin=1 }
+matchTac ::= MATCH term LBRACKET devMatchClauses? RBRACKET { pin=1 }
 ifTac ::= IF elimTarget THEN tactic ELSE tactic { pin=1 }
-backtickTac ::= BACK_TICK termAnySort { pin=1 }
+backtickTac ::= BACK_TICK term { pin=1 }
 claimTac ::= CLAIM varDecl COLON judgment
  BY LBRACKET tactic RBRACKET SEMI tactic { pin=1 }
-exactTac ::= RULE_EXACT termAnySort { pin=1 }
-absTac ::= ABS boundVars DOUBLE_RIGHT_ARROW tactic { pin=1 }
-lambdaTac ::= LAMBDA devDecompPatterns DOUBLE_RIGHT_ARROW tactic { pin=1 }
+exactTac ::= RULE_EXACT term { pin=1 }
+absTac ::= ABS boundVar+ DOUBLE_RIGHT_ARROW tactic { pin=1 }
+lambdaTac ::= LAMBDA devDecompPattern+ DOUBLE_RIGHT_ARROW tactic { pin=1 }
 bracketTac ::= LBRACKET (tactics | recordFieldTactics?) RBRACKET { pin=1 }
-withoutTac ::= WITHOUT termsAnySort { pin=1 }
-withTac ::= WITH hypBindings DOUBLE_RIGHT_ARROW tactic { pin=1 }
+withoutTac ::= WITHOUT term+ { pin=1 }
+withTac ::= WITH hypBinding* DOUBLE_RIGHT_ARROW tactic { pin=1 }
 
 // Left-recursive tactics
 tacPipeTac ::= tac DOUBLE_PIPE tactic
 
 // Complicated tactics
-private atAccessorInSelector ::=
-   AT accessors
- | IN selector
- | AT accessors IN selector
- | IN selector AT accessors
-rewriteTac ::= TAC_REWRITE term atAccessorInSelector { pin=1 }
-unfoldTac ::= TAC_UNFOLD opNames atAccessorInSelector? { pin=1 }
-reduceTac ::= TAC_REDUCE atAccessorInSelector? { pin=1 }
+private accessAndSelect ::=
+   atAccessor | inSelector | atAccessor inSelector | inSelector atAccessor
+private inSelector ::= IN selector
+private atAccessor ::= AT accessor+
+rewriteTac ::= TAC_REWRITE term accessAndSelect { pin=1 }
+unfoldTac ::= TAC_UNFOLD opUsage+ accessAndSelect? { pin=1 }
+reduceTac ::= TAC_REDUCE accessAndSelect? { pin=1 }
 
 // Atomic tactics
 simpleTac ::=
@@ -413,30 +386,29 @@ atomicMultitac ::=
  | tac
 
 multitacSquare ::= LSQUARE tactics RSQUARE { pin=1 }
-multitacRepeat ::= MTAC_REPEAT LBRACKET multitac RBRACKET { pin=1 }
+multitacRepeat ::= MTAC_REPEAT LBRACKET tactic RBRACKET { pin=1 }
 multitacAuto ::= MTAC_AUTO
-multitacProgress ::= MTAC_PROGRESS LBRACKET multitac RBRACKET { pin=1 }
-multitacParen ::= LPAREN multitac RPAREN { pin=1 }
+multitacProgress ::= MTAC_PROGRESS LBRACKET tactic RBRACKET { pin=1 }
+multitacParen ::= LPAREN tactic RPAREN { pin=1 }
 multitacHash ::= HASH NUMERAL LBRACKET tactic RBRACKET { pin=1 }
 hole ::= HOLENAME { extends=atomicMultitac }
 
 /// %prec SEMI
-multitac ::= atomicMultitac (SEMI atomicMultitac)* SEMI?
+tactic ::= atomicMultitac multitacRest* SEMI?
+private multitacRest ::= SEMI atomicMultitac { pin=1 }
 
 /// %prec COMMA
-private hypBindings ::= hypBinding*
 hypBinding ::= boundVar (COLON sort)?
 
-private tactics ::= tactic (COMMA tactic)* COMMA?
+private tactics ::= tactic tacticRest* COMMA?
+private tacticRest ::= COMMA tactic { pin=1 }
 /// %prec: SEMI
-private tactic ::= multitac
 
 private declArguments ::= declArgument declArgumentRest*
 private declArgumentRest ::= COMMA declArgument { pin=1 }
-declArgument ::= metavar (COLON valence)?
+declArgument ::= metaVar (COLON valence)?
 
 /// Should always use `declArgumentsParensOpt` instead of `declArgumentsParens`
-private declArgumentsParensOpt ::= declArgumentsParens?
 declArgumentsParens ::= LPAREN declArguments RPAREN { pin=1 }
 
 private mlVtyBrack ::= LBRACKET mlCty RBRACKET { pin=1 }
@@ -478,19 +450,19 @@ mlCmd ::=
  | mlCmdValue
  | mlAtomicCmd
 
-mlDeclDef ::= DEFINE opDecl declArgumentsParensOpt
+mlDeclDef ::= DEFINE opDecl declArgumentsParens?
  (COLON sort)? EQUALS term {
 	pin=1
 }
-mlDeclData ::= DATA opDecl declArgumentsParensOpt dataDecl
- BY LBRACKET multitac RBRACKET {
+mlDeclData ::= DATA opDecl declArgumentsParens? dataDecl
+ BY LBRACKET tactic RBRACKET {
 	pin=1
 }
-mlDeclTactic ::= TACTIC opDecl declArgumentsParensOpt
+mlDeclTactic ::= TACTIC opDecl declArgumentsParens?
  EQUALS LBRACKET tactic RBRACKET {
 	pin=1
 }
-mlDeclTheo ::= THEOREM opDecl declArgumentsParensOpt COLON judgment
+mlDeclTheo ::= THEOREM opDecl declArgumentsParens? COLON judgment
  BY LBRACKET tactic RBRACKET {
 	pin=1
 }
