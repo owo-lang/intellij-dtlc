@@ -147,7 +147,7 @@ void { return VOID; }
 base { return BASE; }
 loop { return LOOP; }
 path { return PATH; }
-line { return LINE; } 
+line { return LINE; }
 left { return LEFT; }
 glue { return GLUE; }
 coeq { return COEQUALIZER; }
