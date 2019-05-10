@@ -12,6 +12,7 @@ open class LanguageUtilityGenerationTask : DefaultTask() {
 	@field:Input var constantPrefix: String = ""
 	@field:Input var exeName: String = ""
 	@field:Input var runConfigInit: String = ""
+	@field:Input var trimVersion: String = "version"
 	@field:Input var generateCliState: Boolean = true
 	@field:Input var generateSettings: Boolean = true
 	private val nickname get() = languageName.toLowerCase()
@@ -121,6 +122,7 @@ val Project.${nickname}SettingsNullable: ${languageName}ProjectSettingsService?
 	get() = ServiceManager.getService(this, ${languageName}ProjectSettingsService::class.java)
 
 internal fun CommonConfigurable.configure$languageName(project: Project) {
+	initWebsiteLabel()
 	websiteLabel.text = ${constantPrefix}_WEBSITE
 	websiteLabel.icon = TTIcons.$constantPrefix
 	exePathField.addBrowseFolderListener(TTBundle.message("$nickname.ui.project.select-compiler"),
@@ -133,7 +135,7 @@ internal fun CommonConfigurable.configure$languageName(project: Project) {
 }
 
 ${if (generateSettings) """
-abstract class ${languageName}ProjectConfigurableBase(project: Project) : VersionedExecutableProjectConfigurableImpl() {
+class ${languageName}ProjectConfigurable(project: Project) : VersionedExecutableProjectConfigurableImpl() {
 	/** For building searchable options */
 	override val settings: ${languageName}Settings = project.${nickname}SettingsNullable?.settings ?: ${languageName}Settings()
 
@@ -142,6 +144,7 @@ abstract class ${languageName}ProjectConfigurableBase(project: Project) : Versio
 		configure$languageName(project)
 	}
 
+	override fun trimVersion(version: String) = $trimVersion
 	override fun getDisplayName() = TTBundle.message("$nickname.name")
 }
 """ else ""}

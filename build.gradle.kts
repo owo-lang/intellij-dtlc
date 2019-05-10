@@ -161,6 +161,7 @@ val genMiniTTUtility = task<LanguageUtilityGenerationTask>("genMiniTTUtility") {
 	constantPrefix = "MINI_TT"
 	exeName = "minittc"
 	runConfigInit = """additionalOptions = "--repl-plain""""
+	trimVersion = """version.removePrefix("minittc").trim()"""
 }
 
 val genACoreUtility = task<LanguageUtilityGenerationTask>("genACoreUtility") {
@@ -174,6 +175,7 @@ val genAgdaUtility = task<LanguageUtilityGenerationTask>("genAgdaUtility") {
 	languageName = "Agda"
 	constantPrefix = "AGDA"
 	exeName = "agda"
+	trimVersion = """version.removePrefix("Agda version").trim()"""
 }
 
 val genMLPolyRUtility = task<LanguageUtilityGenerationTask>("genMLPolyRUtility") {

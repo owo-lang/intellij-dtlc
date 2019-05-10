@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
-@SuppressWarnings("NullableProblems")
 public abstract class OnlyExecutableProjectConfigurable implements CommonConfigurable {
 	private JPanel mainPanel;
 	private TextFieldWithBrowseButton exePathField;
