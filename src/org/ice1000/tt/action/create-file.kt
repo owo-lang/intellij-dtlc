@@ -39,7 +39,7 @@ abstract class NewTTFile(private val name: String, description: String, icon: Ic
 	}
 }
 
-object NewOwOFile : NewTTFile(
+private object NewOwOFile : NewTTFile(
 	TTBundle.message("owo.actions.new-file.name"),
 	TTBundle.message("owo.actions.new-file.description"),
 	TTIcons.OWO_FILE) {
@@ -50,7 +50,7 @@ object NewOwOFile : NewTTFile(
 	}
 }
 
-object NewVoileFile : NewTTFile(
+private object NewVoileFile : NewTTFile(
 	TTBundle.message("voile.actions.new-file.name"),
 	TTBundle.message("voile.actions.new-file.description"),
 	TTIcons.VOILE_FILE) {
@@ -64,12 +64,13 @@ object NewVoileFile : NewTTFile(
 class NewTTActionGroup : DefaultActionGroup(
 	NewOwOFile,
 	NewVoileFile,
-	NewMiniTTFile,
+	NewACoreFile,
 	NewMiniTTFile,
 	NewMLPolyRFile,
 	NewAgdaFile
-) {
+), DumbAware {
 	init {
 		isPopup = true
+		templatePresentation.text = TTBundle.message("tt.actions.new-file-group")
 	}
 }
