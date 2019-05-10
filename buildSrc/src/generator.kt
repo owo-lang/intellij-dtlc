@@ -14,6 +14,7 @@ open class LanguageUtilityGenerationTask : DefaultTask() {
 	@field:Input var runConfigInit: String = ""
 	@field:Input var trimVersion: String = "version"
 	@field:Input var generateCliState: Boolean = true
+	@field:Input var hasVersion: Boolean = true
 	@field:Input var generateSettings: Boolean = true
 	private val nickname get() = languageName.toLowerCase()
 	private val configName get() = languageName.decapitalize()
@@ -90,14 +91,16 @@ import org.ice1000.tt.${constantPrefix}_WEBSITE
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.project.ui.CommonConfigurable
 import org.ice1000.tt.project.ui.initWebsiteLabel
+import org.ice1000.tt.project.ui.OnlyExecutableProjectConfigurable
 import org.ice1000.tt.project.ui.VersionedExecutableProjectConfigurableImpl
 
-${if (generateSettings) """
+${if (generateSettings) if (hasVersion) """
 data class ${languageName}Settings(
 	override var exePath: String = "$exeName",
 	override var version: String = "Unknown"
 ) : VersionedExecutableSettings
-
+""" else """
+data class ${languageName}Settings(var exePath: String = "$exeName")
 """ else ""}
 val ${nickname}Path by lazyExePath("$exeName")
 
@@ -136,9 +139,8 @@ internal fun CommonConfigurable.configure$languageName(project: Project) {
 	}
 }
 
-${if (generateSettings) """
+${if (generateSettings) if (hasVersion) """
 class ${languageName}ProjectConfigurable(project: Project) : VersionedExecutableProjectConfigurableImpl() {
-	/** For building searchable options */
 	override val settings: ${languageName}Settings = project.${nickname}Settings.settings
 
 	init {
@@ -148,6 +150,22 @@ class ${languageName}ProjectConfigurable(project: Project) : VersionedExecutable
 
 	override fun trimVersion(version: String) = $trimVersion
 	override fun getDisplayName() = TTBundle.message("$nickname.name")
+}
+""" else """
+class ${languageName}ProjectConfigurable(project: Project) : OnlyExecutableProjectConfigurable() {
+	val settings: ${languageName}Settings = project.${nickname}Settings.settings
+
+	init {
+		exePathField.text = settings.exePath
+		configure$languageName(project)
+	}
+
+	override fun isModified() = exePathField.text != settings.exePath
+	override fun getDisplayName() = TTBundle.message("$nickname.name")
+
+	override fun apply() {
+		settings.exePath = exePathField.text
+	}
 }
 """ else ""}
 """
