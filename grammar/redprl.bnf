@@ -22,7 +22,9 @@
 // Regular expressions:
 //  s/\(Ast\.\$\$[^\n]+//rg
 
-file ::= mlDecl
+file ::= mlDecl mlDeclRest*
+private mlDeclRest ::= DOT mlDecl? { pin=1 }
+
 ident ::= VARNAME | OPNAME
 
 boundVar ::= VARNAME | UNDER
@@ -37,7 +39,10 @@ sort ::=
 
 opUsage ::= OPNAME
 opDecl ::= OPNAME
-varUsage ::= VARNAME
+varUsage ::= VARNAME {
+	extends=termAndTac
+	extends=term
+}
 varDecl ::= VARNAME
 
 numAsDimension ::= NUMERAL
@@ -45,7 +50,7 @@ numAsDimension ::= NUMERAL
 bindingSig ::= LSQUARE sort+ RSQUARE DOT { pin=1 }
 private valence ::= bindingSig? sort { pin=1 }
 
-dimension ::= varUsage | metaVar | numAsDimension
+private dimension ::= varUsage | metaVar | numAsDimension
 dir ::= dimension SQUIGGLE_RIGHT_ARROW dimension
 backDir ::= dimension SQUIGGLE_LEFT_ARROW dimension
 equation ::= dimension EQUALS dimension
@@ -57,12 +62,15 @@ typedBinder ::= LSQUARE boundVar+ COLON term RSQUARE { pin=4 }
 dimBinder ::= LSQUARE boundVar+ COLON DIM RSQUARE { pin=4 }
 
 arrowQuantifierData ::=
- ( typedBinder
- | dimBinder
+   typedBinder arrowQuantifierData
+ | dimBinder arrowQuantifierData
+ | term arrowQuantifierData
+ | DIM arrowQuantifierData
  | term
- | DIM
- )* term
-timesQuantifierData ::= (typedBinder | term)* term
+timesQuantifierData ::=
+   typedBinder timesQuantifierData
+ | term timesQuantifierData
+ | term
 
 field ::= LSQUARE ident term RSQUARE
 private binder ::= LSQUARE boundVar+ RSQUARE
@@ -151,7 +159,7 @@ termAndTac ::=
 
  /* built-in operators that can be handled uniformly */
  | nullaryOperator
- | LPAREN multinaryOperator binding+ RPAREN
+ | ttMultinary
  | ttUniverse
  | LPAREN LOOP dimension RPAREN
 
@@ -188,13 +196,21 @@ termAndTac ::=
  | LPAREN AT_SIGN term dimension+ RPAREN
 
  /* Abbreviation for membership */
- | LPAREN MEM term term RPAREN
+ | ttMem
 
  /* levels */
- | LPAREN PLUS level NUMERAL RPAREN
- | LPAREN DOUBLE_PLUS level RPAREN
- | ttLMax
+ | ttPlus
+ | ttDoublePlus
+ | ttLMax {
+	extends=tac
+	extends=term
+	extends=atomicMultitac
+}
 
+private ttMem ::= LPAREN MEM term term RPAREN { pin=2 }
+private ttDoublePlus ::= LPAREN DOUBLE_PLUS level RPAREN { pin=2 }
+private ttPlus ::= LPAREN PLUS level NUMERAL RPAREN { pin=2 }
+private ttMultinary ::= LPAREN multinaryOperator binding+ RPAREN { pin=2 }
 private ttUniverse ::= LPAREN UNIVERSE level term? RPAREN { pin=2 }
 private ttLMax ::= LPAREN LMAX level+ RPAREN { pin=2 }
 private ttBang ::= LPAREN BANG ident term RPAREN { pin=2 }
@@ -205,8 +221,8 @@ private ttParenRecord ::= LPAREN RECORD typedBinder+ RPAREN { pin=2 }
 
 level ::=
    NUMERAL
- | LPAREN PLUS level NUMERAL RPAREN
- | LPAREN DOUBLE_PLUS level RPAREN
+ | ttPlus
+ | ttDoublePlus
  | ttLMax
  | metaVar
  | PERCENT varUsage
@@ -386,7 +402,9 @@ atomicMultitac ::=
  | multitacParen
  | hole
  /// %prec SEMI
- | tac
+ | tac {
+	extends=tactic
+}
 
 multitacSquare ::= LSQUARE tactics RSQUARE { pin=1 }
 multitacRepeat ::= MTAC_REPEAT LBRACKET tactic RBRACKET { pin=1 }
