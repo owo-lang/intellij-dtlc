@@ -85,6 +85,7 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 import icons.TTIcons
 import org.ice1000.tt.${constantPrefix}_WEBSITE
 import org.ice1000.tt.TTBundle
+import org.ice1000.tt.project.ui.CommonConfigurable
 import org.ice1000.tt.project.ui.VersionedExecutableProjectConfigurableImpl
 
 ${if (generateSettings) """
@@ -119,6 +120,18 @@ val Project.${nickname}Settings: ${languageName}ProjectSettingsService
 val Project.${nickname}SettingsNullable: ${languageName}ProjectSettingsService?
 	get() = ServiceManager.getService(this, ${languageName}ProjectSettingsService::class.java)
 
+internal fun CommonConfigurable.configure$languageName(project: Project) {
+	websiteLabel.text = ${constantPrefix}_WEBSITE
+	websiteLabel.icon = TTIcons.$constantPrefix
+	exePathField.addBrowseFolderListener(TTBundle.message("$nickname.ui.project.select-compiler"),
+		TTBundle.message("$nickname.ui.project.select-compiler.description"),
+		project,
+		FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor())
+	guessExeButton.addActionListener {
+		${nickname}Path?.let { exePathField.text = it }
+	}
+}
+
 ${if (generateSettings) """
 abstract class ${languageName}ProjectConfigurableBase(project: Project) : VersionedExecutableProjectConfigurableImpl() {
 	/** For building searchable options */
@@ -126,15 +139,7 @@ abstract class ${languageName}ProjectConfigurableBase(project: Project) : Versio
 
 	init {
 		init()
-		websiteLabel.text = ${constantPrefix}_WEBSITE
-		websiteLabel.icon = TTIcons.$constantPrefix
-		exePathField.addBrowseFolderListener(TTBundle.message("$nickname.ui.project.select-compiler"),
-			TTBundle.message("$nickname.ui.project.select-compiler.description"),
-			project,
-			FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor())
-		guessExeButton.addActionListener {
-			${nickname}Path?.let { exePathField.text = it }
-		}
+		configure$languageName(project)
 	}
 
 	override fun getDisplayName() = TTBundle.message("$nickname.name")

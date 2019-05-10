@@ -13,6 +13,7 @@ class ACoreProjectConfigurable(project: Project) : OnlyExecutableProjectConfigur
 
 	init {
 		exePathField.text = settings.exePath
+		configureACore(project)
 	}
 
 	override fun isModified() = exePathField.text != settings.exePath

@@ -13,6 +13,7 @@ class MLPolyRProjectConfigurable(project: Project) : OnlyExecutableProjectConfig
 
 	init {
 		exePathField.text = settings.exePath
+		configureMLPolyR(project)
 	}
 
 	override fun isModified() = exePathField.text != settings.exePath
