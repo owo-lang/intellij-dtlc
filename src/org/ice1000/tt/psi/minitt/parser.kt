@@ -31,7 +31,7 @@ class MiniTTTokenType(debugName: String) : IElementType(debugName, MiniTTLanguag
 	}
 }
 
-fun minittLexer() = FlexAdapter(MiniTTLexer())
+fun miniTTLexer() = FlexAdapter(MiniTTLexer())
 
 class MiniTTParserDefinition : ParserDefinition {
 	private companion object {
@@ -39,7 +39,7 @@ class MiniTTParserDefinition : ParserDefinition {
 	}
 
 	override fun createParser(project: Project?) = MiniTTParser()
-	override fun createLexer(project: Project?) = minittLexer()
+	override fun createLexer(project: Project?) = miniTTLexer()
 	override fun createElement(node: ASTNode?): PsiElement = MiniTTTypes.Factory.createElement(node)
 	override fun createFile(viewProvider: FileViewProvider) = MiniTTFile(viewProvider)
 	override fun getStringLiteralElements() = TokenSet.EMPTY

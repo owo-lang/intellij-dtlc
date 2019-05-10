@@ -5,14 +5,11 @@ import com.intellij.lang.PairedBraceMatcher
 import com.intellij.lang.cacheBuilder.DefaultWordsScanner
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
-import com.intellij.psi.tree.TokenSet
-import org.ice1000.tt.MINI_TT_LINE_COMMENT
 import org.ice1000.tt.editing.DefaultCommenter
 import org.ice1000.tt.editing.DefaultFindUsagesProvider
-import org.ice1000.tt.psi.acore.acoreLexer
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTokenType
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTypes
-import org.ice1000.tt.psi.mlpolyr.mlpolyrLexer
+import org.ice1000.tt.psi.mlpolyr.mlPolyRLexer
 
 class MLPolyRCommenter : DefaultCommenter() {
 	override fun getBlockCommentPrefix() = "(*"
@@ -35,5 +32,5 @@ class MLPolyRBraceMatcher : PairedBraceMatcher {
 }
 
 class MLPolyRFindUsagesProvider : DefaultFindUsagesProvider() {
-	override fun getWordsScanner() = DefaultWordsScanner(mlpolyrLexer(), MLPolyRTokenType.IDENTIFIERS, MLPolyRTokenType.COMMENTS, MLPolyRTokenType.STRINGS)
+	override fun getWordsScanner() = DefaultWordsScanner(mlPolyRLexer(), MLPolyRTokenType.IDENTIFIERS, MLPolyRTokenType.COMMENTS, MLPolyRTokenType.STRINGS)
 }

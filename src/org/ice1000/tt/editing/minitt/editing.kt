@@ -11,7 +11,7 @@ import org.ice1000.tt.editing.DefaultCommenter
 import org.ice1000.tt.editing.DefaultFindUsagesProvider
 import org.ice1000.tt.psi.minitt.MiniTTTokenType
 import org.ice1000.tt.psi.minitt.MiniTTTypes
-import org.ice1000.tt.psi.minitt.minittLexer
+import org.ice1000.tt.psi.minitt.miniTTLexer
 
 class MiniTTCommenter : DefaultCommenter() {
 	override fun getLineCommentPrefix() = MINI_TT_LINE_COMMENT
@@ -30,5 +30,5 @@ class MiniTTBraceMatcher : PairedBraceMatcher {
 }
 
 class MiniTTFindUsagesProvider : DefaultFindUsagesProvider() {
-	override fun getWordsScanner() = DefaultWordsScanner(minittLexer(), MiniTTTokenType.IDENTIFIERS, MiniTTTokenType.COMMENTS, TokenSet.EMPTY)
+	override fun getWordsScanner() = DefaultWordsScanner(miniTTLexer(), MiniTTTokenType.IDENTIFIERS, MiniTTTokenType.COMMENTS, TokenSet.EMPTY)
 }

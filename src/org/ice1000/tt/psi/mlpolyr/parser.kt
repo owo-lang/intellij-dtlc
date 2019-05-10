@@ -45,7 +45,7 @@ class MLPolyRTokenType(debugName: String) : IElementType(debugName, MLPolyRLangu
 	}
 }
 
-fun mlpolyrLexer() = FlexAdapter(MLPolyRLexer())
+fun mlPolyRLexer() = FlexAdapter(MLPolyRLexer())
 
 class MLPolyRParserDefinition : ParserDefinition {
 	private companion object {
@@ -53,7 +53,7 @@ class MLPolyRParserDefinition : ParserDefinition {
 	}
 
 	override fun createParser(project: Project?) = MLPolyRParser()
-	override fun createLexer(project: Project?) = mlpolyrLexer()
+	override fun createLexer(project: Project?) = mlPolyRLexer()
 	override fun createElement(node: ASTNode?): PsiElement = MLPolyRTypes.Factory.createElement(node)
 	override fun createFile(viewProvider: FileViewProvider) = MLPolyRFileImpl(viewProvider)
 	override fun getStringLiteralElements() = TokenSet.EMPTY

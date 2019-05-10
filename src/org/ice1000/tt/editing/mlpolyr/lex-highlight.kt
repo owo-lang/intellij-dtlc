@@ -16,7 +16,7 @@ import org.ice1000.tt.MLPolyRFileType
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTokenType
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTypes
-import org.ice1000.tt.psi.mlpolyr.mlpolyrLexer
+import org.ice1000.tt.psi.mlpolyr.mlPolyRLexer
 import org.intellij.lang.annotations.Language
 
 object MLPolyRHighlighter : SyntaxHighlighter {
@@ -113,7 +113,7 @@ object MLPolyRHighlighter : SyntaxHighlighter {
 		MLPolyRTypes.PLUSPLUS
 	)
 
-	override fun getHighlightingLexer() = mlpolyrLexer()
+	override fun getHighlightingLexer() = mlPolyRLexer()
 	override fun getTokenHighlights(type: IElementType?): Array<TextAttributesKey> = when (type) {
 		MLPolyRTypes.COMMA -> COMMA_KEY
 		MLPolyRTypes.SEMI -> SEMICOLON_KEY

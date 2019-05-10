@@ -16,7 +16,7 @@ import org.ice1000.tt.MiniTTFileType
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.psi.minitt.MiniTTTokenType
 import org.ice1000.tt.psi.minitt.MiniTTTypes
-import org.ice1000.tt.psi.minitt.minittLexer
+import org.ice1000.tt.psi.minitt.miniTTLexer
 import org.intellij.lang.annotations.Language
 
 object MiniTTHighlighter : SyntaxHighlighter {
@@ -64,7 +64,7 @@ object MiniTTHighlighter : SyntaxHighlighter {
 		MiniTTTypes.DOT_TWO,
 		MiniTTTypes.DOT_ONE)
 
-	override fun getHighlightingLexer() = minittLexer()
+	override fun getHighlightingLexer() = miniTTLexer()
 	override fun getTokenHighlights(type: IElementType?): Array<TextAttributesKey> = when (type) {
 		MiniTTTokenType.LINE_COMMENT -> COMMENT_KEY
 		MiniTTTypes.COMMA -> COMMA_KEY
