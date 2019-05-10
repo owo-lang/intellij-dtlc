@@ -16,8 +16,6 @@ open class LanguageUtilityGenerationTask : DefaultTask() {
 	@field:Input var generateCliState: Boolean = true
 	@field:Input var hasVersion: Boolean = true
 	@field:Input var generateSettings: Boolean = true
-	private val nickname get() = languageName.toLowerCase()
-	private val configName get() = languageName.decapitalize()
 
 	init {
 		group = "code generation"
@@ -25,6 +23,11 @@ open class LanguageUtilityGenerationTask : DefaultTask() {
 
 	@TaskAction
 	fun gen() {
+		val nickname = languageName.toLowerCase()
+		val configName = when (languageName.length) {
+			0, 1 -> nickname
+			else -> languageName.substring(0, 2).toLowerCase() + languageName.substring(2)
+		}
 		val dir = basePackage.split('.').fold(project.projectDir.resolve("gen")) { dir, p -> dir.resolve(p) }
 		dir.mkdirs()
 		if (languageName.isBlank()) throw GradleException("Language name of $name must not be empty.")
@@ -102,11 +105,11 @@ data class ${languageName}Settings(
 """ else """
 data class ${languageName}Settings(var exePath: String = "$exeName")
 """ else ""}
-val ${nickname}Path by lazyExePath("$exeName")
+val ${configName}Path by lazyExePath("$exeName")
 
 @State(
 	name = "${languageName}ProjectSettings",
-	storages = [Storage(file = "${configName}Config.xml")])
+	storages = [Storage(file = "${languageName.decapitalize()}Config.xml")])
 class ${languageName}ProjectSettingsService : PersistentStateComponent<${languageName}Settings> {
 	val settings: ${languageName}Settings = ${languageName}Settings()
 	override fun getState(): ${languageName}Settings? = XmlSerializerUtil.createCopy(settings)
@@ -115,15 +118,15 @@ class ${languageName}ProjectSettingsService : PersistentStateComponent<${languag
 	}
 }
 
-val Project.${nickname}Settings: ${languageName}ProjectSettingsService
-	get() = ${nickname}SettingsNullable ?: ${languageName}ProjectSettingsService()
+val Project.${configName}Settings: ${languageName}ProjectSettingsService
+	get() = ${configName}SettingsNullable ?: ${languageName}ProjectSettingsService()
 
 /**
  * When building plugin searchable options,
  * `ServiceManager.getService(this, ${languageName}ProjectSettingsService::class.java)
  * may return null.
  */
-val Project.${nickname}SettingsNullable: ${languageName}ProjectSettingsService?
+val Project.${configName}SettingsNullable: ${languageName}ProjectSettingsService?
 	get() = ServiceManager.getService(this, ${languageName}ProjectSettingsService::class.java)
 
 internal fun CommonConfigurable.configure$languageName(project: Project) {
@@ -135,13 +138,13 @@ internal fun CommonConfigurable.configure$languageName(project: Project) {
 		project,
 		FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor())
 	guessExeButton.addActionListener {
-		${nickname}Path?.let { exePathField.text = it }
+		${configName}Path?.let { exePathField.text = it }
 	}
 }
 
 ${if (generateSettings) if (hasVersion) """
 class ${languageName}ProjectConfigurable(project: Project) : VersionedExecutableProjectConfigurableImpl() {
-	override val settings: ${languageName}Settings = project.${nickname}Settings.settings
+	override val settings: ${languageName}Settings = project.${configName}Settings.settings
 
 	init {
 		init()
@@ -153,7 +156,7 @@ class ${languageName}ProjectConfigurable(project: Project) : VersionedExecutable
 }
 """ else """
 class ${languageName}ProjectConfigurable(project: Project) : OnlyExecutableProjectConfigurable() {
-	val settings: ${languageName}Settings = project.${nickname}Settings.settings
+	val settings: ${languageName}Settings = project.${configName}Settings.settings
 
 	init {
 		exePathField.text = settings.exePath
@@ -263,7 +266,7 @@ class ${languageName}RunConfiguration(
 	project: Project,
 	factory: ConfigurationFactory
 ) : InterpretedRunConfiguration<${languageName}CommandLineState>(project, factory, TTBundle.message("$nickname.name")) {
-	var ${nickname}Executable = project.${nickname}Settings.settings.exePath
+	var ${configName}Executable = project.${configName}Settings.settings.exePath
 	init { $runConfigInit }
 
 	override fun getState(executor: Executor, environment: ExecutionEnvironment) = ${languageName}CommandLineState(this, environment)
@@ -272,13 +275,13 @@ class ${languageName}RunConfiguration(
 	@Suppress("DEPRECATION")
 	override fun readExternal(element: Element) {
 		super.readExternal(element)
-		JDOMExternalizerUtil.readField(element, "${nickname}Executable").orEmpty().let { ${nickname}Executable = it }
+		JDOMExternalizerUtil.readField(element, "${configName}Executable").orEmpty().let { ${configName}Executable = it }
 	}
 
 	@Suppress("DEPRECATION")
 	override fun writeExternal(element: Element) {
 		super.writeExternal(element)
-		JDOMExternalizerUtil.writeField(element, "${nickname}Executable", ${nickname}Executable)
+		JDOMExternalizerUtil.writeField(element, "${configName}Executable", ${configName}Executable)
 	}
 }
 
@@ -300,12 +303,12 @@ class ${languageName}RunConfigurationEditor(
 
 	override fun resetEditorFrom(s: ${languageName}RunConfiguration) {
 		super.resetEditorFrom(s)
-		exePathField.text = s.${nickname}Executable
+		exePathField.text = s.${configName}Executable
 	}
 
 	override fun applyEditorTo(s: ${languageName}RunConfiguration) {
 		super.applyEditorTo(s)
-		s.${nickname}Executable = exePathField.text
+		s.${configName}Executable = exePathField.text
 	}
 }
 
@@ -319,16 +322,16 @@ class ${languageName}RunConfigurationProducer : RunConfigurationProducer<${langu
 		configuration: ${languageName}RunConfiguration, context: ConfigurationContext, ref: Ref<PsiElement>?): Boolean {
 		val file = context.dataContext.getData(CommonDataKeys.VIRTUAL_FILE)
 		if (file?.fileType != ${languageName}FileType) return false
-		val config = context.project.${nickname}SettingsNullable ?: return false
+		val config = context.project.${configName}SettingsNullable ?: return false
 		configuration.targetFile = file.path
 		configuration.workingDir = context.project.basePath.orEmpty()
 		configuration.name = FileUtilRt.getNameWithoutExtension(configuration.targetFile)
 			.takeLastWhile { it != '/' && it != '\\' }
 		val existPath = config.settings.exePath
-		if (validateExe(existPath)) configuration.${nickname}Executable = existPath
+		if (validateExe(existPath)) configuration.${configName}Executable = existPath
 		else {
-			val exePath = ${nickname}Path ?: return true
-			if (validateExe(exePath)) configuration.${nickname}Executable = exePath
+			val exePath = ${configName}Path ?: return true
+			if (validateExe(exePath)) configuration.${configName}Executable = exePath
 		}
 		return true
 	}
@@ -345,7 +348,7 @@ class ${languageName}CommandLineState(
 	env: ExecutionEnvironment
 ) : InterpretedCliState<${languageName}RunConfiguration>(configuration, env) {
 	override fun ${languageName}RunConfiguration.pre(params: MutableList<String>) {
-		params += ${nickname}Executable
+		params += ${configName}Executable
 	}
 }
 """
