@@ -92,6 +92,9 @@
 			<implementation-class>org.ice1000.tt.project.ACoreProjectSettingsService</implementation-class>
 		</component>
 		<component>
+			<implementation-class>org.ice1000.tt.project.RedPrlProjectSettingsService</implementation-class>
+		</component>
+		<component>
 			<implementation-class>org.ice1000.tt.project.MLPolyRProjectSettingsService</implementation-class>
 		</component>
 	</project-components>

@@ -186,6 +186,13 @@ val genMLPolyRUtility = task<LanguageUtilityGenerationTask>("genMLPolyRUtility")
 	hasVersion = false
 }
 
+val genRedPrlUtility = task<LanguageUtilityGenerationTask>("genRedPrlUtility") {
+	languageName = "RedPrl"
+	constantPrefix = "RED_PRL"
+	exeName = "redprl"
+	hasVersion = false
+}
+
 val generateCode = task("generateCode") {
 	group = "code generation"
 }
@@ -194,6 +201,7 @@ generateCode.dependsOn(
 	genMLPolyRUtility,
 	genACoreUtility,
 	genAgdaUtility,
+	genRedPrlUtility,
 	genACoreParser,
 	genACoreLexer,
 	genMLPolyRParser,
