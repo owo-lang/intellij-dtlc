@@ -134,32 +134,32 @@ casesExp ::= KW_CASES mrList defaultMatch? {
 }
 
 exp ::=
-   whereExp
- | orElseExp
- | andAlsoExp
- | deqExp
- | ltEqExp
- | gtEqExp
- | ltExp
- | gtExp
- | neqExp
- | dColonExp
- | plusExp
- | minusExp
- | timesExp
- | divExp
- | modExp
- | prefixExp
- | suffixExp
+   raiseExp
  | letExp
  | ifExp
  | caseExp
- | raiseExp
  | tryExp
  | matchExp
  | casesExp
  | fnExp
  | assignExp
+ | whereExp
+ | orElseExp
+ | andAlsoExp
+ | deqExp
+ | ltEqExp
+ | ltExp
+ | gtEqExp
+ | gtExp
+ | neqExp
+ | dColonExp
+ | plusExp
+ | minusExp
+ | prefixExp
+ | suffixExp
+ | timesExp
+ | divExp
+ | modExp
  | appExp
  | atomicExp
 
