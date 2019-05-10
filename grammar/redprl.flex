@@ -32,7 +32,7 @@ whitespace = [\ \t\f\r\n]+
 upper = [A-Z]
 lower = [a-z]
 digit = [0-9]
-identChr = [a-zA-Z0-9\'/-]
+identChrs = [a-zA-Z0-9\'/-]*
 
 // Regular expressions used:
 // s/<INITIAL>\"([a-zA-Z0-9\-]+)\" +=> \(Tokens\.([A-Z_]+)[^;]+;/$1 { return $2; }/rg
@@ -206,9 +206,9 @@ at { return AT; }
 V { return V; }
 U { return UNIVERSE; }
 
-{lower}{identChr}* { return VARNAME; }
-{upper}{identChr}* { return OPNAME; }
-\?{identChr}* { return HOLENAME; }
+{lower}{identChrs} { return VARNAME; }
+{upper}{identChrs} { return OPNAME; }
+\?{identChrs} { return HOLENAME; }
 \-?{digit}+ { return NUMERAL; }
 {whitespace} { return WHITE_SPACE; }
-[^]+ { return BAD_CHARACTER; }
+[^] { return BAD_CHARACTER; }

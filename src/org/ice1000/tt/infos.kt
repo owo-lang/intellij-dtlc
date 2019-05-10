@@ -37,6 +37,7 @@ class TTFileTypeFactory : FileTypeFactory() {
 		consumer.consume(AgdaFileType, AGDA_EXTENSION)
 		consumer.consume(VoileFileType, VOILE_EXTENSION)
 		consumer.consume(MLPolyRFileType, MLPOLYR_EXTENSION)
+		consumer.consume(RedPrlFileType, RED_PRL_EXTENSION)
 	}
 }
 
