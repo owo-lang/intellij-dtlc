@@ -74,6 +74,8 @@ open class ${languageName}File(viewProvider: FileViewProvider) : PsiFileBase(vie
 		dir.resolve("$nickname-generated.kt").writeText(infos)
 		@Language("kotlin")
 		val service = """
+@file:JvmMultifileClass
+@file:JvmName("ProjectGenerated")
 package $basePackage.project
 
 import com.intellij.openapi.components.PersistentStateComponent
@@ -87,6 +89,7 @@ import icons.TTIcons
 import org.ice1000.tt.${constantPrefix}_WEBSITE
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.project.ui.CommonConfigurable
+import org.ice1000.tt.project.ui.initWebsiteLabel
 import org.ice1000.tt.project.ui.VersionedExecutableProjectConfigurableImpl
 
 ${if (generateSettings) """

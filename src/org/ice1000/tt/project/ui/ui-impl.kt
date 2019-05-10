@@ -9,11 +9,11 @@ import org.ice1000.tt.versionOf
 import javax.swing.JButton
 import javax.swing.JPanel
 
-interface CommonConfigurable : Configurable {
-	val mainPanel: JPanel
-	val exePathField: TextFieldWithBrowseButton
-	val guessExeButton: JButton
-	val websiteLabel: LinkLabel<*>
+abstract class CommonConfigurable : Configurable {
+	lateinit var mainPanel: JPanel
+	lateinit var exePathField: TextFieldWithBrowseButton
+	lateinit var guessExeButton: JButton
+	lateinit var websiteLabel: LinkLabel<*>
 
 	override fun createComponent() = mainPanel
 }
