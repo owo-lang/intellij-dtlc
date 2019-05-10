@@ -9,7 +9,7 @@ data class ACoreSettings(
 )
 
 class ACoreProjectConfigurable(project: Project) : OnlyExecutableProjectConfigurable() {
-	private val settings = project.acoreSettingsNullable?.settings ?: ACoreSettings()
+	private val settings = project.acoreSettings.settings
 
 	init {
 		exePathField.text = settings.exePath

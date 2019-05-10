@@ -50,7 +50,6 @@ import org.eclipse.egit.github.core.RepositoryId
 import org.eclipse.egit.github.core.client.GitHubClient
 import org.eclipse.egit.github.core.service.IssueService
 import org.ice1000.tt.TT_PLUGIN_ID
-import org.ice1000.tt.project.acoreSettingsNullable
 import org.ice1000.tt.project.agdaSettingsNullable
 import org.ice1000.tt.project.minittSettingsNullable
 import org.jetbrains.annotations.NonNls

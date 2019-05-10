@@ -113,9 +113,13 @@ class ${languageName}ProjectSettingsService : PersistentStateComponent<${languag
 }
 
 val Project.${nickname}Settings: ${languageName}ProjectSettingsService
-	get() = ${nickname}SettingsNullable!!
+	get() = ${nickname}SettingsNullable ?: ${languageName}ProjectSettingsService()
 
-/** For building plugin searchable options */
+/**
+ * When building plugin searchable options,
+ * `ServiceManager.getService(this, ${languageName}ProjectSettingsService::class.java)
+ * may return null.
+ */
 val Project.${nickname}SettingsNullable: ${languageName}ProjectSettingsService?
 	get() = ServiceManager.getService(this, ${languageName}ProjectSettingsService::class.java)
 
@@ -135,7 +139,7 @@ internal fun CommonConfigurable.configure$languageName(project: Project) {
 ${if (generateSettings) """
 class ${languageName}ProjectConfigurable(project: Project) : VersionedExecutableProjectConfigurableImpl() {
 	/** For building searchable options */
-	override val settings: ${languageName}Settings = project.${nickname}SettingsNullable?.settings ?: ${languageName}Settings()
+	override val settings: ${languageName}Settings = project.${nickname}Settings.settings
 
 	init {
 		init()
