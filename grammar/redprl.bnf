@@ -42,8 +42,8 @@ varDecl ::= VARNAME
 
 numAsDimension ::= NUMERAL
 
-bindingSig ::= LSQUARE sort+ RSQUARE DOT
-valence ::= bindingSig sort
+bindingSig ::= LSQUARE sort+ RSQUARE DOT { pin=1 }
+private valence ::= bindingSig? sort { pin=1 }
 
 dimension ::= varUsage | metaVar | numAsDimension
 dir ::= dimension SQUIGGLE_RIGHT_ARROW dimension
@@ -53,8 +53,8 @@ tube ::= LSQUARE equation binding RSQUARE
 boundary ::= LSQUARE equation term RSQUARE
 metaVar ::= HASH ident
 
-typedBinder ::= LSQUARE boundVar+ COLON term RSQUARE
-dimBinder ::= LSQUARE boundVar+ COLON DIM RSQUARE
+typedBinder ::= LSQUARE boundVar+ COLON term RSQUARE { pin=4 }
+dimBinder ::= LSQUARE boundVar+ COLON DIM RSQUARE { pin=4 }
 
 arrowQuantifierData ::=
  ( typedBinder
@@ -138,11 +138,10 @@ termAndTac ::=
    varUsage
  /* meta variable */
  | metaVar
- | LPAREN metaVar term+ RPAREN
-
  /* pattern variables */
  | patVar
- | LPAREN patVar term+ RPAREN
+
+ | ttMetaOrPattern
 
  /* custom operators */
  | customOpTerm
@@ -153,8 +152,7 @@ termAndTac ::=
  /* built-in operators that can be handled uniformly */
  | nullaryOperator
  | LPAREN multinaryOperator binding+ RPAREN
- | LPAREN UNIVERSE level RPAREN
- | LPAREN UNIVERSE level term RPAREN
+ | ttUniverse
  | LPAREN LOOP dimension RPAREN
 
  /* Kan operators */
@@ -168,12 +166,10 @@ termAndTac ::=
 
  /* numbers */
  | NUMERAL
- | LPAREN DIM NUMERAL RPAREN
- | LPAREN NAT NUMERAL RPAREN
- | LPAREN INT NUMERAL RPAREN
+ | ttDimNatInt
 
  /* function types */
- | LPAREN RIGHT_ARROW arrowQuantifierData RPAREN
+ | ttRArrow
  | LPAREN LAMBDA LSQUARE boundVar+ RSQUARE term RPAREN
  | LPAREN DOLLAR_SIGN term term+ RPAREN
 
@@ -182,11 +178,10 @@ termAndTac ::=
 
  /* dependent record types */
  | RECORD
- | LPAREN RECORD typedBinder+ RPAREN
+ | ttParenRecord
  | TUPLE
- | LPAREN TUPLE field+ RPAREN
- | LPAREN TUPLE term+ RPAREN
- | LPAREN BANG ident term RPAREN
+ | LPAREN TUPLE (field+ | term+) RPAREN
+ | ttBang
 
  /* paths */
  | LPAREN ABS LSQUARE boundVar+ RSQUARE term RPAREN
@@ -198,13 +193,21 @@ termAndTac ::=
  /* levels */
  | LPAREN PLUS level NUMERAL RPAREN
  | LPAREN DOUBLE_PLUS level RPAREN
- | LPAREN LMAX level+ RPAREN
+ | ttLMax
+
+private ttUniverse ::= LPAREN UNIVERSE level term? RPAREN { pin=2 }
+private ttLMax ::= LPAREN LMAX level+ RPAREN { pin=2 }
+private ttBang ::= LPAREN BANG ident term RPAREN { pin=2 }
+private ttRArrow ::= LPAREN RIGHT_ARROW arrowQuantifierData RPAREN { pin=2 }
+private ttDimNatInt ::= LPAREN (DIM | NAT | INT) NUMERAL RPAREN { pin=2 }
+private ttMetaOrPattern ::= LPAREN (metaVar | patVar) term+ RPAREN { pin=2 }
+private ttParenRecord ::= LPAREN RECORD typedBinder+ RPAREN { pin=2 }
 
 level ::=
    NUMERAL
  | LPAREN PLUS level NUMERAL RPAREN
  | LPAREN DOUBLE_PLUS level RPAREN
- | LPAREN LMAX level+ RPAREN
+ | ttLMax
  | metaVar
  | PERCENT varUsage
 
@@ -389,7 +392,7 @@ multitacSquare ::= LSQUARE tactics RSQUARE { pin=1 }
 multitacRepeat ::= MTAC_REPEAT LBRACKET tactic RBRACKET { pin=1 }
 multitacAuto ::= MTAC_AUTO
 multitacProgress ::= MTAC_PROGRESS LBRACKET tactic RBRACKET { pin=1 }
-multitacParen ::= LPAREN tactic RPAREN { pin=1 }
+multitacParen ::= LPAREN tactic RPAREN
 multitacHash ::= HASH NUMERAL LBRACKET tactic RBRACKET { pin=1 }
 hole ::= HOLENAME { extends=atomicMultitac }
 
@@ -409,7 +412,7 @@ private declArgumentRest ::= COMMA declArgument { pin=1 }
 declArgument ::= metaVar (COLON valence)?
 
 /// Should always use `declArgumentsParensOpt` instead of `declArgumentsParens`
-declArgumentsParens ::= LPAREN declArguments RPAREN { pin=1 }
+declArgumentsParens ::= LPAREN declArguments? RPAREN { pin=1 }
 
 private mlVtyBrack ::= LBRACKET mlCty RBRACKET { pin=1 }
 mlVty ::= mlParen | mlVtyBrack
@@ -418,7 +421,7 @@ private mlCtyCaret ::= CARET mlVty { pin=1 }
 private mlCtyVty ::= mlVty RIGHT_ARROW mlCty { pin=1 }
 mlCty ::= mlCtyCaret | mlCtyVty
 
-private mlParen ::= LPAREN RPAREN { pin=1 }
+private mlParen ::= LPAREN RPAREN
 private mlValueBrack ::= LBRACKET mlCmd RBRACKET { pin=1 }
 mlValue ::=
    opUsage
@@ -462,7 +465,7 @@ mlDeclTactic ::= TACTIC_KW opDecl declArgumentsParens?
  EQUALS LBRACKET tactic RBRACKET {
 	pin=1
 }
-mlDeclTheo ::= THEOREM opDecl declArgumentsParens? COLON judgment
+mlDeclTheorem ::= THEOREM opDecl declArgumentsParens? COLON judgment
  BY LBRACKET tactic RBRACKET {
 	pin=1
 }
@@ -474,6 +477,6 @@ mlDecl ::=
    mlDeclDef
  | mlDeclData
  | mlDeclTactic
- | mlDeclTheo
+ | mlDeclTheorem
  | mlDeclVal
  | mlCmd
