@@ -26,6 +26,10 @@ import org.jetbrains.annotations.NonNls
 @NonNls const val MLPOLYR_EXTENSION = "mlpr"
 @NonNls const val MLPOLYR_LANGUAGE_NAME = "MLPolyR"
 
+@NonNls const val RED_PRL_WEBSITE = "http://www.redprl.org/"
+@NonNls const val RED_PRL_EXTENSION = "prl"
+@NonNls const val RED_PRL_LANGUAGE_NAME = "RedPRL"
+
 @NonNls const val VOILE_EXTENSION = "voile"
 @NonNls const val VOILE_LANGUAGE_NAME = "Voile"
 

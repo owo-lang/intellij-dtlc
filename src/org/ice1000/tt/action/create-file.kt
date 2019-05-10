@@ -66,8 +66,8 @@ class NewTTActionGroup : DefaultActionGroup(
 	NewVoileFile,
 	NewACoreFile,
 	NewMiniTTFile,
-	NewMLPolyRFile,
-	NewAgdaFile
+	NewAgdaFile,
+	NewMLPolyRFile
 ), DumbAware {
 	init {
 		isPopup = true
