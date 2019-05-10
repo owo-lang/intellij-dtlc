@@ -5,6 +5,7 @@ import com.intellij.testFramework.ParsingTestCase
 import org.ice1000.tt.psi.acore.ACoreParserDefinition
 import org.ice1000.tt.psi.minitt.MiniTTParserDefinition
 import org.ice1000.tt.psi.mlpolyr.MLPolyRParserDefinition
+import org.ice1000.tt.psi.redprl.RedPrlParserDefinition
 
 abstract class DtlcParsingTestCase(
 	dataPath: String,
@@ -51,4 +52,7 @@ class MLPolyRParsingTest : DtlcParsingTestCase("parse/mlpolyr", "mlpr", MLPolyRP
 	fun `test file template`() = doTest(true, true)
 	fun `test cps-convert-cc2`() = doTest(true, true)
 	fun `test cps-convert-cc2-wc`() = doTest(true, true)
+}
+
+class RedPrlParsingTest : DtlcParsingTestCase("parse/redprl", "prl", RedPrlParserDefinition()) {
 }
