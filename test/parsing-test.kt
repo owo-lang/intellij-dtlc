@@ -55,4 +55,6 @@ class MLPolyRParsingTest : DtlcParsingTestCase("parse/mlpolyr", "mlpr", MLPolyRP
 }
 
 class RedPrlParsingTest : DtlcParsingTestCase("parse/redprl", "prl", RedPrlParserDefinition()) {
+	fun `test category`() = doTest(true, true)
+	fun `test connection`() = doTest(true, true)
 }

@@ -29,7 +29,7 @@ boundVar ::= VARNAME | UNDER
 
 sort ::=
    EXP
- | TAC
+ | TAC_KW
  | JDG
  | LVL
  | KND
@@ -210,7 +210,7 @@ level ::=
 
 term ::=
    termAndTac
- | HASH TAC LBRACKET tactic RBRACKET
+ | HASH TAC_KW LBRACKET tactic RBRACKET
  | HASH JDG LBRACKET judgment RBRACKET
  | HASH LVL LBRACKET level RBRACKET
 
@@ -458,7 +458,7 @@ mlDeclData ::= DATA opDecl declArgumentsParens? dataDecl
  BY LBRACKET tactic RBRACKET {
 	pin=1
 }
-mlDeclTactic ::= TACTIC opDecl declArgumentsParens?
+mlDeclTactic ::= TACTIC_KW opDecl declArgumentsParens?
  EQUALS LBRACKET tactic RBRACKET {
 	pin=1
 }

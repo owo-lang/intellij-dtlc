@@ -67,20 +67,20 @@ identChr = [a-zA-Z0-9\'/-]
      ; commentStart = getTokenStart()
      ; }
 "//"[^\n]* { return LINE_COMMENT; }
-"==>" { return LONG_RIGHT_ARROW; }
+// "==>" { return LONG_RIGHT_ARROW; }
 "~>" { return SQUIGGLE_RIGHT_ARROW; }
 "<~" { return SQUIGGLE_LEFT_ARROW; }
 "=>" { return DOUBLE_RIGHT_ARROW; }
-":>" { return TRIANGLE_RIGHT; }
-"<|" { return LANGLE_PIPE; }
+// ":>" { return TRIANGLE_RIGHT; }
+// "<|" { return LANGLE_PIPE; }
 "->" { return RIGHT_ARROW; }
-"|>" { return RANGLE_PIPE; }
+// "|>" { return RANGLE_PIPE; }
 "||" { return DOUBLE_PIPE; }
 "++" { return DOUBLE_PLUS; }
 "<-" { return LEFT_ARROW; }
 "$" { return DOLLAR_SIGN; }
 "`" { return BACK_TICK; }
-"&" { return AMPERSAND; }
+// "&" { return AMPERSAND; }
 "{" { return LBRACKET; }
 "}" { return RBRACKET; }
 "[" { return LSQUARE; }
@@ -89,7 +89,7 @@ identChr = [a-zA-Z0-9\'/-]
 "%" { return PERCENT; }
 "(" { return LPAREN; }
 ")" { return RPAREN; }
-"<" { return LANGLE; }
+// "<" { return LANGLE; }
 "=" { return EQUALS; }
 ">" { return RANGLE; }
 "_" { return UNDER; }
@@ -120,11 +120,11 @@ without { return WITHOUT; }
 extract { return EXTRACT; }
 theorem { return THEOREM; }
 rewrite { return TAC_REWRITE; }
-S1-rec { return S; }
+// S1-rec { return S; }
 record { return RECORD; }
 refine { return REFINE; }
 define { return DEFINE; }
-tactic { return TACTIC; }
+tactic { return TACTIC_KW; }
 repeat { return MTAC_REPEAT; }
 reduce { return TAC_REDUCE; }
 unfold { return TAC_UNFOLD; }
@@ -164,7 +164,7 @@ data { return DATA; }
 fail { return TAC_FAIL; }
 auto { return MTAC_AUTO; }
 elim { return TAC_ELIM; }
-true { return TRUE; }
+// true { return TRUE; }
 type { return TYPE; }
 nat { return NAT; }
 int { return INT; }
@@ -184,30 +184,31 @@ dim { return DIM; }
 lvl { return LVL; }
 knd { return KND; }
 exp { return EXP; }
-tac { return TAC; }
+tac { return TAC_KW; }
 jdg { return JDG; }
 val { return VAL; }
-end { return END; }
+// end { return END; }
 kan { return KAN; }
 pre { return PRE; }
 ax { return AX; }
 tt { return TT; }
 ff { return FF; }
 if { return IF; }
-S1 { return S; }
+// S1 { return S; }
 ni { return MEM; }
 of { return OF; }
 by { return BY; }
 in { return IN; }
-do { return DO; }
+// do { return DO; }
 fn { return FN; }
 id { return TAC_ID; }
 at { return AT; }
 V { return V; }
 U { return UNIVERSE; }
 
-{lower}{identChr} { return VARNAME; }
-{upper}{identChr} { return OPNAME; }
-\?{identChr} { return HOLENAME; }
-\-?{digit}+ { return NUMBERAL; }
-[^] { return BAD_CHARACTER; }
+{lower}{identChr}* { return VARNAME; }
+{upper}{identChr}* { return OPNAME; }
+\?{identChr}* { return HOLENAME; }
+\-?{digit}+ { return NUMERAL; }
+{whitespace} { return WHITE_SPACE; }
+[^]+ { return BAD_CHARACTER; }
