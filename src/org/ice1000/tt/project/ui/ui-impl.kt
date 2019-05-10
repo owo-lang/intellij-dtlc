@@ -10,10 +10,10 @@ import javax.swing.JButton
 import javax.swing.JPanel
 
 abstract class CommonConfigurable : Configurable {
-	lateinit var mainPanel: JPanel
-	lateinit var exePathField: TextFieldWithBrowseButton
-	lateinit var guessExeButton: JButton
-	lateinit var websiteLabel: LinkLabel<*>
+	abstract val mainPanel: JPanel
+	abstract val exePathField: TextFieldWithBrowseButton
+	abstract val guessExeButton: JButton
+	abstract val websiteLabel: LinkLabel<*>
 
 	override fun createComponent() = mainPanel
 }

@@ -9,7 +9,8 @@ data class MLPolyRSettings(
 )
 
 class MLPolyRProjectConfigurable(project: Project) : OnlyExecutableProjectConfigurable() {
-	private val settings = project.mlpolyrSettingsNullable?.settings ?: MLPolyRSettings()
+	private val settings = project.mlpolyrSettingsNullable?.settings
+		?: MLPolyRSettings()
 
 	init {
 		exePathField.text = settings.exePath
