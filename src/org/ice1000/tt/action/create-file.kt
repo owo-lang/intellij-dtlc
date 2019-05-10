@@ -6,6 +6,7 @@ import com.intellij.ide.fileTemplates.FileTemplate
 import com.intellij.ide.fileTemplates.FileTemplateManager
 import com.intellij.ide.fileTemplates.actions.AttributesDefaults
 import com.intellij.ide.fileTemplates.ui.CreateFromTemplateDialog
+import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.FileUtilRt
@@ -38,7 +39,7 @@ abstract class NewTTFile(private val name: String, description: String, icon: Ic
 	}
 }
 
-class NewOwOFile : NewTTFile(
+object NewOwOFile : NewTTFile(
 	TTBundle.message("owo.actions.new-file.name"),
 	TTBundle.message("owo.actions.new-file.description"),
 	TTIcons.OWO_FILE) {
@@ -49,7 +50,7 @@ class NewOwOFile : NewTTFile(
 	}
 }
 
-class NewVoileFile : NewTTFile(
+object NewVoileFile : NewTTFile(
 	TTBundle.message("voile.actions.new-file.name"),
 	TTBundle.message("voile.actions.new-file.description"),
 	TTIcons.VOILE_FILE) {
@@ -57,5 +58,18 @@ class NewVoileFile : NewTTFile(
 		builder
 			.setTitle(TTBundle.message("voile.actions.new-file.title"))
 			.addKind("File", TTIcons.VOILE_FILE, "Voile File")
+	}
+}
+
+class NewTTActionGroup : DefaultActionGroup(
+	NewOwOFile,
+	NewVoileFile,
+	NewMiniTTFile,
+	NewMiniTTFile,
+	NewMLPolyRFile,
+	NewAgdaFile
+) {
+	init {
+		isPopup = true
 	}
 }

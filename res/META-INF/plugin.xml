@@ -101,14 +101,8 @@
 	</project-components>
 
 	<actions>
-		<group id="TT.NewGroup">
+		<action class="org.ice1000.tt.action.NewTTActionGroup" id="TT.NewGroup">
 			<add-to-group group-id="NewGroup" anchor="first"/>
-			<action id="TT.MiniTT.NewFile" class="org.ice1000.tt.action.NewMiniTTFile"/>
-			<action id="TT.OwO.NewFile" class="org.ice1000.tt.action.NewOwOFile"/>
-			<action id="TT.Agda.NewFile" class="org.ice1000.tt.action.NewAgdaFile"/>
-			<action id="TT.ACore.NewFile" class="org.ice1000.tt.action.NewACoreFile"/>
-			<action id="TT.Voile.NewFile" class="org.ice1000.tt.action.NewVoileFile"/>
-			<action id="TT.MLPolyR.NewFile" class="org.ice1000.tt.action.NewMLPolyRFile"/>
-		</group>
+		</action>
 	</actions>
 </idea-plugin>

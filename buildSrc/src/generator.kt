@@ -13,6 +13,7 @@ open class LanguageUtilityGenerationTask : DefaultTask() {
 	@field:Input var exeName: String = ""
 	@field:Input var runConfigInit: String = ""
 	@field:Input var generateCliState: Boolean = true
+	@field:Input var generateSettings: Boolean = true
 	private val nickname get() = languageName.toLowerCase()
 	private val configName get() = languageName.decapitalize()
 
@@ -86,11 +87,13 @@ import org.ice1000.tt.${constantPrefix}_WEBSITE
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.project.ui.VersionedExecutableProjectConfigurableImpl
 
+${if (generateSettings) """
 data class ${languageName}Settings(
 	override var exePath: String = "$exeName",
 	override var version: String = "Unknown"
 ) : VersionedExecutableSettings
 
+""" else ""}
 val ${nickname}Path by lazyExePath("$exeName")
 
 interface ${languageName}ProjectSettingsService {
@@ -150,7 +153,7 @@ import com.intellij.psi.PsiDirectory
 import icons.TTIcons
 import org.ice1000.tt.TTBundle
 
-class New${languageName}File : NewTTFile(
+object New${languageName}File : NewTTFile(
 	TTBundle.message("$nickname.actions.new-file.name"),
 	TTBundle.message("$nickname.actions.new-file.description"),
 	TTIcons.${constantPrefix}_FILE) {

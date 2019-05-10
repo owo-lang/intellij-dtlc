@@ -182,19 +182,24 @@ val genMLPolyRUtility = task<LanguageUtilityGenerationTask>("genMLPolyRUtility")
 	runConfigInit = """additionalOptions = "-t""""
 }
 
+val generateCode = task("generateCode") {
+	group = "code generation"
+}
+generateCode.dependsOn(
+	genMiniTTUtility,
+	genMLPolyRUtility,
+	genACoreUtility,
+	genAgdaUtility,
+	genACoreParser,
+	genACoreLexer,
+	genMLPolyRParser,
+	genMLPolyRLexer,
+	genMiniTTParser,
+	genMiniTTLexer
+)
+
 tasks.withType<KotlinCompile> {
-	dependsOn(
-		genMiniTTUtility,
-		genMLPolyRUtility,
-		genACoreUtility,
-		genAgdaUtility,
-		genACoreParser,
-		genACoreLexer,
-		genMLPolyRParser,
-		genMLPolyRLexer,
-		genMiniTTParser,
-		genMiniTTLexer
-	)
+	dependsOn(generateCode)
 	kotlinOptions {
 		jvmTarget = "1.8"
 		languageVersion = "1.3"
