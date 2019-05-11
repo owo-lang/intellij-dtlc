@@ -5,6 +5,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
 import org.ice1000.tt.psi.GeneralDeclaration
+import org.ice1000.tt.psi.GeneralNameIdentifier
 
 abstract class RedPrlDeclaration(node: ASTNode) : GeneralDeclaration(node) {
 	override val type: PsiElement? get() = null
@@ -16,4 +17,20 @@ abstract class RedPrlDeclaration(node: ASTNode) : GeneralDeclaration(node) {
 		nameIdentifier?.replace(newPattern)
 		return this
 	}
+}
+
+interface RedPrlOpOwner : PsiElement {
+	val opDecl: RedPrlOpDecl?
+}
+
+abstract class RedPrlOpOwnerMixin(node: ASTNode) : RedPrlDeclaration(node), RedPrlOpOwner {
+	override fun getNameIdentifier() = opDecl
+}
+
+abstract class MLPolyROpDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlOpDecl {
+	override fun getIcon(flags: Int) = TTIcons.MLPOLYR
+	@Throws(IncorrectOperationException::class)
+	override fun setName(newName: String) =
+		replace(RedPrlTokenType.createOpDecl(newName, project)
+			?: throw IncorrectOperationException("Invalid name: $newName"))
 }
