@@ -470,15 +470,20 @@ mlAtomicCmd ::=
  | QUIT
  | mlAtomicExtract
  | mlAtomicCaret
- | mlAtomicBang
+ | mlAtomicBang { extends=mlCmd }
 
 mlCmdLet ::= LET mlDecl SEMI mlCmd {
 	pin=1
+	extends=mlCmd
 }
 mlCmdFn ::= FN opDecl COLON mlVty DOUBLE_RIGHT_ARROW mlCmd {
 	pin=1
+	extends=mlCmd
 }
-mlCmdValue ::= mlValue RANGLE mlCmd { pin=1 }
+mlCmdValue ::= mlValue RANGLE mlCmd {
+	pin=1
+	extends=mlCmd
+}
 
 mlCmd ::=
    mlCmdLet

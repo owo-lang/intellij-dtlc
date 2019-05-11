@@ -25,6 +25,16 @@ class RedPrlTokenType(debugName: String) : IElementType(debugName, RedPrlLanguag
 		@JvmField val IDENTIFIERS = TokenSet.create(RedPrlTypes.OPNAME, RedPrlTypes.VARNAME, RedPrlTypes.HOLENAME)
 
 		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(RedPrlLanguage.INSTANCE, text).firstChild
+		fun createDecl(text: String, project: Project) = fromText("$text.", project) as? RedPrlMlDecl
+		fun createDefine(text: String, project: Project) = createDecl(text, project) as? RedPrlMlDeclDef
+		fun createVal(text: String, project: Project) = createDecl(text, project) as? RedPrlMlDeclVal
+		fun createTactic(text: String, project: Project) = createDecl(text, project) as? RedPrlMlDeclTactic
+		fun createTheorem(text: String, project: Project) = createDecl(text, project) as? RedPrlMlDeclTheorem
+		fun createOpDecl(text: String, project: Project) = createVal("val $text = quit.", project)?.opDecl
+		fun createCmd(text: String, project: Project) = createVal("val Op = $text.", project)?.mlCmd
+		fun createAtomicCmd(text: String, project: Project) = createCmd(text, project) as? RedPrlMlAtomicCmd
+		fun createValue(text: String, project: Project) = createAtomicCmd(text, project)?.mlValue
+		fun createOpUsage(text: String, project: Project) = createValue(text, project)?.opUsage
 	}
 }
 
