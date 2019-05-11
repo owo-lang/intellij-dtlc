@@ -65,6 +65,8 @@
 		<lang.commenter language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlCommenter"/>
 		<lang.braceMatcher language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlBraceMatcher"/>
 		<lang.findUsagesProvider language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlFindUsagesProvider"/>
+		<lang.refactoringSupport language="RedPRL" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
+		<lang.syntaxHighlighterFactory language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlHighlighterFactory"/>
 
 		<projectConfigurable
 			groupId="language"

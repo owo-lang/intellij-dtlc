@@ -28,7 +28,8 @@ object ACoreHighlighter : SyntaxHighlighter {
 	@JvmField val UNRESOLVED = TextAttributesKey.createTextAttributesKey("AGDA_CORE_UNRESOLVED", HighlighterColors.BAD_CHARACTER)
 	@JvmField val OPERATOR = TextAttributesKey.createTextAttributesKey("AGDA_CORE_OPERATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN)
 	@JvmField val PAREN = TextAttributesKey.createTextAttributesKey("AGDA_CORE_PARENTHESES", DefaultLanguageHighlighterColors.PARENTHESES)
-	@JvmField val COMMENT = TextAttributesKey.createTextAttributesKey("AGDA_CORE_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
+	@JvmField val LINE_COMMENT = TextAttributesKey.createTextAttributesKey("AGDA_CORE_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
+	@JvmField val BLOCK_COMMENT = TextAttributesKey.createTextAttributesKey("AGDA_CORE_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
 
 	@JvmField val KEYWORD_KEY = arrayOf(KEYWORD)
 	@JvmField val IDENTIFIER_KEY = arrayOf(IDENTIFIER)
@@ -36,7 +37,8 @@ object ACoreHighlighter : SyntaxHighlighter {
 	@JvmField val COMMA_KEY = arrayOf(COMMA)
 	@JvmField val OPERATOR_KEY = arrayOf(OPERATOR)
 	@JvmField val PAREN_KEY = arrayOf(PAREN)
-	@JvmField val COMMENT_KEY = arrayOf(COMMENT)
+	@JvmField val LINE_COMMENT_KEY = arrayOf(LINE_COMMENT)
+	@JvmField val BLOCK_COMMENT_KEY = arrayOf(BLOCK_COMMENT)
 
 	private val KEYWORDS_LIST = listOf(
 		ACoreTypes.LAMBDA,
@@ -66,7 +68,8 @@ object ACoreHighlighter : SyntaxHighlighter {
 		ACoreTypes.LEFT_PAREN, ACoreTypes.RIGHT_PAREN -> PAREN_KEY
 		in OPERATORS_LIST -> OPERATOR_KEY
 		in KEYWORDS_LIST -> KEYWORD_KEY
-		in ACoreTokenType.COMMENTS -> COMMENT_KEY
+		ACoreTokenType.LINE_COMMENT -> LINE_COMMENT_KEY
+		ACoreTokenType.BLOCK_COMMENT -> BLOCK_COMMENT_KEY
 		else -> emptyArray()
 	}
 }
@@ -86,7 +89,8 @@ class ACoreColorSettingsPage : ColorSettingsPage {
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), ACoreHighlighter.UNRESOLVED),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), ACoreHighlighter.OPERATOR),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), ACoreHighlighter.PAREN),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comment"), ACoreHighlighter.COMMENT))
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), ACoreHighlighter.LINE_COMMENT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.block-comment"), ACoreHighlighter.BLOCK_COMMENT))
 
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
 			"Unresolved" to ACoreHighlighter.UNRESOLVED,
