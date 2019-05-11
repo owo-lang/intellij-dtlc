@@ -6,7 +6,6 @@ import com.intellij.lang.cacheBuilder.DefaultWordsScanner
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
-import org.ice1000.tt.MINI_TT_LINE_COMMENT
 import org.ice1000.tt.editing.DefaultCommenter
 import org.ice1000.tt.editing.DefaultFindUsagesProvider
 import org.ice1000.tt.psi.acore.ACoreTokenType
@@ -16,7 +15,7 @@ import org.ice1000.tt.psi.acore.acoreLexer
 class ACoreCommenter : DefaultCommenter() {
 	override fun getBlockCommentPrefix() = "{-"
 	override fun getBlockCommentSuffix() = "-}"
-	override fun getLineCommentPrefix() = MINI_TT_LINE_COMMENT
+	override fun getLineCommentPrefix() = "-- "
 }
 
 class ACoreBraceMatcher : PairedBraceMatcher {

@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NonNls
 @Nls const val MINI_TT_LOCAL_CONTEXT_NAME = "Expression"
 @NonNls const val MINI_TT_LANGUAGE_NAME = "Mini-TT"
 @NonNls const val MINI_TT_EXTENSION = "minitt"
-@NonNls const val MINI_TT_LINE_COMMENT = "-- "
 
 @NonNls const val MINI_TT_WEBSITE = "https://docs.rs/minitt"
 

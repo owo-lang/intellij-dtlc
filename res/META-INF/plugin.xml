@@ -61,6 +61,10 @@
 
 		<configurationType implementation="org.ice1000.tt.execution.RedPrlRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.RedPrlRunConfigurationProducer"/>
+		<lang.parserDefinition language="RedPRL" implementationClass="org.ice1000.tt.psi.redprl.RedPrlParserDefinition"/>
+		<lang.commenter language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlCommenter"/>
+		<lang.braceMatcher language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlBraceMatcher"/>
+		<lang.findUsagesProvider language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlFindUsagesProvider"/>
 
 		<projectConfigurable
 			groupId="language"
