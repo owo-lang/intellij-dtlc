@@ -1,0 +1,48 @@
+<templateSet group="RedPRL">
+	<template name="theorem"
+	          value="theorem $name$:&#10;  ($type$)&#10;by {&#10;  $END$&#10;}."
+	          description="theorem ... (...) by { ... }" toReformat="true"
+	          toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="RED_PRL_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
+	<template name="define" value="define $name$ ($params$) = $END$."
+	          description="define ... (...) = ... ." toReformat="true"
+	          toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="params" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="RED_PRL_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
+	<template name="path" value="path [$dim$] $END$" description="path [...] ..."
+	          toReformat="false" toShortenFQNames="true">
+		<variable name="dim" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="RED_PRL_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
+	<template name="tactic" value="tactic $name$($params$) = {&#10;  $END$&#10;}."
+	          description="tactic ...(...) = { ... }" toReformat="true"
+	          toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="params" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="RED_PRL_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
+	<template name="data"
+	          value="data $name$ : ($params$) {&#10;  $bla$&#10;} by {&#10;  $END$&#10;}."
+	          description="data ...(...) {...} by { ... }" toReformat="false"
+	          toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="params" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="bla" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="RED_PRL_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
+</templateSet>

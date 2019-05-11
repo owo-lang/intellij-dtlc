@@ -1,0 +1,46 @@
+<templateSet group="MLPolyR">
+	<template name="let" value="let&#10;  $defs$&#10;in&#10;  $END$&#10;end"
+	          description="let ... in ... end" toReformat="true"
+	          toShortenFQNames="true">
+		<variable name="defs" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="MLPOLYR_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
+	<template name="fun" value="fun $name$ $params$ = $end$"
+	          description="fun .. = ..." toReformat="true"
+	          toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="params" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="end" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="MLPOLYR_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
+	<template name="cases" value="cases `$cons$ $param$ =&gt; $END$"
+	          description="cases `... .. =&gt; ..." toReformat="true"
+	          toShortenFQNames="true">
+		<variable name="cons" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="param" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="MLPOLYR_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
+	<template name="match" value="match $expr$ with&#10;  $END$"
+	          description="match ... with ..." toReformat="true"
+	          toShortenFQNames="true">
+		<variable name="expr" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="MLPOLYR_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
+	<template name="fn" value="fn $name$ $params$ =&gt; $END$"
+	          description="fn ... =&gt; ..." toReformat="true"
+	          toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="params" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="MLPOLYR_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
+</templateSet>
