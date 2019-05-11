@@ -9,22 +9,27 @@ IntelliJ plugin for several experimental (most of them are dependently-typed)
 languages (which means they're created for PL research instead of everyday
 usages), including:
 
-+ [Voile][voile-rs] (WIP)
-+ [minitt][minitt-rs] (rich)
-+ [MLPolyR][MLPolyR] (rich)
++ [Voile] (WIP)
++ [minitt] (rich)
++ [MLPolyR] (rich)
 + [Vanilla Mini-TT][Mini-TT] (rich) ([GitHub mirror][acore-mirror])
-+ [Agda][agda] (poor)
-+ [OwO][owo] (poor because this language is not even designed yet)
++ [RedPRL] (rich) ([GitHub source][RedPRL-gh])
++ [Agda] (poor)
++ [OwO] (poor because this language is not even designed yet)
 
-This plugin is primarily for personal use.
+This plugin is created for personal entertainment purpose.
+Don't expect too much, but contributions/discussions/feature requests
+are welcomed!
 
  [MLPolyR]: https://github.com/owo-lang/MLPolyR
- [minitt-rs]: https://github.com/owo-lang/minitt-rs
+ [minitt]: https://github.com/owo-lang/minitt-rs
  [Mini-TT]: http://www.cse.chalmers.se/research/group/logic/Mini-TT/
  [acore-mirror]: https://github.com/owo-lang/Mini-TT
- [voile-rs]: https://github.com/owo-lang/voile-rs
- [owo]: https://github.com/owo-lang/OwO
- [agda]: https://github.com/agda/agda
+ [Voile]: https://github.com/owo-lang/voile-rs
+ [OwO]: https://github.com/owo-lang/OwO
+ [Agda]: https://github.com/agda/agda
+ [RedPRL]: http://www.redprl.org
+ [RedPRL-gh]: https://github.com/RedPRL/sml-redprl
  [d-svg]: https://img.shields.io/jetbrains/plugin/d/12176.svg
  [v-svg]: https://img.shields.io/jetbrains/plugin/v/12176.svg
  [jb-url]: https://plugins.jetbrains.com/plugin/12176
