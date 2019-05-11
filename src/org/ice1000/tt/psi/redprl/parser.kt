@@ -34,7 +34,7 @@ class RedPrlTokenType(debugName: String) : IElementType(debugName, RedPrlLanguag
 		fun createCmd(text: String, project: Project) = createVal("val Op = $text.", project)?.mlCmd
 		fun createAtomicCmd(text: String, project: Project) = createCmd(text, project) as? RedPrlMlAtomicCmd
 		fun createValue(text: String, project: Project) = createAtomicCmd(text, project)?.mlValue
-		fun createOpUsage(text: String, project: Project) = createValue(text, project)?.opUsage
+		fun createOpUsage(text: String, project: Project) = createValue(text, project) as? RedPrlOpUsage
 	}
 }
 

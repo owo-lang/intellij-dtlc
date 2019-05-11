@@ -38,10 +38,11 @@ sort ::=
  | DIM
 
 opUsage ::= OPNAME {
+	extends=mlValue
 }
 opDecl ::= OPNAME {
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
-	mixin='org.ice1000.tt.psi.redprl.MLPolyROpDeclMixin'
+	mixin='org.ice1000.tt.psi.redprl.RedPrlOpDeclMixin'
 }
 varUsage ::= VARNAME {
 	extends=termAndTac
