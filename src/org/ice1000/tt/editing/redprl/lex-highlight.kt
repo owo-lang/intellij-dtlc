@@ -28,6 +28,7 @@ object RedPrlHighlighter : SyntaxHighlighter {
 	@JvmField val BLOCK_COMMENT = TextAttributesKey.createTextAttributesKey("RED_PRL_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
 	@JvmField val NUMERAL = TextAttributesKey.createTextAttributesKey("RED_PRL_NUMERAL", DefaultLanguageHighlighterColors.NUMBER)
 	@JvmField val HASH = TextAttributesKey.createTextAttributesKey("RED_PRL_HASH", DefaultLanguageHighlighterColors.METADATA)
+	@JvmField val HOLE = TextAttributesKey.createTextAttributesKey("RED_PRL_HOLE", DefaultLanguageHighlighterColors.LABEL)
 
 	@JvmField val PAREN_KEY = arrayOf(PAREN)
 	@JvmField val BRACK_KEY = arrayOf(BRACK)
@@ -43,6 +44,7 @@ object RedPrlHighlighter : SyntaxHighlighter {
 	@JvmField val BLOCK_COMMENT_KEY = arrayOf(BLOCK_COMMENT)
 	@JvmField val NUMERAL_KEY = arrayOf(NUMERAL)
 	@JvmField val HASH_KEY = arrayOf(HASH)
+	@JvmField val HOLE_KEY = arrayOf(HOLE)
 
 	@JvmField val OPERATORS = listOf(
 		RedPrlTypes.RANGLE,
@@ -172,6 +174,7 @@ object RedPrlHighlighter : SyntaxHighlighter {
 		RedPrlTypes.COMMA -> COMMA_KEY
 		RedPrlTypes.HASH -> HASH_KEY
 		RedPrlTypes.VARNAME -> VAR_NAME_CALL_KEY
+		RedPrlTypes.HOLENAME -> HOLE_KEY
 		RedPrlTypes.OPNAME -> OP_NAME_CALL_KEY
 		RedPrlTypes.SEMI -> SEMICOLON_KEY
 		RedPrlTypes.DOT -> DOT_KEY
