@@ -5,7 +5,9 @@
  */
 
 theorem ${NAME_CAMEL}:
-  U // Goal
+  (-> bool bool) // Goal
 by {
   // Tactic expression
+  lam b =>
+    if b then `ff else `tt
 }.
