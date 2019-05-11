@@ -211,15 +211,6 @@ import org.ice1000.tt.*
 class ${languageName}DefaultContext : TemplateContextType("${constantPrefix}_DEFAULT_CONTEXT_ID", ${constantPrefix}_LANGUAGE_NAME, TTParentContext::class.java) {
 	override fun isInContext(file: PsiFile, offset: Int) = file.fileType == ${languageName}FileType
 }
-
-class ${languageName}LiveTemplateProvider : DefaultLiveTemplatesProvider {
-	private companion object DefaultHolder {
-		private val DEFAULT = arrayOf("/liveTemplates/$languageName")
-	}
-
-	override fun getDefaultLiveTemplateFiles() = DEFAULT
-	override fun getHiddenLiveTemplateFiles(): Array<String>? = null
-}
 """
 		dir.resolve("editing")
 			.apply { mkdirs() }

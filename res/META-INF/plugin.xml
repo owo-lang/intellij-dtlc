@@ -18,11 +18,11 @@
 		<liveTemplateContext implementation="org.ice1000.tt.editing.RedPrlDefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.MLPolyRDefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.TTParentContext"/>
+		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.TTLiveTemplateProvider"/>
 
 		<configurationType implementation="org.ice1000.tt.execution.AgdaRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.AgdaRunConfigurationProducer"/>
 
-		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.MLPolyRLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationProducer"/>
 		<lang.parserDefinition language="MLPolyR" implementationClass="org.ice1000.tt.psi.mlpolyr.MLPolyRParserDefinition"/>
@@ -39,7 +39,6 @@
 			forClass="org.ice1000.tt.psi.mlpolyr.MLPolyRStringMixin"
 			implementationClass="org.ice1000.tt.psi.mlpolyr.MLPolyRStringManipulator"/>
 
-		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.ACoreLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.ACoreRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.ACoreRunConfigurationProducer"/>
 		<lang.parserDefinition language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.psi.acore.ACoreParserDefinition"/>
@@ -52,7 +51,6 @@
 		<lang.braceMatcher language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreBraceMatcher"/>
 		<lang.foldingBuilder language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreFoldingBuilder"/>
 
-		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.MiniTTLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.MiniTTRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.MiniTTRunConfigurationProducer"/>
 		<lang.parserDefinition language="Mini-TT" implementationClass="org.ice1000.tt.psi.minitt.MiniTTParserDefinition"/>
@@ -65,7 +63,6 @@
 		<lang.refactoringSupport language="Mini-TT" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<lang.foldingBuilder language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTFoldingBuilder"/>
 
-		<defaultLiveTemplatesProvider implementation="org.ice1000.tt.editing.RedPrlLiveTemplateProvider"/>
 		<configurationType implementation="org.ice1000.tt.execution.RedPrlRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.RedPrlRunConfigurationProducer"/>
 		<lang.parserDefinition language="RedPRL" implementationClass="org.ice1000.tt.psi.redprl.RedPrlParserDefinition"/>
