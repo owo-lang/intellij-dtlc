@@ -59,7 +59,6 @@ class RedPrlParsingTest : DtlcParsingTestCase("parse/redprl", "prl", RedPrlParse
 	fun `test connection`() = doTest(true, true)
 	fun `test groupoid`() = doTest(true, true)
 	fun `test hlevels`() = doTest(true, true)
-	fun `test invariance`() = doTest(true, true)
 	fun `test isotoequiv`() = doTest(true, true)
 	fun `test J`() = doTest(true, true)
 	fun `test metalanguage`() = doTest(true, true)
