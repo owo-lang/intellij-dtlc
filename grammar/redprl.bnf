@@ -161,16 +161,16 @@ termAndTac ::=
  | nullaryOperator
  | ttMultinary
  | ttUniverse
- | LPAREN LOOP dimension RPAREN
+ | ttLoop
 
  /* Kan operators */
- | LPAREN COE dir binding term RPAREN
- | LPAREN FCOM dir term tube* RPAREN
- | LPAREN HCOM dir binding term tube* RPAREN
- | LPAREN COM dir binding term tube* RPAREN
- | LPAREN BOX dir term boundary* RPAREN
- | LPAREN CAP backDir term tube* RPAREN
- | LPAREN ECOM dir term tube* RPAREN
+ | ttCoe
+ | ttFcom
+ | ttHcom
+ | ttCom
+ | ttBox
+ | ttCap
+ | ttEcom
 
  /* numbers */
  | NUMERAL
@@ -178,22 +178,22 @@ termAndTac ::=
 
  /* function types */
  | ttRArrow
- | LPAREN LAMBDA LSQUARE boundVar+ RSQUARE term RPAREN
- | LPAREN DOLLAR_SIGN term term+ RPAREN
+ | ttLam
+ | ttDollar
 
  /* pair types */
- | LPAREN TIMES timesQuantifierData RPAREN
+ | ttTimes
 
  /* dependent record types */
  | RECORD
  | ttParenRecord
  | TUPLE
- | LPAREN TUPLE (field+ | term+) RPAREN
+ | ttTuple
  | ttBang
 
  /* paths */
- | LPAREN ABS LSQUARE boundVar+ RSQUARE term RPAREN
- | LPAREN AT_SIGN term dimension+ RPAREN
+ | ttAbs
+ | ttAt
 
  /* Abbreviation for membership */
  | ttMem
@@ -207,6 +207,20 @@ termAndTac ::=
 	extends=atomicMultitac
 }
 
+private ttCoe ::= LPAREN COE dir binding term RPAREN { pin=2 }
+private ttFcom ::= LPAREN FCOM dir term tube* RPAREN { pin=2 }
+private ttHcom ::= LPAREN HCOM dir binding term tube* RPAREN { pin=2 }
+private ttCom ::= LPAREN COM dir binding term tube* RPAREN { pin=2 }
+private ttBox ::= LPAREN BOX dir term boundary* RPAREN { pin=2 }
+private ttCap ::= LPAREN CAP backDir term tube* RPAREN { pin=2 }
+private ttEcom ::= LPAREN ECOM dir term tube* RPAREN { pin=2 }
+private ttLoop ::= LPAREN LOOP dimension RPAREN { pin=2 }
+private ttLam ::= LPAREN LAMBDA LSQUARE boundVar+ RSQUARE term RPAREN { pin=2 }
+private ttDollar ::= LPAREN DOLLAR_SIGN term term+ RPAREN { pin=2 }
+private ttTimes ::= LPAREN TIMES timesQuantifierData RPAREN { pin=2 }
+private ttTuple ::= LPAREN TUPLE (field+ | term+) RPAREN { pin=2 }
+private ttAbs ::= LPAREN ABS LSQUARE boundVar+ RSQUARE term RPAREN { pin=2 }
+private ttAt ::= LPAREN AT_SIGN term dimension+ RPAREN { pin=2 }
 private ttMem ::= LPAREN MEM term term RPAREN { pin=2 }
 private ttDoublePlus ::= LPAREN DOUBLE_PLUS level RPAREN { pin=2 }
 private ttPlus ::= LPAREN PLUS level NUMERAL RPAREN { pin=2 }
@@ -368,7 +382,7 @@ claimTac ::= CLAIM varDecl COLON judgment
 exactTac ::= RULE_EXACT term { pin=1 }
 absTac ::= ABS boundVar+ DOUBLE_RIGHT_ARROW tactic { pin=1 }
 lambdaTac ::= LAMBDA devDecompPattern+ DOUBLE_RIGHT_ARROW tactic { pin=1 }
-bracketTac ::= LBRACKET (tactics | recordFieldTactics?) RBRACKET { pin=1 }
+bracketTac ::= LBRACKET (recordFieldTactics | tactics)? RBRACKET { pin=1 }
 withoutTac ::= WITHOUT term+ { pin=1 }
 withTac ::= WITH hypBinding* DOUBLE_RIGHT_ARROW tactic { pin=1 }
 
