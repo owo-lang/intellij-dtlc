@@ -6,13 +6,13 @@ import com.intellij.lang.cacheBuilder.DefaultWordsScanner
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
-import org.ice1000.tt.editing.DefaultCommenter
-import org.ice1000.tt.editing.DefaultFindUsagesProvider
+import org.ice1000.tt.editing.TTCommenter
+import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.psi.minitt.MiniTTTokenType
 import org.ice1000.tt.psi.minitt.MiniTTTypes
 import org.ice1000.tt.psi.minitt.miniTTLexer
 
-class MiniTTCommenter : DefaultCommenter() {
+class MiniTTCommenter : TTCommenter() {
 	override fun getLineCommentPrefix() = "-- "
 }
 
@@ -28,6 +28,6 @@ class MiniTTBraceMatcher : PairedBraceMatcher {
 	override fun getPairs() = PAIRS
 }
 
-class MiniTTFindUsagesProvider : DefaultFindUsagesProvider() {
+class MiniTTFindUsagesProvider : TTFindUsagesProvider() {
 	override fun getWordsScanner() = DefaultWordsScanner(miniTTLexer(), MiniTTTokenType.IDENTIFIERS, MiniTTTokenType.COMMENTS, TokenSet.EMPTY)
 }

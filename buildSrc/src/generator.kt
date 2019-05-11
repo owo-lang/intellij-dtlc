@@ -208,7 +208,7 @@ import com.intellij.codeInsight.template.impl.DefaultLiveTemplatesProvider
 import com.intellij.psi.PsiFile
 import org.ice1000.tt.*
 
-class ${languageName}DefaultContext : TemplateContextType("${constantPrefix}_DEFAULT_CONTEXT_ID", ${constantPrefix}_LANGUAGE_NAME) {
+class ${languageName}DefaultContext : TemplateContextType("${constantPrefix}_DEFAULT_CONTEXT_ID", ${constantPrefix}_LANGUAGE_NAME, TTParentContext::class.java) {
 	override fun isInContext(file: PsiFile, offset: Int) = file.fileType == ${languageName}FileType
 }
 

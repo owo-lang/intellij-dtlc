@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiNamedElement
 
-abstract class DefaultFindUsagesProvider : FindUsagesProvider {
+abstract class TTFindUsagesProvider : FindUsagesProvider {
 	override fun canFindUsagesFor(element: PsiElement) = element is PsiNameIdentifierOwner
 	override fun getHelpId(psiElement: PsiElement): String? = null
 	override fun getType(element: PsiElement) = ""
@@ -19,7 +19,7 @@ class InplaceRenameRefactoringSupportProvider : RefactoringSupportProvider() {
 	override fun isMemberInplaceRenameAvailable(element: PsiElement, context: PsiElement?) = true
 }
 
-abstract class DefaultCommenter : Commenter {
+abstract class TTCommenter : Commenter {
 	override fun getCommentedBlockCommentPrefix() = blockCommentPrefix
 	override fun getCommentedBlockCommentSuffix() = blockCommentSuffix
 	override fun getBlockCommentPrefix(): String? = null

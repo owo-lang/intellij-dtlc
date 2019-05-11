@@ -15,6 +15,8 @@
 		<liveTemplateContext implementation="org.ice1000.tt.editing.OwODefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.AgdaDefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.ACoreDefaultContext"/>
+		<liveTemplateContext implementation="org.ice1000.tt.editing.RedPrlDefaultContext"/>
+		<liveTemplateContext implementation="org.ice1000.tt.editing.MLPolyRDefaultContext"/>
 
 		<configurationType implementation="org.ice1000.tt.execution.AgdaRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.AgdaRunConfigurationProducer"/>

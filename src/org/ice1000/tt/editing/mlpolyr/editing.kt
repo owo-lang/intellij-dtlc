@@ -5,13 +5,13 @@ import com.intellij.lang.PairedBraceMatcher
 import com.intellij.lang.cacheBuilder.DefaultWordsScanner
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
-import org.ice1000.tt.editing.DefaultCommenter
-import org.ice1000.tt.editing.DefaultFindUsagesProvider
+import org.ice1000.tt.editing.TTCommenter
+import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTokenType
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTypes
 import org.ice1000.tt.psi.mlpolyr.mlPolyRLexer
 
-class MLPolyRCommenter : DefaultCommenter() {
+class MLPolyRCommenter : TTCommenter() {
 	override fun getBlockCommentPrefix() = "(*"
 	override fun getBlockCommentSuffix() = "*)"
 	override fun getLineCommentPrefix(): String? = null
@@ -31,6 +31,6 @@ class MLPolyRBraceMatcher : PairedBraceMatcher {
 	override fun getPairs() = PAIRS
 }
 
-class MLPolyRFindUsagesProvider : DefaultFindUsagesProvider() {
+class MLPolyRFindUsagesProvider : TTFindUsagesProvider() {
 	override fun getWordsScanner() = DefaultWordsScanner(mlPolyRLexer(), MLPolyRTokenType.IDENTIFIERS, MLPolyRTokenType.COMMENTS, MLPolyRTokenType.STRINGS)
 }
