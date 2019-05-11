@@ -69,5 +69,6 @@ class RedPrlParsingTest : DtlcParsingTestCase("parse/redprl", "prl", RedPrlParse
 	fun `test README`() = doTest(true, true)
 	fun `test semi-simplicial`() = doTest(true, true)
 	fun `test invariance`() = doTest(true, true)
+	fun `test equality-elim`() = doTest(true, true)
 	fun `test V-types`() = doTest(true, true)
 }

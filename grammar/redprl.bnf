@@ -47,7 +47,7 @@ varDecl ::= VARNAME
 
 numAsDimension ::= NUMERAL
 
-bindingSig ::= LSQUARE (sort (COMMA sort)+)? RSQUARE DOT { pin=1 }
+bindingSig ::= LSQUARE (sort (COMMA sort)*)? RSQUARE DOT { pin=1 }
 private valence ::= bindingSig? sort { pin=1 }
 
 private dimension ::= varUsage | metaVar | numAsDimension
