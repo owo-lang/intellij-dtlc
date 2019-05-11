@@ -147,10 +147,8 @@ patVar ::=
  | PERCENT varDecl
 
 termAndTac ::=
-   varUsage
-
  /* custom operators */
- | customOpTerm
+   customOpTerm
 
  /* inductive types */
  | inductiveTerm
@@ -205,7 +203,8 @@ termAndTac ::=
  /* levels */
  | ttPlus
  | ttDoublePlus
- | ttLMax {
+ | ttLMax
+ | varUsage {
 	extends=tac
 	extends=term
 	extends=atomicMultitac
@@ -328,8 +327,9 @@ anonTupleDecompPattern ::= devDecompPattern devDecompPatternRest*
 private tupleDecompPattern ::=
    labeledTupleDecompPattern
  | anonTupleDecompPattern
-devMatchClauses ::= LSQUARE (varDecl+ PIPE)? term
+devMatchClause ::= LSQUARE (varDecl+ PIPE)? term
  DOUBLE_RIGHT_ARROW tactic RSQUARE { pin=1 }
+private devMatchClauses ::= devMatchClause*
 
 selector ::= CONCL | elimTarget
 accessor ::= TYPE | LEFT | RIGHT
@@ -382,7 +382,7 @@ printTac ::= PRINT term { pin=1 }
 caseTac ::= CASE elimTarget OF
  BASE DOUBLE_RIGHT_ARROW tactic
  PIPE LOOP varDecl DOUBLE_RIGHT_ARROW tactic { pin=1 }
-matchTac ::= MATCH term LBRACKET devMatchClauses? RBRACKET { pin=1 }
+matchTac ::= MATCH term LBRACKET devMatchClauses RBRACKET { pin=1 }
 ifTac ::= IF elimTarget THEN tactic ELSE tactic { pin=1 }
 backtickTac ::= BACK_TICK term { pin=1 }
 claimTac ::= CLAIM varDecl COLON judgment
@@ -451,7 +451,7 @@ private mlVtyBrack ::= LBRACKET mlCty RBRACKET { pin=1 }
 mlVty ::= mlParen | mlVtyBrack
 
 private mlCtyCaret ::= CARET mlVty { pin=1 }
-private mlCtyVty ::= mlVty RIGHT_ARROW mlCty { pin=1 }
+private mlCtyVty ::= mlVty RIGHT_ARROW mlCty { pin=2 }
 mlCty ::= mlCtyCaret | mlCtyVty
 
 private mlParen ::= LPAREN RPAREN

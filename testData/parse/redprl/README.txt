@@ -2155,7 +2155,7 @@ FILE
             PsiWhiteSpace(' ')
             PsiElement(LBRACKET)('{')
             PsiWhiteSpace('\n    ')
-            RedPrlDevMatchClausesImpl(DEV_MATCH_CLAUSES)
+            RedPrlDevMatchClauseImpl(DEV_MATCH_CLAUSE)
               PsiElement(LSQUARE)('[')
               RedPrlVarDeclImpl(VAR_DECL)
                 PsiElement(VARNAME)('a')

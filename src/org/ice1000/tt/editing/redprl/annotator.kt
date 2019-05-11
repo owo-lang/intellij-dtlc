@@ -16,7 +16,9 @@ class RedPrlAnnotator : Annotator {
 	}
 
 	private fun hole(element: RedPrlHole, holder: AnnotationHolder) {
-		holder.createWeakWarningAnnotation(element, TTBundle.message("redprl.linter.unsolved-hole", element.text))
+		holder.createWeakWarningAnnotation(element, TTBundle.message("redprl.linter.unsolved-hole", element.text)).apply {
+			textAttributes = RedPrlHighlighter.HOLE
+		}
 	}
 
 	private fun metaVar(element: RedPrlMetaVar, holder: AnnotationHolder) {
