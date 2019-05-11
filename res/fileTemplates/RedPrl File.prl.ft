@@ -1,10 +1,11 @@
-(*
+/*
  * Created by Dependently-Typed Lambda Calculus on ${YEAR}-${MONTH}-${DAY}
  * ${NAME}
  * Author: ${USER}
- *)
+ */
 
-let fun ${NAME_SNAKE} () = "Hello World!"
-in
-  0
-end
+theorem ${NAME_CAMEL}:
+  U // Goal
+by {
+  // Tactic expression
+}.

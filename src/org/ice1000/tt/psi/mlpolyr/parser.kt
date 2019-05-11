@@ -40,6 +40,7 @@ class MLPolyRTokenType(debugName: String) : IElementType(debugName, MLPolyRLangu
 		fun createDef(text: String, project: Project) = createLet("let $text in 0 end", project)?.defList?.firstOrNull()
 		fun createPat(text: String, project: Project) = createDef("val $text = 0", project)?.pat
 		fun createIdentifier(text: String, project: Project) = createExp(text, project)?.firstChild as? MLPolyRIdentifier
+		fun createStr(text: String, project: Project) = createExp(text, project)?.firstChild as? MLPolyRStringMixin
 		fun createCon(text: String, project: Project) = createExp("$text 0", project)?.firstChild as? MLPolyRCon
 		fun createLabel(text: String, project: Project) = createCon("`$text", project)?.label
 	}

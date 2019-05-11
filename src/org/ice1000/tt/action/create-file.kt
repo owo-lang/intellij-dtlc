@@ -1,5 +1,6 @@
 package org.ice1000.tt.action
 
+import com.google.common.base.CaseFormat
 import com.intellij.ide.actions.CreateFileFromTemplateAction
 import com.intellij.ide.actions.CreateFileFromTemplateDialog
 import com.intellij.ide.fileTemplates.FileTemplate
@@ -19,7 +20,9 @@ import javax.swing.Icon
 fun createProperties(project: Project, className: String): Properties {
 	val properties = FileTemplateManager.getInstance(project).defaultProperties
 	properties += "NAME" to className
-	properties += "NAME_SNAKE" to className.toLowerCase().replace(Regex("[ \\r\\t\\-()!@#~]+"), "_")
+	val snakeCase = className.toLowerCase().replace(Regex("[ \\r\\t\\-()!@#~]+"), "_")
+	properties += "NAME_SNAKE" to snakeCase
+	properties += "NAME_CAMEL" to CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, snakeCase)
 	return properties
 }
 

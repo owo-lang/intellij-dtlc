@@ -10,7 +10,7 @@ import org.ice1000.tt.psi.mlpolyr.impl.MLPolyRExpImpl
 
 abstract class MLPolyRStringMixin(node: ASTNode) : MLPolyRExpImpl(node), MLPolyRString, PsiLanguageInjectionHost {
 	override fun isValidHost() = true
-	override fun updateText(text: String) = MLPolyRTokenType.createExp(text, project)?.let(::replace) as? MLPolyRStringMixin
+	override fun updateText(text: String) = MLPolyRTokenType.createStr(text, project)?.let(::replace) as? MLPolyRStringMixin
 	override fun createLiteralTextEscaper(): LiteralTextEscaper<MLPolyRStringMixin> = GeneralStringEscaper(this)
 }
 
