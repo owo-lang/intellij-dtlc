@@ -122,7 +122,7 @@ abstract class MLPolyRLabelMixin(node: ASTNode) : MLPolyRExpImpl(node), MLPolyRL
 
 	override fun bindToElement(element: PsiElement): PsiElement = throw IncorrectOperationException("Unsupported")
 	override fun getNameIdentifier() = this
-	override fun getName() = text
+	override fun getName() = canonicalText
 	override fun setName(newName: String): PsiElement? = handleElementRename(newName)
 	override fun handleElementRename(newName: String): PsiElement? =
 		replace(MLPolyRTokenType.createLabel(newName, project)

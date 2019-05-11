@@ -80,9 +80,7 @@ fieldPattern ::=
 private defs ::= def*
 private funDef ::= KW_FUN functions? optRcl? { pin=1 }
 private valDef ::= KW_VAL pat EQ exp { pin=1 }
-def ::=
-   valDef
- | funDef {
+def ::= valDef | funDef {
 	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwner']
 	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRDefMixin'
 }
@@ -119,7 +117,7 @@ tryExp ::= KW_TRY pat EQ exp KW_IN exp handlers KW_END {
 	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwner']
 	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerMixin'
 }
-fnExp ::= KW_FN handlingImpl {
+fnExp ::= KW_FN handling0 {
 	pin=1
 	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwner']
 	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerMixin'
@@ -163,8 +161,8 @@ exp ::=
  | appExp
  | atomicExp
 
-private dtMatch2 ::= pat DCOLON handlingImpl BAR LSB RSB DARROW exp { pin=1 }
-private dtMatch1 ::= LSB RSB DARROW exp BAR pat DCOLON handlingImpl { pin=1 }
+private dtMatch2 ::= pat DCOLON handling0 BAR LSB RSB DARROW exp { pin=1 }
+private dtMatch1 ::= LSB RSB DARROW exp BAR pat DCOLON handling0 { pin=1 }
 dtMatch ::= dtMatch1 | dtMatch2 {
 	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatListOwnerMixin'
 	implements=['org.ice1000.tt.psi.mlpolyr.MLPolyRPatListOwner']
@@ -211,23 +209,25 @@ private expSeqRest ::= SEMI exp { pin=1 }
 
 private mrList ::= mr mrRest*
 private mrRest ::= BAR mr { pin=1 }
-mr ::= BQ label handlingImpl {
+mr ::= BQ label handling0 {
 	pin=1
 	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerMixin'
 }
 
 rehandling ::= KW_REHANDLING mrList { pin=1 }
-private handlingImpl ::= pat DARROW exp { pin=2 }
-private handlingImpl2 ::= mr BAR handling { pin=2 }
-private handlingImpl3 ::= KW_HANDLING handling { pin=1 }
-handling ::= handlingImpl | mr | handlingImpl2 {
+private handling0 ::= pat DARROW exp { pin=2 }
+private handling1 ::= mr BAR handling { pin=2 }
+private handling2 ::= KW_HANDLING handling { pin=1 }
+handling ::= handling0 | mr | handling1 {
 	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwner']
 	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerMixin'
 }
 
-handlers ::= handlingImpl3? rehandling?
-
+handlers ::= handling2? rehandling?
 defaultMatch ::= KW_DEFAULT COLON exp { pin=1 }
 
 identifier ::= ID { mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRIdentifierMixin' }
-string ::= STR
+string ::= STR {
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRStringMixin'
+	implements=['com.intellij.psi.PsiLanguageInjectionHost']
+}
