@@ -8,9 +8,8 @@
 	<extensions defaultExtensionNs="com.intellij">
 		<fileTypeFactory implementation="org.ice1000.tt.TTFileTypeFactory"/>
 		<errorHandler implementation="org.ice1000.tt.error.GitHubErrorReporter"/>
-
-		<additionalTextAttributes scheme="Default" file="/colorSchemes/MLPolyR.xml"/>
-		<additionalTextAttributes scheme="Darcula" file="/colorSchemes/MLPolyR_dark.xml"/>
+		<additionalTextAttributes scheme="Default" file="/colorSchemes/TT.xml"/>
+		<additionalTextAttributes scheme="Darcula" file="/colorSchemes/TT_dark.xml"/>
 
 		<liveTemplateContext implementation="org.ice1000.tt.editing.MiniTTDefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.OwODefaultContext"/>
@@ -67,6 +66,7 @@
 		<lang.findUsagesProvider language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlFindUsagesProvider"/>
 		<lang.refactoringSupport language="RedPRL" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<lang.syntaxHighlighterFactory language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlHighlighterFactory"/>
+		<completion.contributor language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlCompletionContributor"/>
 
 		<projectConfigurable
 			groupId="language"

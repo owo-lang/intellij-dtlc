@@ -11,33 +11,9 @@ import org.ice1000.tt.editing.SimpleProvider
 class MLPolyRCompletionContributor : CompletionContributor(), DumbAware {
 	private val keywords = listOf(
 		"rehandling",
-		"handling",
-		"default",
-		"nocases",
-		"orelse",
-		"isnull",
-		"false",
-		"match",
-		"cases",
-		"where",
-		"raise",
-		"then",
-		"else",
-		"true",
-		"with",
-		"case",
-		"let",
-		"end",
-		"fun",
-		"and",
-		"val",
-		"try",
-		"not",
-		"if",
-		"fn",
-		"as",
-		"of",
-		"in"
+		"handling", "default", "nocases", "orelse", "isnull", "false", "match",
+		"cases", "where", "raise", "then", "else", "true", "with", "case", "let",
+		"end", "fun", "and", "val", "try", "not", "if", "fn", "as", "of", "in"
 	).map {
 		LookupElementBuilder
 			.create(it)
