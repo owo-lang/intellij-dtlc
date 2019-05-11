@@ -27,6 +27,7 @@ object RedPrlHighlighter : SyntaxHighlighter {
 	@JvmField val LINE_COMMENT = TextAttributesKey.createTextAttributesKey("RED_PRL_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
 	@JvmField val BLOCK_COMMENT = TextAttributesKey.createTextAttributesKey("RED_PRL_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
 	@JvmField val NUMERAL = TextAttributesKey.createTextAttributesKey("RED_PRL_NUMERAL", DefaultLanguageHighlighterColors.NUMBER)
+	@JvmField val HASH = TextAttributesKey.createTextAttributesKey("RED_PRL_HASH", DefaultLanguageHighlighterColors.METADATA)
 
 	@JvmField val PAREN_KEY = arrayOf(PAREN)
 	@JvmField val BRACK_KEY = arrayOf(BRACK)
@@ -41,12 +42,12 @@ object RedPrlHighlighter : SyntaxHighlighter {
 	@JvmField val LINE_COMMENT_KEY = arrayOf(LINE_COMMENT)
 	@JvmField val BLOCK_COMMENT_KEY = arrayOf(BLOCK_COMMENT)
 	@JvmField val NUMERAL_KEY = arrayOf(NUMERAL)
+	@JvmField val HASH_KEY = arrayOf(HASH)
 
 	@JvmField val OPERATORS = listOf(
 		RedPrlTypes.RANGLE,
 		RedPrlTypes.DOT,
 		RedPrlTypes.COLON,
-		RedPrlTypes.HASH,
 		RedPrlTypes.EQUALS,
 		RedPrlTypes.RIGHT_ARROW,
 		RedPrlTypes.LEFT_ARROW,
@@ -169,6 +170,7 @@ object RedPrlHighlighter : SyntaxHighlighter {
 	override fun getHighlightingLexer() = redPrlLexer()
 	override fun getTokenHighlights(type: IElementType?): Array<TextAttributesKey> = when (type) {
 		RedPrlTypes.COMMA -> COMMA_KEY
+		RedPrlTypes.HASH -> HASH_KEY
 		RedPrlTypes.VARNAME -> VAR_NAME_CALL_KEY
 		RedPrlTypes.OPNAME -> OP_NAME_CALL_KEY
 		RedPrlTypes.SEMI -> SEMICOLON_KEY
