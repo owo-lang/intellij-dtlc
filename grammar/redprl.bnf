@@ -401,7 +401,7 @@ tacPipeTac ::= tac DOUBLE_PIPE tactic
 private accessAndSelect ::= atAccessor inSelector? | inSelector atAccessor?
 private inSelector ::= IN selector { pin=1 }
 private atAccessor ::= AT accessor+ { pin=1 }
-rewriteTac ::= TAC_REWRITE term accessAndSelect { pin=1 }
+rewriteTac ::= TAC_REWRITE term accessAndSelect? { pin=1 }
 unfoldTac ::= TAC_UNFOLD opUsage+ accessAndSelect? { pin=1 }
 reduceTac ::= TAC_REDUCE accessAndSelect? { pin=1 }
 
