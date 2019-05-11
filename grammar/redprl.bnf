@@ -47,7 +47,7 @@ varDecl ::= VARNAME
 
 numAsDimension ::= NUMERAL
 
-bindingSig ::= LSQUARE sort+ RSQUARE DOT { pin=1 }
+bindingSig ::= LSQUARE (sort (COMMA sort)+)? RSQUARE DOT { pin=1 }
 private valence ::= bindingSig? sort { pin=1 }
 
 private dimension ::= varUsage | metaVar | numAsDimension
@@ -130,13 +130,17 @@ multinaryOperator ::=
  | VIN
  | VPROJ
 
-customOpTerm ::= opUsage | LPAREN opUsage binding+ RPAREN
+private customOpTermParen ::= LPAREN opUsage binding+ RPAREN { pin=2 }
+customOpTerm ::= opUsage | customOpTermParen { extends=termAndTac }
 
 private inductiveTermInside ::=
    TYPE binding*
  | ident binding*
  | REC binding+
-inductiveTerm ::= LPAREN DOT opUsage inductiveTermInside RPAREN
+inductiveTerm ::= LPAREN DOT opUsage inductiveTermInside RPAREN {
+	extends=termAndTac
+	pin=2
+}
 
 patVar ::=
    PERCENT LSQUARE varDecl COLON sort RSQUARE
@@ -242,10 +246,13 @@ level ::=
  | PERCENT varUsage
 
 term ::=
-   termAndTac
- | HASH TAC_KW LBRACKET tactic RBRACKET
- | HASH JDG LBRACKET judgment RBRACKET
- | HASH LVL LBRACKET level RBRACKET
+   tacTerm
+ | jdkTerm
+ | lvlTerm
+ | termAndTac
+private tacTerm ::= HASH TAC_KW LBRACKET tactic RBRACKET { pin=2 }
+private lvlTerm ::= HASH LVL LBRACKET level RBRACKET { pin=2 }
+private jdkTerm ::= HASH JDG LBRACKET judgment RBRACKET { pin=2 }
 
 kind ::=
    DISCRETE
@@ -308,7 +315,8 @@ private devAppSpineRest ::= COMMA devAppSpine { pin=1 }
 private bracketedDevAppSpine ::= LSQUARE devAppSpine? RSQUARE { pin=1 }
 devAppSpine ::= tactic devAppSpineRest*
 
-devDecompPattern ::= varDecl | UNDER | LBRACKET tupleDecompPattern RBRACKET
+private devDecompPatternFields ::= LBRACKET tupleDecompPattern? RBRACKET { pin=1 }
+devDecompPattern ::= varDecl | UNDER | devDecompPatternFields
 labeledDecompPattern ::= varDecl EQUALS devDecompPattern { pin=2 }
 
 private labeledDecompPatternRest ::= COMMA labeledDecompPattern { pin=1 }
@@ -318,10 +326,10 @@ private devDecompPatternRest ::= COMMA devDecompPattern { pin=1 }
 anonTupleDecompPattern ::= devDecompPattern devDecompPatternRest*
 
 private tupleDecompPattern ::=
-   anonTupleDecompPattern
- | labeledTupleDecompPattern?
+   labeledTupleDecompPattern
+ | anonTupleDecompPattern
 devMatchClauses ::= LSQUARE (varDecl+ PIPE)? term
- DOUBLE_RIGHT_ARROW tactic RSQUARE
+ DOUBLE_RIGHT_ARROW tactic RSQUARE { pin=1 }
 
 selector ::= CONCL | elimTarget
 accessor ::= TYPE | LEFT | RIGHT
@@ -390,10 +398,9 @@ withTac ::= WITH hypBinding* DOUBLE_RIGHT_ARROW tactic { pin=1 }
 tacPipeTac ::= tac DOUBLE_PIPE tactic
 
 // Complicated tactics
-private accessAndSelect ::=
-   atAccessor | inSelector | atAccessor inSelector | inSelector atAccessor
-private inSelector ::= IN selector
-private atAccessor ::= AT accessor+
+private accessAndSelect ::= atAccessor inSelector? | inSelector atAccessor?
+private inSelector ::= IN selector { pin=1 }
+private atAccessor ::= AT accessor+ { pin=1 }
 rewriteTac ::= TAC_REWRITE term accessAndSelect { pin=1 }
 unfoldTac ::= TAC_UNFOLD opUsage+ accessAndSelect? { pin=1 }
 reduceTac ::= TAC_REDUCE accessAndSelect? { pin=1 }
@@ -424,20 +431,14 @@ multitacSquare ::= LSQUARE tactics RSQUARE { pin=1 }
 multitacRepeat ::= MTAC_REPEAT LBRACKET tactic RBRACKET { pin=1 }
 multitacAuto ::= MTAC_AUTO
 multitacProgress ::= MTAC_PROGRESS LBRACKET tactic RBRACKET { pin=1 }
-multitacParen ::= LPAREN tactic RPAREN
-multitacHash ::= HASH NUMERAL LBRACKET tactic RBRACKET { pin=1 }
+multitacParen ::= LPAREN tactic RPAREN { pin=2 }
+multitacHash ::= HASH NUMERAL LBRACKET tactic RBRACKET { pin=2 }
 hole ::= HOLENAME { extends=atomicMultitac }
 
-/// %prec SEMI
-tactic ::= atomicMultitac multitacRest* SEMI?
-private multitacRest ::= SEMI atomicMultitac { pin=1 }
+private tactics ::= tactic (COMMA tactic)* COMMA?
+tactic ::= atomicMultitac (SEMI atomicMultitac?)* SEMI?
 
-/// %prec COMMA
 hypBinding ::= boundVar (COLON sort)?
-
-private tactics ::= tactic tacticRest* COMMA?
-private tacticRest ::= COMMA tactic { pin=1 }
-/// %prec: SEMI
 
 private declArguments ::= declArgument declArgumentRest*
 private declArgumentRest ::= COMMA declArgument { pin=1 }

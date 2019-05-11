@@ -1,0 +1,59 @@
+define HasAllPathsTo (#C,#c) = (-> [c' : #C] (path [_] #C c' #c)).
+define IsContr (#C) = (* [c : #C] (HasAllPathsTo #C c)).
+define IsProp (#A) = (-> [a b : #A] (path [_] #A a b)).
+define IsSet (#A) = (-> [a b : #A] (IsProp (path [_] #A a b))).
+
+theorem InhPropIsContr(#l:lvl) :
+ (->
+  [ty : (U #l kan)]
+  [h : (IsProp ty)]
+  [a : ty]
+  (IsContr ty))
+by {
+  lam ty h a => {use a, lam x => `($ h x a)}
+}.
+
+theorem PropPi(#l:lvl) :
+ (->
+  [tyA : (U #l kan)]
+  [tyB : (-> tyA (U #l kan))]
+  [h : (-> [x : tyA] (IsProp ($ tyB x)))]
+  (IsProp (-> [x : tyA] ($ tyB x))))
+by {
+  lam tyA tyB h f g => abs i => lam x => `(@ ($ h x ($ f x) ($ g x)) i)
+}.
+
+theorem PropSet(#l:lvl) :
+  (->
+   [tyA : (U #l kan)]
+   [h : (IsProp tyA)]
+   (IsSet tyA))
+by {
+  lam tyA h a b p q =>
+  abs j i =>
+    `(hcom 0~>1 tyA a
+      [i=0 [k] (@ ($ h a a) k)]
+      [i=1 [k] (@ ($ h a b) k)]
+      [j=0 [k] (@ ($ h a (@ p i)) k)]
+      [j=1 [k] (@ ($ h a (@ q i)) k)])
+}.
+
+theorem IsPropIsProp(#l:lvl) :
+  (->
+   [tyA : (U #l kan)]
+   (IsProp (IsProp tyA)))
+by {
+  lam tyA h1 h2 =>
+  abs i => lam a b =>
+  use (PropSet #l) [`tyA, `h1, `a, `b, `($ h1 a b), `($ h2 a b), `i]
+}.
+
+theorem IsPropIsSet(#l:lvl) :
+  (->
+   [tyA : (U #l kan)]
+   (IsProp (IsSet tyA)))
+by {
+  lam tyA h1 h2 =>
+  abs i => lam a b =>
+  use (IsPropIsProp #l) [`(path [_] tyA a b), `($ h1 a b), `($ h2 a b), `i]
+}.

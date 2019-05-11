@@ -1,0 +1,17 @@
+theorem Choice(#i:lvl) :
+  (->
+   [a b : (U #i)]
+   [r : (-> a b (U #i))]
+   [f : (-> [x : a] (* [y : b] ($ r x y)))]
+   (*
+    [f : (-> a b)]
+    (-> [x : a] ($ r x ($ f x)))))
+by {
+  lam a b r f =>
+    {lam x => let {y,_} = f [`x]; `y,
+     lam x => let {_,z} = f [`x]; `z};
+
+  inversion; with _ aux0 => reduce at left in aux0; auto; assumption
+}.
+
+// print Choice.

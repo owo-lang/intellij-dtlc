@@ -57,4 +57,14 @@ class MLPolyRParsingTest : DtlcParsingTestCase("parse/mlpolyr", "mlpr", MLPolyRP
 class RedPrlParsingTest : DtlcParsingTestCase("parse/redprl", "prl", RedPrlParserDefinition()) {
 	fun `test category`() = doTest(true, true)
 	fun `test connection`() = doTest(true, true)
+	fun `test groupoid`() = doTest(true, true)
+	fun `test hlevels`() = doTest(true, true)
+	fun `test invariance`() = doTest(true, true)
+	fun `test isotoequiv`() = doTest(true, true)
+	fun `test J`() = doTest(true, true)
+	fun `test metalanguage`() = doTest(true, true)
+	fun `test omega1s1`() = doTest(true, true)
+	fun `test omega1s1-inductive`() = doTest(true, true)
+	fun `test theorem-of-choice`() = doTest(true, true)
+	fun `test univalence`() = doTest(true, true)
 }
