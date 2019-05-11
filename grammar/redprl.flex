@@ -164,7 +164,7 @@ data { return DATA; }
 fail { return TAC_FAIL; }
 auto { return MTAC_AUTO; }
 elim { return TAC_ELIM; }
-// true { return TRUE; }
+true { return TRUE_KW; }
 type { return TYPE; }
 nat { return NAT; }
 int { return INT; }

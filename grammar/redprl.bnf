@@ -131,7 +131,7 @@ multinaryOperator ::=
  | VPROJ
 
 private customOpTermParen ::= LPAREN opUsage binding+ RPAREN { pin=2 }
-customOpTerm ::= opUsage | customOpTermParen { extends=termAndTac }
+customOpTerm ::= customOpTermParen | opUsage { extends=termAndTac }
 
 private inductiveTermInside ::=
    TYPE binding*
@@ -148,12 +148,6 @@ patVar ::=
 
 termAndTac ::=
    varUsage
- /* meta variable */
- | metaVar
- /* pattern variables */
- | patVar
-
- | ttMetaOrPattern
 
  /* custom operators */
  | customOpTerm
@@ -201,6 +195,12 @@ termAndTac ::=
 
  /* Abbreviation for membership */
  | ttMem
+
+ /* meta variable */
+ | metaVar
+ /* pattern variables */
+ | patVar
+ | ttMetaOrPattern
 
  /* levels */
  | ttPlus
@@ -264,10 +264,10 @@ withKind ::= WITH term
 judgment ::=
    term EQUALS term IN term
  | term IN term
- | term TRUE
- | term
+ | term TRUE_KW
  | term EQUALS term TYPE withKind?
  | term TYPE withKind?
+ | term
 
 specTube ::= LSQUARE equation specBinding RSQUARE
 specBoundary ::= LSQUARE equation specTerm RSQUARE
@@ -431,7 +431,7 @@ multitacSquare ::= LSQUARE tactics RSQUARE { pin=1 }
 multitacRepeat ::= MTAC_REPEAT LBRACKET tactic RBRACKET { pin=1 }
 multitacAuto ::= MTAC_AUTO
 multitacProgress ::= MTAC_PROGRESS LBRACKET tactic RBRACKET { pin=1 }
-multitacParen ::= LPAREN tactic RPAREN { pin=2 }
+multitacParen ::= LPAREN tactic RPAREN
 multitacHash ::= HASH NUMERAL LBRACKET tactic RBRACKET { pin=2 }
 hole ::= HOLENAME { extends=atomicMultitac }
 

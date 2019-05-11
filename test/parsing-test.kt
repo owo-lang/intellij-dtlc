@@ -66,4 +66,6 @@ class RedPrlParsingTest : DtlcParsingTestCase("parse/redprl", "prl", RedPrlParse
 	fun `test omega1s1-inductive`() = doTest(true, true)
 	fun `test theorem-of-choice`() = doTest(true, true)
 	fun `test univalence`() = doTest(true, true)
+	fun `test README`() = doTest(true, true)
+	fun `test invariance`() = doTest(true, true)
 }
