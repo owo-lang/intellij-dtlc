@@ -2,6 +2,7 @@ package org.ice1000.tt.psi
 
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
@@ -46,5 +47,20 @@ val PsiElement.ancestors: Sequence<PsiElement> get() = generateSequence(this) {
 	if (it is PsiFile) null else it.parent
 }
 
-@JvmField
-val WHITE_SPACE = TokenSet.create(TokenType.WHITE_SPACE)
+@JvmField val WHITE_SPACE = TokenSet.create(TokenType.WHITE_SPACE)
+
+fun PsiElement.bodyText(maxSizeExpected: Int) = buildString {
+	append(' ')
+	var child = firstChild
+	while (child != null && child != this@bodyText) {
+		if (child is PsiWhiteSpace) append(' ')
+		else {
+			while (child.firstChild != null && length + child.textLength > maxSizeExpected) child = child.firstChild
+			append(child.text)
+		}
+		if (maxSizeExpected < 0 || length >= maxSizeExpected) break
+		do {
+			child = child.nextSibling ?: child.parent
+		} while (child == null)
+	}
+}

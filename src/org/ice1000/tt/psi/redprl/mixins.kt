@@ -34,16 +34,12 @@ interface RedPrlOpOwner : PsiElement {
 	val mlCmd: RedPrlMlCmd?
 }
 
-abstract class RedPrlDefineMixin(node: ASTNode) : RedPrlOpOwnerMixin(node), RedPrlOpOwner {
-	override val type: PsiElement? get() = null
-}
-
 abstract class RedPrlOpOwnerMixin(node: ASTNode) : RedPrlDeclaration(node), RedPrlOpOwner {
 	override fun getNameIdentifier() = opDecl
-	override val type: PsiElement?
-		get() = findChildByClass(RedPrlSort::class.java)
-			?: findChildByClass(RedPrlJudgment::class.java)
-	override val parameterText: String? get() = findChildByClass(RedPrlDeclArgumentsParens::class.java)?.text
+	override val parameterText: String?
+		get() = findChildByClass(RedPrlDeclArgumentsParens::class.java)?.bodyText(50)
+			?: findChildByClass(RedPrlJudgment::class.java)?.bodyText(50)
+	override val type: PsiElement? get() = findChildByClass(RedPrlSort::class.java)
 	override val mlCmd: RedPrlMlCmd? get() = findChildByClass(RedPrlMlCmd::class.java)
 }
 
