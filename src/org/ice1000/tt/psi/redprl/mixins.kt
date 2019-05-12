@@ -89,8 +89,7 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<RedPrlOpUsageMixin> { ref, _ ->
-			val name = ref.canonicalText
-			resolveWith(PatternResolveProcessor(name), ref)
+			resolveWith(PatternResolveProcessor(ref.canonicalText), ref)
 		}
 	}
 }
