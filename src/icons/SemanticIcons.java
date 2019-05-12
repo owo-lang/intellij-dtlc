@@ -5,9 +5,13 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
+/**
+ * @author ice1000
+ */
 public interface SemanticIcons {
 	@NotNull Icon BLUE_T = IconLoader.getIcon("/icons/ast/blue_t.png");
 	@NotNull Icon BLUE_C = IconLoader.getIcon("/icons/ast/blue_c.png");
+	@NotNull Icon BLUE_HOLE = IconLoader.getIcon("/icons/ast/blue_hole.png");
 	@NotNull Icon PURPLE_T = IconLoader.getIcon("/icons/ast/purple_t.png");
 	@NotNull Icon PURPLE_P = IconLoader.getIcon("/icons/ast/purple_p.png");
 	@NotNull Icon PINK_LAMBDA = IconLoader.getIcon("/icons/ast/pink_lambda.png");

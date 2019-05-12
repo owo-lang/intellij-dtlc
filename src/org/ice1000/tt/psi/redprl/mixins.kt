@@ -40,6 +40,7 @@ abstract class RedPrlOpOwnerMixin(node: ASTNode) : RedPrlDeclaration(node), RedP
 
 abstract class RedPrlOpDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlOpDecl {
 	override fun visit(visitor: (RedPrlOpDecl) -> Boolean) = visitor(this)
+	open val kind: RedPrlSymbolKind by lazy(::opSymbolKind)
 
 	override fun getIcon(flags: Int) = TTIcons.MLPOLYR
 	@Throws(IncorrectOperationException::class)
@@ -72,7 +73,8 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 	}
 
 	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = PatternCompletionProcessor({ TTIcons.RED_PRL },
+		val variantsProcessor = PatternCompletionProcessor(
+			{ (it as? RedPrlOpDeclMixin)?.getIcon(0) },
 			{ true },
 			{ "??" },
 			{ pat -> "" })
@@ -81,14 +83,9 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 	}
 
 	private companion object ResolverHolder {
-		// val paramFamily = listOf()
-
 		private val resolver = ResolveCache.PolyVariantResolver<RedPrlOpUsageMixin> { ref, _ ->
 			val name = ref.canonicalText
-			resolveWith(PatternResolveProcessor(name) {
-				// TODO: non-parameters
-				it.text == name // && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, RedPrlMlDecl::class.java)?.mlCmd, ref, false)
-			}, ref)
+			resolveWith(PatternResolveProcessor(name), ref)
 		}
 	}
 }

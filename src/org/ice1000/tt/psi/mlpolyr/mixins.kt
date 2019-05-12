@@ -53,7 +53,7 @@ abstract class MLPolyRParameterPatMixin(node: ASTNode) : MLPolyRGeneralPat(node)
 abstract class MLPolyRGeneralPat(node: ASTNode) : GeneralNameIdentifier(node), IPattern<MLPolyRNamePat> {
 	open val kind: MLPolyRSymbolKind by lazy(::patSymbolKind)
 
-	override fun getIcon(flags: Int) = TTIcons.MLPOLYR
+	override fun getIcon(flags: Int) = kind.icon ?: TTIcons.MLPOLYR
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) =
 		replace(MLPolyRTokenType.createPat(newName, project)
@@ -163,7 +163,7 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 
 	override fun getVariants(): Array<LookupElementBuilder> {
 		val variantsProcessor = PatternCompletionProcessor(
-			{ (it as? MLPolyRGeneralPat)?.kind?.icon },
+			{ (it as? MLPolyRGeneralPat)?.getIcon(0) },
 			{
 				if ((it as? MLPolyRGeneralPat)?.kind != MLPolyRSymbolKind.Parameter) true
 				else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, this, false)
