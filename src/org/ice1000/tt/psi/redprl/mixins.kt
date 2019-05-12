@@ -32,10 +32,8 @@ abstract class RedPrlOpOwnerMixin(node: ASTNode) : GeneralDeclaration(node), Red
 	}
 
 	override fun getNameIdentifier() = opDecl
-	open val parameterText: String?
-		get() = findChildByClass(RedPrlDeclArgumentsParens::class.java)?.bodyText(50)
-			?: findChildByClass(RedPrlJudgment::class.java)?.bodyText(50)
-	override val type: PsiElement? get() = findChildByClass(RedPrlSort::class.java)
+	val parameterText: String? get() = findChildByClass(RedPrlDeclArgumentsParens::class.java)?.bodyText(50)?.trim()
+	override val type: PsiElement? get() = findChildByClass(RedPrlSort::class.java) ?: findChildByClass(RedPrlJudgment::class.java)
 	override val mlCmd: RedPrlMlCmd? get() = findChildByClass(RedPrlMlCmd::class.java)
 }
 
