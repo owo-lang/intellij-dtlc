@@ -513,7 +513,7 @@ FILE
           PsiElement(LAMBDA)('lam')
           PsiWhiteSpace(' ')
           RedPrlDevDecompPatternImpl(DEV_DECOMP_PATTERN)
-            RedPrlVarUsageImpl(VAR_USAGE)
+            RedPrlVarDeclImpl(VAR_DECL)
               PsiElement(VARNAME)('b')
           PsiWhiteSpace(' ')
           PsiElement(DOUBLE_RIGHT_ARROW)('=>')
