@@ -39,6 +39,7 @@ sort ::=
 
 opUsage ::= OPNAME {
 	extends=mlValue
+	mixin='org.ice1000.tt.psi.redprl.RedPrlOpUsageMixin'
 }
 opDecl ::= OPNAME {
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']

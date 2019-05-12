@@ -110,7 +110,7 @@ abstract class MiniTTVariableMixin(node: ASTNode) : ASTWrapperPsiElement(node), 
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
 	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = PatternCompletionProcessor(true, { TTIcons.MINI_TT })
+		val variantsProcessor = PatternCompletionProcessor({ TTIcons.MINI_TT })
 		treeWalkUp(variantsProcessor, element, element.containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}
@@ -118,7 +118,7 @@ abstract class MiniTTVariableMixin(node: ASTNode) : ASTWrapperPsiElement(node), 
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<MiniTTVariableMixin> { ref, incompleteCode ->
 			val name = ref.canonicalText
-			resolveWith(PatternResolveProcessor(name, incompleteCode) {
+			resolveWith(PatternResolveProcessor(name) {
 				if ((it as? IPattern<*>)?.parent !is MiniTTTypedPatternMixin) it.text == name
 				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MiniTTGeneralDeclaration::class.java), ref, true)
 			}, ref)

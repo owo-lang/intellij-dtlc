@@ -70,8 +70,7 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 	}
 
 	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = PatternCompletionProcessor(true,
-			{ TTIcons.RED_PRL },
+		val variantsProcessor = PatternCompletionProcessor({ TTIcons.RED_PRL },
 			{ true },
 			{ "??" },
 			{ pat -> "" })
@@ -84,7 +83,7 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 
 		private val resolver = ResolveCache.PolyVariantResolver<RedPrlOpUsageMixin> { ref, incompleteCode ->
 			val name = ref.canonicalText
-			resolveWith(PatternResolveProcessor(name, incompleteCode) {
+			resolveWith(PatternResolveProcessor(name) {
 				// TODO: non-parameters
 				it.text == name // && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, RedPrlMlDecl::class.java)?.mlCmd, ref, false)
 			}, ref)

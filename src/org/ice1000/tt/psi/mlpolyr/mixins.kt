@@ -179,8 +179,7 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 		return variantsProcessor.candidateSet.toTypedArray()
 	}
 
-	private val variantsProcessor = PatternCompletionProcessor(true,
-		{ (it as? MLPolyRGeneralPat)?.kind?.icon },
+	private val variantsProcessor = PatternCompletionProcessor({ (it as? MLPolyRGeneralPat)?.kind?.icon },
 		accessible(this),
 		{ (it as? MLPolyRGeneralPat)?.kind?.name ?: "??" },
 		{ pat ->
@@ -199,7 +198,7 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 		}
 
 		private val resolver = ResolveCache.PolyVariantResolver<MLPolyRIdentifierMixin> { ref, incompleteCode ->
-			resolveWith(PatternResolveProcessor(ref.canonicalText, incompleteCode, accessible(ref)), ref)
+			resolveWith(PatternResolveProcessor(ref.canonicalText, accessible(ref)), ref)
 		}
 	}
 }

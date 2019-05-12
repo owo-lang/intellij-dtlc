@@ -95,14 +95,14 @@ abstract class ACoreVariableMixin(node: ASTNode) : ACoreExpressionImpl(node), AC
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
 	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = PatternCompletionProcessor(true, { TTIcons.AGDA_CORE })
+		val variantsProcessor = PatternCompletionProcessor({ TTIcons.AGDA_CORE })
 		treeWalkUp(variantsProcessor, element, element.containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}
 
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<ACoreVariableMixin> { ref, incompleteCode ->
-			resolveWith(PatternResolveProcessor(ref.canonicalText, incompleteCode), ref)
+			resolveWith(PatternResolveProcessor(ref.canonicalText), ref)
 		}
 	}
 }

@@ -27,8 +27,7 @@ abstract class TypedAbstractionOwnerMixin<Psi : PsiElement>(node: ASTNode)
 }
 
 class PatternResolveProcessor(
-	@JvmField private val name: String,
-	private val incompleteCode: Boolean,
+	private val name: String,
 	private val accessible: (PsiElement) -> Boolean = { it.text == name }
 ) : ResolveProcessor<PsiElementResolveResult>() {
 	override val candidateSet = ArrayList<PsiElementResolveResult>(3)
@@ -49,7 +48,6 @@ class PatternResolveProcessor(
 }
 
 class PatternCompletionProcessor(
-	private val incompleteCode: Boolean,
 	private val icon: (PsiElement) -> Icon?,
 	private val accessible: (PsiElement) -> Boolean = { true },
 	private val typeText: (PsiElement) -> String = {
