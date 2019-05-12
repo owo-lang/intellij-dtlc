@@ -1,16 +1,18 @@
 package org.ice1000.tt.psi.mlpolyr
 
 import com.intellij.util.PlatformIcons
+import icons.SemanticIcons
+import icons.TTIcons
 import org.ice1000.tt.psi.elementType
 import javax.swing.Icon
 
 enum class MLPolyRSymbolKind(val icon: Icon?) {
-	Function(PlatformIcons.FUNCTION_ICON),
-	RcFunction(PlatformIcons.FUNCTION_ICON),
-	Parameter(PlatformIcons.PARAMETER_ICON),
-	Variable(PlatformIcons.VARIABLE_ICON),
-	Pattern(PlatformIcons.PROPERTY_ICON),
-	Field(PlatformIcons.FIELD_ICON),
+	Function(SemanticIcons.ORANGE_LAMBDA),
+	RcFunction(SemanticIcons.PINK_LAMBDA),
+	Parameter(SemanticIcons.PURPLE_P),
+	Variable(SemanticIcons.ORANGE_V),
+	Pattern(SemanticIcons.ORANGE_P),
+	Field(SemanticIcons.ORANGE_F),
 	Unknown(null);
 }
 
