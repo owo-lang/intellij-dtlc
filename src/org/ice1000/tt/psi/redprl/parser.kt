@@ -4,9 +4,8 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
 import com.intellij.lexer.FlexAdapter
 import com.intellij.openapi.project.Project
-import com.intellij.psi.FileViewProvider
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFileFactory
+import com.intellij.psi.*
+import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.stubs.PsiFileStubImpl
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.IStubFileElementType
@@ -14,6 +13,12 @@ import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.RedPrlFile
 import org.ice1000.tt.RedPrlLanguage
 import org.ice1000.tt.psi.WHITE_SPACE
+import org.ice1000.tt.psi.childrenWithLeaves
+
+class RedPrlFileImpl(viewProvider: FileViewProvider) : RedPrlFile(viewProvider) {
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		childrenWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
+}
 
 class RedPrlElementType(debugName: String) : IElementType(debugName, RedPrlLanguage.INSTANCE)
 
@@ -42,13 +47,13 @@ fun redPrlLexer() = FlexAdapter(RedPrlLexer())
 
 class RedPrlParserDefinition : ParserDefinition {
 	private companion object {
-		private val FILE = IStubFileElementType<PsiFileStubImpl<RedPrlFile>>(RedPrlLanguage.INSTANCE)
+		private val FILE = IStubFileElementType<PsiFileStubImpl<RedPrlFileImpl>>(RedPrlLanguage.INSTANCE)
 	}
 
 	override fun createParser(project: Project?) = RedPrlParser()
 	override fun createLexer(project: Project?) = redPrlLexer()
 	override fun createElement(node: ASTNode?): PsiElement = RedPrlTypes.Factory.createElement(node)
-	override fun createFile(viewProvider: FileViewProvider) = RedPrlFile(viewProvider)
+	override fun createFile(viewProvider: FileViewProvider) = RedPrlFileImpl(viewProvider)
 	override fun getStringLiteralElements() = TokenSet.EMPTY
 	override fun getWhitespaceTokens() = WHITE_SPACE
 	override fun getCommentTokens() = RedPrlTokenType.COMMENTS
