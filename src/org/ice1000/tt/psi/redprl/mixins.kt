@@ -41,6 +41,16 @@ abstract class RedPrlBoundVarOwnerMixin(node: ASTNode) : GeneralDeclaration(node
 	override fun setName(newName: String): PsiElement = throw IncorrectOperationException("Cannot rename!")
 }
 
+abstract class RedPrlDevDecompPatternOwnerMixin(node: ASTNode) : GeneralDeclaration(node) {
+	override val type: PsiElement? get() = null
+	override fun getNameIdentifier(): PsiElement? = findChildByClass(RedPrlDevDecompPattern::class.java)
+	override fun setName(newName: String): PsiElement = throw IncorrectOperationException("Cannot rename!")
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) = PsiTreeUtil
+		.getChildrenOfTypeAsList(this, RedPrlDevDecompPattern::class.java)
+		.asReversed()
+		.all { it.processDeclarations(processor, state, lastParent, place) }
+}
+
 abstract class RedPrlBoundVarsOwnerMixin(node: ASTNode) : RedPrlBoundVarOwnerMixin(node) {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) = PsiTreeUtil
 		.getChildrenOfTypeAsList(this, RedPrlBoundVar::class.java)
@@ -53,8 +63,9 @@ abstract class RedPrlDevMatchClauseMixin(node: ASTNode) : GeneralDeclaration(nod
 	override fun getIcon(flags: Int) = TTIcons.RED_PRL
 	override fun setName(newName: String): PsiElement = throw IncorrectOperationException("Cannot rename!")
 	override fun getNameIdentifier(): PsiElement? = findChildByClass(RedPrlVarDecl::class.java)
-	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		varDeclList.asReversed().all { it.processDeclarations(processor, state, lastParent, place) }
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) = childrenWithLeaves
+		.filter { it is RedPrlVarDecl || it is RedPrlBoundVar || it is RedPrlDevDecompPatternOwnerMixin }
+		.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
 abstract class RedPrlVarOwnerMixin(node: ASTNode) : GeneralDeclaration(node), RedPrlVarOwner {
@@ -145,7 +156,7 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 
 	override fun getVariants(): Array<LookupElementBuilder> {
 		val variantsProcessor = PatternCompletionProcessor(
-			{ (it as? RedPrlOpDeclMixin)?.getIcon(0) },
+			{ it.getIcon(0) },
 			{ true },
 			{
 				(it.parent as? GeneralDeclaration)?.type?.bodyText(40)
@@ -189,7 +200,7 @@ abstract class RedPrlVarUsageMixin(node: ASTNode) : RedPrlTermAndTacImpl(node), 
 
 	override fun getVariants(): Array<LookupElementBuilder> {
 		val variantsProcessor = PatternCompletionProcessor(
-			{ (it as? RedPrlVarDeclMixin)?.getIcon(0) },
+			{ it.getIcon(0) },
 			{ true },
 			{ (it.parent as? GeneralDeclaration)?.type?.bodyText(40) ?: "??" },
 			{ (it.parent as? RedPrlOpOwnerMixin)?.parameterText ?: "" })

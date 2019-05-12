@@ -351,14 +351,22 @@ private bracketedDevAppSpine ::= LSQUARE devAppSpine? RSQUARE { pin=1 }
 devAppSpine ::= tactic devAppSpineRest*
 
 private devDecompPatternFields ::= LBRACKET tupleDecompPattern? RBRACKET { pin=1 }
-devDecompPattern ::= varUsage | UNDER | devDecompPatternFields
+devDecompPattern ::= varDecl | UNDER | devDecompPatternFields {
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlVarOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlVarOwnerMixin'
+}
 labeledDecompPattern ::= varUsage EQUALS devDecompPattern { pin=2 }
 
 private labeledDecompPatternRest ::= COMMA labeledDecompPattern { pin=1 }
 labeledTupleDecompPattern ::= labeledDecompPattern labeledDecompPatternRest*
 
 private devDecompPatternRest ::= COMMA devDecompPattern { pin=1 }
-anonTupleDecompPattern ::= devDecompPattern devDecompPatternRest*
+anonTupleDecompPattern ::= devDecompPattern devDecompPatternRest* {
+	mixin='org.ice1000.tt.psi.redprl.RedPrlDevDecompPatternOwnerMixin'
+}
 
 private tupleDecompPattern ::=
    labeledTupleDecompPattern
@@ -408,9 +416,13 @@ tac ::=
 useElimTac ::= USE elimTarget bracketedDevAppSpine?
 useCustomTac ::= USE customOpTerm bracketedDevAppSpine?
 letCustomTac ::= LET devDecompPattern EQUALS
- customOpTerm bracketedDevAppSpine? SEMI tactic
+ customOpTerm bracketedDevAppSpine? SEMI tactic {
+	mixin='org.ice1000.tt.psi.redprl.RedPrlDevDecompPatternOwnerMixin'
+}
 letElimTac ::= LET devDecompPattern EQUALS
- elimTarget bracketedDevAppSpine? SEMI tactic
+ elimTarget bracketedDevAppSpine? SEMI tactic {
+	mixin='org.ice1000.tt.psi.redprl.RedPrlDevDecompPatternOwnerMixin'
+}
 
 // Simple (can-pin) tactics
 elimTac ::= TAC_ELIM elimTarget { pin=1 }
@@ -452,7 +464,10 @@ absTac ::= ABS boundVar+ DOUBLE_RIGHT_ARROW tactic {
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwnerMixin'
 }
-lambdaTac ::= LAMBDA devDecompPattern+ DOUBLE_RIGHT_ARROW tactic { pin=1 }
+lambdaTac ::= LAMBDA devDecompPattern+ DOUBLE_RIGHT_ARROW tactic {
+	pin=1
+	mixin='org.ice1000.tt.psi.redprl.RedPrlDevDecompPatternOwnerMixin'
+}
 bracketTac ::= LBRACKET (recordFieldTactics | tactics)? RBRACKET { pin=1 }
 withoutTac ::= WITHOUT term+ { pin=1 }
 withTac ::= WITH hypBinding* DOUBLE_RIGHT_ARROW tactic { pin=1 }
