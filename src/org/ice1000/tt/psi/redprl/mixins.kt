@@ -6,11 +6,26 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiPolyVariantReference
 import com.intellij.psi.ResolveResult
+import com.intellij.psi.ResolveState
 import com.intellij.psi.impl.source.resolve.ResolveCache
+import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
+import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.redprl.impl.RedPrlMlValueImpl
+
+interface RedPrlBoundVarOwner : PsiElement {
+	val boundVar: RedPrlBoundVar?
+}
+
+interface RedPrlBoundVarsOwner : RedPrlBoundVarOwner {
+	val boundVarList: List<RedPrlBoundVar>
+}
+
+interface RedPrlVarOwner : PsiElement {
+	val varDecl: RedPrlVarDecl?
+}
 
 interface RedPrlOpOwner : PsiElement {
 	val opDecl: RedPrlOpDecl?
@@ -19,6 +34,40 @@ interface RedPrlOpOwner : PsiElement {
 	 * but I cannot
 	 */
 	val mlCmd: RedPrlMlCmd?
+}
+
+abstract class RedPrlBoundVarOwnerMixin(node: ASTNode) : GeneralDeclaration(node), RedPrlBoundVarOwner {
+	override val boundVar: RedPrlBoundVar? get() = findChildByClass(RedPrlBoundVar::class.java)
+}
+
+abstract class RedPrlBoundVarsOwnerMixin(node: ASTNode) : RedPrlBoundVarOwnerMixin(node), RedPrlBoundVarsOwner {
+}
+
+abstract class RedPrlVarOwnerMixin(node: ASTNode) : GeneralDeclaration(node), RedPrlVarOwner {
+	override fun getIcon(flags: Int) = TTIcons.RED_PRL
+	@Throws(IncorrectOperationException::class)
+	override fun setName(newName: String): PsiElement {
+		val newOpDecl = varDecl?.run { RedPrlTokenType.createVarDecl(newName, project) }
+			?: throw IncorrectOperationException("Invalid name: $newName")
+		nameIdentifier?.replace(newOpDecl)
+		return this
+	}
+
+	override fun getNameIdentifier() = varDecl
+	override val type: PsiElement? get() = findChildByClass(RedPrlJudgment::class.java)
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement): Boolean =
+		super.processDeclarations(processor, state, lastParent, place) &&
+			childrenWithLeaves.filterIsInstance<RedPrlVarOwnerMixin>().all {
+				it.processDeclarations(processor, state, lastParent, place)
+			}.orTrue()
+}
+
+abstract class RedPrlVarDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlVarDecl {
+	override fun visit(visitor: (RedPrlVarDecl) -> Boolean) = visitor(this)
+	@Throws(IncorrectOperationException::class)
+	override fun setName(newName: String) =
+		replace(RedPrlTokenType.createVarDecl(newName, project)
+			?: throw IncorrectOperationException("Invalid name: $newName"))
 }
 
 abstract class RedPrlOpOwnerMixin(node: ASTNode) : GeneralDeclaration(node), RedPrlOpOwner {

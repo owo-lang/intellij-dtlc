@@ -41,6 +41,7 @@ class RedPrlTokenType(debugName: String) : IElementType(debugName, RedPrlLanguag
 		fun createVarUsage(text: String, project: Project) = createTermAndTac(text, project) as? RedPrlVarUsage
 		fun createPatVar(text: String, project: Project) = createTermAndTac("%$text", project)?.patVar
 		fun createVarDecl(text: String, project: Project) = createPatVar(text, project)?.varDecl
+		fun createBoundVar(text: String, project: Project) = createTermAndTac("(abs bla [$text] Bla)", project)?.boundVarList?.first()
 	}
 }
 

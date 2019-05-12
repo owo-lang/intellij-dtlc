@@ -53,6 +53,11 @@ varUsage ::= VARNAME {
 	extends=term
 }
 varDecl ::= VARNAME {
+	implements=[
+		'com.intellij.psi.PsiNameIdentifierOwner'
+		'org.ice1000.tt.psi.IPattern<RedPrlVarDecl>'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlVarDeclMixin'
 }
 
 numAsDimension ::= NUMERAL
@@ -68,8 +73,12 @@ tube ::= LSQUARE equation binding RSQUARE
 boundary ::= LSQUARE equation term RSQUARE
 metaVar ::= HASH ident
 
-typedBinder ::= LSQUARE boundVar+ COLON term RSQUARE { pin=4 }
-dimBinder ::= LSQUARE boundVar+ COLON DIM RSQUARE { pin=4 }
+typedBinder ::= LSQUARE boundVar+ COLON term RSQUARE {
+	pin=4
+}
+dimBinder ::= LSQUARE boundVar+ COLON DIM RSQUARE {
+	pin=4
+}
 
 arrowQuantifierData ::=
    typedBinder arrowQuantifierData
@@ -154,7 +163,13 @@ inductiveTerm ::= LPAREN DOT opUsage inductiveTermInside RPAREN {
 
 patVar ::=
    PERCENT LSQUARE varDecl COLON sort RSQUARE
- | PERCENT varDecl
+ | PERCENT varDecl {
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlVarOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlVarOwnerMixin'
+}
 
 termAndTac ::=
  /* custom operators */
@@ -318,15 +333,35 @@ dataDecl ::=
 
 private recordFieldTactics ::= recordFieldTactic recordFieldTacticRest*
 private recordFieldTacticRest ::= COMMA recordFieldTactic { pin=1 }
-recordFieldTactic ::= varDecl EQUALS tactic { pin=2 }
+recordFieldTactic ::= varDecl EQUALS tactic {
+	pin=2
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlVarOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlVarOwnerMixin'
+}
 
 private devAppSpineRest ::= COMMA devAppSpine { pin=1 }
 private bracketedDevAppSpine ::= LSQUARE devAppSpine? RSQUARE { pin=1 }
 devAppSpine ::= tactic devAppSpineRest*
 
 private devDecompPatternFields ::= LBRACKET tupleDecompPattern? RBRACKET { pin=1 }
-devDecompPattern ::= varDecl | UNDER | devDecompPatternFields
-labeledDecompPattern ::= varDecl EQUALS devDecompPattern { pin=2 }
+devDecompPattern ::= varDecl | UNDER | devDecompPatternFields {
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlVarOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlVarOwnerMixin'
+}
+labeledDecompPattern ::= varDecl EQUALS devDecompPattern {
+	pin=2
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlVarOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlVarOwnerMixin'
+}
 
 private labeledDecompPatternRest ::= COMMA labeledDecompPattern { pin=1 }
 labeledTupleDecompPattern ::= labeledDecompPattern labeledDecompPatternRest*
@@ -387,16 +422,37 @@ letElimTac ::= LET devDecompPattern EQUALS
 // Simple (can-pin) tactics
 elimTac ::= TAC_ELIM elimTarget { pin=1 }
 refineTac ::= REFINE varUsage { pin=1 }
-queryTac ::= QUERY varDecl LEFT_ARROW selector SEMI tactic { pin=1 }
+queryTac ::= QUERY varDecl LEFT_ARROW selector SEMI tactic {
+	pin=1
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlVarOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlVarOwnerMixin'
+}
 printTac ::= PRINT term { pin=1 }
 caseTac ::= CASE elimTarget OF
  BASE DOUBLE_RIGHT_ARROW tactic
- PIPE LOOP varDecl DOUBLE_RIGHT_ARROW tactic { pin=1 }
+ PIPE LOOP varDecl DOUBLE_RIGHT_ARROW tactic {
+	pin=1
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlVarOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlVarOwnerMixin'
+}
 matchTac ::= MATCH term LBRACKET devMatchClauses RBRACKET { pin=1 }
 ifTac ::= IF elimTarget THEN tactic ELSE tactic { pin=1 }
 backtickTac ::= BACK_TICK term { pin=1 }
 claimTac ::= CLAIM varDecl COLON judgment
- BY LBRACKET tactic RBRACKET SEMI tactic { pin=1 }
+ BY LBRACKET tactic RBRACKET SEMI tactic {
+	pin=1
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlVarOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlVarOwnerMixin'
+}
 exactTac ::= RULE_EXACT term { pin=1 }
 absTac ::= ABS boundVar+ DOUBLE_RIGHT_ARROW tactic { pin=1 }
 lambdaTac ::= LAMBDA devDecompPattern+ DOUBLE_RIGHT_ARROW tactic { pin=1 }
@@ -489,7 +545,10 @@ mlCmdLet ::= LET mlDecl SEMI mlCmd {
 mlCmdFn ::= FN opDecl COLON mlVty DOUBLE_RIGHT_ARROW mlCmd {
 	pin=1
 	extends=mlCmd
-	implements=['org.ice1000.tt.psi.redprl.RedPrlOpOwner' 'com.intellij.psi.PsiNameIdentifierOwner']
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlOpOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
 	mixin='org.ice1000.tt.psi.redprl.RedPrlOpOwnerMixin'
 }
 mlCmdValue ::= mlValue RANGLE mlCmd {

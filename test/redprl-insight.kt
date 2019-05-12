@@ -10,5 +10,6 @@ class RedPrlCreateAstTest : LightPlatformTestCase() {
 		RedPrlTokenType.createOpUsage("Alice", project)!!
 		RedPrlTokenType.createVarDecl("reimu", project)!!
 		RedPrlTokenType.createVarUsage("suika", project)!!
+		RedPrlTokenType.createBoundVar("yukari", project)!!
 	}
 }
