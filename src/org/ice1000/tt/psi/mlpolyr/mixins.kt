@@ -8,7 +8,7 @@ import com.intellij.psi.impl.source.resolve.ResolveCache
 import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
-import com.intellij.util.PlatformIcons
+import icons.SemanticIcons
 import icons.TTIcons
 import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.*
@@ -131,7 +131,7 @@ abstract class MLPolyRLabelMixin(node: ASTNode) : MLPolyRExpImpl(node), MLPolyRL
 			map {
 				LookupElementBuilder
 					.create(it.text)
-					.withIcon(PlatformIcons.CLASS_ICON)
+					.withIcon(SemanticIcons.BLUE_C)
 					.withTypeText("Label")
 			}.toTypedArray()
 		}
