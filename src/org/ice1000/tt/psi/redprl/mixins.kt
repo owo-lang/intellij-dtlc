@@ -12,19 +12,6 @@ import icons.TTIcons
 import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.redprl.impl.RedPrlMlValueImpl
 
-abstract class RedPrlDeclaration(node: ASTNode) : GeneralDeclaration(node) {
-	override val type: PsiElement? get() = null
-	open val parameterText: String? get() = null
-	override fun getIcon(flags: Int) = TTIcons.RED_PRL
-	@Throws(IncorrectOperationException::class)
-	override fun setName(newName: String): PsiElement {
-		val newOpDecl = RedPrlTokenType.createOpDecl(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName")
-		nameIdentifier?.replace(newOpDecl)
-		return this
-	}
-}
-
 interface RedPrlOpOwner : PsiElement {
 	val opDecl: RedPrlOpDecl?
 	/**
@@ -34,9 +21,18 @@ interface RedPrlOpOwner : PsiElement {
 	val mlCmd: RedPrlMlCmd?
 }
 
-abstract class RedPrlOpOwnerMixin(node: ASTNode) : RedPrlDeclaration(node), RedPrlOpOwner {
+abstract class RedPrlOpOwnerMixin(node: ASTNode) : GeneralDeclaration(node), RedPrlOpOwner {
+	override fun getIcon(flags: Int) = TTIcons.RED_PRL
+	@Throws(IncorrectOperationException::class)
+	override fun setName(newName: String): PsiElement {
+		val newOpDecl = RedPrlTokenType.createOpDecl(newName, project)
+			?: throw IncorrectOperationException("Invalid name: $newName")
+		nameIdentifier?.replace(newOpDecl)
+		return this
+	}
+
 	override fun getNameIdentifier() = opDecl
-	override val parameterText: String?
+	open val parameterText: String?
 		get() = findChildByClass(RedPrlDeclArgumentsParens::class.java)?.bodyText(50)
 			?: findChildByClass(RedPrlJudgment::class.java)?.bodyText(50)
 	override val type: PsiElement? get() = findChildByClass(RedPrlSort::class.java)
@@ -82,7 +78,7 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 			{ (it as? RedPrlOpDeclMixin)?.getIcon(0) },
 			{ true },
 			{
-				(it.parent as? RedPrlOpOwnerMixin)?.type?.text
+				(it.parent as? RedPrlOpOwnerMixin)?.type?.bodyText(60)
 					?: (it as? RedPrlOpDeclMixin)?.kind?.name
 					?: "??"
 			},

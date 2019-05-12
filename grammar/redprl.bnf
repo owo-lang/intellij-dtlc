@@ -25,9 +25,9 @@
 file ::= mlDecl mlDeclRest*
 private mlDeclRest ::= DOT mlDecl? { pin=1 }
 
-ident ::= VARNAME | OPNAME
-
-boundVar ::= VARNAME | UNDER
+private ident ::= varUsage | opUsage
+boundVar ::= VARNAME | UNDER {
+}
 
 sort ::=
    EXP
@@ -506,7 +506,10 @@ mlCmd ::=
 mlDeclDef ::= DEFINE opDecl declArgumentsParens?
  (COLON sort)? EQUALS term {
 	pin=1
-	implements=['org.ice1000.tt.psi.redprl.RedPrlOpOwner' 'com.intellij.psi.PsiNameIdentifierOwner']
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlOpOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
 	mixin='org.ice1000.tt.psi.redprl.RedPrlOpOwnerMixin'
 }
 mlDeclData ::= DATA opDecl declArgumentsParens? dataDecl

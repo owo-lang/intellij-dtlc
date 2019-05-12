@@ -172,7 +172,7 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 			{ pat ->
 				val parent = pat.parent
 				if (parent !is MLPolyRFunction) ""
-				else parent.patList.drop(1).joinToString(prefix = " ", separator = " ") { it.text }
+				else parent.patList.drop(1).joinToString(prefix = " ", separator = " ") { it.bodyText(20) }
 			})
 		treeWalkUp(variantsProcessor, this, containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()

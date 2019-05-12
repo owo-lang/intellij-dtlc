@@ -37,9 +37,13 @@ class RedPrlTokenType(debugName: String) : IElementType(debugName, RedPrlLanguag
 		fun createTheorem(text: String, project: Project) = createDecl(text, project) as? RedPrlMlDeclTheorem
 		fun createOpDecl(text: String, project: Project) = createVal("val $text = quit.", project)?.opDecl
 		fun createCmd(text: String, project: Project) = createVal("val Op = $text.", project)?.mlCmd
-		fun createAtomicCmd(text: String, project: Project) = createCmd(text, project) as? RedPrlMlAtomicCmd
-		fun createValue(text: String, project: Project) = createAtomicCmd(text, project)?.mlValue
+		fun createValue(text: String, project: Project) = createCmd(text, project)?.firstChild as? RedPrlMlCmdValue
 		fun createOpUsage(text: String, project: Project) = createValue(text, project) as? RedPrlOpUsage
+		fun createTerm(text: String, project: Project) = createDefine("define Bla = $text.", project)?.term
+		fun createTermAndTac(text: String, project: Project) = createTerm(text, project)?.termAndTac
+		fun createVarUsage(text: String, project: Project) = createTermAndTac(text, project) as? RedPrlVarUsage
+		fun createPatVar(text: String, project: Project) = createTermAndTac(text, project)?.patVar
+		fun createVarDecl(text: String, project: Project) = createPatVar(text, project)?.varDecl
 	}
 }
 
