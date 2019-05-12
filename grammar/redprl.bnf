@@ -328,35 +328,15 @@ dataDecl ::=
 
 private recordFieldTactics ::= recordFieldTactic recordFieldTacticRest*
 private recordFieldTacticRest ::= COMMA recordFieldTactic { pin=1 }
-recordFieldTactic ::= varDecl EQUALS tactic {
-	pin=2
-	implements=[
-		'org.ice1000.tt.psi.redprl.RedPrlVarOwner'
-		'com.intellij.psi.PsiNameIdentifierOwner'
-	]
-	mixin='org.ice1000.tt.psi.redprl.RedPrlVarOwnerMixin'
-}
+recordFieldTactic ::= varUsage EQUALS tactic { pin=2 }
 
 private devAppSpineRest ::= COMMA devAppSpine { pin=1 }
 private bracketedDevAppSpine ::= LSQUARE devAppSpine? RSQUARE { pin=1 }
 devAppSpine ::= tactic devAppSpineRest*
 
 private devDecompPatternFields ::= LBRACKET tupleDecompPattern? RBRACKET { pin=1 }
-devDecompPattern ::= varDecl | UNDER | devDecompPatternFields {
-	implements=[
-		'org.ice1000.tt.psi.redprl.RedPrlVarOwner'
-		'com.intellij.psi.PsiNameIdentifierOwner'
-	]
-	mixin='org.ice1000.tt.psi.redprl.RedPrlVarOwnerMixin'
-}
-labeledDecompPattern ::= varDecl EQUALS devDecompPattern {
-	pin=2
-	implements=[
-		'org.ice1000.tt.psi.redprl.RedPrlVarOwner'
-		'com.intellij.psi.PsiNameIdentifierOwner'
-	]
-	mixin='org.ice1000.tt.psi.redprl.RedPrlVarOwnerMixin'
-}
+devDecompPattern ::= varUsage | UNDER | devDecompPatternFields
+labeledDecompPattern ::= varUsage EQUALS devDecompPattern { pin=2 }
 
 private labeledDecompPatternRest ::= COMMA labeledDecompPattern { pin=1 }
 labeledTupleDecompPattern ::= labeledDecompPattern labeledDecompPatternRest*
@@ -369,7 +349,6 @@ private tupleDecompPattern ::=
  | anonTupleDecompPattern
 devMatchClause ::= LSQUARE (varDecl+ PIPE)? term
  DOUBLE_RIGHT_ARROW tactic RSQUARE { pin=1 }
-private devMatchClauses ::= devMatchClause*
 
 selector ::= CONCL | elimTarget
 accessor ::= TYPE | LEFT | RIGHT
@@ -436,7 +415,7 @@ caseTac ::= CASE elimTarget OF
 	]
 	mixin='org.ice1000.tt.psi.redprl.RedPrlVarOwnerMixin'
 }
-matchTac ::= MATCH term LBRACKET devMatchClauses RBRACKET { pin=1 }
+matchTac ::= MATCH term LBRACKET devMatchClause* RBRACKET { pin=1 }
 ifTac ::= IF elimTarget THEN tactic ELSE tactic { pin=1 }
 backtickTac ::= BACK_TICK term { pin=1 }
 claimTac ::= CLAIM varDecl COLON judgment
