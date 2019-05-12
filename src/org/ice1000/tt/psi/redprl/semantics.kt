@@ -10,6 +10,7 @@ enum class RedPrlSymbolKind(val icon: Icon?) {
 	Theorem(SemanticIcons.BLUE_T),
 	Tactic(SemanticIcons.PURPLE_T),
 	Parameter(SemanticIcons.ORANGE_P),
+	Pattern(SemanticIcons.PURPLE_P),
 	Unknown(null);
 }
 
@@ -18,6 +19,8 @@ fun RedPrlOpDeclMixin.opSymbolKind() = when (parent) {
 	is RedPrlMlDeclData -> RedPrlSymbolKind.Data
 	is RedPrlMlDeclTactic -> RedPrlSymbolKind.Tactic
 	is RedPrlMlDeclTheorem -> RedPrlSymbolKind.Theorem
+	is RedPrlDevMatchClauseMixin -> RedPrlSymbolKind.Pattern
+	is RedPrlBoundVarOwner -> RedPrlSymbolKind.Pattern
 	is RedPrlMlDeclVal -> RedPrlSymbolKind.Value
 	else -> RedPrlSymbolKind.Unknown
 }

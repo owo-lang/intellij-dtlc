@@ -45,7 +45,7 @@ class RedPrlTokenType(debugName: String) : IElementType(debugName, RedPrlLanguag
 		fun createTac(text: String, project: Project) = createMultitac(text, project)?.tac
 		fun createQueryTac(text: String, project: Project) = createTac(text, project) as? RedPrlQueryTac
 		fun createVarDecl(text: String, project: Project) = createQueryTac("query $text <-", project)?.varDecl
-		fun createBoundVar(text: String, project: Project) = createTermAndTac("(abs bla [$text] Bla)", project)?.boundVarList?.first()
+		fun createBoundVar(text: String, project: Project) = createTermAndTac("(abs bla [$text] Bla)", project)?.boundVarList?.firstOrNull()
 	}
 }
 

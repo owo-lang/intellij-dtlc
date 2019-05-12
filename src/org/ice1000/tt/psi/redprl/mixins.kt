@@ -38,10 +38,24 @@ interface RedPrlOpOwner : PsiElement {
 }
 
 abstract class RedPrlBoundVarOwnerMixin(node: ASTNode) : GeneralDeclaration(node), RedPrlBoundVarOwner {
+	override val type: PsiElement? get() = findChildByType<PsiElement>(RedPrlTypes.COLON)?.nextSibling
 	override val boundVar: RedPrlBoundVar? get() = findChildByClass(RedPrlBoundVar::class.java)
+	override fun getNameIdentifier(): PsiElement? = boundVar
+	override fun setName(newName: String): PsiElement = throw IncorrectOperationException("Cannot rename!")
 }
 
 abstract class RedPrlBoundVarsOwnerMixin(node: ASTNode) : RedPrlBoundVarOwnerMixin(node), RedPrlBoundVarsOwner {
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		boundVarList.asReversed().all { it.processDeclarations(processor, state, lastParent, place) }
+}
+
+abstract class RedPrlDevMatchClauseMixin(node: ASTNode) : GeneralDeclaration(node), RedPrlDevMatchClause {
+	override val type: PsiElement? get() = findChildByClass(RedPrlSort::class.java) ?: findChildByClass(RedPrlJudgment::class.java)
+	override fun getIcon(flags: Int) = TTIcons.RED_PRL
+	override fun setName(newName: String): PsiElement = throw IncorrectOperationException("Cannot rename!")
+	override fun getNameIdentifier(): PsiElement? = findChildByClass(RedPrlVarDecl::class.java)
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		varDeclList.asReversed().all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
 abstract class RedPrlVarOwnerMixin(node: ASTNode) : GeneralDeclaration(node), RedPrlVarOwner {
@@ -98,6 +112,15 @@ abstract class RedPrlOpDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), R
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 }
 
+abstract class RedPrlBoundVarMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlBoundVar {
+	override fun visit(visitor: (RedPrlBoundVar) -> Boolean) = visitor(this)
+	override fun getIcon(flags: Int) = RedPrlSymbolKind.Pattern.icon
+	@Throws(IncorrectOperationException::class)
+	override fun setName(newName: String) =
+		replace(RedPrlTokenType.createBoundVar(newName, project)
+			?: throw IncorrectOperationException("Invalid name: $newName"))
+}
+
 abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedPrlOpUsage, PsiPolyVariantReference {
 	override fun isSoft() = true
 	override fun getRangeInElement() = TextRange(0, textLength)
@@ -126,7 +149,7 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 			{ (it as? RedPrlOpDeclMixin)?.getIcon(0) },
 			{ true },
 			{
-				(it.parent as? RedPrlOpOwnerMixin)?.type?.bodyText(60)
+				(it.parent as? GeneralDeclaration)?.type?.bodyText(40)
 					?: (it as? RedPrlOpDeclMixin)?.kind?.name
 					?: "??"
 			},
@@ -169,7 +192,7 @@ abstract class RedPrlVarUsageMixin(node: ASTNode) : RedPrlTermAndTacImpl(node), 
 		val variantsProcessor = PatternCompletionProcessor(
 			{ (it as? RedPrlVarDeclMixin)?.getIcon(0) },
 			{ true },
-			{ /*(it as? RedPrlVarDeclMixin)?.kind?.name ?:*/ "??" },
+			{ (it.parent as? GeneralDeclaration)?.type?.bodyText(40) ?: "??" },
 			{ (it.parent as? RedPrlOpOwnerMixin)?.parameterText ?: "" })
 		treeWalkUp(variantsProcessor, this, containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()

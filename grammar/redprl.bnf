@@ -27,6 +27,11 @@ private mlDeclRest ::= DOT mlDecl? { pin=1 }
 
 private ident ::= varUsage | opUsage
 boundVar ::= VARNAME | UNDER {
+	implements=[
+		'com.intellij.psi.PsiNameIdentifierOwner'
+		'org.ice1000.tt.psi.IPattern<RedPrlBoundVar>'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarMixin'
 }
 
 sort ::=
@@ -76,9 +81,19 @@ metaVar ::= HASH ident
 
 typedBinder ::= LSQUARE boundVar+ COLON term RSQUARE {
 	pin=4
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwnerMixin'
 }
 dimBinder ::= LSQUARE boundVar+ COLON DIM RSQUARE {
 	pin=4
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwnerMixin'
 }
 
 arrowQuantifierData ::=
@@ -94,7 +109,13 @@ timesQuantifierData ::=
 
 field ::= LSQUARE ident term RSQUARE
 private binder ::= LSQUARE boundVar+ RSQUARE
-binding ::= binder? term
+binding ::= binder? term {
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwnerMixin'
+}
 
 nullaryOperator ::=
  /* axiom */
@@ -293,7 +314,13 @@ specBoundary ::= LSQUARE equation specTerm RSQUARE
 
 specArrowQuantifierData ::= (typedBinder | term)* specType
 specType ::= SELF | LPAREN SELF RIGHT_ARROW specArrowQuantifierData RPAREN
-specTypedBinder ::= LSQUARE boundVar+ COLON specType RSQUARE
+specTypedBinder ::= LSQUARE boundVar+ COLON specType RSQUARE {
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwnerMixin'
+}
 
 specBinding ::= binder? specTerm
 
@@ -348,7 +375,10 @@ private tupleDecompPattern ::=
    labeledTupleDecompPattern
  | anonTupleDecompPattern
 devMatchClause ::= LSQUARE (varDecl+ PIPE)? term
- DOUBLE_RIGHT_ARROW tactic RSQUARE { pin=1 }
+ DOUBLE_RIGHT_ARROW tactic RSQUARE {
+	pin=1
+	mixin='org.ice1000.tt.psi.redprl.RedPrlDevMatchClauseMixin'
+}
 
 selector ::= CONCL | elimTarget
 accessor ::= TYPE | LEFT | RIGHT
@@ -428,7 +458,14 @@ claimTac ::= CLAIM varDecl COLON judgment
 	mixin='org.ice1000.tt.psi.redprl.RedPrlVarOwnerMixin'
 }
 exactTac ::= RULE_EXACT term { pin=1 }
-absTac ::= ABS boundVar+ DOUBLE_RIGHT_ARROW tactic { pin=1 }
+absTac ::= ABS boundVar+ DOUBLE_RIGHT_ARROW tactic {
+	pin=1
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwnerMixin'
+}
 lambdaTac ::= LAMBDA devDecompPattern+ DOUBLE_RIGHT_ARROW tactic { pin=1 }
 bracketTac ::= LBRACKET (recordFieldTactics | tactics)? RBRACKET { pin=1 }
 withoutTac ::= WITHOUT term+ { pin=1 }
@@ -478,7 +515,13 @@ hole ::= HOLENAME { extends=atomicMultitac }
 private tactics ::= tactic (COMMA tactic)* COMMA?
 tactic ::= atomicMultitac (SEMI atomicMultitac?)* SEMI?
 
-hypBinding ::= boundVar (COLON sort)?
+hypBinding ::= boundVar (COLON sort)? {
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlBoundVarOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarOwnerMixin'
+}
 
 private declArguments ::= declArgument declArgumentRest*
 private declArgumentRest ::= COMMA declArgument { pin=1 }
@@ -557,6 +600,11 @@ mlDeclData ::= DATA opDecl declArgumentsParens? dataDecl
 mlDeclTactic ::= TACTIC_KW opDecl declArgumentsParens?
  EQUALS LBRACKET tactic RBRACKET {
 	pin=1
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlOpOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.redprl.RedPrlOpOwnerMixin'
 }
 mlDeclTheorem ::= THEOREM opDecl declArgumentsParens? COLON judgment
  BY LBRACKET tactic RBRACKET {
