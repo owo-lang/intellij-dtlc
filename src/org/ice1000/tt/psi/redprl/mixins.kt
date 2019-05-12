@@ -32,8 +32,6 @@ interface RedPrlOpOwner : PsiElement {
 	 * but I cannot
 	 */
 	val mlCmd: RedPrlMlCmd?
-	val sort: RedPrlSort?
-	val declArgumentsParens: RedPrlDeclArgumentsParens?
 }
 
 abstract class RedPrlDefineMixin(node: ASTNode) : RedPrlOpOwnerMixin(node), RedPrlOpOwner {
@@ -42,12 +40,11 @@ abstract class RedPrlDefineMixin(node: ASTNode) : RedPrlOpOwnerMixin(node), RedP
 
 abstract class RedPrlOpOwnerMixin(node: ASTNode) : RedPrlDeclaration(node), RedPrlOpOwner {
 	override fun getNameIdentifier() = opDecl
-	override val type: PsiElement? get() = sort
-	override val parameterText: String? get() = declArgumentsParens?.text
-
+	override val type: PsiElement?
+		get() = findChildByClass(RedPrlSort::class.java)
+			?: findChildByClass(RedPrlJudgment::class.java)
+	override val parameterText: String? get() = findChildByClass(RedPrlDeclArgumentsParens::class.java)?.text
 	override val mlCmd: RedPrlMlCmd? get() = findChildByClass(RedPrlMlCmd::class.java)
-	override val sort: RedPrlSort? get() = findChildByClass(RedPrlSort::class.java)
-	override val declArgumentsParens: RedPrlDeclArgumentsParens? get() = findChildByClass(RedPrlDeclArgumentsParens::class.java)
 }
 
 abstract class RedPrlOpDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlOpDecl {
