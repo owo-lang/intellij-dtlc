@@ -507,7 +507,7 @@ mlDeclDef ::= DEFINE opDecl declArgumentsParens?
  (COLON sort)? EQUALS term {
 	pin=1
 	implements=['org.ice1000.tt.psi.redprl.RedPrlOpOwner' 'com.intellij.psi.PsiNameIdentifierOwner']
-	mixin='org.ice1000.tt.psi.redprl.RedPrlOpOwnerMixin'
+	mixin='org.ice1000.tt.psi.redprl.RedPrlDefineMixin'
 }
 mlDeclData ::= DATA opDecl declArgumentsParens? dataDecl
  BY LBRACKET tactic RBRACKET {

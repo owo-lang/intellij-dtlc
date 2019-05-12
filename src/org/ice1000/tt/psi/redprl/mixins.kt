@@ -14,6 +14,7 @@ import org.ice1000.tt.psi.redprl.impl.RedPrlMlValueImpl
 
 abstract class RedPrlDeclaration(node: ASTNode) : GeneralDeclaration(node) {
 	override val type: PsiElement? get() = null
+	open val parameterText: String? get() = null
 	override fun getIcon(flags: Int) = TTIcons.RED_PRL
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String): PsiElement {
@@ -31,11 +32,22 @@ interface RedPrlOpOwner : PsiElement {
 	 * but I cannot
 	 */
 	val mlCmd: RedPrlMlCmd?
+	val sort: RedPrlSort?
+	val declArgumentsParens: RedPrlDeclArgumentsParens?
+}
+
+abstract class RedPrlDefineMixin(node: ASTNode) : RedPrlOpOwnerMixin(node), RedPrlOpOwner {
+	override val type: PsiElement? get() = null
 }
 
 abstract class RedPrlOpOwnerMixin(node: ASTNode) : RedPrlDeclaration(node), RedPrlOpOwner {
 	override fun getNameIdentifier() = opDecl
+	override val type: PsiElement? get() = sort
+	override val parameterText: String? get() = declArgumentsParens?.text
+
 	override val mlCmd: RedPrlMlCmd? get() = findChildByClass(RedPrlMlCmd::class.java)
+	override val sort: RedPrlSort? get() = findChildByClass(RedPrlSort::class.java)
+	override val declArgumentsParens: RedPrlDeclArgumentsParens? get() = findChildByClass(RedPrlDeclArgumentsParens::class.java)
 }
 
 abstract class RedPrlOpDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlOpDecl {
@@ -76,8 +88,12 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 		val variantsProcessor = PatternCompletionProcessor(
 			{ (it as? RedPrlOpDeclMixin)?.getIcon(0) },
 			{ true },
-			{ (it as? RedPrlOpDeclMixin)?.kind?.name ?: "??" },
-			{ pat -> "" })
+			{
+				(it.parent as? RedPrlOpOwnerMixin)?.type?.text
+					?: (it as? RedPrlOpDeclMixin)?.kind?.name
+					?: "??"
+			},
+			{ (it.parent as? RedPrlOpOwnerMixin)?.parameterText ?: "" })
 		treeWalkUp(variantsProcessor, this, containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}
