@@ -47,23 +47,11 @@ abstract class MLPolyRNamePatMixin(node: ASTNode) : MLPolyRGeneralPat(node), MLP
 }
 
 abstract class MLPolyRParameterPatMixin(node: ASTNode) : MLPolyRGeneralPat(node), IPattern<MLPolyRNamePat> {
-	override val kind get() = SymbolKind.Parameter
+	override val kind get() = MLPolyRSymbolKind.Parameter
 }
 
 abstract class MLPolyRGeneralPat(node: ASTNode) : GeneralNameIdentifier(node), IPattern<MLPolyRNamePat> {
-	open val kind: SymbolKind by lazy {
-		val parent = parent
-		when {
-			parent.firstChild?.elementType == MLPolyRTypes.KW_VAL -> SymbolKind.Variable
-			parent is MLPolyRRc -> SymbolKind.RcFunction
-			parent is MLPolyRFunction ->
-				if (this === parent.firstChild) SymbolKind.Function
-				else SymbolKind.Parameter
-			parent is MLPolyRMr || parent is MLPolyRPat || parent is MLPolyRDtMatch -> SymbolKind.Pattern
-			parent is MLPolyRFieldPattern -> SymbolKind.Field
-			else -> SymbolKind.Unknown
-		}
-	}
+	open val kind: MLPolyRSymbolKind by lazy(::patSymbolKind)
 
 	override fun getIcon(flags: Int) = TTIcons.MLPOLYR
 	@Throws(IncorrectOperationException::class)
@@ -177,7 +165,7 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 		val variantsProcessor = PatternCompletionProcessor(
 			{ (it as? MLPolyRGeneralPat)?.kind?.icon },
 			{
-				if ((it as? MLPolyRGeneralPat)?.kind != SymbolKind.Parameter) true
+				if ((it as? MLPolyRGeneralPat)?.kind != MLPolyRSymbolKind.Parameter) true
 				else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, this, false)
 			},
 			{ (it as? MLPolyRGeneralPat)?.kind?.name ?: "??" },
@@ -191,7 +179,7 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 	}
 
 	private companion object ResolverHolder {
-		val paramFamily = listOf(SymbolKind.Parameter, SymbolKind.Pattern)
+		val paramFamily = listOf(MLPolyRSymbolKind.Parameter, MLPolyRSymbolKind.Pattern)
 
 		private val resolver = ResolveCache.PolyVariantResolver<MLPolyRIdentifierMixin> { ref, _ ->
 			val name = ref.canonicalText

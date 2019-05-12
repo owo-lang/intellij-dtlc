@@ -26,31 +26,31 @@ class MLPolyRAnnotator : Annotator {
 			highlightType = ProblemHighlightType.LIKE_UNKNOWN_SYMBOL
 			textAttributes = MLPolyRHighlighter.UNRESOLVED
 		}
-		SymbolKind.Function, SymbolKind.RcFunction -> holder.createInfoAnnotation(element, null)
+		MLPolyRSymbolKind.Function, MLPolyRSymbolKind.RcFunction -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.FUNCTION_CALL
-		SymbolKind.Parameter -> holder.createInfoAnnotation(element, null)
+		MLPolyRSymbolKind.Parameter -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.PARAMETER_CALL
-		SymbolKind.Variable -> holder.createInfoAnnotation(element, null)
+		MLPolyRSymbolKind.Variable -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.VARIABLE_CALL
-		SymbolKind.Pattern -> holder.createInfoAnnotation(element, null)
+		MLPolyRSymbolKind.Pattern -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.PATTERN_CALL
-		SymbolKind.Field -> holder.createInfoAnnotation(element, null)
+		MLPolyRSymbolKind.Field -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.FIELD_CALL
-		SymbolKind.Unknown -> Unit
+		MLPolyRSymbolKind.Unknown -> Unit
 	}
 
 	private fun generalPat(element: MLPolyRGeneralPat, holder: AnnotationHolder) = when (element.kind) {
-		SymbolKind.Function, SymbolKind.RcFunction -> holder.createInfoAnnotation(element, null)
+		MLPolyRSymbolKind.Function, MLPolyRSymbolKind.RcFunction -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.FUNCTION_DECL
-		SymbolKind.Parameter -> holder.createInfoAnnotation(element, null)
+		MLPolyRSymbolKind.Parameter -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.PARAMETER_DECL
-		SymbolKind.Variable -> holder.createInfoAnnotation(element, null)
+		MLPolyRSymbolKind.Variable -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.VARIABLE_DECL
-		SymbolKind.Pattern -> holder.createInfoAnnotation(element, null)
+		MLPolyRSymbolKind.Pattern -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.PATTERN_DECL
-		SymbolKind.Field -> holder.createInfoAnnotation(element, null)
+		MLPolyRSymbolKind.Field -> holder.createInfoAnnotation(element, null)
 			.textAttributes = MLPolyRHighlighter.FIELD_DECL
-		SymbolKind.Unknown -> Unit
+		MLPolyRSymbolKind.Unknown -> Unit
 	}
 
 	private fun constructor(element: PsiElement, holder: AnnotationHolder) {
