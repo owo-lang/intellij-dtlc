@@ -14,6 +14,7 @@ import icons.TTIcons
 import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.redprl.impl.RedPrlMlValueImpl
+import org.ice1000.tt.psi.redprl.impl.RedPrlTermAndTacImpl
 
 interface RedPrlBoundVarOwner : PsiElement {
 	val boundVar: RedPrlBoundVar?
@@ -136,6 +137,46 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<RedPrlOpUsageMixin> { ref, _ ->
+			resolveWith(PatternResolveProcessor(ref.canonicalText), ref)
+		}
+	}
+}
+
+abstract class RedPrlVarUsageMixin(node: ASTNode) : RedPrlTermAndTacImpl(node), RedPrlVarUsage, PsiPolyVariantReference {
+	override fun isSoft() = true
+	override fun getRangeInElement() = TextRange(0, textLength)
+
+	override fun getElement() = this
+	override fun getReference() = this
+	override fun getReferences() = arrayOf(reference)
+	override fun isReferenceTo(reference: PsiElement) = reference == resolve()
+	override fun getCanonicalText(): String = text
+	override fun resolve(): PsiElement? = multiResolve(false).firstOrNull()?.run { element }
+
+	override fun bindToElement(element: PsiElement): PsiElement = throw IncorrectOperationException("Unsupported")
+	override fun handleElementRename(newName: String): PsiElement? =
+		replace(RedPrlTokenType.createVarUsage(newName, project)
+			?: throw IncorrectOperationException("Invalid name: $newName"))
+
+	override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
+		val file = containingFile ?: return emptyArray()
+		if (!isValid || project.isDisposed) return emptyArray()
+		return ResolveCache.getInstance(project)
+			.resolveWithCaching(this, resolver, true, incompleteCode, file)
+	}
+
+	override fun getVariants(): Array<LookupElementBuilder> {
+		val variantsProcessor = PatternCompletionProcessor(
+			{ (it as? RedPrlVarDeclMixin)?.getIcon(0) },
+			{ true },
+			{ /*(it as? RedPrlVarDeclMixin)?.kind?.name ?:*/ "??" },
+			{ (it.parent as? RedPrlOpOwnerMixin)?.parameterText ?: "" })
+		treeWalkUp(variantsProcessor, this, containingFile)
+		return variantsProcessor.candidateSet.toTypedArray()
+	}
+
+	private companion object ResolverHolder {
+		private val resolver = ResolveCache.PolyVariantResolver<RedPrlVarUsageMixin> { ref, _ ->
 			resolveWith(PatternResolveProcessor(ref.canonicalText), ref)
 		}
 	}

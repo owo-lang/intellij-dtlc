@@ -51,6 +51,7 @@ opDecl ::= OPNAME {
 varUsage ::= VARNAME {
 	extends=termAndTac
 	extends=term
+	mixin='org.ice1000.tt.psi.redprl.RedPrlVarUsageMixin'
 }
 varDecl ::= VARNAME {
 	implements=[
@@ -162,14 +163,8 @@ inductiveTerm ::= LPAREN DOT opUsage inductiveTermInside RPAREN {
 }
 
 patVar ::=
-   PERCENT LSQUARE varDecl COLON sort RSQUARE
- | PERCENT varDecl {
-	implements=[
-		'org.ice1000.tt.psi.redprl.RedPrlVarOwner'
-		'com.intellij.psi.PsiNameIdentifierOwner'
-	]
-	mixin='org.ice1000.tt.psi.redprl.RedPrlVarOwnerMixin'
-}
+   PERCENT LSQUARE varUsage COLON sort RSQUARE
+ | PERCENT varUsage
 
 termAndTac ::=
  /* custom operators */
