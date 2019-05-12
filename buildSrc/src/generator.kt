@@ -3,6 +3,7 @@ package org.ice1000.tt.gradle
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.intellij.lang.annotations.Language
 
@@ -16,6 +17,8 @@ open class LanguageUtilityGenerationTask : DefaultTask() {
 	@field:Input var generateCliState: Boolean = true
 	@field:Input var hasVersion: Boolean = true
 	@field:Input var generateSettings: Boolean = true
+	@field:OutputDirectory
+	val outDir = basePackage.split('.').fold(project.projectDir.resolve("gen")) { dir, p -> dir.resolve(p) }
 
 	init {
 		group = "code generation"
@@ -28,8 +31,7 @@ open class LanguageUtilityGenerationTask : DefaultTask() {
 			0, 1 -> nickname
 			else -> languageName.substring(0, 2).toLowerCase() + languageName.substring(2)
 		}
-		val dir = basePackage.split('.').fold(project.projectDir.resolve("gen")) { dir, p -> dir.resolve(p) }
-		dir.mkdirs()
+		outDir.mkdirs()
 		if (languageName.isBlank()) throw GradleException("Language name of $name must not be empty.")
 		if (exeName.isBlank()) throw GradleException("Executable name for $name must not be empty.")
 		@Language("Java")
@@ -53,7 +55,7 @@ public final class ${languageName}Language extends Language {
 	}
 }
 """
-		dir.resolve("${languageName}Language.java").writeText(language)
+		outDir.resolve("${languageName}Language.java").writeText(language)
 		@Language("kotlin")
 		val infos = """
 package org.ice1000.tt
@@ -75,7 +77,7 @@ open class ${languageName}File(viewProvider: FileViewProvider) : PsiFileBase(vie
 	override fun getFileType() = ${languageName}FileType
 }
 """
-		dir.resolve("$nickname-generated.kt").writeText(infos)
+		outDir.resolve("$nickname-generated.kt").writeText(infos)
 		@Language("kotlin")
 		val service = """
 @file:JvmMultifileClass
@@ -172,7 +174,7 @@ class ${languageName}ProjectConfigurable(project: Project) : OnlyExecutableProje
 }
 """ else ""}
 """
-		dir.resolve("project")
+		outDir.resolve("project")
 			.apply { mkdirs() }
 			.resolve("$nickname-generated.kt").writeText(service)
 	@Language("kotlin")
@@ -196,7 +198,7 @@ object New${languageName}File : NewTTFile(
 	}
 }
 """
-		dir.resolve("action")
+		outDir.resolve("action")
 			.apply { mkdirs() }
 			.resolve("$nickname-generated.kt").writeText(fileCreation)
 		@Language("kotlin")
@@ -212,7 +214,7 @@ class ${languageName}DefaultContext : TemplateContextType("${constantPrefix}_DEF
 	override fun isInContext(file: PsiFile, offset: Int) = file.fileType == ${languageName}FileType
 }
 """
-		dir.resolve("editing")
+		outDir.resolve("editing")
 			.apply { mkdirs() }
 			.resolve("$nickname-generated.kt").writeText(editing)
 		@Language("kotlin")
@@ -343,7 +345,7 @@ class ${languageName}CommandLineState(
 	}
 }
 """
-		val exe = dir.resolve("execution").apply { mkdirs() }
+		val exe = outDir.resolve("execution").apply { mkdirs() }
 		exe.resolve("$nickname-generated.kt").writeText(runConfig)
 		if (generateCliState) exe.resolve("$nickname-cli-state.kt").writeText(cliState)
 	}

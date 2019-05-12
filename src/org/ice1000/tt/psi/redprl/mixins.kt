@@ -42,7 +42,7 @@ abstract class RedPrlOpDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), R
 	override fun visit(visitor: (RedPrlOpDecl) -> Boolean) = visitor(this)
 	open val kind: RedPrlSymbolKind by lazy(::opSymbolKind)
 
-	override fun getIcon(flags: Int) = TTIcons.MLPOLYR
+	override fun getIcon(flags: Int) = kind.icon ?: TTIcons.RED_PRL
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) =
 		replace(RedPrlTokenType.createOpDecl(newName, project)
@@ -76,7 +76,7 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 		val variantsProcessor = PatternCompletionProcessor(
 			{ (it as? RedPrlOpDeclMixin)?.getIcon(0) },
 			{ true },
-			{ "??" },
+			{ (it as? RedPrlOpDeclMixin)?.kind?.name ?: "??" },
 			{ pat -> "" })
 		treeWalkUp(variantsProcessor, this, containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
