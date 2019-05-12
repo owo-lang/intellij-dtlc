@@ -39,7 +39,7 @@ class RedPrlTokenType(debugName: String) : IElementType(debugName, RedPrlLanguag
 		fun createTerm(text: String, project: Project) = createDefine("define Bla = $text.", project)?.term
 		fun createTermAndTac(text: String, project: Project) = createTerm(text, project)?.termAndTac
 		fun createVarUsage(text: String, project: Project) = createTermAndTac(text, project) as? RedPrlVarUsage
-		fun createPatVar(text: String, project: Project) = createTermAndTac(text, project)?.patVar
+		fun createPatVar(text: String, project: Project) = createTermAndTac("%$text", project)?.patVar
 		fun createVarDecl(text: String, project: Project) = createPatVar(text, project)?.varDecl
 	}
 }
