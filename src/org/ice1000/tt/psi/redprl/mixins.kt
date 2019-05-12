@@ -9,6 +9,7 @@ import com.intellij.psi.ResolveResult
 import com.intellij.psi.ResolveState
 import com.intellij.psi.impl.source.resolve.ResolveCache
 import com.intellij.psi.scope.PsiScopeProcessor
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
 import org.ice1000.tt.orTrue
@@ -18,10 +19,6 @@ import org.ice1000.tt.psi.redprl.impl.RedPrlTermAndTacImpl
 
 interface RedPrlBoundVarOwner : PsiElement {
 	val boundVar: RedPrlBoundVar?
-}
-
-interface RedPrlBoundVarsOwner : RedPrlBoundVarOwner {
-	val boundVarList: List<RedPrlBoundVar>
 }
 
 interface RedPrlVarOwner : PsiElement {
@@ -44,9 +41,11 @@ abstract class RedPrlBoundVarOwnerMixin(node: ASTNode) : GeneralDeclaration(node
 	override fun setName(newName: String): PsiElement = throw IncorrectOperationException("Cannot rename!")
 }
 
-abstract class RedPrlBoundVarsOwnerMixin(node: ASTNode) : RedPrlBoundVarOwnerMixin(node), RedPrlBoundVarsOwner {
-	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		boundVarList.asReversed().all { it.processDeclarations(processor, state, lastParent, place) }
+abstract class RedPrlBoundVarsOwnerMixin(node: ASTNode) : RedPrlBoundVarOwnerMixin(node) {
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) = PsiTreeUtil
+		.getChildrenOfTypeAsList(this, RedPrlBoundVar::class.java)
+		.asReversed()
+		.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
 abstract class RedPrlDevMatchClauseMixin(node: ASTNode) : GeneralDeclaration(node), RedPrlDevMatchClause {

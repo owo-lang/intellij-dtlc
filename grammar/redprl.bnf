@@ -81,18 +81,12 @@ metaVar ::= HASH ident
 
 typedBinder ::= LSQUARE boundVar+ COLON term RSQUARE {
 	pin=4
-	implements=[
-		'org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwner'
-		'com.intellij.psi.PsiNameIdentifierOwner'
-	]
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwnerMixin'
 }
 dimBinder ::= LSQUARE boundVar+ COLON DIM RSQUARE {
 	pin=4
-	implements=[
-		'org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwner'
-		'com.intellij.psi.PsiNameIdentifierOwner'
-	]
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwnerMixin'
 }
 
@@ -110,10 +104,7 @@ timesQuantifierData ::=
 field ::= LSQUARE ident term RSQUARE
 private binder ::= LSQUARE boundVar+ RSQUARE
 binding ::= binder? term {
-	implements=[
-		'org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwner'
-		'com.intellij.psi.PsiNameIdentifierOwner'
-	]
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwnerMixin'
 }
 
@@ -249,6 +240,7 @@ termAndTac ::=
 	extends=tac
 	extends=term
 	extends=atomicMultitac
+	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwnerMixin'
 }
 
 private ttCoe ::= LPAREN COE dir binding term RPAREN { pin=2 }
@@ -315,10 +307,7 @@ specBoundary ::= LSQUARE equation specTerm RSQUARE
 specArrowQuantifierData ::= (typedBinder | term)* specType
 specType ::= SELF | LPAREN SELF RIGHT_ARROW specArrowQuantifierData RPAREN
 specTypedBinder ::= LSQUARE boundVar+ COLON specType RSQUARE {
-	implements=[
-		'org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwner'
-		'com.intellij.psi.PsiNameIdentifierOwner'
-	]
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwnerMixin'
 }
 
@@ -460,10 +449,7 @@ claimTac ::= CLAIM varDecl COLON judgment
 exactTac ::= RULE_EXACT term { pin=1 }
 absTac ::= ABS boundVar+ DOUBLE_RIGHT_ARROW tactic {
 	pin=1
-	implements=[
-		'org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwner'
-		'com.intellij.psi.PsiNameIdentifierOwner'
-	]
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwnerMixin'
 }
 lambdaTac ::= LAMBDA devDecompPattern+ DOUBLE_RIGHT_ARROW tactic { pin=1 }
