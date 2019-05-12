@@ -19,4 +19,7 @@ public interface TTIcons {
 	@NotNull Icon RED_PRL = IconLoader.getIcon("/icons/redprl/redprl.png");
 	@NotNull Icon VOILE_FILE = IconLoader.getIcon("/icons/voile/voile_file.png");
 	@NotNull Icon VOILE = IconLoader.getIcon("/icons/voile/voile.png");
+
+	@NotNull Icon BLUE_T = IconLoader.getIcon("/icons/ast/blue_t.png");
+	@NotNull Icon PURPLE_T = IconLoader.getIcon("/icons/ast/purple_t.png");
 }
