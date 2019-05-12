@@ -17,9 +17,9 @@ abstract class RedPrlDeclaration(node: ASTNode) : GeneralDeclaration(node) {
 	override fun getIcon(flags: Int) = TTIcons.RED_PRL
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String): PsiElement {
-		val newPattern = RedPrlTokenType.createOpDecl(newName, project)
+		val newOpDecl = RedPrlTokenType.createOpDecl(newName, project)
 			?: throw IncorrectOperationException("Invalid name: $newName")
-		nameIdentifier?.replace(newPattern)
+		nameIdentifier?.replace(newOpDecl)
 		return this
 	}
 }
@@ -39,6 +39,8 @@ abstract class RedPrlOpOwnerMixin(node: ASTNode) : RedPrlDeclaration(node), RedP
 }
 
 abstract class RedPrlOpDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlOpDecl {
+	override fun visit(visitor: (RedPrlOpDecl) -> Boolean) = visitor(this)
+
 	override fun getIcon(flags: Int) = TTIcons.MLPOLYR
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) =
@@ -81,7 +83,7 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 	private companion object ResolverHolder {
 		// val paramFamily = listOf()
 
-		private val resolver = ResolveCache.PolyVariantResolver<RedPrlOpUsageMixin> { ref, incompleteCode ->
+		private val resolver = ResolveCache.PolyVariantResolver<RedPrlOpUsageMixin> { ref, _ ->
 			val name = ref.canonicalText
 			resolveWith(PatternResolveProcessor(name) {
 				// TODO: non-parameters

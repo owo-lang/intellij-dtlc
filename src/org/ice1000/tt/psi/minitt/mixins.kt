@@ -116,7 +116,7 @@ abstract class MiniTTVariableMixin(node: ASTNode) : ASTWrapperPsiElement(node), 
 	}
 
 	private companion object ResolverHolder {
-		private val resolver = ResolveCache.PolyVariantResolver<MiniTTVariableMixin> { ref, incompleteCode ->
+		private val resolver = ResolveCache.PolyVariantResolver<MiniTTVariableMixin> { ref, _ ->
 			val name = ref.canonicalText
 			resolveWith(PatternResolveProcessor(name) {
 				if ((it as? IPattern<*>)?.parent !is MiniTTTypedPatternMixin) it.text == name

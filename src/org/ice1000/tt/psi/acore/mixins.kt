@@ -101,7 +101,7 @@ abstract class ACoreVariableMixin(node: ASTNode) : ACoreExpressionImpl(node), AC
 	}
 
 	private companion object ResolverHolder {
-		private val resolver = ResolveCache.PolyVariantResolver<ACoreVariableMixin> { ref, incompleteCode ->
+		private val resolver = ResolveCache.PolyVariantResolver<ACoreVariableMixin> { ref, _ ->
 			resolveWith(PatternResolveProcessor(ref.canonicalText), ref)
 		}
 	}

@@ -42,7 +42,10 @@ opUsage ::= OPNAME {
 	mixin='org.ice1000.tt.psi.redprl.RedPrlOpUsageMixin'
 }
 opDecl ::= OPNAME {
-	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	implements=[
+		'com.intellij.psi.PsiNameIdentifierOwner'
+		'org.ice1000.tt.psi.IPattern<RedPrlOpDecl>'
+	]
 	mixin='org.ice1000.tt.psi.redprl.RedPrlOpDeclMixin'
 }
 varUsage ::= VARNAME {
@@ -509,7 +512,10 @@ mlDeclDef ::= DEFINE opDecl declArgumentsParens?
 mlDeclData ::= DATA opDecl declArgumentsParens? dataDecl
  BY LBRACKET tactic RBRACKET {
 	pin=1
-	implements=['org.ice1000.tt.psi.redprl.RedPrlOpOwner' 'com.intellij.psi.PsiNameIdentifierOwner']
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlOpOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
 	mixin='org.ice1000.tt.psi.redprl.RedPrlOpOwnerMixin'
 }
 mlDeclTactic ::= TACTIC_KW opDecl declArgumentsParens?
@@ -519,12 +525,18 @@ mlDeclTactic ::= TACTIC_KW opDecl declArgumentsParens?
 mlDeclTheorem ::= THEOREM opDecl declArgumentsParens? COLON judgment
  BY LBRACKET tactic RBRACKET {
 	pin=1
-	implements=['org.ice1000.tt.psi.redprl.RedPrlOpOwner' 'com.intellij.psi.PsiNameIdentifierOwner']
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlOpOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
 	mixin='org.ice1000.tt.psi.redprl.RedPrlOpOwnerMixin'
 }
 mlDeclVal ::= VAL opDecl EQUALS mlCmd {
 	pin=1
-	implements=['org.ice1000.tt.psi.redprl.RedPrlOpOwner' 'com.intellij.psi.PsiNameIdentifierOwner']
+	implements=[
+		'org.ice1000.tt.psi.redprl.RedPrlOpOwner'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
 	mixin='org.ice1000.tt.psi.redprl.RedPrlOpOwnerMixin'
 }
 
