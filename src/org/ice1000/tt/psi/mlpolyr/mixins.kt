@@ -174,31 +174,32 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 	}
 
 	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = PatternCompletionProcessor(true,
-			{ (it as? MLPolyRGeneralPat)?.kind?.icon },
-			{
-				if ((it as? MLPolyRGeneralPat)?.kind != SymbolKind.Parameter) true
-				else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, this, false)
-			},
-			{ (it as? MLPolyRGeneralPat)?.kind?.name ?: "??" },
-			{ pat ->
-				val parent = pat.parent
-				if (parent !is MLPolyRFunction) ""
-				else parent.patList.drop(1).joinToString(prefix = " ", separator = " ") { it.text }
-			})
+		variantsProcessor.candidateSet.clear()
 		treeWalkUp(variantsProcessor, this, containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}
 
+	private val variantsProcessor = PatternCompletionProcessor(true,
+		{ (it as? MLPolyRGeneralPat)?.kind?.icon },
+		accessible(this),
+		{ (it as? MLPolyRGeneralPat)?.kind?.name ?: "??" },
+		{ pat ->
+			val parent = pat.parent
+			if (parent !is MLPolyRFunction) ""
+			else parent.patList.drop(1).joinToString(prefix = " ", separator = " ") { it.text }
+		})
+
+
 	private companion object ResolverHolder {
 		val paramFamily = listOf(SymbolKind.Parameter, SymbolKind.Pattern)
 
+		private fun accessible(ref: MLPolyRIdentifierMixin, name: String = ref.canonicalText) = { it: PsiElement ->
+			if ((it as? MLPolyRGeneralPat)?.kind !in paramFamily) it.text == name
+			else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, ref, false)
+		}
+
 		private val resolver = ResolveCache.PolyVariantResolver<MLPolyRIdentifierMixin> { ref, incompleteCode ->
-			val name = ref.canonicalText
-			resolveWith(PatternResolveProcessor(name, incompleteCode) {
-				if ((it as? MLPolyRGeneralPat)?.kind !in paramFamily) it.text == name
-				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, ref, false)
-			}, ref)
+			resolveWith(PatternResolveProcessor(ref.canonicalText, incompleteCode, accessible(ref)), ref)
 		}
 	}
 }
