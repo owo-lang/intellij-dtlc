@@ -49,6 +49,7 @@ opUsage ::= OPNAME {
 opDecl ::= OPNAME {
 	implements=[
 		'com.intellij.psi.PsiNameIdentifierOwner'
+		'org.ice1000.tt.psi.redprl.RedPrlKindedSymbol'
 		'org.ice1000.tt.psi.IPattern<RedPrlOpDecl>'
 	]
 	mixin='org.ice1000.tt.psi.redprl.RedPrlOpDeclMixin'
@@ -62,6 +63,7 @@ varDecl ::= VARNAME {
 	implements=[
 		'com.intellij.psi.PsiNameIdentifierOwner'
 		'org.ice1000.tt.psi.IPattern<RedPrlVarDecl>'
+		'org.ice1000.tt.psi.redprl.RedPrlKindedSymbol'
 	]
 	mixin='org.ice1000.tt.psi.redprl.RedPrlVarDeclMixin'
 }
@@ -82,6 +84,7 @@ metaDecl ::= HASH (VARNAME | OPNAME) {
 	implements=[
 		'org.ice1000.tt.psi.IPattern<RedPrlMetaDecl>'
 		'com.intellij.psi.PsiNameIdentifierOwner'
+		'org.ice1000.tt.psi.redprl.RedPrlKindedSymbol'
 	]
 	mixin='org.ice1000.tt.psi.redprl.RedPrlMetaDeclMixin'
 }
@@ -108,7 +111,9 @@ arrowQuantifierData ::=
  | dimBinder arrowQuantifierData
  | term arrowQuantifierData
  | DIM arrowQuantifierData
- | term
+ | term {
+	mixin='org.ice1000.tt.psi.redprl.RedPrlAnywayMixin'
+}
 timesQuantifierData ::=
    typedBinder timesQuantifierData
  | term timesQuantifierData
@@ -253,7 +258,7 @@ termAndTac ::=
 	extends=tac
 	extends=term
 	extends=atomicMultitac
-	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarsOwnerMixin'
+	mixin='org.ice1000.tt.psi.redprl.RedPrlAnywayMixin'
 }
 
 private ttCoe ::= LPAREN COE dir binding term RPAREN { pin=2 }

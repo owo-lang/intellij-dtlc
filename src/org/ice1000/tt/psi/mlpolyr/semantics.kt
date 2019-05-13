@@ -124,7 +124,7 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 
 		private val resolver = ResolveCache.PolyVariantResolver<MLPolyRIdentifierMixin> { ref, _ ->
 			val name = ref.canonicalText
-			resolveWith(PatternResolveProcessor(name) { it: PsiElement ->
+			resolveWith(PatternResolveProcessor(name) {
 				if ((it as? MLPolyRGeneralPat)?.kind !in paramFamily) it.text == name
 				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, ref, false)
 			}, ref)
