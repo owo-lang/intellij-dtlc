@@ -539,10 +539,16 @@ hypBinding ::= boundVar (COLON sort)? {
 
 private declArguments ::= declArgument declArgumentRest*
 private declArgumentRest ::= COMMA declArgument { pin=1 }
-declArgument ::= metaDecl (COLON valence)?
+declArgument ::= metaDecl (COLON valence)? {
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.redprl.RedPrlDeclArgumentMixin'
+}
 
 /// Should always use `declArgumentsParensOpt` instead of `declArgumentsParens`
-declArgumentsParens ::= LPAREN declArguments? RPAREN { pin=1 }
+declArgumentsParens ::= LPAREN declArguments? RPAREN {
+	pin=1
+	mixin='org.ice1000.tt.psi.redprl.RedPrlDeclArgumentsParensMixin'
+}
 
 private mlVtyBrack ::= LBRACKET mlCty RBRACKET { pin=1 }
 mlVty ::= mlParen | mlVtyBrack

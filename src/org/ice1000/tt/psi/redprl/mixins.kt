@@ -18,7 +18,6 @@ import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.redprl.impl.RedPrlMlValueImpl
 import org.ice1000.tt.psi.redprl.impl.RedPrlTermAndTacImpl
-import javax.swing.Icon
 
 interface RedPrlBoundVarOwner : PsiElement {
 	val boundVar: RedPrlBoundVar?
@@ -98,6 +97,13 @@ abstract class RedPrlVarDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), 
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 }
 
+abstract class RedPrlDeclArgumentMixin(node: ASTNode) : GeneralDeclaration(node), RedPrlDeclArgument {
+	override fun getIcon(flags: Int) = TTIcons.RED_PRL
+	override fun setName(newName: String): PsiElement = throw IncorrectOperationException("Cannot rename!")
+	override fun getNameIdentifier() = metaDecl
+	override val type: PsiElement? get() = findChildByType<PsiElement>(RedPrlTypes.COLON)?.nextSibling
+}
+
 abstract class RedPrlOpOwnerMixin(node: ASTNode) : GeneralDeclaration(node), RedPrlOpOwner {
 	override fun getIcon(flags: Int) = TTIcons.RED_PRL
 	@Throws(IncorrectOperationException::class)
@@ -115,8 +121,13 @@ abstract class RedPrlOpOwnerMixin(node: ASTNode) : GeneralDeclaration(node), Red
 	private fun parameter() = findChildByClass(RedPrlDeclArgumentsParens::class.java)
 
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		parameter()?.run { declArgumentList.all { it.processDeclarations(processor, state, lastParent, place) } }.orTrue()
+		parameter()?.processDeclarations(processor, state, lastParent, place).orTrue()
 			&& super.processDeclarations(processor, state, lastParent, place)
+}
+
+abstract class RedPrlDeclArgumentsParensMixin(node: ASTNode) : ASTWrapperPsiElement(node), RedPrlDeclArgumentsParens {
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		declArgumentList.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
 abstract class RedPrlOpDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlOpDecl {
@@ -139,8 +150,22 @@ abstract class RedPrlMetaDeclMixin(node: ASTNode) : GeneralNameIdentifier(node),
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 }
 
-abstract class RedPrlMetaUsageMixin(node: ASTNode) : RedPrlTermAndTacImpl(node), RedPrlMetaUsage/*, PsiPolyVariantReference*/ {
-	// TODO
+abstract class RedPrlMetaUsageMixin(node: ASTNode) : RedPrlVarUsageMixin(node), RedPrlMetaUsage/*, PsiPolyVariantReference*/ {
+	override fun handleElementRename(newName: String): PsiElement? =
+		replace(RedPrlTokenType.createMetaUsage(newName, project)
+			?: throw IncorrectOperationException("Invalid name: $newName"))
+
+	override fun getVariants(): Array<LookupElement> {
+		val variantsProcessor = PatternCompletionProcessor(lookupElement = {
+			val declaration = PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
+			LookupElementBuilder
+				.create(it.text)
+				.withIcon(it.getIcon(0))
+				.withTypeText(declaration?.type?.bodyText(40) ?: "Unknown", true)
+		})
+		treeWalkUp(variantsProcessor, this, containingFile)
+		return variantsProcessor.candidateSet.toTypedArray()
+	}
 }
 
 abstract class RedPrlBoundVarMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlBoundVar {
@@ -221,12 +246,7 @@ abstract class RedPrlVarUsageMixin(node: ASTNode) : RedPrlTermAndTacImpl(node), 
 
 	override fun getVariants(): Array<LookupElement> {
 		val variantsProcessor = PatternCompletionProcessor(lookupElement = {
-			val declaration = PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
-			LookupElementBuilder
-				.create(it.text)
-				.withIcon(it.getIcon(0))
-				.withTypeText(declaration?.type?.bodyText(40) ?: "Unknown", true)
-				.withTailText((it.parent as? RedPrlOpOwnerMixin)?.parameterText ?: "", true)
+			LookupElementBuilder.create(it.text).withIcon(it.getIcon(0))
 		})
 		treeWalkUp(variantsProcessor, this, containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
