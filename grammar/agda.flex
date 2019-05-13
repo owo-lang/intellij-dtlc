@@ -2,6 +2,7 @@ package org.ice1000.tt.psi.agda;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
+import static org.ice1000.tt.psi.agda.AgdaTypes.*;
 import static org.ice1000.tt.psi.agda.AgdaTokenType.*;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;

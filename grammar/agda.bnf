@@ -1,0 +1,21 @@
+{
+  generate=[java="8" names="long"]
+
+  parserClass="org.ice1000.tt.psi.agda.AgdaParser"
+
+  psiClassPrefix="Agda"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.ice1000.tt.psi.agda"
+  psiImplPackage="org.ice1000.tt.psi.agda.impl"
+
+  elementTypeHolderClass="org.ice1000.tt.psi.agda.AgdaTypes"
+  elementTypeClass="org.ice1000.tt.psi.agda.AgdaElementType"
+  tokenTypeClass="org.ice1000.tt.psi.agda.AgdaTokenType"
+}
+
+file ::= token*
+token ::=
+   IDENTIFIER | NUMBER | FLOAT | HOLE | KEYWORD | UNIVERSE | DOT | SEMI | ARROW
+ | ELLIPSIS | DOT_DOT | CLOSE_IDIOM_BRACKET | OPEN_IDIOM_BRACKET | LAMBDA | COLON
+ | EQUAL | UNDERSCORE | QUESTION_MARK | OPEN_PAREN | CLOSE_PAREN | OPEN_BRACE
+ | CLOSE_BRACE | BAR | AS | CHR_LIT | STR_LIT
