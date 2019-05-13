@@ -51,15 +51,15 @@ identChrs = [a-zA-Z0-9\'/-]*
 	         yybegin(YYINITIAL);
 	         zzStartRead = commentStart;
 	         return BLOCK_COMMENT;
-	        } }
+	       } }
 	<<EOF>> {
 		yybegin(YYINITIAL);
 		zzStartRead = commentStart;
 		return BLOCK_COMMENT;
 	}
-	[^/\*]+ { }
-	\/[^\*]+ { }
-	\*[^\/]* { }
+	[^/*]+ { }
+	\/[^*]+ { }
+	\*[^/*]* { }
 }
 
 "/*" { yybegin(INSIDE_COMMENT)
