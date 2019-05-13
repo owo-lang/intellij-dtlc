@@ -1,7 +1,16 @@
 package org.ice1000.tt.psi.mlpolyr
 
+import com.intellij.codeInsight.lookup.LookupElement
+import com.intellij.codeInsight.lookup.LookupElementBuilder
+import com.intellij.lang.ASTNode
+import com.intellij.openapi.util.TextRange
+import com.intellij.psi.*
+import com.intellij.psi.impl.source.resolve.ResolveCache
+import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.util.IncorrectOperationException
 import icons.SemanticIcons
-import org.ice1000.tt.psi.elementType
+import org.ice1000.tt.psi.*
+import org.ice1000.tt.psi.mlpolyr.impl.MLPolyRExpImpl
 import javax.swing.Icon
 
 enum class MLPolyRSymbolKind(val icon: Icon?) {
@@ -25,5 +34,100 @@ fun MLPolyRGeneralPat.patSymbolKind(): MLPolyRSymbolKind {
 		parent is MLPolyRMr || parent is MLPolyRPat || parent is MLPolyRDtMatch -> MLPolyRSymbolKind.Pattern
 		parent is MLPolyRFieldPattern -> MLPolyRSymbolKind.Field
 		else -> MLPolyRSymbolKind.Unknown
+	}
+}
+
+abstract class MLPolyRLabelMixin(node: ASTNode) : MLPolyRExpImpl(node), MLPolyRLabel, PsiPolyVariantReference, PsiNameIdentifierOwner {
+	override fun isSoft() = true
+	override fun getRangeInElement() = TextRange(0, textLength)
+
+	override fun getElement() = this
+	override fun getReference() = this
+	override fun getReferences() = arrayOf(reference)
+	override fun isReferenceTo(reference: PsiElement) = reference == resolve()
+	override fun getCanonicalText(): String = text
+	override fun resolve(): PsiElement? = multiResolve(false).firstOrNull()?.run { element }
+
+	override fun bindToElement(element: PsiElement): PsiElement = throw IncorrectOperationException("Unsupported")
+	override fun getNameIdentifier() = this
+	override fun getName() = canonicalText
+	override fun setName(newName: String): PsiElement? = handleElementRename(newName)
+	override fun handleElementRename(newName: String): PsiElement? =
+		replace(MLPolyRTokenType.createLabel(newName, project)
+			?: throw IncorrectOperationException("Invalid label: $newName"))
+
+	override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
+		val file = containingFile as? MLPolyRFileImpl ?: return emptyArray()
+		if (!isValid || project.isDisposed) return emptyArray()
+		val resolved = file.useConstructors { find { it !== this && it.name == name } }
+		file.addConstructor(this)
+		return resolved?.let { arrayOf(PsiElementResolveResult(it, true)) } ?: emptyArray()
+	}
+
+	override fun getVariants(): Array<LookupElementBuilder> {
+		val file = containingFile as? MLPolyRFileImpl ?: return emptyArray()
+		if (!isValid || project.isDisposed) return emptyArray()
+		return file.useConstructors {
+			map {
+				LookupElementBuilder
+					.create(it.text)
+					.withIcon(SemanticIcons.BLUE_C)
+					.withTypeText("Label")
+			}.toTypedArray()
+		}
+	}
+}
+
+abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLPolyRIdentifier, PsiPolyVariantReference {
+	override fun isSoft() = true
+	override fun getRangeInElement() = TextRange(0, textLength)
+
+	override fun getElement() = this
+	override fun getReference() = this
+	override fun getReferences() = arrayOf(reference)
+	override fun isReferenceTo(reference: PsiElement) = reference == resolve()
+	override fun getCanonicalText(): String = text
+	override fun resolve(): PsiElement? = multiResolve(false).firstOrNull()?.run { element }
+
+	override fun bindToElement(element: PsiElement): PsiElement = throw IncorrectOperationException("Unsupported")
+	override fun handleElementRename(newName: String): PsiElement? =
+		replace(MLPolyRTokenType.createIdentifier(newName, project)
+			?: throw IncorrectOperationException("Invalid name: $newName"))
+
+	override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
+		val file = containingFile ?: return emptyArray()
+		if (!isValid || project.isDisposed) return emptyArray()
+		return ResolveCache.getInstance(project)
+			.resolveWithCaching(this, resolver, true, incompleteCode, file)
+	}
+
+	override fun getVariants(): Array<LookupElement> {
+		val variantsProcessor = PatternCompletionProcessor({
+			if ((it as? MLPolyRGeneralPat)?.kind != MLPolyRSymbolKind.Parameter) true
+			else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, this, false)
+		}) {
+			val parent = it.parent
+			val tail = if (parent !is MLPolyRFunction) ""
+			else parent.patList.drop(1).joinToString(prefix = " ", separator = " ") { it.bodyText(20) }
+			LookupElementBuilder
+				.create(it.text)
+				.withIcon(it.getIcon(0))
+				.withTypeText((it as? MLPolyRGeneralPat)?.kind?.name ?: "??", true)
+				.withTailText(tail, true)
+		}
+		treeWalkUp(variantsProcessor, this, containingFile)
+		return variantsProcessor.candidateSet.toTypedArray()
+	}
+
+	private companion object ResolverHolder {
+		val paramFamily = listOf(MLPolyRSymbolKind.Parameter, MLPolyRSymbolKind.Pattern)
+
+		private val resolver = ResolveCache.PolyVariantResolver<MLPolyRIdentifierMixin> { ref, _ ->
+			val name = ref.canonicalText
+			resolveWith(PatternResolveProcessor(name) { it: PsiElement ->
+				if ((it as? MLPolyRGeneralPat)?.kind !in paramFamily) it.text == name
+				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, ref, false)
+			}, ref)
+		}
 	}
 }
