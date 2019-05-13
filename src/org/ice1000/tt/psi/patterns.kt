@@ -1,5 +1,6 @@
 package org.ice1000.tt.psi
 
+import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
@@ -10,7 +11,6 @@ import com.intellij.psi.ResolveState
 import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.util.PsiTreeUtil
 import org.ice1000.tt.orTrue
-import javax.swing.Icon
 
 interface IPattern<Var : PsiElement> : PsiElement {
 	fun visit(visitor: (Var) -> Boolean): Boolean
@@ -48,24 +48,20 @@ class PatternResolveProcessor(
 }
 
 class PatternCompletionProcessor(
-	private val icon: (PsiElement) -> Icon?,
 	private val accessible: (PsiElement) -> Boolean = { true },
-	private val typeText: (PsiElement) -> String = {
+	private val lookupElement: (PsiElement) -> LookupElement = {
 		val declaration = PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
-		declaration?.type?.text ?: "Unknown"
-	},
-	private val tailText: (PsiElement) -> String = { "" }
-) : ResolveProcessor<LookupElementBuilder>() {
-	override val candidateSet = ArrayList<LookupElementBuilder>(10)
+		LookupElementBuilder
+			.create(it.text)
+			.withIcon(it.getIcon(0))
+			.withTypeText(declaration?.type?.bodyText(40) ?: "Unknown", true)
+	}) : ResolveProcessor<LookupElement>() {
+	override val candidateSet = ArrayList<LookupElement>(10)
 	override fun execute(element: PsiElement, resolveState: ResolveState): Boolean {
 		if (element !is IPattern<*>) return true
 		return element.visit { variable ->
 			if (!accessible(variable)) return@visit true
-			candidateSet += LookupElementBuilder
-				.create(variable.text)
-				.withIcon(icon(variable))
-				.withTailText(tailText(variable), true)
-				.withTypeText(typeText(variable), true)
+			candidateSet += lookupElement(variable)
 			true
 		}
 	}

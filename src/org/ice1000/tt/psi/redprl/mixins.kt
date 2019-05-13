@@ -1,5 +1,6 @@
 package org.ice1000.tt.psi.redprl
 
+import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
@@ -132,7 +133,7 @@ abstract class RedPrlMetaDeclMixin(node: ASTNode) : ASTWrapperPsiElement(node), 
 	// TODO
 }
 
-abstract class RedPrlMetaUsageMixin(node: ASTNode) : ASTWrapperPsiElement(node), RedPrlMetaUsage {
+abstract class RedPrlMetaUsageMixin(node: ASTNode) : ASTWrapperPsiElement(node), RedPrlMetaUsage, PsiPolyVariantReference {
 	// TODO
 }
 
@@ -168,16 +169,16 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 			.resolveWithCaching(this, resolver, true, incompleteCode, file)
 	}
 
-	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = PatternCompletionProcessor(
-			{ it.getIcon(0) },
-			{ true },
-			{
-				(it.parent as? GeneralDeclaration)?.type?.bodyText(40)
+	override fun getVariants(): Array<LookupElement> {
+		val variantsProcessor = PatternCompletionProcessor(lookupElement = {
+			LookupElementBuilder
+				.create(it.text)
+				.withIcon(it.getIcon(0))
+				.withTypeText((it.parent as? GeneralDeclaration)?.type?.bodyText(40)
 					?: (it as? RedPrlOpDeclMixin)?.kind?.name
-					?: "??"
-			},
-			{ (it.parent as? RedPrlOpOwnerMixin)?.parameterText ?: "" })
+					?: "??", true)
+				.withTailText((it.parent as? RedPrlOpOwnerMixin)?.parameterText ?: "", true)
+		})
 		treeWalkUp(variantsProcessor, this, containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}
@@ -212,12 +213,15 @@ abstract class RedPrlVarUsageMixin(node: ASTNode) : RedPrlTermAndTacImpl(node), 
 			.resolveWithCaching(this, resolver, true, incompleteCode, file)
 	}
 
-	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = PatternCompletionProcessor(
-			{ it.getIcon(0) },
-			{ true },
-			{ (it.parent as? GeneralDeclaration)?.type?.bodyText(40) ?: "??" },
-			{ (it.parent as? RedPrlOpOwnerMixin)?.parameterText ?: "" })
+	override fun getVariants(): Array<LookupElement> {
+		val variantsProcessor = PatternCompletionProcessor(lookupElement = {
+			val declaration = PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
+			LookupElementBuilder
+				.create(it.text)
+				.withIcon(it.getIcon(0))
+				.withTypeText(declaration?.type?.bodyText(40) ?: "Unknown", true)
+				.withTailText((it.parent as? RedPrlOpOwnerMixin)?.parameterText ?: "", true)
+		})
 		treeWalkUp(variantsProcessor, this, containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}

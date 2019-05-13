@@ -1,5 +1,6 @@
 package org.ice1000.tt.psi.acore
 
+import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
@@ -94,8 +95,10 @@ abstract class ACoreVariableMixin(node: ASTNode) : ACoreExpressionImpl(node), AC
 		replace(ACoreTokenType.createVariable(newName, project)
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
-	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = PatternCompletionProcessor({ TTIcons.AGDA_CORE })
+	override fun getVariants(): Array<LookupElement> {
+		val variantsProcessor = PatternCompletionProcessor(lookupElement = {
+			LookupElementBuilder.create(it.text).withIcon(TTIcons.AGDA_CORE)
+		})
 		treeWalkUp(variantsProcessor, element, element.containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}

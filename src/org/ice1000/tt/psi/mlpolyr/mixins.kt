@@ -1,5 +1,6 @@
 package org.ice1000.tt.psi.mlpolyr
 
+import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
@@ -161,19 +162,20 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLP
 			.resolveWithCaching(this, resolver, true, incompleteCode, file)
 	}
 
-	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = PatternCompletionProcessor(
-			{ (it as? MLPolyRGeneralPat)?.getIcon(0) },
-			{
-				if ((it as? MLPolyRGeneralPat)?.kind != MLPolyRSymbolKind.Parameter) true
-				else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, this, false)
-			},
-			{ (it as? MLPolyRGeneralPat)?.kind?.name ?: "??" },
-			{ pat ->
-				val parent = pat.parent
-				if (parent !is MLPolyRFunction) ""
-				else parent.patList.drop(1).joinToString(prefix = " ", separator = " ") { it.bodyText(20) }
-			})
+	override fun getVariants(): Array<LookupElement> {
+		val variantsProcessor = PatternCompletionProcessor({
+			if ((it as? MLPolyRGeneralPat)?.kind != MLPolyRSymbolKind.Parameter) true
+			else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, this, false)
+		}) {
+			val parent = it.parent
+			val tail = if (parent !is MLPolyRFunction) ""
+			else parent.patList.drop(1).joinToString(prefix = " ", separator = " ") { it.bodyText(20) }
+			LookupElementBuilder
+				.create(it.text)
+				.withIcon(it.getIcon(0))
+				.withTypeText((it as? MLPolyRGeneralPat)?.kind?.name ?: "??", true)
+				.withTailText(tail, true)
+		}
 		treeWalkUp(variantsProcessor, this, containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}

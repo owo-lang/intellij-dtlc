@@ -1,5 +1,6 @@
 package org.ice1000.tt.psi.minitt
 
+import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
@@ -109,8 +110,10 @@ abstract class MiniTTVariableMixin(node: ASTNode) : ASTWrapperPsiElement(node), 
 		replace(MiniTTTokenType.createVariable(newName, project)
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
-	override fun getVariants(): Array<LookupElementBuilder> {
-		val variantsProcessor = PatternCompletionProcessor({ TTIcons.MINI_TT })
+	override fun getVariants(): Array<LookupElement> {
+		val variantsProcessor = PatternCompletionProcessor(lookupElement = {
+			LookupElementBuilder.create(it.text).withIcon(TTIcons.MINI_TT)
+		})
 		treeWalkUp(variantsProcessor, element, element.containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
 	}
