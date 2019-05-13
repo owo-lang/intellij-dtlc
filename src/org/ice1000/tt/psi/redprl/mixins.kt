@@ -133,7 +133,7 @@ abstract class RedPrlMetaDeclMixin(node: ASTNode) : ASTWrapperPsiElement(node), 
 	// TODO
 }
 
-abstract class RedPrlMetaUsageMixin(node: ASTNode) : ASTWrapperPsiElement(node), RedPrlMetaUsage, PsiPolyVariantReference {
+abstract class RedPrlMetaUsageMixin(node: ASTNode) : ASTWrapperPsiElement(node), RedPrlMetaUsage {
 	// TODO
 }
 
