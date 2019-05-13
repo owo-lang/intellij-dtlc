@@ -79,6 +79,10 @@ tube ::= LSQUARE equation binding RSQUARE
 boundary ::= LSQUARE equation term RSQUARE
 metaDecl ::= HASH (VARNAME | OPNAME) {
 	pin=1
+	implements=[
+		'org.ice1000.tt.psi.IPattern<RedPrlMetaDecl>'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
 	mixin='org.ice1000.tt.psi.redprl.RedPrlMetaDeclMixin'
 }
 

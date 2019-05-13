@@ -18,6 +18,7 @@ import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.redprl.impl.RedPrlMlValueImpl
 import org.ice1000.tt.psi.redprl.impl.RedPrlTermAndTacImpl
+import javax.swing.Icon
 
 interface RedPrlBoundVarOwner : PsiElement {
 	val boundVar: RedPrlBoundVar?
@@ -129,11 +130,16 @@ abstract class RedPrlOpDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), R
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 }
 
-abstract class RedPrlMetaDeclMixin(node: ASTNode) : ASTWrapperPsiElement(node), RedPrlMetaDecl {
-	// TODO
+abstract class RedPrlMetaDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlMetaDecl {
+	override fun visit(visitor: (RedPrlMetaDecl) -> Boolean) = visitor(this)
+	override fun getIcon(flags: Int) = RedPrlSymbolKind.Parameter.icon
+	@Throws(IncorrectOperationException::class)
+	override fun setName(newName: String) =
+		replace(RedPrlTokenType.createMetaDecl(newName, project)
+			?: throw IncorrectOperationException("Invalid name: $newName"))
 }
 
-abstract class RedPrlMetaUsageMixin(node: ASTNode) : ASTWrapperPsiElement(node), RedPrlMetaUsage {
+abstract class RedPrlMetaUsageMixin(node: ASTNode) : ASTWrapperPsiElement(node), RedPrlMetaUsage/*, PsiPolyVariantReference*/ {
 	// TODO
 }
 
