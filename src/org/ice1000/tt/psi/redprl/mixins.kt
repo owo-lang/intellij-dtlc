@@ -11,6 +11,7 @@ import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
 import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.*
+import org.ice1000.tt.psi.redprl.impl.RedPrlTacImpl
 
 interface RedPrlBoundVarOwner : PsiElement {
 	val boundVar: RedPrlBoundVar?
@@ -38,6 +39,11 @@ abstract class RedPrlBoundVarOwnerMixin(node: ASTNode) : GeneralDeclaration(node
 	override val boundVar: RedPrlBoundVar? get() = findChildByClass(RedPrlBoundVar::class.java)
 	override fun getNameIdentifier(): PsiElement? = boundVar
 	override fun setName(newName: String): PsiElement = throw IncorrectOperationException("Cannot rename!")
+}
+
+abstract class RedPrlWithTacMixin(node: ASTNode) : RedPrlTacImpl(node), RedPrlWithTac {
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		hypBindingList.asReversed().all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
 abstract class RedPrlDevDecompPatternOwnerMixin(node: ASTNode) : GeneralDeclaration(node) {

@@ -488,7 +488,10 @@ lambdaTac ::= LAMBDA devDecompPattern+ DOUBLE_RIGHT_ARROW tactic {
 }
 bracketTac ::= LBRACKET (recordFieldTactics | tactics)? RBRACKET { pin=1 }
 withoutTac ::= WITHOUT term+ { pin=1 }
-withTac ::= WITH hypBinding* DOUBLE_RIGHT_ARROW tactic { pin=1 }
+withTac ::= WITH hypBinding* DOUBLE_RIGHT_ARROW tactic {
+	pin=1
+	mixin='org.ice1000.tt.psi.redprl.RedPrlWithTacMixin'
+}
 
 // Left-recursive tactics
 tacPipeTac ::= tac DOUBLE_PIPE tactic

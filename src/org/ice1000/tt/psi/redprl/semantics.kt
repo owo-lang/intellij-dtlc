@@ -35,6 +35,7 @@ fun PsiElement.opSymbolKind() = when (val parent = parent) {
 	is RedPrlMlDeclTheorem -> RedPrlSymbolKind.Theorem
 	is RedPrlDevMatchClauseMixin -> RedPrlSymbolKind.Pattern
 	is RedPrlDeclArgument -> RedPrlSymbolKind.MetaVar
+	is RedPrlHypBinding -> RedPrlSymbolKind.Parameter
 	is RedPrlBoundVarsOwnerMixin -> RedPrlSymbolKind.Parameter
 	is RedPrlBoundVarOwner -> {
 		val aniki = parent.firstChild
