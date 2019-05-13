@@ -4,17 +4,35 @@ import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.psi.PsiElement
 import org.ice1000.tt.TTBundle
-import org.ice1000.tt.psi.redprl.RedPrlHole
-import org.ice1000.tt.psi.redprl.RedPrlMetaDecl
-import org.ice1000.tt.psi.redprl.RedPrlMetaUsage
+import org.ice1000.tt.psi.redprl.*
 
 class RedPrlAnnotator : Annotator {
 	override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 		when (element) {
-			is RedPrlMetaDecl -> metaVar(element, holder)
-			is RedPrlMetaUsage -> metaVar(element, holder)
+			is RedPrlMetaDecl -> metaDecl(element, holder)
+			is RedPrlMetaUsage -> metaCall(element, holder)
+			is RedPrlOpDecl -> opDecl(element, holder)
+			is RedPrlOpUsage -> opUsage(element, holder)
+			is RedPrlVarDecl -> varDecl(element, holder)
+			is RedPrlVarUsage -> varUsage(element, holder)
 			is RedPrlHole -> hole(element, holder)
 		}
+	}
+
+	private fun varUsage(element: RedPrlVarUsage, holder: AnnotationHolder) {
+		holder.createInfoAnnotation(element, null).textAttributes = RedPrlHighlighter.VAR_NAME_CALL
+	}
+
+	private fun varDecl(element: RedPrlVarDecl, holder: AnnotationHolder) {
+		holder.createInfoAnnotation(element, null).textAttributes = RedPrlHighlighter.VAR_NAME_DECL
+	}
+
+	private fun opUsage(element: RedPrlOpUsage, holder: AnnotationHolder) {
+		holder.createInfoAnnotation(element, null).textAttributes = RedPrlHighlighter.OP_NAME_CALL
+	}
+
+	private fun opDecl(element: RedPrlOpDecl, holder: AnnotationHolder) {
+		holder.createInfoAnnotation(element, null).textAttributes = RedPrlHighlighter.OP_NAME_DECL
 	}
 
 	private fun hole(element: RedPrlHole, holder: AnnotationHolder) {
@@ -23,7 +41,11 @@ class RedPrlAnnotator : Annotator {
 		}
 	}
 
-	private fun metaVar(element: PsiElement, holder: AnnotationHolder) {
-		holder.createInfoAnnotation(element, null).textAttributes = RedPrlHighlighter.HASH
+	private fun metaDecl(element: RedPrlMetaDecl, holder: AnnotationHolder) {
+		holder.createInfoAnnotation(element, null).textAttributes = RedPrlHighlighter.META_VAR_DECL
+	}
+
+	private fun metaCall(element: RedPrlMetaUsage, holder: AnnotationHolder) {
+		holder.createInfoAnnotation(element, null).textAttributes = RedPrlHighlighter.META_VAR_CALL
 	}
 }

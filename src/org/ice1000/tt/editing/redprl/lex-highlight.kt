@@ -28,6 +28,8 @@ object RedPrlHighlighter : SyntaxHighlighter {
 	@JvmField val BLOCK_COMMENT = TextAttributesKey.createTextAttributesKey("RED_PRL_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
 	@JvmField val NUMERAL = TextAttributesKey.createTextAttributesKey("RED_PRL_NUMERAL", DefaultLanguageHighlighterColors.NUMBER)
 	@JvmField val HASH = TextAttributesKey.createTextAttributesKey("RED_PRL_HASH", DefaultLanguageHighlighterColors.METADATA)
+	@JvmField val META_VAR_DECL = TextAttributesKey.createTextAttributesKey("RED_PRL_META_DECL", DefaultLanguageHighlighterColors.METADATA)
+	@JvmField val META_VAR_CALL = TextAttributesKey.createTextAttributesKey("RED_PRL_META_CALL", DefaultLanguageHighlighterColors.METADATA)
 	@JvmField val HOLE = TextAttributesKey.createTextAttributesKey("RED_PRL_HOLE", DefaultLanguageHighlighterColors.LABEL)
 
 	@JvmField val PAREN_KEY = arrayOf(PAREN)
