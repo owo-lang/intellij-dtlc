@@ -30,19 +30,15 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 %state INSIDE_HOLE
 
 WHITE_SPACE=[\ \t\f\r\n]+
-IDENTIFIER=[^'.;{}()@\ \t\f\r\n]+
+IDENTIFIER=[^.;{}()@\ \t\f\r\n][^'.;{}()@\ \t\f\r\n]*
 NUMBER=[\u2070-\u20890-9]+
-COMMENTS=--[^\n\r]*
+LINE_COMMENT=--[^\n\r]*
 STR=\"([^\\\"]|\\t|\\n|\\\"|\\\\)*\"
 CHR=\'([^\\\']|\\t|\\n|\\\'|\\\\)+\'
 EXP=[eE][+-][0-9]+
 FLOAT=-?[0-9]+({EXP}|\.[0-9]({EXP})?)
 
 %%
-
-// Regular expressions
-
-// 
 
 <INSIDE_COMMENT> {
 	"{-" { ++commentDepth; }
@@ -58,9 +54,8 @@ FLOAT=-?[0-9]+({EXP}|\.[0-9]({EXP})?)
 		zzStartRead = commentStart;
 		return BLOCK_COMMENT;
 	}
-	[^{-]+ { }
-	\{[^-]+ { }
-	-[^}{-]* { }
+	[^}{-]+ { }
+	[^] { }
 }
 
 <INSIDE_HOLE> {
@@ -77,9 +72,8 @@ FLOAT=-?[0-9]+({EXP}|\.[0-9]({EXP})?)
 		zzStartRead = commentStart;
 		return HOLE;
 	}
-	[^{!]+ { }
-	\{[^!]+ { }
-	\![^}{!]* { }
+	[^}{-]+ { }
+	[^] { }
 }
 
 "{-" { yybegin(INSIDE_COMMENT)
@@ -90,7 +84,7 @@ FLOAT=-?[0-9]+({EXP}|\.[0-9]({EXP})?)
      ; commentDepth = 1
      ; commentStart = getTokenStart()
      ; }
-{COMMENTS} { return LINE_COMMENT; }
+{LINE_COMMENT} { return LINE_COMMENT; }
 
 ∀ { return KEYWORD; }
 λ { return KEYWORD; }
@@ -142,7 +136,9 @@ Prop{NUMBER}* { return UNIVERSE; }
 "..." { return ELLIPSIS; }
 ".." { return DOT_DOT; }
 "|)" { return CLOSE_IDIOM_BRACKET; }
+"⦈" { return CLOSE_IDIOM_BRACKET; }
 "(|" { return OPEN_IDIOM_BRACKET; }
+"⦇" { return OPEN_IDIOM_BRACKET; }
 "\\" { return LAMBDA; }
 "->" { return ARROW; }
 "." { return DOT; }
@@ -157,7 +153,7 @@ Prop{NUMBER}* { return UNIVERSE; }
 "}" { return CLOSE_BRACE; }
 "|" { return BAR; }
 "@" { return AS; }
-→ { return ARROW; }
+"→" { return ARROW; }
 
 {CHR} { return CHR_LIT; }
 {STR} { return STR_LIT; }
@@ -165,4 +161,5 @@ Prop{NUMBER}* { return UNIVERSE; }
 {NUMBER} { return NUMBER; }
 {WHITE_SPACE} { return WHITE_SPACE; }
 {IDENTIFIER} { return IDENTIFIER; }
-[^] { return BAD_CHARACTER; }
+// The JFlex compiler says this rule can never be matched!
+// [^] { return BAD_CHARACTER; }

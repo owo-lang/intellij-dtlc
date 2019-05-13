@@ -1,3 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <list>
+	<option name="RED_PRL_HOLE">
+		<value>
+			<option name="EFFECT_COLOR" value=""/>
+		</value>
+	</option>
+	<option name="AGDA_HOLE">
+		<value>
+			<option name="EFFECT_COLOR" value=""/>
+		</value>
+	</option>
 </list>

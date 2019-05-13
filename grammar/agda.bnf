@@ -13,6 +13,7 @@
   tokenTypeClass="org.ice1000.tt.psi.agda.AgdaTokenType"
 }
 
+/// This is just a placeholder.
 file ::= token*
 token ::=
    IDENTIFIER | NUMBER | FLOAT | HOLE | KEYWORD | UNIVERSE | DOT | SEMI | ARROW
