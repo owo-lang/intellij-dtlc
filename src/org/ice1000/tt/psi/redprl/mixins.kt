@@ -1,6 +1,7 @@
 package org.ice1000.tt.psi.redprl
 
 import com.intellij.codeInsight.lookup.LookupElementBuilder
+import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
@@ -106,9 +107,14 @@ abstract class RedPrlOpOwnerMixin(node: ASTNode) : GeneralDeclaration(node), Red
 	}
 
 	override fun getNameIdentifier() = opDecl
-	val parameterText: String? get() = findChildByClass(RedPrlDeclArgumentsParens::class.java)?.bodyText(50)?.trim()
+	val parameterText: String? get() = parameter()?.bodyText(50)?.trim()
 	override val type: PsiElement? get() = findChildByClass(RedPrlSort::class.java) ?: findChildByClass(RedPrlJudgment::class.java)
 	override val mlCmd: RedPrlMlCmd? get() = findChildByClass(RedPrlMlCmd::class.java)
+	private fun parameter() = findChildByClass(RedPrlDeclArgumentsParens::class.java)
+
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		parameter()?.run { declArgumentList.all { it.processDeclarations(processor, state, lastParent, place) } }.orTrue()
+			&& super.processDeclarations(processor, state, lastParent, place)
 }
 
 abstract class RedPrlOpDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlOpDecl {
@@ -120,6 +126,14 @@ abstract class RedPrlOpDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), R
 	override fun setName(newName: String) =
 		replace(RedPrlTokenType.createOpDecl(newName, project)
 			?: throw IncorrectOperationException("Invalid name: $newName"))
+}
+
+abstract class RedPrlMetaDeclMixin(node: ASTNode) : ASTWrapperPsiElement(node), RedPrlMetaDecl {
+	// TODO
+}
+
+abstract class RedPrlMetaUsageMixin(node: ASTNode) : ASTWrapperPsiElement(node), RedPrlMetaUsage {
+	// TODO
 }
 
 abstract class RedPrlBoundVarMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlBoundVar {

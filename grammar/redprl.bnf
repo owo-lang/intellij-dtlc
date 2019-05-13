@@ -71,13 +71,21 @@ numAsDimension ::= NUMERAL
 bindingSig ::= LSQUARE (sort (COMMA sort)*)? RSQUARE DOT { pin=1 }
 private valence ::= bindingSig? sort { pin=1 }
 
-private dimension ::= varUsage | metaVar | numAsDimension
+private dimension ::= varUsage | metaUsage | numAsDimension
 dir ::= dimension SQUIGGLE_RIGHT_ARROW dimension
 backDir ::= dimension SQUIGGLE_LEFT_ARROW dimension
 equation ::= dimension EQUALS dimension
 tube ::= LSQUARE equation binding RSQUARE
 boundary ::= LSQUARE equation term RSQUARE
-metaVar ::= HASH ident
+metaDecl ::= HASH (VARNAME | OPNAME) {
+	pin=1
+	mixin='org.ice1000.tt.psi.redprl.RedPrlMetaDeclMixin'
+}
+
+metaUsage ::= HASH (VARNAME | OPNAME) {
+	pin=1
+	mixin='org.ice1000.tt.psi.redprl.RedPrlMetaUsageMixin'
+}
 
 typedBinder ::= LSQUARE boundVar+ COLON term RSQUARE {
 	pin=4
@@ -227,7 +235,7 @@ termAndTac ::=
  | ttMem
 
  /* meta variable */
- | metaVar
+ | metaUsage
  /* pattern variables */
  | patVar
  | ttMetaOrPattern
@@ -266,7 +274,7 @@ private ttLMax ::= LPAREN LMAX level+ RPAREN { pin=2 }
 private ttBang ::= LPAREN BANG ident term RPAREN { pin=2 }
 private ttRArrow ::= LPAREN RIGHT_ARROW arrowQuantifierData RPAREN { pin=2 }
 private ttDimNatInt ::= LPAREN (DIM | NAT | INT) NUMERAL RPAREN { pin=2 }
-private ttMetaOrPattern ::= LPAREN (metaVar | patVar) term+ RPAREN { pin=2 }
+private ttMetaOrPattern ::= LPAREN (metaUsage | patVar) term+ RPAREN { pin=2 }
 private ttParenRecord ::= LPAREN RECORD typedBinder+ RPAREN { pin=2 }
 
 level ::=
@@ -274,7 +282,7 @@ level ::=
  | ttPlus
  | ttDoublePlus
  | ttLMax
- | metaVar
+ | metaUsage
  | PERCENT varUsage
 
 term ::=
@@ -380,7 +388,7 @@ devMatchClause ::= LSQUARE (varDecl+ PIPE)? term
 selector ::= CONCL | elimTarget
 accessor ::= TYPE | LEFT | RIGHT
 
-private elimTarget ::= varUsage | metaVar
+private elimTarget ::= varUsage | metaUsage
 
 tac ::=
    refineTac
@@ -526,7 +534,7 @@ hypBinding ::= boundVar (COLON sort)? {
 
 private declArguments ::= declArgument declArgumentRest*
 private declArgumentRest ::= COMMA declArgument { pin=1 }
-declArgument ::= metaVar (COLON valence)?
+declArgument ::= metaDecl (COLON valence)?
 
 /// Should always use `declArgumentsParensOpt` instead of `declArgumentsParens`
 declArgumentsParens ::= LPAREN declArguments? RPAREN { pin=1 }

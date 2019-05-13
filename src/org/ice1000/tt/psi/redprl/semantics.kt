@@ -1,6 +1,7 @@
 package org.ice1000.tt.psi.redprl
 
 import icons.SemanticIcons
+import org.ice1000.tt.psi.elementType
 import javax.swing.Icon
 
 enum class RedPrlSymbolKind(val icon: Icon?) {
@@ -14,13 +15,19 @@ enum class RedPrlSymbolKind(val icon: Icon?) {
 	Unknown(null);
 }
 
-fun RedPrlOpDeclMixin.opSymbolKind() = when (parent) {
+fun RedPrlOpDeclMixin.opSymbolKind() = when (val parent = parent) {
 	is RedPrlMlDeclDef -> RedPrlSymbolKind.Define
 	is RedPrlMlDeclData -> RedPrlSymbolKind.Data
 	is RedPrlMlDeclTactic -> RedPrlSymbolKind.Tactic
 	is RedPrlMlDeclTheorem -> RedPrlSymbolKind.Theorem
 	is RedPrlDevMatchClauseMixin -> RedPrlSymbolKind.Pattern
-	is RedPrlBoundVarOwner -> RedPrlSymbolKind.Pattern
+	is RedPrlBoundVarOwner -> {
+		val aniki = parent.firstChild
+		if (aniki?.elementType == RedPrlTypes.LAMBDA
+			|| aniki?.nextSibling?.elementType == RedPrlTypes.LAMBDA)
+			RedPrlSymbolKind.Parameter
+		else RedPrlSymbolKind.Pattern
+	}
 	is RedPrlMlDeclVal -> RedPrlSymbolKind.Value
 	else -> RedPrlSymbolKind.Unknown
 }

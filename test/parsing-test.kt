@@ -62,13 +62,7 @@ class RedPrlParsingTest : DtlcParsingTestCase("parse/redprl", "prl", RedPrlParse
 	fun `test isotoequiv`() = doTest(true, true)
 	fun `test J`() = doTest(true, true)
 	fun `test metalanguage`() = doTest(true, true)
-	fun `test omega1s1`() = doTest(true, true)
-	fun `test omega1s1-inductive`() = doTest(true, true)
 	fun `test theorem-of-choice`() = doTest(true, true)
-	fun `test univalence`() = doTest(true, true)
-	fun `test README`() = doTest(true, true)
-	fun `test semi-simplicial`() = doTest(true, true)
 	fun `test invariance`() = doTest(true, true)
 	fun `test equality-elim`() = doTest(true, true)
-	fun `test V-types`() = doTest(true, true)
 }
