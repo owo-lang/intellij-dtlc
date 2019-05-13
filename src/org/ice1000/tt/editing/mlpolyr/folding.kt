@@ -25,7 +25,7 @@ class MLPolyRFoldingBuilder : FoldingBuilderEx(), DumbAware {
 		else -> FOLDING_PLACEHOLDER
 	}
 
-	override fun isCollapsedByDefault(node: ASTNode) = node.psi !is MLPolyRDeclaration
+	override fun isCollapsedByDefault(node: ASTNode) = false
 
 	override fun buildFoldRegions(root: PsiElement, document: Document, quick: Boolean): Array<FoldingDescriptor> {
 		if (root !is MLPolyRFile) return emptyArray()

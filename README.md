@@ -27,7 +27,7 @@ are welcomed!
  [acore-mirror]: https://github.com/owo-lang/Mini-TT
  [Voile]: https://github.com/owo-lang/voile-rs
  [OwO]: https://github.com/owo-lang/OwO
- [Agda]: https://github.com/agda/agda
+ [Agda]: https://wiki.portal.chalmers.se/agda/pmwiki.php
  [RedPRL]: http://www.redprl.org
  [RedPRL-gh]: https://github.com/RedPRL/sml-redprl
  [d-svg]: https://img.shields.io/jetbrains/plugin/d/12176.svg

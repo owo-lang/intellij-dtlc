@@ -81,6 +81,7 @@
 		<lang.syntaxHighlighterFactory language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlHighlighterFactory"/>
 		<completion.contributor language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlCompletionContributor"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.redprl.RedPrlColorSettingsPage"/>
+		<lang.foldingBuilder language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlFoldingBuilder"/>
 
 		<projectConfigurable
 			groupId="language"
