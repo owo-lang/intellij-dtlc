@@ -4,12 +4,19 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
+import com.intellij.openapi.options.colors.AttributesDescriptor
+import com.intellij.openapi.options.colors.ColorDescriptor
+import com.intellij.openapi.options.colors.ColorSettingsPage
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.tree.IElementType
+import icons.TTIcons
+import org.ice1000.tt.AgdaFileType
+import org.ice1000.tt.TTBundle
 import org.ice1000.tt.psi.agda.AgdaTokenType
 import org.ice1000.tt.psi.agda.AgdaTypes
 import org.ice1000.tt.psi.agda.agdaLexer
+import org.intellij.lang.annotations.Language
 
 object AgdaHighlighter : SyntaxHighlighter {
 	@JvmField val KEYWORD = TextAttributesKey.createTextAttributesKey("AGDA_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
@@ -19,7 +26,10 @@ object AgdaHighlighter : SyntaxHighlighter {
 	@JvmField val LINE_COMMENT = TextAttributesKey.createTextAttributesKey("AGDA_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
 	@JvmField val BLOCK_COMMENT = TextAttributesKey.createTextAttributesKey("AGDA_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
 	@JvmField val NUMBER = TextAttributesKey.createTextAttributesKey("AGDA_NUMERAL", DefaultLanguageHighlighterColors.NUMBER)
+	@JvmField val STR_LIT = TextAttributesKey.createTextAttributesKey("AGDA_STR_LIT", DefaultLanguageHighlighterColors.STRING)
+	@JvmField val CHR_LIT = TextAttributesKey.createTextAttributesKey("AGDA_CHAR_LIT", DefaultLanguageHighlighterColors.STRING)
 	@JvmField val FLOAT = TextAttributesKey.createTextAttributesKey("AGDA_FLOAT", DefaultLanguageHighlighterColors.NUMBER)
+	@JvmField val ARROW = TextAttributesKey.createTextAttributesKey("AGDA_ARROW", DefaultLanguageHighlighterColors.OPERATION_SIGN)
 	@JvmField val HOLE = TextAttributesKey.createTextAttributesKey("AGDA_HOLE", DefaultLanguageHighlighterColors.LABEL)
 	@JvmField val PAREN = TextAttributesKey.createTextAttributesKey("AGDA_PARENTHESES", DefaultLanguageHighlighterColors.PARENTHESES)
 	@JvmField val BRACK = TextAttributesKey.createTextAttributesKey("AGDA_IDIOM", DefaultLanguageHighlighterColors.BRACKETS)
@@ -34,7 +44,10 @@ object AgdaHighlighter : SyntaxHighlighter {
 	@JvmField val BLOCK_COMMENT_KEY = arrayOf(BLOCK_COMMENT)
 	@JvmField val NUMBER_KEY = arrayOf(NUMBER)
 	@JvmField val FLOAT_KEY = arrayOf(FLOAT)
+	@JvmField val STR_LIT_KEY = arrayOf(STR_LIT)
+	@JvmField val CHR_LIT_KEY = arrayOf(CHR_LIT)
 	@JvmField val HOLE_KEY = arrayOf(HOLE)
+	@JvmField val ARROW_KEY = arrayOf(ARROW)
 	@JvmField val PAREN_KEY = arrayOf(PAREN)
 	@JvmField val BRACK_KEY = arrayOf(BRACK)
 	@JvmField val BRACE_KEY = arrayOf(BRACE)
@@ -47,7 +60,10 @@ object AgdaHighlighter : SyntaxHighlighter {
 		AgdaTypes.SEMI -> SEMICOLON_KEY
 		AgdaTypes.FLOAT -> FLOAT_KEY
 		AgdaTypes.NUMBER -> NUMBER_KEY
+		AgdaTypes.STR_LIT -> STR_LIT_KEY
+		AgdaTypes.CHR_LIT -> CHR_LIT_KEY
 		AgdaTypes.HOLE -> HOLE_KEY
+		AgdaTypes.ARROW -> ARROW_KEY
 		AgdaTypes.OPEN_PAREN, AgdaTypes.CLOSE_PAREN -> PAREN_KEY
 		AgdaTypes.OPEN_IDIOM_BRACKET, AgdaTypes.CLOSE_IDIOM_BRACKET -> BRACK_KEY
 		AgdaTypes.OPEN_BRACE, AgdaTypes.CLOSE_BRACE -> BRACE_KEY
@@ -61,4 +77,52 @@ object AgdaHighlighter : SyntaxHighlighter {
 
 class AgdaHighlighterFactory : SyntaxHighlighterFactory() {
 	override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = AgdaHighlighter
+}
+
+class AgdaColorSettingsPage : ColorSettingsPage {
+	private companion object DescriptorHolder {
+		private val DESCRIPTORS = arrayOf(
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), AgdaHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.string"), AgdaHighlighter.STR_LIT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.char"), AgdaHighlighter.CHR_LIT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.number"), AgdaHighlighter.NUMBER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.float"), AgdaHighlighter.FLOAT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), AgdaHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), AgdaHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.dot"), AgdaHighlighter.DOT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.hole"), AgdaHighlighter.HOLE),
+			AttributesDescriptor(TTBundle.message("agda.highlighter.settings.pragma"), AgdaHighlighter.PRAGMA),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.arrow"), AgdaHighlighter.ARROW),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), AgdaHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("agda.highlighter.settings.idiom"), AgdaHighlighter.BRACK),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), AgdaHighlighter.BRACE),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.block-comment"), AgdaHighlighter.BLOCK_COMMENT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), AgdaHighlighter.LINE_COMMENT))
+	}
+
+	override fun getHighlighter(): SyntaxHighlighter = AgdaHighlighter
+	override fun getAdditionalHighlightingTagToDescriptorMap(): MutableMap<String, TextAttributesKey> = mutableMapOf()
+	override fun getIcon() = TTIcons.AGDA
+	override fun getAttributeDescriptors() = DESCRIPTORS
+	override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
+	override fun getDisplayName() = AgdaFileType.name
+	@Language("")
+	override fun getDemoText() = """
+{-# OPTIONS --without-K #-}
+module Example where
+{- Import IO module -}
+import IO
+import Function
+
+-- Testing function
+test : (a : IO.IO) -> IO.IO
+test a = run $ do
+  putStrLn "Hello World"
+  (| record
+     { label = {! unimplemented !}
+     ; c = 'c'
+     ; i = 233;
+     ; f = -23e666
+     } |)
+"""
 }
