@@ -139,7 +139,7 @@ abstract class RedPrlMetaDeclMixin(node: ASTNode) : GeneralNameIdentifier(node),
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 }
 
-abstract class RedPrlMetaUsageMixin(node: ASTNode) : ASTWrapperPsiElement(node), RedPrlMetaUsage/*, PsiPolyVariantReference*/ {
+abstract class RedPrlMetaUsageMixin(node: ASTNode) : RedPrlTermAndTacImpl(node), RedPrlMetaUsage/*, PsiPolyVariantReference*/ {
 	// TODO
 }
 

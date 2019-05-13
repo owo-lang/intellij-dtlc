@@ -44,6 +44,7 @@ class RedPrlTokenType(debugName: String) : IElementType(debugName, RedPrlLanguag
 		fun createMetaDecl(text: String, project: Project) = createDeclArg(text, project)?.metaDecl
 		fun createTermAndTac(text: String, project: Project) = createTerm(text, project)?.termAndTac
 		fun createVarUsage(text: String, project: Project) = createTermAndTac(text, project) as? RedPrlVarUsage
+		fun createMetaUsage(text: String, project: Project) = createTermAndTac(text, project) as? RedPrlMetaUsage
 		fun createMultitac(text: String, project: Project) = createTactic("tactic Bla = {$text}", project)?.tactic as? RedPrlAtomicMultitac
 		fun createTac(text: String, project: Project) = createMultitac(text, project)?.tac
 		fun createQueryTac(text: String, project: Project) = createTac(text, project) as? RedPrlQueryTac

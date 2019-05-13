@@ -88,6 +88,7 @@ metaDecl ::= HASH (VARNAME | OPNAME) {
 
 metaUsage ::= HASH (VARNAME | OPNAME) {
 	pin=1
+	extends=termAndTac
 	mixin='org.ice1000.tt.psi.redprl.RedPrlMetaUsageMixin'
 }
 
