@@ -27,6 +27,8 @@
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.AgdaRunConfigurationProducer"/>
 		<lang.parserDefinition language="Agda" implementationClass="org.ice1000.tt.psi.agda.AgdaParserDefinition"/>
 		<lang.syntaxHighlighterFactory language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaHighlighterFactory"/>
+		<lang.commenter language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaCommenter"/>
+		<lang.braceMatcher language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaBraceMatcher"/>
 
 		<!--MLPolyR-->
 		<configurationType implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationType"/>
