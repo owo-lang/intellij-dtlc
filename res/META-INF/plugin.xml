@@ -25,6 +25,7 @@
 		<!--Agda-->
 		<configurationType implementation="org.ice1000.tt.execution.AgdaRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.AgdaRunConfigurationProducer"/>
+		<lang.syntaxHighlighterFactory language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaHighlighterFactory"/>
 
 		<!--MLPolyR-->
 		<configurationType implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationType"/>
@@ -86,7 +87,7 @@
 		<projectConfigurable
 			groupId="language"
 			id="TT.MiniTT.Configurable"
-			displayName="MiniTT"
+			displayName="Mini-TT"
 			instance="org.ice1000.tt.project.MiniTTProjectConfigurable"/>
 		<projectConfigurable
 			groupId="language"

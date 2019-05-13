@@ -156,6 +156,15 @@ val (genMiniTTParser, genMiniTTLexer) = grammar("MiniTT")
 val (genACoreParser, genACoreLexer) = grammar("ACore")
 val (genMLPolyRParser, genMLPolyRLexer) = grammar("MLPolyR")
 val (genRedPrlParser, genRedPrlLexer) = grammar("RedPrl")
+// Obviously there's no Agda parser. But we can have an Agda lexer :).
+val genAgdaLexer = task<GenerateLexer>("genAgdaLexer") {
+	group = "code generation"
+	description = "Generate Lexer for Agda"
+	source = file("grammar/agda.flex")
+	targetDir = file("gen/org/ice1000/tt/psi/agda")!!
+	targetClass = "AgdaLexer"
+	purgeOldFiles = true
+}
 
 val genMiniTTUtility = task<LanguageUtilityGenerationTask>("genMiniTTUtility") {
 	languageName = "MiniTT"
@@ -203,6 +212,7 @@ generateCode.dependsOn(
 	genACoreUtility,
 	genAgdaUtility,
 	genRedPrlUtility,
+	genAgdaLexer,
 	genACoreParser,
 	genACoreLexer,
 	genMLPolyRParser,
