@@ -54,8 +54,9 @@ FLOAT=-?[0-9]+({EXP}|\.[0-9]({EXP})?)
 		zzStartRead = commentStart;
 		return BLOCK_COMMENT;
 	}
-	[^}{-]+ { }
-	[^] { }
+	[^{-]+ { }
+	\{[^-]+ { }
+	-[^}{-]* { }
 }
 
 <INSIDE_HOLE> {
@@ -72,10 +73,12 @@ FLOAT=-?[0-9]+({EXP}|\.[0-9]({EXP})?)
 		zzStartRead = commentStart;
 		return HOLE;
 	}
-	[^}{-]+ { }
-	[^] { }
+	[^{!]+ { }
+	\{[^!]+ { }
+	\![^}{!]* { }
 }
 
+\{-#([^#]|#[^-])*#-\} { return PRAGMA; }
 "{-" { yybegin(INSIDE_COMMENT)
      ; commentDepth = 1
      ; commentStart = getTokenStart()
@@ -84,7 +87,7 @@ FLOAT=-?[0-9]+({EXP}|\.[0-9]({EXP})?)
      ; commentDepth = 1
      ; commentStart = getTokenStart()
      ; }
-{LINE_COMMENT} { return LINE_COMMENT; }
+<YYINITIAL> {LINE_COMMENT} { return LINE_COMMENT; }
 
 ∀ { return KEYWORD; }
 λ { return KEYWORD; }

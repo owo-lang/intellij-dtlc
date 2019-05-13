@@ -24,6 +24,7 @@ object AgdaHighlighter : SyntaxHighlighter {
 	@JvmField val PAREN = TextAttributesKey.createTextAttributesKey("AGDA_PARENTHESES", DefaultLanguageHighlighterColors.PARENTHESES)
 	@JvmField val BRACK = TextAttributesKey.createTextAttributesKey("AGDA_IDIOM", DefaultLanguageHighlighterColors.BRACKETS)
 	@JvmField val BRACE = TextAttributesKey.createTextAttributesKey("AGDA_BRACE", DefaultLanguageHighlighterColors.BRACES)
+	@JvmField val PRAGMA = TextAttributesKey.createTextAttributesKey("AGDA_PRAGMA", DefaultLanguageHighlighterColors.METADATA)
 
 	@JvmField val KEYWORD_KEY = arrayOf(KEYWORD)
 	@JvmField val IDENTIFIER_KEY = arrayOf(IDENTIFIER)
@@ -37,6 +38,7 @@ object AgdaHighlighter : SyntaxHighlighter {
 	@JvmField val PAREN_KEY = arrayOf(PAREN)
 	@JvmField val BRACK_KEY = arrayOf(BRACK)
 	@JvmField val BRACE_KEY = arrayOf(BRACE)
+	@JvmField val PRAGMA_KEY = arrayOf(PRAGMA)
 
 	override fun getHighlightingLexer() = agdaLexer()
 	override fun getTokenHighlights(type: IElementType?): Array<TextAttributesKey> = when (type) {
@@ -50,6 +52,7 @@ object AgdaHighlighter : SyntaxHighlighter {
 		AgdaTypes.OPEN_IDIOM_BRACKET, AgdaTypes.CLOSE_IDIOM_BRACKET -> BRACK_KEY
 		AgdaTypes.OPEN_BRACE, AgdaTypes.CLOSE_BRACE -> BRACE_KEY
 		AgdaTypes.DOT, AgdaTypes.DOT_DOT, AgdaTypes.ELLIPSIS -> DOT_KEY
+		AgdaTokenType.PRAGMA -> PRAGMA_KEY
 		AgdaTokenType.LINE_COMMENT -> LINE_COMMENT_KEY
 		AgdaTokenType.BLOCK_COMMENT -> BLOCK_COMMENT_KEY
 		else -> emptyArray()

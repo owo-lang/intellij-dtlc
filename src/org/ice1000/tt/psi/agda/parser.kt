@@ -9,6 +9,7 @@ import com.intellij.lang.ParserDefinition
 import com.intellij.lexer.FlexAdapter
 import com.intellij.openapi.project.Project
 import com.intellij.psi.FileViewProvider
+import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.stubs.PsiFileStubImpl
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.IStubFileElementType
@@ -22,10 +23,13 @@ class AgdaElementType(debugName: String) : IElementType(debugName, AgdaLanguage.
 class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.INSTANCE) {
 	companion object Builtin {
 		@JvmField val LINE_COMMENT = AgdaTokenType("line comment")
+		@JvmField val PRAGMA = AgdaTokenType("{-# #-}")
 		@JvmField val BLOCK_COMMENT = AgdaTokenType("block comment")
-		@JvmField val COMMENTS = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT, HOLE)
+		@JvmField val COMMENTS = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT, HOLE, PRAGMA)
 		@JvmField val STRINGS = TokenSet.create(CHR_LIT, STR_LIT)
 		@JvmField val IDENTIFIERS = TokenSet.create(IDENTIFIER)
+
+		@JvmStatic fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(AgdaLanguage.INSTANCE, text)
 	}
 }
 
