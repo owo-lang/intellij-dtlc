@@ -155,6 +155,7 @@ class MLPolyRColorSettingsPage : ColorSettingsPage {
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), MLPolyRHighlighter.IDENTIFIER),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), MLPolyRHighlighter.SEMICOLON),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), MLPolyRHighlighter.COMMA),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.dot"), MLPolyRHighlighter.DOT),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), MLPolyRHighlighter.UNRESOLVED),
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.constructor"), MLPolyRHighlighter.CONSTRUCTOR),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), MLPolyRHighlighter.OPERATOR),
