@@ -72,7 +72,6 @@ object ${languageName}FileType : LanguageFileType(${languageName}Language.INSTAN
 	override fun getDescription() = TTBundle.message("$nickname.name.description")
 }
 
-@Suppress("unused")
 open class ${languageName}File(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ${languageName}Language.INSTANCE) {
 	override fun getFileType() = ${languageName}FileType
 }

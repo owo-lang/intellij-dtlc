@@ -9,13 +9,20 @@ IntelliJ plugin for several experimental (most of them are dependently-typed)
 languages (which means they're created for PL research instead of everyday
 usages), including:
 
-+ [Voile] (WIP)
-+ [minitt] (rich)
-+ [MLPolyR] (rich)
-+ [Vanilla Mini-TT][Mini-TT] (rich) ([GitHub mirror][acore-mirror])
-+ [RedPRL] (rich) ([GitHub source][RedPRL-gh])
-+ [Agda] (poor)
-+ [OwO] (poor because this language is not even designed yet)
++ ![](./res/icons/voile/voile.svg)
+  [Voile] (WIP)
++ ![](./res/icons/minitt/minitt.svg)
+  [minitt] (rich)
++ ![](./res/icons/mlpr/mlpr_file.png)
+  [MLPolyR] (rich)
++ ![](./res/icons/mtt/mtt_file.png)
+  [Vanilla Mini-TT][Mini-TT] (rich) ([GitHub mirror][acore-mirror])
++ ![](./res/icons/redprl/redprl.svg)
+  [RedPRL] (rich) ([GitHub source][RedPRL-gh])
++ ![](./res/icons/agda/agda.svg)
+  [Agda] (poor)
++ ![](./res/icons/owo_file.png)
+  [OwO] (poor because this language is not even designed yet)
 
 This plugin is created for personal entertainment purpose.
 Don't expect too much, but contributions/discussions/feature requests
