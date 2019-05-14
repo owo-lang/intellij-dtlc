@@ -312,12 +312,18 @@ kind ::=
  | PRE
 withKind ::= WITH term
 judgment ::=
-   term EQUALS term IN term
- | term IN term
- | term TRUE_KW
- | term EQUALS term TYPE withKind?
- | term TYPE withKind?
+   eqInJudgement
+ | inJudgement
+ | trueJudgement
+ | eqTypeJudgement
+ | typeJudgement
  | term
+
+private eqInJudgement ::= term EQUALS inJudgement { pin=2 }
+private inJudgement ::= term IN term { pin=2 }
+private trueJudgement ::= term TRUE_KW { pin=2 }
+private eqTypeJudgement ::= term EQUALS typeJudgement { pin=2 }
+private typeJudgement ::= term TYPE withKind? { pin=2 }
 
 specTube ::= LSQUARE equation specBinding RSQUARE
 specBoundary ::= LSQUARE equation specTerm RSQUARE
@@ -335,14 +341,19 @@ specTerm ::=
    term
 
  /* intro */
- | LPAREN SELF ident specBinding* RPAREN
+ | introSpecTerm
 
  /* fcom */
- | LPAREN SELF FCOM dir specTerm specTube+ RPAREN
+ | fcomSpecTerm
 
  /* lambda and applications */
- | LPAREN SELF LAMBDA LSQUARE boundVar+ RSQUARE specTerm RPAREN
- | LPAREN SELF DOLLAR_SIGN specTerm term+ RPAREN
+ | lamSpecTerm
+ | appSpecTerm
+
+private appSpecTerm ::= LPAREN SELF DOLLAR_SIGN specTerm term+ RPAREN { pin=3 }
+private lamSpecTerm ::= LPAREN SELF LAMBDA LSQUARE boundVar+ RSQUARE specTerm RPAREN { pin=3 }
+private fcomSpecTerm ::= LPAREN SELF FCOM dir specTerm specTube+ RPAREN { pin=3 }
+private introSpecTerm ::= LPAREN SELF ident specBinding* RPAREN { pin=3 }
 
 private possibleDataConstructor ::=
    typedBinder
