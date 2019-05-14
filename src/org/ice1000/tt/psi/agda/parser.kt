@@ -29,7 +29,8 @@ class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.IN
 		@JvmField val STRINGS = TokenSet.create(CHR_LIT, STR_LIT)
 		@JvmField val IDENTIFIERS = TokenSet.create(IDENTIFIER)
 
-		@JvmStatic fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(AgdaLanguage.INSTANCE, text)
+		@JvmStatic fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(AgdaLanguage.INSTANCE, text)?.firstChild
+		@JvmStatic fun createStr(text: String, project: Project) = fromText(text, project) as? AgdaString
 	}
 }
 

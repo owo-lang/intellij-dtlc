@@ -14,9 +14,12 @@
 }
 
 /// This is just a placeholder.
-file ::= token*
+file ::= (token | string)*
 token ::=
    IDENTIFIER | NUMBER | FLOAT | HOLE | KEYWORD | UNIVERSE | DOT | SEMI | ARROW
  | ELLIPSIS | DOT_DOT | CLOSE_IDIOM_BRACKET | OPEN_IDIOM_BRACKET | LAMBDA | COLON
  | EQUAL | UNDERSCORE | QUESTION_MARK | OPEN_PAREN | CLOSE_PAREN | OPEN_BRACE
- | CLOSE_BRACE | BAR | AS | CHR_LIT | STR_LIT
+ | CLOSE_BRACE | BAR | AS
+string ::= CHR_LIT | STR_LIT {
+	mixin='org.ice1000.tt.psi.agda.AgdaStringMixin'
+}

@@ -1,6 +1,7 @@
 package org.ice1000.tt
 
 import com.intellij.testFramework.LightPlatformTestCase
+import org.ice1000.tt.psi.agda.AgdaTokenType
 import org.ice1000.tt.psi.redprl.RedPrlTokenType
 
 class RedPrlCreateAstTest : LightPlatformTestCase() {
@@ -13,5 +14,12 @@ class RedPrlCreateAstTest : LightPlatformTestCase() {
 		RedPrlTokenType.createBoundVar("yukari", project)!!
 		RedPrlTokenType.createMetaDecl("#baka", project)!!
 		RedPrlTokenType.createMetaUsage("#veryBaka", project)!!
+	}
+}
+
+class AgdaCreateAstTest : LightPlatformTestCase() {
+	fun testCreate() {
+		val project = getProject()
+		AgdaTokenType.createStr("\"Hey!\"", project)!!
 	}
 }
