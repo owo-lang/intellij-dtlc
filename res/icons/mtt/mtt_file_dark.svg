@@ -1,10 +1,1 @@
-<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-	<g fill-rule="evenodd">
-		<polygon points="7 1 3 5 7 5" fill="#9aa7b0" fill-opacity=".8"/>
-		<polygon points="8 1 8 6 3 6 3 8 13 8 13 1" fill="#9aa7b0" fill-opacity=".8"/>
-		<polygon points="1 16 16 16 16 9 1 9" fill="#64d8cb" fill-opacity=".7"/>
-	</g>
-	<path d="m2 10v5h0.83333v-4l1.1667 3h1l1.1667-3v4h0.83333v-5h-1.5212l-0.97883 3-0.96517-3z" fill-opacity=".93048" opacity=".85"/>
-	<path d="m8 10v1h1v4h1v-4h1v-1h-3" opacity=".85"/>
-	<path d="m12 10v1h1v4h1v-4h1v-1h-3" opacity=".85"/>
-</svg>
+<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"><g fill-rule="evenodd"><path fill="#9aa7b0" fill-opacity=".8" d="M7 1L3 5h4z"/><path fill="#9aa7b0" fill-opacity=".8" d="M8 1v5H3v2h10V1z"/><path fill="#64d8cb" fill-opacity=".7" d="M1 16h15V9H1z"/></g><path d="M2 10v5h.833v-4L4 14h1l1.167-3v4H7v-5H5.48L4.5 13l-.965-3z" fill-opacity=".93" opacity=".85"/><path d="M8 10v1h1v4h1v-4h1v-1H8M12 10v1h1v4h1v-4h1v-1h-3" opacity=".85"/></svg>
