@@ -16,7 +16,7 @@
 }
 
 /// This is just a placeholder.
-file ::= module?
+file ::= module | decl*
 token ::=
    IDENTIFIER | NUMBER | FLOAT | HOLE | KEYWORD | UNIVERSE | DOT | SEMI | ARROW
  | ELLIPSIS | DOT_DOT | CLOSE_IDIOM_BRACKET | OPEN_IDIOM_BRACKET | LAMBDA | COLON
@@ -29,7 +29,9 @@ module ::= KW_MODULE IDENTIFIER KW_WHERE
 signature ::= IDENTIFIER COLON exp whereClause? { pin=2 }
 implementation ::= exp EQUAL exp whereClause? { pin=2 }
 whereClause ::= WHERE decl+ { pin=1 }
-private decl ::= signature | implementation
+private decl ::=
+   signature
+ | implementation
 
 layout ::=
  LAYOUT_START
@@ -38,7 +40,7 @@ layout ::=
 
 private layoutElement ::= decl LAYOUT_SEP?
 
-exp ::= holeExp | string | name | token
+exp ::= holeExp | string | nameExp | token
 holeExp ::= HOLE
 nameExp ::= IDENTIFIER
 string ::= CHR_LIT | STR_LIT {
