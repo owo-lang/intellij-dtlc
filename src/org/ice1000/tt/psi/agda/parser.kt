@@ -10,12 +10,15 @@ import com.intellij.lexer.FlexAdapter
 import com.intellij.openapi.project.Project
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiFileFactory
+import com.intellij.psi.TokenType
 import com.intellij.psi.stubs.PsiFileStubImpl
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.IStubFileElementType
 import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.AgdaFile
 import org.ice1000.tt.AgdaLanguage
+import org.ice1000.tt.psi.LayoutLexer
+import org.ice1000.tt.psi.WHITE_SPACE
 import org.ice1000.tt.psi.agda.AgdaTypes.*
 
 class AgdaElementType(debugName: String) : IElementType(debugName, AgdaLanguage.INSTANCE)
@@ -24,8 +27,12 @@ class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.IN
 	companion object Builtin {
 		@JvmField val LINE_COMMENT = AgdaTokenType("line comment")
 		@JvmField val PRAGMA = AgdaTokenType("{-# #-}")
+		@JvmField val EOL = AgdaTokenType("eol")
 		@JvmField val BLOCK_COMMENT = AgdaTokenType("block comment")
-		@JvmField val COMMENTS = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT, HOLE, PRAGMA)
+		@JvmField val COMMENTS = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT, PRAGMA)
+		@JvmField val WHITE_SPACE = TokenSet.create(EOL, TokenType.WHITE_SPACE)
+		@JvmField val NON_CODE = TokenSet.orSet(COMMENTS, WHITE_SPACE, TokenSet.create(EOL, LAYOUT_START, LAYOUT_END, LAYOUT_SEP))
+		@JvmField val LAYOUT_CREATOR = TokenSet.create(KW_WHERE)
 		@JvmField val STRINGS = TokenSet.create(CHR_LIT, STR_LIT)
 		@JvmField val IDENTIFIERS = TokenSet.create(IDENTIFIER)
 
@@ -35,6 +42,9 @@ class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.IN
 }
 
 fun agdaLexer() = FlexAdapter(AgdaLexer())
+fun agdaLayoutLexer() = LayoutLexer(agdaLexer(),
+	AgdaTokenType.EOL, LAYOUT_START, LAYOUT_SEP, LAYOUT_END,
+	AgdaTokenType.NON_CODE, AgdaTokenType.LAYOUT_CREATOR)
 
 class AgdaParserDefinition : ParserDefinition {
 	private companion object {
@@ -45,9 +55,10 @@ class AgdaParserDefinition : ParserDefinition {
 	override fun getCommentTokens() = AgdaTokenType.COMMENTS
 	override fun createElement(node: ASTNode?) = Factory.createElement(node)
 	override fun createFile(viewProvider: FileViewProvider) = AgdaFile(viewProvider)
-	override fun createLexer(project: Project?) = agdaLexer()
+	override fun createLexer(project: Project?) = agdaLayoutLexer()
 	override fun createParser(project: Project?) = AgdaParser()
 	override fun getFileNodeType() = FILE
+	override fun getWhitespaceTokens() = AgdaTokenType.WHITE_SPACE
 	// TODO: replace after dropping support for 183
 	override fun spaceExistanceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
 }

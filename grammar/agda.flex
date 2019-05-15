@@ -29,7 +29,8 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 %state INSIDE_COMMENT
 %state INSIDE_HOLE
 
-WHITE_SPACE=[\ \t\f\r\n]+
+WHITE_SPACE=[\ \t\f]+
+EOL=\r\n|\r|\n
 IDENTIFIER=[^.;{}()@\ \t\f\r\n][^'.;{}()@\ \t\f\r\n]*
 NUMBER=[\u2070-\u20890-9]+
 LINE_COMMENT=--[^\n\r]*
@@ -112,7 +113,7 @@ overlap { return KEYWORD; }
 unquote { return KEYWORD; }
 pattern { return KEYWORD; }
 import { return KEYWORD; }
-module { return KEYWORD; }
+module { return KW_MODULE; }
 codata { return KEYWORD; }
 record { return KEYWORD; }
 infixl { return KEYWORD; }
@@ -121,7 +122,7 @@ mutual { return KEYWORD; }
 forall { return KEYWORD; }
 tactic { return KEYWORD; }
 syntax { return KEYWORD; }
-where { return KEYWORD; }
+where { return KW_WHERE; }
 field { return KEYWORD; }
 infix { return KEYWORD; }
 macro { return KEYWORD; }
@@ -163,6 +164,7 @@ Prop{NUMBER}* { return UNIVERSE; }
 {FLOAT} { return FLOAT; }
 {NUMBER} { return NUMBER; }
 {WHITE_SPACE} { return WHITE_SPACE; }
+{EOL}+ { return EOL; }
 {IDENTIFIER} { return IDENTIFIER; }
 // The JFlex compiler says this rule can never be matched!
 // [^] { return BAD_CHARACTER; }

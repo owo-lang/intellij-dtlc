@@ -1,14 +1,14 @@
 package org.ice1000.tt.psi.agda
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.AbstractElementManipulator
 import com.intellij.psi.LiteralTextEscaper
 import com.intellij.psi.PsiLanguageInjectionHost
 import org.ice1000.tt.psi.GeneralStringEscaper
+import org.ice1000.tt.psi.agda.impl.AgdaExpImpl
 
-abstract class AgdaStringMixin(node: ASTNode) : ASTWrapperPsiElement(node), AgdaString, PsiLanguageInjectionHost {
+abstract class AgdaStringMixin(node: ASTNode) : AgdaExpImpl(node), AgdaString, PsiLanguageInjectionHost {
 	override fun isValidHost() = true
 	override fun updateText(text: String) = AgdaTokenType.createStr(text, project)?.let(::replace) as? AgdaStringMixin
 	override fun createLiteralTextEscaper(): LiteralTextEscaper<AgdaStringMixin> = GeneralStringEscaper(this)

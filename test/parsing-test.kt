@@ -3,6 +3,7 @@ package org.ice1000.tt
 import com.intellij.lang.ParserDefinition
 import com.intellij.testFramework.ParsingTestCase
 import org.ice1000.tt.psi.acore.ACoreParserDefinition
+import org.ice1000.tt.psi.agda.AgdaParserDefinition
 import org.ice1000.tt.psi.minitt.MiniTTParserDefinition
 import org.ice1000.tt.psi.mlpolyr.MLPolyRParserDefinition
 import org.ice1000.tt.psi.redprl.RedPrlParserDefinition
@@ -65,4 +66,8 @@ class RedPrlParsingTest : DtlcParsingTestCase("parse/redprl", "prl", RedPrlParse
 	fun `test theorem-of-choice`() = doTest(true, true)
 	fun `test invariance`() = doTest(true, true)
 	fun `test equality-elim`() = doTest(true, true)
+}
+
+class AgdaParsingTest : DtlcParsingTestCase("parse/agda", "agda", AgdaParserDefinition()) {
+	fun `test module-layout`() = doTest(true, true)
 }

@@ -21,7 +21,8 @@ class RedPrlCreateAstTest : LightPlatformTestCase() {
 class AgdaCreateAstTest : LightPlatformTestCase() {
 	fun testCreate() {
 		val project = getProject()
-		AgdaTokenType.createStr("\"Come and get your love!\"", project)!!
+		// TODO:
+		// AgdaTokenType.createStr("\"Come and get your love!\"", project)!!
 	}
 }
 
