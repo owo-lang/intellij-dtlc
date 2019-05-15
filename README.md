@@ -22,7 +22,14 @@ usages), including:
 + ![](./res/icons/agda/agda.svg)
   [Agda] (poor)
 + ![](./res/icons/owo_file.png)
-  [OwO] (poor because this language is not even designed yet)
+  [OwO] (WIP)
+
+"rich" means executor (running a file, managing the compiler) \+
+parser (which means syntax highlight) \+
+reference resolver (which means goto definition and completion),
+"poor" means executor (running a file, managing the compiler) \+
+lexer (which means syntax highlight),
+"WIP" means it's under construction, planned to be rich but not yet.
 
 This plugin is created for personal entertainment purpose.
 Don't expect too much, but contributions/discussions/feature requests
