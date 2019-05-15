@@ -21,7 +21,7 @@ val commitHash = kotlin.run {
 	output.trim()
 }
 
-val pluginComingVersion = "0.3.2"
+val pluginComingVersion = "0.4.0"
 val pluginVersion = if (isCI) "$pluginComingVersion-$commitHash" else pluginComingVersion
 val packageName = "org.ice1000.tt"
 
@@ -80,7 +80,7 @@ java {
 tasks.withType<PatchPluginXmlTask> {
 	changeNotes(file("res/META-INF/change-notes.html").readText())
 	pluginDescription(file("res/META-INF/description.html").readText())
-	version(pluginComingVersion)
+	version(pluginVersion)
 	pluginId(packageName)
 }
 
