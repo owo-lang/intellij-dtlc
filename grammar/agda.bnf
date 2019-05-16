@@ -18,12 +18,8 @@
 }
 
 /// This is just a placeholder.
-file ::= module | layoutElement*
-token ::=
-   IDENTIFIER | NUMBER | FLOAT | HOLE | KEYWORD | UNIVERSE | DOT | SEMI | ARROW
- | ELLIPSIS | DOT_DOT | CLOSE_IDIOM_BRACKET | OPEN_IDIOM_BRACKET | LAMBDA | COLON
- | OPEN_PAREN | CLOSE_PAREN | OPEN_BRACE
- | CLOSE_BRACE | BAR | AS
+file ::= module | (LAYOUT_SEP? declaration)*
+nameDecl ::= IDENTIFIER
 
 module ::= KW_MODULE nameExp KW_WHERE
  layout {
@@ -31,7 +27,7 @@ module ::= KW_MODULE nameExp KW_WHERE
 	extends=declaration
 }
 
-signature ::= nameExp COLON exp whereClause? {
+signature ::= nameDecl+ COLON exp whereClause? {
 	pin=2
 	extends=declaration
 }
@@ -43,34 +39,94 @@ withAbstraction ::= exp KW_WITH exp {
 	pin=2
 	extends=declaration
 }
-unquote ::= KW_UNQUOTE_DECL exp {
+private unquoteKeywords ::=
+   KW_UNQUOTE_DEF
+ | KW_UNQUOTE_DECL
+ | KW_OPEN
+unquote ::= unquoteKeywords exp {
 	pin=1
 	extends=declaration
 }
+private aliasKeywords ::=
+   KW_PATTERN
+ | KW_SYNTAX
+alias ::= aliasKeywords implementation {
+	pin=1
+	extends=declaration
+}
+private infixKeywords ::=
+   KW_INFIX
+ | KW_INFIXL
+ | KW_INFIXR
+infix ::= infixKeywords NUMBER nameExp+ {
+	pin=1
+	extends=declaration
+}
+importPackage ::= KW_OPEN? KW_IMPORT nameExp (visibility | renaming)* {
+	pin=2
+}
+visibilityKeywords ::= "using" | "hiding"
+visibility ::= visibilityKeywords OPEN_PAREN (nameExp nameExpRest*)? CLOSE_PAREN { pin=1 }
+private nameExpRest ::= SEMI nameExp { pin=1 }
+
+renaming ::= "renaming" OPEN_PAREN (renamePair renamePairRest*)? CLOSE_PAREN { pin=1 }
+renamePair ::= nameExp "to" nameDecl
+private renamePairRest ::= SEMI renamePair { pin=1 }
+
 macro ::= KW_MACRO layout { pin=1 }
 whereClause ::= KW_WHERE layout { pin=1 }
+whereSignatureClause ::= KW_WHERE layoutSignature { pin=1 }
+whereRecordClause ::= KW_WHERE layoutRecord { pin=1 }
+
+data ::= (KW_DATA | KW_CODATA) signature whereSignatureClause { pin=1 }
+record ::= KW_RECORD signature whereRecordClause { pin=1 }
+
+recordDecl ::=
+   recordDeclKeywords
+ | recordFields
+ | recordConstructor
+
+recordConstructor ::= KW_CONSTRUCTOR IDENTIFIER {
+	pin=1
+	extends=recordDecl
+}
+
+recordDeclKeywords ::=
+   KW_ETA_EQUALITY
+ | KW_INDUCTIVE
+ | KW_COINDUCTIVE
+ | KW_NO_ETA_EQUALITY {
+	extends=recordDecl
+}
+
+recordFields ::= KW_FIELD layoutSignature {
+	pin=1
+	extends=recordDecl
+}
+
 declaration ::=
    signature
  | implementation
  | module
- | primitiveBlock
- | privateBlock
- | variableBlock
- | abstractBlock
- | postulateBlock
- | instanceBlock
- | mutualBlock
+ | block
+ | data
+ | record
+ | alias
+ | infix
+ | importPackage
  | withAbstraction
  | macro
  | unquote
 
-primitiveBlock ::= KW_PRIMITIVE layout { pin=1 }
-privateBlock ::= KW_PRIVATE layout { pin=1 }
-variableBlock ::= KW_VARIABLE layout { pin=1 }
-postulateBlock ::= KW_POSTULATE layout { pin=1 }
-abstractBlock ::= KW_ABSTRACT layout { pin=1 }
-instanceBlock ::= KW_INSTANCE layout { pin=1 }
-mutualBlock ::= KW_MUTUAL layout { pin=1 }
+private blockKeyword ::=
+   KW_PRIMITIVE
+ | KW_PRIVATE
+ | KW_VARIABLE
+ | KW_POSTULATE
+ | KW_ABSTRACT
+ | KW_INSTANCE
+ | KW_MUTUAL
+block ::= blockKeyword layout { pin=1 }
 
 private lhsStart ::= exp | ELLIPSIS
 lhs ::= lhsStart barExp* rewriting? { pin=1 }
@@ -80,40 +136,66 @@ private barExp ::= BAR exp { pin=1 }
 layout ::= declaration | indentationLayout
 private indentationLayout ::=
  LAYOUT_START
-  (declaration layoutElement*)?
+  (declaration (LAYOUT_SEP? declaration)*)?
  LAYOUT_END? { pin=1 }
 
-private layoutElement ::= LAYOUT_SEP? declaration
+layoutSignature ::= signature | indentationSignatureLayout
+private indentationSignatureLayout ::=
+ LAYOUT_START
+  (signature (LAYOUT_SEP? signature)*)?
+ LAYOUT_END? { pin=1 }
 
-exp ::= atomic+
+layoutRecord ::= recordDecl | indentationRecordLayout
+private indentationRecordLayout ::=
+ LAYOUT_START
+  (recordDecl (LAYOUT_SEP? recordDecl)*)?
+ LAYOUT_END? { pin=1 }
 
+exp ::=
+   type2Exp
+ | asExp
+ | appExp
+ | atomic
+
+appExp ::= exp exp+
 private atomic ::=
    string
- | holeExp
+ | atomicExp
  | nameExp
  | typeExp
- | numExp
  | lamExp
  | idiomExp
  | matchExp
  | recordExp
  | dotExp
  | quoteExp
- | absurdExp
+ | letExp
+ | instanceExp
+ | doExp
  | parenExp
 
-holeExp ::= UNDERSCORE | QUESTION_MARK | HOLE
+atomicExp ::=
+   UNDERSCORE
+ | QUESTION_MARK
+ | HOLE
+ | UNIVERSE
+ | NUMBER
+ | FLOAT
+ | OPEN_PAREN CLOSE_PAREN
 nameExp ::= IDENTIFIER (DOT IDENTIFIER)*
-typeExp ::= UNIVERSE
-numExp ::= NUMBER | FLOAT
+typeExp ::= arg exp
+type2Exp ::= exp ARROW exp
+asExp ::= exp AS nameExp
 lamExp ::= LAMBDA exp ARROW exp { pin=3 }
 matchExp ::= LAMBDA OPEN_BRACE clauses CLOSE_BRACE { pin=2 }
 parenExp ::= OPEN_PAREN exp CLOSE_PAREN { pin=2 }
 idiomExp ::= OPEN_IDIOM_BRACKET exp CLOSE_IDIOM_BRACKET { pin=1 }
 recordExp ::= KW_RECORD OPEN_BRACE clauses CLOSE_BRACE { pin=1 }
-absurdExp ::= OPEN_PAREN CLOSE_PAREN
 dotExp ::= DOT exp { pin=1 }
 quoteExp ::= quoteKeyword exp { pin=1 }
+letExp ::= KW_LET layout KW_IN exp { pin=1 }
+doExp ::= KW_DO layout { pin=1 }
+instanceExp ::= OPEN_BRACE OPEN_BRACE exp CLOSE_BRACE CLOSE_BRACE { pin=2 }
 string ::= CHR_LIT | STR_LIT {
 	mixin='org.ice1000.tt.psi.agda.AgdaStringMixin'
 	extends=exp
@@ -123,9 +205,22 @@ clause ::= exp ARROW exp { pin=2 }
 private clauses ::= clause restClauses*
 private restClauses ::= SEMI clause { pin=1 }
 
+arg ::= argPrefix ARROW?
+private argPrefix ::=
+   explicitArg
+ | implicitArg
+ | instanceArg
+ | forallArg
+explicitArg ::= OPEN_PAREN signature CLOSE_PAREN { pin=1 }
+implicitArg ::= OPEN_BRACE signature CLOSE_PAREN { pin=2 }
+instanceArg ::= OPEN_BRACE OPEN_BRACE signature CLOSE_PAREN CLOSE_PAREN { pin=2 }
+forallArg ::= KW_FORALL nameDecl+ { pin=1 }
+
 private quoteKeyword ::=
    KW_QUOTE
  | KW_QUOTE_TERM
  | KW_QUOTE_GOAL
  | KW_QUOTE_CONTEXT
  | KW_UNQUOTE
+ | KW_TACTIC
+ | KW_OVERLAP

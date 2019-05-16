@@ -53,9 +53,52 @@ object AgdaHighlighter : SyntaxHighlighter {
 	@JvmField val BRACE_KEY = arrayOf(BRACE)
 	@JvmField val PRAGMA_KEY = arrayOf(PRAGMA)
 
+	@JvmField val KEYWORDS = listOf(
+		AgdaTypes.KW_NO_ETA_EQUALITY,
+		AgdaTypes.KW_ETA_EQUALITY,
+		AgdaTypes.KW_QUOTE_CONTEXT,
+		AgdaTypes.KW_CONSTRUCTOR,
+		AgdaTypes.KW_COINDUCTIVE,
+		AgdaTypes.KW_UNQUOTE_DECL,
+		AgdaTypes.KW_UNQUOTE_DEF,
+		AgdaTypes.KW_POSTULATE,
+		AgdaTypes.KW_PRIMITIVE,
+		AgdaTypes.KW_INDUCTIVE,
+		AgdaTypes.KW_QUOTE_GOAL,
+		AgdaTypes.KW_QUOTE_TERM,
+		AgdaTypes.KW_VARIABLE,
+		AgdaTypes.KW_ABSTRACT,
+		AgdaTypes.KW_INSTANCE,
+		AgdaTypes.KW_REWRITE,
+		AgdaTypes.KW_PRIVATE,
+		AgdaTypes.KW_OVERLAP,
+		AgdaTypes.KW_UNQUOTE,
+		AgdaTypes.KW_PATTERN,
+		AgdaTypes.KW_IMPORT,
+		AgdaTypes.KW_MODULE,
+		AgdaTypes.KW_CODATA,
+		AgdaTypes.KW_RECORD,
+		AgdaTypes.KW_INFIXL,
+		AgdaTypes.KW_INFIXR,
+		AgdaTypes.KW_MUTUAL,
+		AgdaTypes.KW_FORALL,
+		AgdaTypes.KW_TACTIC,
+		AgdaTypes.KW_SYNTAX,
+		AgdaTypes.KW_WHERE,
+		AgdaTypes.KW_FIELD,
+		AgdaTypes.KW_INFIX,
+		AgdaTypes.KW_MACRO,
+		AgdaTypes.KW_QUOTE,
+		AgdaTypes.KW_WITH,
+		AgdaTypes.KW_OPEN,
+		AgdaTypes.KW_DATA,
+		AgdaTypes.KW_LET,
+		AgdaTypes.KW_IN,
+		AgdaTypes.KW_DO
+	)
+
 	override fun getHighlightingLexer() = agdaLexer()
 	override fun getTokenHighlights(type: IElementType?): Array<TextAttributesKey> = when (type) {
-		AgdaTypes.KEYWORD -> KEYWORD_KEY
 		AgdaTypes.IDENTIFIER -> IDENTIFIER_KEY
 		AgdaTypes.SEMI -> SEMICOLON_KEY
 		AgdaTypes.FLOAT -> FLOAT_KEY
@@ -67,10 +110,11 @@ object AgdaHighlighter : SyntaxHighlighter {
 		AgdaTypes.OPEN_PAREN, AgdaTypes.CLOSE_PAREN -> PAREN_KEY
 		AgdaTypes.OPEN_IDIOM_BRACKET, AgdaTypes.CLOSE_IDIOM_BRACKET -> BRACK_KEY
 		AgdaTypes.OPEN_BRACE, AgdaTypes.CLOSE_BRACE -> BRACE_KEY
-		AgdaTypes.DOT, AgdaTypes.DOT_DOT, AgdaTypes.ELLIPSIS -> DOT_KEY
+		AgdaTypes.DOT, AgdaTypes.ELLIPSIS -> DOT_KEY
 		AgdaTokenType.PRAGMA -> PRAGMA_KEY
 		AgdaTokenType.LINE_COMMENT -> LINE_COMMENT_KEY
 		AgdaTokenType.BLOCK_COMMENT -> BLOCK_COMMENT_KEY
+		in KEYWORDS -> KEYWORD_KEY
 		else -> emptyArray()
 	}
 }

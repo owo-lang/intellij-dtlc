@@ -138,7 +138,7 @@ Set{NUMBER}* { return UNIVERSE; }
 Prop{NUMBER}* { return UNIVERSE; }
 
 "..." { return ELLIPSIS; }
-".." { return DOT_DOT; }
+//".." { return DOT_DOT; }
 "|)" { return CLOSE_IDIOM_BRACKET; }
 "⦈" { return CLOSE_IDIOM_BRACKET; }
 "(|" { return OPEN_IDIOM_BRACKET; }
