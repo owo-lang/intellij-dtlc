@@ -18,6 +18,7 @@ import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.AgdaFile
 import org.ice1000.tt.AgdaLanguage
 import org.ice1000.tt.psi.LayoutLexer
+import org.ice1000.tt.psi.State
 
 class AgdaElementType(debugName: String) : IElementType(debugName, AgdaLanguage.INSTANCE)
 
@@ -67,7 +68,10 @@ fun agdaLayoutLexer() = LayoutLexer(
 	AgdaTypes.LAYOUT_END,
 	NON_CODE,
 	LAYOUT_CREATOR
-)
+) { it: List<LayoutLexer.Token> ->
+	if (it.any { it.elementType == AgdaTypes.KW_MODULE }) State.Normal
+	else State.WaitingForLayout
+}
 
 class AgdaParserDefinition : ParserDefinition {
 	private companion object {

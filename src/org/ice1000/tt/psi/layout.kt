@@ -5,7 +5,6 @@ import com.intellij.lexer.LexerBase
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import com.intellij.util.containers.IntStack
-import com.intellij.util.text.CharArrayCharSequence
 import org.ice1000.tt.psi.State.Normal
 import org.ice1000.tt.psi.State.WaitingForLayout
 
@@ -27,7 +26,8 @@ class LayoutLexer(
 	/*TokenSet.orSet(TokenSet.create(TokenType.WHITE_SPACE, TAB, endOfLine), ELM_COMMENTS)*/
 	private val nonCodeTokens: TokenSet,
 	/*TokenSet.create(LET, OF)*/
-	private val layoutCreatingTokens: TokenSet
+	private val layoutCreatingTokens: TokenSet,
+	private val initialState: (List<Token>) -> State = { WaitingForLayout }
 ) : LexerBase() {
 	private val tokens = ArrayList<Token>(40)
 	private var currentTokenIndex = 0
@@ -58,7 +58,7 @@ class LayoutLexer(
 		currentTokenIndex++
 	}
 
-	private inner class Token(
+	inner class Token(
 		@JvmField val elementType: IElementType?,
 		@JvmField val start: Int,
 		@JvmField val end: Int,
@@ -100,7 +100,7 @@ class LayoutLexer(
 
 		// initial state
 		var i = 0
-		var state = WaitingForLayout
+		var state = initialState(tokens)
 		val indentStack = IndentStack()
 		indentStack.push(-1) // top-level is an implicit section
 
@@ -191,7 +191,7 @@ class LayoutLexer(
 	)
 }
 
-private enum class State {
+enum class State {
 	/*
 	 * The start state.
 	 * Do not perform layout until we get to the first real line of code.
@@ -260,4 +260,4 @@ private class IndentStack : IntStack() {
 	override fun pop() = if (super.empty()) -1 else super.pop()
 }
 
-internal class Line(@JvmField var columnWhereCodeStarts: Int? = null)
+class Line(@JvmField var columnWhereCodeStarts: Int? = null)
