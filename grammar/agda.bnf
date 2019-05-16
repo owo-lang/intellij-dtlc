@@ -19,7 +19,13 @@
 
 /// This is just a placeholder.
 file ::= module | (LAYOUT_SEP? declaration)*
-nameDecl ::= IDENTIFIER
+nameDecl ::= IDENTIFIER {
+	implements=[
+		'org.ice1000.tt.psi.IPattern<AgdaNameDecl>'
+		'com.intellij.psi.PsiNameIdentifierOwner'
+	]
+	mixin='org.ice1000.tt.psi.agda.AgdaNameDeclMixin'
+}
 
 module ::= KW_MODULE nameExp KW_WHERE
  layout {
@@ -31,8 +37,12 @@ dataSignature ::= nameDecl+ argPrefix* COLON exp { pin=3 }
 signature ::= nameDecl+ COLON exp {
 	pin=2
 	extends=declaration
+	mixin='org.ice1000.tt.psi.agda.AgdaSignatureMixin'
 }
-implementation ::= lhs eqExp? whereClause? { extends=declaration }
+implementation ::= lhs eqExp? whereClause? {
+	extends=declaration
+	mixin='org.ice1000.tt.psi.agda.AgdaImplementationMixin'
+}
 withAbstraction ::= lhs KW_WITH exp barExp* {
 	pin=2
 	extends=declaration
@@ -80,9 +90,11 @@ whereRecordClause ::= KW_WHERE layoutRecord { pin=1 }
 
 data ::= dataKeyword dataSignature whereSignatureClause? {
 	extends=declaration
+	mixin='org.ice1000.tt.psi.agda.AgdaDataMixin'
 }
 dataBody ::= dataKeyword nameDecl+ whereSignatureClause {
 	extends=declaration
+	mixin='org.ice1000.tt.psi.agda.AgdaDataMixin'
 }
 private dataKeyword ::= KW_DATA | KW_CODATA
 
