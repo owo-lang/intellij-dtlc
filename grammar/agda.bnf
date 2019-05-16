@@ -101,6 +101,7 @@ private dataKeyword ::= KW_DATA | KW_CODATA
 record ::= KW_RECORD dataSignature whereRecordClause {
 	pin=1
 	extends=declaration
+	mixin='org.ice1000.tt.psi.agda.AgdaDataMixin'
 }
 
 recordDecl ::=
@@ -214,7 +215,9 @@ atomicExp ::=
  | NUMBER
  | FLOAT
  | OPEN_PAREN CLOSE_PAREN
-nameExp ::= IDENTIFIER (DOT IDENTIFIER)* | UNDERSCORE
+nameExp ::= IDENTIFIER (DOT IDENTIFIER)* | UNDERSCORE {
+	mixin='org.ice1000.tt.psi.agda.AgdaNameExpMixin'
+}
 typeExp ::= argPrefix ARROW? exp
 type2Exp ::= exp ARROW exp
 asExp ::= exp AS nameExp
