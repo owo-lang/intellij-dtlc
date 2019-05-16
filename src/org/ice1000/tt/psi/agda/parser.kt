@@ -58,7 +58,6 @@ class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.IN
 	AgdaTypes.KW_POSTULATE
 )
 
-
 fun agdaLexer() = FlexAdapter(AgdaLexer())
 fun agdaLayoutLexer() = LayoutLexer(
 	agdaLexer(),

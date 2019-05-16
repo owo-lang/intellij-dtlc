@@ -34,11 +34,6 @@ class LayoutLexer(
 	private val currentToken: Token
 		get() = tokens[currentTokenIndex]
 
-	@Deprecated("")
-	fun start(buffer: CharArray, startOffset: Int, endOffset: Int, initialState: Int) {
-		start(CharArrayCharSequence(*buffer), startOffset, endOffset, initialState)
-	}
-
 	override fun start(buffer: CharSequence, startOffset: Int, endOffset: Int, initialState: Int) {
 		require(startOffset == 0) { "does not support incremental lexing: startOffset must be 0" }
 		require(initialState == 0) { "does not support incremental lexing: initialState must be 0" }
