@@ -18,7 +18,6 @@ import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.AgdaFile
 import org.ice1000.tt.AgdaLanguage
 import org.ice1000.tt.psi.LayoutLexer
-import org.ice1000.tt.psi.agda.AgdaTypes.*
 
 class AgdaElementType(debugName: String) : IElementType(debugName, AgdaLanguage.INSTANCE)
 
@@ -31,10 +30,23 @@ class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.IN
 		@JvmField val BLOCK_COMMENT = AgdaTokenType("block comment")
 		@JvmField val COMMENTS = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT, PRAGMA)
 		@JvmField val WHITE_SPACE = TokenSet.create(EOL, TokenType.WHITE_SPACE)
-		@JvmField val NON_CODE = TokenSet.orSet(COMMENTS, WHITE_SPACE, TokenSet.create(EOL, LAYOUT_START, LAYOUT_END, LAYOUT_SEP))
-		@JvmField val LAYOUT_CREATOR = TokenSet.create(KW_WHERE, KW_PRIMITIVE, KW_PRIVATE, KW_VARIABLE, KW_FIELD, KW_ABSTRACT, KW_MUTUAL, KW_POSTULATE)
-		@JvmField val STRINGS = TokenSet.create(CHR_LIT, STR_LIT)
-		@JvmField val IDENTIFIERS = TokenSet.create(IDENTIFIER)
+		@JvmField val STRINGS = TokenSet.create(AgdaTypes.CHR_LIT, AgdaTypes.STR_LIT)
+		@JvmField val IDENTIFIERS = TokenSet.create(AgdaTypes.IDENTIFIER)
+		@JvmField val NON_CODE = listOf(EOL,
+			AgdaTypes.LAYOUT_START,
+			AgdaTypes.LAYOUT_END,
+			AgdaTypes.LAYOUT_SEP
+		) + COMMENTS.types + WHITE_SPACE.types
+		@JvmField val LAYOUT_CREATOR = listOf(
+			AgdaTypes.KW_WHERE,
+			AgdaTypes.KW_PRIMITIVE,
+			AgdaTypes.KW_PRIVATE,
+			AgdaTypes.KW_VARIABLE,
+			AgdaTypes.KW_FIELD,
+			AgdaTypes.KW_ABSTRACT,
+			AgdaTypes.KW_MUTUAL,
+			AgdaTypes.KW_POSTULATE
+		)
 
 		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(AgdaLanguage.INSTANCE, text)?.firstChild
 		fun createSignature(text: String, project: Project) = fromText(text, project) as? AgdaSignature
@@ -44,9 +56,15 @@ class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.IN
 }
 
 fun agdaLexer() = FlexAdapter(AgdaLexer())
-fun agdaLayoutLexer() = LayoutLexer(agdaLexer(),
-	AgdaTokenType.EOL, LAYOUT_START, LAYOUT_SEP, LAYOUT_END,
-	AgdaTokenType.NON_CODE, AgdaTokenType.LAYOUT_CREATOR)
+fun agdaLayoutLexer() = LayoutLexer(
+	agdaLexer(),
+	AgdaTokenType.EOL,
+	AgdaTypes.LAYOUT_START,
+	AgdaTypes.LAYOUT_SEP,
+	AgdaTypes.LAYOUT_END,
+	AgdaTokenType.NON_CODE,
+	AgdaTokenType.LAYOUT_CREATOR
+)
 
 class AgdaParserDefinition : ParserDefinition {
 	private companion object {
@@ -55,7 +73,7 @@ class AgdaParserDefinition : ParserDefinition {
 
 	override fun getStringLiteralElements() = AgdaTokenType.STRINGS
 	override fun getCommentTokens() = AgdaTokenType.COMMENTS
-	override fun createElement(node: ASTNode?) = Factory.createElement(node)
+	override fun createElement(node: ASTNode?) = AgdaTypes.Factory.createElement(node)
 	override fun createFile(viewProvider: FileViewProvider) = AgdaFile(viewProvider)
 	override fun createLexer(project: Project?) = agdaLayoutLexer()
 	override fun createParser(project: Project?) = AgdaParser()

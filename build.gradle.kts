@@ -49,27 +49,26 @@ fun fromToolbox(root: String, ide: String) = file(root)
 	}
 	?.also { println("Picked: $it") }
 
-allprojects {
-	apply { plugin("org.jetbrains.grammarkit") }
+allprojects { apply { plugin("org.jetbrains.grammarkit") } }
 
-	intellij {
-		updateSinceUntilBuild = false
-		instrumentCode = true
-		val user = System.getProperty("user.name")
-		val os = System.getProperty("os.name")
-		val root = when {
-			os.startsWith("Windows") -> "C:\\Users\\$user\\AppData\\Local\\JetBrains\\Toolbox\\apps"
-			os == "Linux" -> "/home/$user/.local/share/JetBrains/Toolbox/apps"
-			else -> return@intellij
-		}
-		val intellijPath = sequenceOf("IDEA-C-JDK11", "IDEA-C", "IDEA-JDK11", "IDEA-U")
-			.mapNotNull { fromToolbox(root, it) }.firstOrNull()
-		intellijPath?.absolutePath?.let { localPath = it }
-		val pycharmPath = sequenceOf("PyCharm-C", "IDEA-C-JDK11", "IDEA-C", "IDEA-JDK11", "IDEA-U")
-			.mapNotNull { fromToolbox(root, it) }.firstOrNull()
-		pycharmPath?.absolutePath?.let { alternativeIdePath = it }
-
+intellij {
+	updateSinceUntilBuild = false
+	instrumentCode = true
+	val user = System.getProperty("user.name")
+	val os = System.getProperty("os.name")
+	val root = when {
+		os.startsWith("Windows") -> "C:\\Users\\$user\\AppData\\Local\\JetBrains\\Toolbox\\apps"
+		os == "Linux" -> "/home/$user/.local/share/JetBrains/Toolbox/apps"
+		else -> return@intellij
 	}
+	val intellijPath = sequenceOf("IDEA-C-JDK11", "IDEA-C", "IDEA-JDK11", "IDEA-U")
+		.mapNotNull { fromToolbox(root, it) }.firstOrNull()
+	intellijPath?.absolutePath?.let { localPath = it }
+	val pycharmPath = sequenceOf("PyCharm-C", "IDEA-C-JDK11", "IDEA-C", "IDEA-JDK11", "IDEA-U")
+		.mapNotNull { fromToolbox(root, it) }.firstOrNull()
+	pycharmPath?.absolutePath?.let { alternativeIdePath = it }
+
+	setPlugins("PsiViewer:191.4212")
 }
 
 java {
