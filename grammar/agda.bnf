@@ -79,8 +79,18 @@ whereClause ::= KW_WHERE layout { pin=1 }
 whereSignatureClause ::= KW_WHERE layoutSignature? { pin=1 }
 whereRecordClause ::= KW_WHERE layoutRecord { pin=1 }
 
-data ::= (KW_DATA | KW_CODATA) dataSignature whereSignatureClause { pin=1 }
-record ::= KW_RECORD dataSignature whereRecordClause { pin=1 }
+data ::= dataKeyword dataSignature whereSignatureClause? {
+	extends=declaration
+}
+dataBody ::= dataKeyword nameDecl+ whereSignatureClause {
+	extends=declaration
+}
+private dataKeyword ::= KW_DATA | KW_CODATA
+
+record ::= KW_RECORD dataSignature whereRecordClause {
+	pin=1
+	extends=declaration
+}
 
 recordDecl ::=
    recordDeclKeywords
@@ -111,6 +121,7 @@ declaration ::=
  | implementation
  | module
  | block
+ | dataBody
  | data
  | record
  | alias
@@ -144,11 +155,12 @@ private indentationLayout ::=
   (declaration (LAYOUT_SEP? declaration)*)?
  LAYOUT_END? { pin=1 }
 
-layoutSignature ::= signature | indentationSignatureLayout
+layoutSignature ::= blockOrSig | indentationSignatureLayout
 private indentationSignatureLayout ::=
  LAYOUT_START
-  (signature (LAYOUT_SEP? signature)*)?
+  (blockOrSig (LAYOUT_SEP? blockOrSig)*)?
  LAYOUT_END? { pin=1 }
+private blockOrSig ::= block | signature
 
 layoutRecord ::= recordDecl | indentationRecordLayout
 private indentationRecordLayout ::=
@@ -181,14 +193,13 @@ private atomic ::=
  | parenExp
 
 atomicExp ::=
-   UNDERSCORE
- | QUESTION_MARK
+   QUESTION_MARK
  | HOLE
  | UNIVERSE
  | NUMBER
  | FLOAT
  | OPEN_PAREN CLOSE_PAREN
-nameExp ::= IDENTIFIER (DOT IDENTIFIER)*
+nameExp ::= IDENTIFIER (DOT IDENTIFIER)* | UNDERSCORE
 typeExp ::= argPrefix ARROW? exp
 type2Exp ::= exp ARROW exp
 asExp ::= exp AS nameExp

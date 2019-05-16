@@ -106,7 +106,7 @@ object AgdaHighlighter : SyntaxHighlighter {
 		AgdaTypes.NUMBER -> NUMBER_KEY
 		AgdaTypes.STR_LIT -> STR_LIT_KEY
 		AgdaTypes.CHR_LIT -> CHR_LIT_KEY
-		AgdaTypes.HOLE -> HOLE_KEY
+		AgdaTypes.HOLE, AgdaTypes.QUESTION_MARK -> HOLE_KEY
 		AgdaTypes.ARROW -> ARROW_KEY
 		AgdaTypes.OPEN_PAREN, AgdaTypes.CLOSE_PAREN -> PAREN_KEY
 		AgdaTypes.OPEN_IDIOM_BRACKET, AgdaTypes.CLOSE_IDIOM_BRACKET -> BRACK_KEY
