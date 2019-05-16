@@ -4,14 +4,7 @@ import com.intellij.lang.BracePair
 import com.intellij.lang.PairedBraceMatcher
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
-import org.ice1000.tt.editing.TTCommenter
 import org.ice1000.tt.psi.agda.AgdaTypes
-
-class AgdaCommenter : TTCommenter() {
-	override fun getBlockCommentPrefix() = "{-"
-	override fun getBlockCommentSuffix() = "-}"
-	override fun getLineCommentPrefix() = "--"
-}
 
 class AgdaBraceMatcher : PairedBraceMatcher {
 	private companion object Pairs {

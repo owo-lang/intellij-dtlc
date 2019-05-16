@@ -25,3 +25,9 @@ abstract class TTCommenter : Commenter {
 	override fun getBlockCommentPrefix(): String? = null
 	override fun getBlockCommentSuffix(): String? = null
 }
+
+class HaskellCommenter : TTCommenter() {
+	override fun getBlockCommentPrefix() = "{-"
+	override fun getBlockCommentSuffix() = "-}"
+	override fun getLineCommentPrefix() = "--"
+}

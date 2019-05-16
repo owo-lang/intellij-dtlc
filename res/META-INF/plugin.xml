@@ -29,7 +29,7 @@
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.AgdaRunConfigurationProducer"/>
 		<lang.parserDefinition language="Agda" implementationClass="org.ice1000.tt.psi.agda.AgdaParserDefinition"/>
 		<lang.syntaxHighlighterFactory language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaHighlighterFactory"/>
-		<lang.commenter language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaCommenter"/>
+		<lang.commenter language="Agda" implementationClass="org.ice1000.tt.editing.HaskellCommenter"/>
 		<lang.braceMatcher language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaBraceMatcher"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.agda.AgdaColorSettingsPage"/>
 		<lang.foldingBuilder language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaFoldingBuilder"/>
@@ -42,6 +42,9 @@
 		<configurationType implementation="org.ice1000.tt.execution.CubicalTTRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.CubicalTTRunConfigurationProducer"/>
 		<lang.parserDefinition language="CubicalTT" implementationClass="org.ice1000.tt.psi.cubicaltt.CubicalTTParserDefinition"/>
+		<lang.commenter language="CubicalTT" implementationClass="org.ice1000.tt.editing.HaskellCommenter"/>
+		<lang.braceMatcher language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTBraceMatcher"/>
+		<lang.findUsagesProvider language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTFindUsagesProvider"/>
 
 		<!--MLPolyR-->
 		<configurationType implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationType"/>
@@ -69,7 +72,7 @@
 		<annotator language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreAnnotator"/>
 		<lang.refactoringSupport language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<lang.findUsagesProvider language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreFindUsagesProvider"/>
-		<lang.commenter language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreCommenter"/>
+		<lang.commenter language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.HaskellCommenter"/>
 		<lang.braceMatcher language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreBraceMatcher"/>
 		<lang.foldingBuilder language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreFoldingBuilder"/>
 
