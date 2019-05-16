@@ -167,11 +167,11 @@ class LayoutLexer(
 		// is combined with the virtual token during parsing (their text ranges overlap).
 		loop@ for (k in (i - 1) downTo 1) if (tokens[k].isCode)
 			for (m in (k + 1) until (i + 1)) if (tokens[m].elementType == endOfLine) {
-				insertAt = m + 1
+				insertAt = m
 				break@loop
 			}
 
-		val precedingToken = tokens[insertAt - 1]
+		val precedingToken = tokens[insertAt]
 
 		var mutI = i
 		while (!indentStack.empty()) if (token.column == indentStack.peek()) {
