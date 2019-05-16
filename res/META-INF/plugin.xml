@@ -41,6 +41,7 @@
 		<!--CubicalTT-->
 		<configurationType implementation="org.ice1000.tt.execution.CubicalTTRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.CubicalTTRunConfigurationProducer"/>
+		<lang.parserDefinition language="CubicalTT" implementationClass="org.ice1000.tt.psi.cubicaltt.CubicalTTParserDefinition"/>
 
 		<!--MLPolyR-->
 		<configurationType implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationType"/>

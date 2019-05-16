@@ -43,15 +43,16 @@ class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.IN
 	}
 }
 
-@JvmField val NON_CODE = TokenSet.orSet(
+private val NON_CODE = TokenSet.orSet(
 	AgdaTokenType.COMMENTS, AgdaTokenType.WHITE_SPACE,
 	TokenSet.create(
 		AgdaTypes.LAYOUT_START,
 		AgdaTypes.LAYOUT_END,
 		AgdaTypes.LAYOUT_SEP
 	))
-@JvmField val LAYOUT_CREATOR = TokenSet.create(
+private val LAYOUT_CREATOR = TokenSet.create(
 	AgdaTypes.KW_WHERE,
+	AgdaTypes.KW_LET,
 	AgdaTypes.KW_PRIMITIVE,
 	AgdaTypes.KW_PRIVATE,
 	AgdaTypes.KW_VARIABLE,

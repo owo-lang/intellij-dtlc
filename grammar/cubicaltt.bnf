@@ -1,0 +1,133 @@
+//noinspection BnfResolveForFile
+{
+  generate=[java="8" names="long"]
+
+  parserClass="org.ice1000.tt.psi.cubicaltt.CubicalTTParser"
+
+  psiClassPrefix="CubicalTT"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.ice1000.tt.psi.cubicaltt"
+  psiImplPackage="org.ice1000.tt.psi.cubicaltt.impl"
+
+  elementTypeHolderClass="org.ice1000.tt.psi.cubicaltt.CubicalTTTypes"
+  elementTypeClass="org.ice1000.tt.psi.cubicaltt.CubicalTTElementType"
+  tokenTypeClass="org.ice1000.tt.psi.cubicaltt.CubicalTTTokenType"
+
+  extends(".*Exp")=exp
+}
+
+entryPoints ::= module | exp
+
+nameDecl ::= IDENTIFIER
+nameUsage ::= IDENTIFIER {
+	extends=formula
+}
+module ::= KW_MODULE nameDecl KW_WHERE
+ LAYOUT_START
+  imports
+  decls
+ LAYOUT_END? { pin=1 }
+
+private imports ::= (import LAYOUT_SEP)*
+import ::= KW_IMPORT nameUsage { pin=1 }
+
+private decls ::= (decl LAYOUT_SEP?)*
+decl ::=
+   def
+ | data
+ | hdata
+ | split
+ | undef
+ | mutual
+ | opaque
+ | transparent
+ | transparentAll
+
+def ::= nameDecl teles COLON exp EQ expWhere { extends=decl }
+data ::= KW_DATA nameDecl teles EQ labels { pin=1 extends=decl }
+hdata ::= KW_HDATA nameDecl teles EQ labels { pin=1 extends=decl }
+split ::= nameDecl teles COLON exp EQ KW_SPLIT LAYOUT_START branches LAYOUT_END? { extends=decl }
+undef ::= nameDecl teles COLON exp EQ KW_UNDEFINED { extends=decl }
+mutual ::= KW_MUTUAL LAYOUT_START decls LAYOUT_END { pin=1 extends=decl }
+opaque ::= KW_OPAQUE nameDecl { pin=1 extends=decl }
+transparent ::= KW_TRANSPARENT nameDecl { pin=1 extends=decl }
+transparentAll ::= KW_TRANSPARENT_ALL { extends=decl }
+
+expWhere ::= exp KW_WHERE LAYOUT_START decls LAYOUT_END? { pin=1 }
+
+// Telescopes
+private teles ::= tele*
+// Nonempty telescopes with exp:s, this is hack to avoid ambiguities
+// in the grammar when parsing Pi
+// In Grammar-Kit we don't need this shit
+private pteles ::= tele+
+tele ::= LPAREN nameDecl+ COLON exp RPAREN
+
+// Labelled sum alternatives
+private labels ::= (label BAR?)*
+label ::= nameDecl teles (LT teles GT system)?
+
+exp ::=
+   appExp
+ | funExp
+ | appFormulaExp
+ | letExp
+ | lamExp
+ | pLamExp
+ | splitExp
+ | dtExp
+ | expExpExp
+ | sysExp
+ | sysExpExp
+ | idJExp
+ | projectionExp
+ | pairExp
+ | pconExp
+ | typeExp
+ | holeExp
+ | transExp
+ | nameUsage
+
+appExp ::= exp exp+
+funExp ::= exp ARROW exp
+appFormulaExp ::= exp AT formula
+letExp ::= KW_LET LAYOUT_START decls LAYOUT_END KW_IN exp { pin=1 }
+lamExp ::= LAMBDA pteles ARROW exp { pin=1 }
+pLamExp ::= LT nameDecl GT exp { pin=1 }
+splitExp ::= KW_SPLIT_AT exp KW_WITH LAYOUT_START branches LAYOUT_END { pin=1 }
+dtExp ::= pteles (ARROW | TIMES) exp { pin=2 }
+expExpExp ::= expExpExpKeywords exp exp exp { pin=1 }
+private expExpExpKeywords ::= KW_PATH_P | KW_ID
+sysExpExp ::= sysExpExpKeywords exp exp system { pin=1 }
+private sysExpExpKeywords ::= KW_COMP | KW_HCOMP | KW_FILL
+sysExp ::= sysExpKeywords exp system { pin=1 }
+private sysExpKeywords ::= KW_GLUE | KW_GLUE2 | KW_UNGLUE | KW_IDC
+transExp ::= KW_TRANSPORT exp exp { pin=1 }
+idJExp ::= KW_IDJ exp exp exp exp exp exp { pin=1 }
+projectionExp ::= exp (DOT_ONE | DOT_TWO)
+pairExp ::= LPAREN exp COMMA exp* RPAREN { pin=3 }
+pconExp ::= nameUsage LAYOUT_START exp LAYOUT_END // c{T A B} x1 x2 @ phi
+typeExp ::= KW_U
+holeExp ::= HOLE
+
+dim ::= ONE | TWO { extends=formula }
+system ::= LBRACK sides RBRACK { pin=1 }
+
+private sides ::= (side COMMA?)*
+side ::= face* ARROW exp { pin=2 }
+face ::= LPAREN nameUsage EQ dim RPAREN { pin=1 }
+
+formula ::=
+   disj
+ | conj
+ | neg
+ | nameUsage
+ | dim { extends=exp }
+conj ::= formula AND formula { extends=formula }
+disj ::= formula OR  formula { extends=formula }
+neg ::= MINUS formula { extends=formula }
+
+// Branches
+private branches ::= (branch LAYOUT_SEP?)*
+// TODO: better have ... @ i @ j @ k -> ... ?
+branch ::= nameUsage nameDecl* (AT nameUsage*)? ARROW expWhere

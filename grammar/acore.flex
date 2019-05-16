@@ -80,7 +80,7 @@ Sig { return SIGMA; }
 letrec { return LETREC_TOKEN; }
 Void   { return VOID; }
 let    { return LET_TOKEN; }
-{COMMENTS} { return LINE_COMMENT; }
+<YYINITIAL> {COMMENTS} { return LINE_COMMENT; }
 {IDENTIFIER}  { return IDENTIFIER; }
 {WHITE_SPACE} { return WHITE_SPACE; }
 

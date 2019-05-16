@@ -122,6 +122,10 @@ task("isCI") {
 	doFirst { println(if (isCI) "Yes, I'm on a CI." else "No, I'm not on CI.") }
 }
 
+val generateCode = task("generateCode") {
+	group = "code generation"
+}
+
 fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
 	val lowerCaseName = name.toLowerCase()
 	val parserRoot = Paths.get("org", "ice1000", "tt", "psi", lowerCaseName)!!
@@ -131,7 +135,8 @@ fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
 	fun flex(name: String) = Paths.get("grammar", "$name.flex").toString()
 
 	val genParser = task<GenerateParser>("gen${name}Parser") {
-		group = "code generation"
+		generateCode.dependsOn(this)
+		group = generateCode.group
 		description = "Generate Parser and Psi classes for $name"
 		source = bnf(lowerCaseName)
 		targetRoot = "$buildDir/gen/"
@@ -141,6 +146,7 @@ fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
 	}
 
 	return genParser to task<GenerateLexer>("gen${name}Lexer") {
+		generateCode.dependsOn(this)
 		group = genParser.group
 		description = "Generate Lexer for $name"
 		source = flex(lowerCaseName)
@@ -155,10 +161,15 @@ val (genMiniTTParser, genMiniTTLexer) = grammar("MiniTT")
 val (genACoreParser, genACoreLexer) = grammar("ACore")
 val (genMLPolyRParser, genMLPolyRLexer) = grammar("MLPolyR")
 val (genRedPrlParser, genRedPrlLexer) = grammar("RedPrl")
-// Obviously there's no Agda parser. But we can have an Agda lexer :).
 val (genAgdaParser, genAgdaLexer) = grammar("Agda")
+val (genCubicalTTParser, genCubicalTTLexer) = grammar("CubicalTT")
 
-val genMiniTTUtility = task<LanguageUtilityGenerationTask>("genMiniTTUtility") {
+fun utilities(name: String, job: LanguageUtilityGenerationTask.() -> Unit) = task<LanguageUtilityGenerationTask>(name) {
+	this.job()
+	generateCode.dependsOn(this)
+}
+
+val genMiniTTUtility = utilities("genMiniTTUtility") {
 	languageName = "MiniTT"
 	constantPrefix = "MINI_TT"
 	exeName = "minittc"
@@ -166,28 +177,28 @@ val genMiniTTUtility = task<LanguageUtilityGenerationTask>("genMiniTTUtility") {
 	trimVersion = """version.removePrefix("minittc").trim()"""
 }
 
-val genACoreUtility = task<LanguageUtilityGenerationTask>("genACoreUtility") {
+val genACoreUtility = utilities("genACoreUtility") {
 	languageName = "ACore"
 	constantPrefix = "AGDA_CORE"
 	exeName = "agdacore"
 	hasVersion = false
 }
 
-val genCubicalTTUtility = task<LanguageUtilityGenerationTask>("genCubicalTTUtility") {
+val genCubicalTTUtility = utilities("genCubicalTTUtility") {
 	languageName = "CubicalTT"
 	constantPrefix = "CUBICAL_TT"
 	exeName = "cubical"
 	trimVersion = "version.trim()"
 }
 
-val genAgdaUtility = task<LanguageUtilityGenerationTask>("genAgdaUtility") {
+val genAgdaUtility = utilities("genAgdaUtility") {
 	languageName = "Agda"
 	constantPrefix = "AGDA"
 	exeName = "agda"
 	trimVersion = """version.removePrefix("Agda version").trim()"""
 }
 
-val genMLPolyRUtility = task<LanguageUtilityGenerationTask>("genMLPolyRUtility") {
+val genMLPolyRUtility = utilities("genMLPolyRUtility") {
 	languageName = "MLPolyR"
 	constantPrefix = "MLPOLYR"
 	exeName = "mlpolyrc"
@@ -195,34 +206,12 @@ val genMLPolyRUtility = task<LanguageUtilityGenerationTask>("genMLPolyRUtility")
 	hasVersion = false
 }
 
-val genRedPrlUtility = task<LanguageUtilityGenerationTask>("genRedPrlUtility") {
+val genRedPrlUtility = utilities("genRedPrlUtility") {
 	languageName = "RedPrl"
 	constantPrefix = "RED_PRL"
 	exeName = "redprl"
 	hasVersion = false
 }
-
-val generateCode = task("generateCode") {
-	group = "code generation"
-}
-generateCode.dependsOn(
-	genMiniTTUtility,
-	genMLPolyRUtility,
-	genACoreUtility,
-	genAgdaUtility,
-	genRedPrlUtility,
-	genCubicalTTUtility,
-	genAgdaParser,
-	genAgdaLexer,
-	genACoreParser,
-	genACoreLexer,
-	genMLPolyRParser,
-	genMLPolyRLexer,
-	genRedPrlParser,
-	genRedPrlLexer,
-	genMiniTTParser,
-	genMiniTTLexer
-)
 
 tasks.withType<KotlinCompile> {
 	dependsOn(generateCode)
