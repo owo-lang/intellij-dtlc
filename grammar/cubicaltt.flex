@@ -76,12 +76,13 @@ IDENTIFIER=[_a-zA-Z][_a-zA-Z'0-9]*
 \? { return HOLE; }
 \| { return BAR; }
 \< { return LT; }
+\> { return GT; }
 ; { return LAYOUT_SEP; }
 : { return COLON; }
 , { return COMMA; }
 - { return MINUS; }
+0 { return ZERO; }
 1 { return ONE; }
-2 { return TWO; }
 @ { return AT; }
 = { return EQ; }
 

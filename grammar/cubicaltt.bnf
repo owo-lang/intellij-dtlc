@@ -22,6 +22,10 @@ nameDecl ::= IDENTIFIER
 nameUsage ::= IDENTIFIER {
 	extends=formula
 }
+// Have to make a wrapper due to a (seem-to-be) bug of Grammar-Kit.
+nameExp ::= IDENTIFIER {
+	extends=exp
+}
 module ::= KW_MODULE nameDecl KW_WHERE
  LAYOUT_START
   imports
@@ -46,14 +50,14 @@ decl ::=
 def ::= nameDecl teles COLON exp EQ expWhere { extends=decl }
 data ::= KW_DATA nameDecl teles EQ labels { pin=1 extends=decl }
 hdata ::= KW_HDATA nameDecl teles EQ labels { pin=1 extends=decl }
-split ::= nameDecl teles COLON exp EQ KW_SPLIT LAYOUT_START branches LAYOUT_END? { extends=decl }
+split ::= nameDecl teles COLON exp EQ KW_SPLIT LAYOUT_START branches LAYOUT_END? { pin=6 extends=decl }
 undef ::= nameDecl teles COLON exp EQ KW_UNDEFINED { extends=decl }
 mutual ::= KW_MUTUAL LAYOUT_START decls LAYOUT_END { pin=1 extends=decl }
 opaque ::= KW_OPAQUE nameDecl { pin=1 extends=decl }
 transparent ::= KW_TRANSPARENT nameDecl { pin=1 extends=decl }
 transparentAll ::= KW_TRANSPARENT_ALL { extends=decl }
 
-expWhere ::= exp KW_WHERE LAYOUT_START decls LAYOUT_END? { pin=1 }
+expWhere ::= exp (KW_WHERE LAYOUT_START decls LAYOUT_END?)? { pin=1 }
 
 // Telescopes
 private teles ::= tele*
@@ -65,10 +69,11 @@ tele ::= LPAREN nameDecl+ COLON exp RPAREN
 
 // Labelled sum alternatives
 private labels ::= (label BAR?)*
-label ::= nameDecl teles (LT teles GT system)?
+label ::= nameDecl teles (LT nameDecl? GT system)?
 
 exp ::=
-   appExp
+   pConExp
+ | appExp
  | funExp
  | appFormulaExp
  | letExp
@@ -82,11 +87,11 @@ exp ::=
  | idJExp
  | projectionExp
  | pairExp
- | pconExp
  | typeExp
  | holeExp
  | transExp
- | nameUsage
+ | nameExp
+ | parenExp
 
 appExp ::= exp exp+
 funExp ::= exp ARROW exp
@@ -106,11 +111,12 @@ transExp ::= KW_TRANSPORT exp exp { pin=1 }
 idJExp ::= KW_IDJ exp exp exp exp exp exp { pin=1 }
 projectionExp ::= exp (DOT_ONE | DOT_TWO)
 pairExp ::= LPAREN exp COMMA exp* RPAREN { pin=3 }
-pconExp ::= nameUsage LAYOUT_START exp LAYOUT_END // c{T A B} x1 x2 @ phi
+pConExp ::= nameUsage LAYOUT_START exp LAYOUT_END // c{T A B} x1 x2 @ phi
 typeExp ::= KW_U
 holeExp ::= HOLE
+parenExp ::= LPAREN exp RPAREN
 
-dim ::= ONE | TWO { extends=formula }
+dim ::= ONE | ZERO { extends=formula }
 system ::= LBRACK sides RBRACK { pin=1 }
 
 private sides ::= (side COMMA?)*
@@ -122,7 +128,7 @@ formula ::=
  | conj
  | neg
  | nameUsage
- | dim { extends=exp }
+ | dim
 conj ::= formula AND formula { extends=formula }
 disj ::= formula OR  formula { extends=formula }
 neg ::= MINUS formula { extends=formula }

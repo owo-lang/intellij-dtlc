@@ -4,6 +4,7 @@ import com.intellij.lang.ParserDefinition
 import com.intellij.testFramework.ParsingTestCase
 import org.ice1000.tt.psi.acore.ACoreParserDefinition
 import org.ice1000.tt.psi.agda.AgdaParserDefinition
+import org.ice1000.tt.psi.cubicaltt.CubicalTTParserDefinition
 import org.ice1000.tt.psi.minitt.MiniTTParserDefinition
 import org.ice1000.tt.psi.mlpolyr.MLPolyRParserDefinition
 import org.ice1000.tt.psi.redprl.RedPrlParserDefinition
@@ -78,4 +79,8 @@ class AgdaParsingTest : DtlcParsingTestCase("parse/agda", "agda", AgdaParserDefi
 
 	fun testBetterExampleOfDot() = doTest(true, true)
 	fun testConstSquare() = doTest(true, true)
+}
+
+class CubicalTTParsingTest : DtlcParsingTestCase("parse/cubicaltt", "ctt", CubicalTTParserDefinition()) {
+	fun `test propTrunc`() = doTest(true, true)
 }
