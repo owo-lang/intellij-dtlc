@@ -76,4 +76,5 @@ class AgdaParsingTest : DtlcParsingTestCase("parse/agda", "agda", AgdaParserDefi
 	fun `test records`() = doTest(true, true)
 	fun `test one-linear-layout`() = doTest(true, true)
 	fun `test BetterExampleOfDot`() = doTest(true, true)
+	fun `test ConstSquare`() = doTest(true, true)
 }

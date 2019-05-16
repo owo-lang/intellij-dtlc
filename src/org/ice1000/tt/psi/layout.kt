@@ -100,7 +100,7 @@ class LayoutLexer(
 
 		// initial state
 		var i = 0
-		var state = Normal
+		var state = WaitingForLayout
 		val indentStack = IndentStack()
 		indentStack.push(-1) // top-level is an implicit section
 
