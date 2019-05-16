@@ -73,6 +73,9 @@ label ::= nameDecl teles (LT nameDecl? GT system)?
 
 exp ::=
    pConExp
+ | expExpExp
+ | sysExp
+ | sysExpExp
  | appExp
  | funExp
  | appFormulaExp
@@ -81,11 +84,11 @@ exp ::=
  | pLamExp
  | splitExp
  | dtExp
- | expExpExp
- | sysExp
- | sysExpExp
  | idJExp
- | projectionExp
+ | atomic
+
+private atomic ::=
+   projectionExp
  | pairExp
  | typeExp
  | holeExp
@@ -101,14 +104,14 @@ lamExp ::= LAMBDA pteles ARROW exp { pin=1 }
 pLamExp ::= LT nameDecl GT exp { pin=1 }
 splitExp ::= KW_SPLIT_AT exp KW_WITH LAYOUT_START branches LAYOUT_END { pin=1 }
 dtExp ::= pteles (ARROW | TIMES) exp { pin=2 }
-expExpExp ::= expExpExpKeywords exp exp exp { pin=1 }
+expExpExp ::= expExpExpKeywords atomic atomic atomic { pin=1 }
 private expExpExpKeywords ::= KW_PATH_P | KW_ID
-sysExpExp ::= sysExpExpKeywords exp exp system { pin=1 }
+sysExpExp ::= sysExpExpKeywords atomic atomic system { pin=1 }
 private sysExpExpKeywords ::= KW_COMP | KW_HCOMP | KW_FILL
-sysExp ::= sysExpKeywords exp system { pin=1 }
+sysExp ::= sysExpKeywords atomic system { pin=1 }
 private sysExpKeywords ::= KW_GLUE | KW_GLUE2 | KW_UNGLUE | KW_IDC
-transExp ::= KW_TRANSPORT exp exp { pin=1 }
-idJExp ::= KW_IDJ exp exp exp exp exp exp { pin=1 }
+transExp ::= KW_TRANSPORT atomic atomic { pin=1 }
+idJExp ::= KW_IDJ atomic atomic atomic atomic atomic atomic { pin=1 }
 projectionExp ::= exp (DOT_ONE | DOT_TWO)
 pairExp ::= LPAREN exp COMMA exp* RPAREN { pin=3 }
 pConExp ::= nameUsage LAYOUT_START exp LAYOUT_END // c{T A B} x1 x2 @ phi

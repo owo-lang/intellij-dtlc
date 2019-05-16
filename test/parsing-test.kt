@@ -83,4 +83,6 @@ class AgdaParsingTest : DtlcParsingTestCase("parse/agda", "agda", AgdaParserDefi
 
 class CubicalTTParsingTest : DtlcParsingTestCase("parse/cubicaltt", "ctt", CubicalTTParserDefinition()) {
 	fun `test propTrunc`() = doTest(true, true)
+	fun `test hnat`() = doTest(true, true)
+	fun `test hz`() = doTest(true, true)
 }
