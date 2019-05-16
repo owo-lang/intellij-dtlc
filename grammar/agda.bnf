@@ -32,10 +32,8 @@ signature ::= nameDecl+ COLON exp {
 	pin=2
 	extends=declaration
 }
-implementation ::= lhs EQUAL exp whereClause? {
-	pin=2
-	extends=declaration
-}
+implementation ::= lhs (implBody)? whereClause? { extends=declaration }
+private implBody ::= EQUAL exp { pin=1 }
 withAbstraction ::= exp KW_WITH exp barExp* {
 	pin=2
 	extends=declaration
@@ -194,7 +192,7 @@ nameExp ::= IDENTIFIER (DOT IDENTIFIER)*
 typeExp ::= arg exp
 type2Exp ::= exp ARROW exp
 asExp ::= exp AS nameExp
-lamExp ::= LAMBDA exp ARROW exp { pin=3 }
+lamExp ::= LAMBDA exp lamBody?
 matchExp ::= LAMBDA OPEN_BRACE clauses CLOSE_BRACE { pin=2 }
 parenExp ::= OPEN_PAREN exp CLOSE_PAREN { pin=2 }
 idiomExp ::= OPEN_IDIOM_BRACKET exp CLOSE_IDIOM_BRACKET { pin=1 }
@@ -213,6 +211,7 @@ string ::= CHR_LIT | STR_LIT {
 clause ::= exp ARROW exp { pin=2 }
 private clauses ::= clause restClauses*
 private restClauses ::= SEMI clause { pin=1 }
+private lamBody ::= ARROW exp { pin=1 }
 
 private arg ::= argPrefix ARROW?
 argPrefix ::=
@@ -220,10 +219,10 @@ argPrefix ::=
  | implicitArg
  | instanceArg
  | forallArg
-explicitArg ::= OPEN_PAREN signature CLOSE_PAREN
-implicitArg ::= OPEN_BRACE signature CLOSE_BRACE { pin=2 }
+explicitArg ::= KW_FORALL? OPEN_PAREN signature CLOSE_PAREN
+implicitArg ::= KW_FORALL? OPEN_BRACE signature CLOSE_BRACE { pin=3 }
 instanceArg ::= OPEN_BRACE OPEN_BRACE signature CLOSE_BRACE CLOSE_BRACE { pin=2 }
-forallArg ::= KW_FORALL nameDecl+ { pin=1 }
+forallArg ::= KW_FORALL nameDecl+
 
 private quoteKeyword ::=
    KW_QUOTE
