@@ -32,9 +32,9 @@ signature ::= nameDecl+ COLON exp {
 	pin=2
 	extends=declaration
 }
-implementation ::= lhs (implBody)? whereClause? { extends=declaration }
+implementation ::= lhs implBody? whereClause? { extends=declaration }
 private implBody ::= EQUAL exp { pin=1 }
-withAbstraction ::= exp KW_WITH exp barExp* {
+withAbstraction ::= lhs KW_WITH exp barExp* {
 	pin=2
 	extends=declaration
 }
@@ -107,6 +107,7 @@ recordFields ::= KW_FIELD layoutSignature {
 
 declaration ::=
    signature
+ | withAbstraction
  | implementation
  | module
  | block
@@ -116,7 +117,6 @@ declaration ::=
  | open
  | infix
  | importPackage
- | withAbstraction
  | macro
  | unquote
 
@@ -189,7 +189,7 @@ atomicExp ::=
  | FLOAT
  | OPEN_PAREN CLOSE_PAREN
 nameExp ::= IDENTIFIER (DOT IDENTIFIER)*
-typeExp ::= arg exp
+typeExp ::= argPrefix ARROW? exp
 type2Exp ::= exp ARROW exp
 asExp ::= exp AS nameExp
 lamExp ::= LAMBDA exp lamBody?
@@ -213,14 +213,15 @@ private clauses ::= clause restClauses*
 private restClauses ::= SEMI clause { pin=1 }
 private lamBody ::= ARROW exp { pin=1 }
 
-private arg ::= argPrefix ARROW?
 argPrefix ::=
    explicitArg
  | implicitArg
+ | implicitForallArg
  | instanceArg
  | forallArg
 explicitArg ::= KW_FORALL? OPEN_PAREN signature CLOSE_PAREN
 implicitArg ::= KW_FORALL? OPEN_BRACE signature CLOSE_BRACE { pin=3 }
+implicitForallArg ::= KW_FORALL? OPEN_BRACE nameDecl+ CLOSE_BRACE { pin=3 }
 instanceArg ::= OPEN_BRACE OPEN_BRACE signature CLOSE_BRACE CLOSE_BRACE { pin=2 }
 forallArg ::= KW_FORALL nameDecl+
 

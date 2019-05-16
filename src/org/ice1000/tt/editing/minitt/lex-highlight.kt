@@ -90,7 +90,7 @@ class MiniTTColorSettingsPage : ColorSettingsPage {
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), MiniTTHighlighter.IDENTIFIER),
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.constructor-call"), MiniTTHighlighter.CONSTRUCTOR_CALL),
 			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.constructor-decl"), MiniTTHighlighter.CONSTRUCTOR_DECL),
-			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.function-decl"), MiniTTHighlighter.FUNCTION_NAME),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), MiniTTHighlighter.FUNCTION_NAME),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), MiniTTHighlighter.SEMICOLON),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), MiniTTHighlighter.COMMA),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), MiniTTHighlighter.UNRESOLVED),

@@ -140,7 +140,7 @@ class MLPolyRColorSettingsPage : ColorSettingsPage {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.function-call"), MLPolyRHighlighter.FUNCTION_CALL),
-			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.function-decl"), MLPolyRHighlighter.FUNCTION_DECL),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), MLPolyRHighlighter.FUNCTION_DECL),
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.parameter-call"), MLPolyRHighlighter.PARAMETER_CALL),
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.parameter-decl"), MLPolyRHighlighter.PARAMETER_DECL),
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.pattern-call"), MLPolyRHighlighter.PATTERN_CALL),

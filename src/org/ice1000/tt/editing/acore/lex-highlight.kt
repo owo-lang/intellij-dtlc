@@ -83,7 +83,7 @@ class ACoreColorSettingsPage : ColorSettingsPage {
 		private val DESCRIPTORS = arrayOf(
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), ACoreHighlighter.KEYWORD),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), ACoreHighlighter.IDENTIFIER),
-			AttributesDescriptor(TTBundle.message("acore.highlighter.settings.function-decl"), ACoreHighlighter.FUNCTION_NAME),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), ACoreHighlighter.FUNCTION_NAME),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), ACoreHighlighter.SEMICOLON),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), ACoreHighlighter.COMMA),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), ACoreHighlighter.UNRESOLVED),

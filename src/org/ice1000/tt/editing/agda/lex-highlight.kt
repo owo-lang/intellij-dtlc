@@ -21,6 +21,7 @@ import org.intellij.lang.annotations.Language
 object AgdaHighlighter : SyntaxHighlighter {
 	@JvmField val KEYWORD = TextAttributesKey.createTextAttributesKey("AGDA_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
 	@JvmField val IDENTIFIER = TextAttributesKey.createTextAttributesKey("AGDA_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER)
+	@JvmField val FUNCTION_NAME = TextAttributesKey.createTextAttributesKey("AGDA_FUNCTION_NAME", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
 	@JvmField val SEMICOLON = TextAttributesKey.createTextAttributesKey("AGDA_SEMICOLON", DefaultLanguageHighlighterColors.SEMICOLON)
 	@JvmField val DOT = TextAttributesKey.createTextAttributesKey("AGDA_DOT", DefaultLanguageHighlighterColors.DOT)
 	@JvmField val LINE_COMMENT = TextAttributesKey.createTextAttributesKey("AGDA_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
@@ -132,6 +133,7 @@ class AgdaColorSettingsPage : ColorSettingsPage {
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.number"), AgdaHighlighter.NUMBER),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.float"), AgdaHighlighter.FLOAT),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), AgdaHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), AgdaHighlighter.FUNCTION_NAME),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), AgdaHighlighter.SEMICOLON),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.dot"), AgdaHighlighter.DOT),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.hole"), AgdaHighlighter.HOLE),
@@ -142,15 +144,18 @@ class AgdaColorSettingsPage : ColorSettingsPage {
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), AgdaHighlighter.BRACE),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.block-comment"), AgdaHighlighter.BLOCK_COMMENT),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), AgdaHighlighter.LINE_COMMENT))
+
+		private val ADDITIONAL_DESCRIPTORS = mapOf(
+			"FD" to AgdaHighlighter.FUNCTION_NAME)
 	}
 
 	override fun getHighlighter(): SyntaxHighlighter = AgdaHighlighter
-	override fun getAdditionalHighlightingTagToDescriptorMap(): MutableMap<String, TextAttributesKey> = mutableMapOf()
+	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS
 	override fun getIcon() = TTIcons.AGDA
 	override fun getAttributeDescriptors() = DESCRIPTORS
 	override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 	override fun getDisplayName() = AgdaFileType.name
-	@Language("")
+	@Language("Agda")
 	override fun getDemoText() = """
 {-# OPTIONS --without-K #-}
 module Example where
@@ -159,7 +164,7 @@ import IO
 import Function
 
 -- Testing function
-test : (a : IO.IO) -> IO.IO
+<FD>test</FD> : (a : IO.IO) -> IO.IO
 test a = run $ do
   putStrLn "Hello World"
   (| record
