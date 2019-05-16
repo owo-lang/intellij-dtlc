@@ -73,5 +73,6 @@ class AgdaParsingTest : DtlcParsingTestCase("parse/agda", "agda", AgdaParserDefi
 	fun `test private-primitive-variable`() = doTest(true, true)
 	fun `test complex-nested-layouts`() = doTest(true, true)
 	fun `test imports`() = doTest(true, true)
+	fun `test records`() = doTest(true, true)
 	fun `test one-linear-layout`() = doTest(true, true)
 }

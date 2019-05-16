@@ -32,7 +32,7 @@ class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.IN
 		@JvmField val COMMENTS = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT, PRAGMA)
 		@JvmField val WHITE_SPACE = TokenSet.create(EOL, TokenType.WHITE_SPACE)
 		@JvmField val NON_CODE = TokenSet.orSet(COMMENTS, WHITE_SPACE, TokenSet.create(EOL, LAYOUT_START, LAYOUT_END, LAYOUT_SEP))
-		@JvmField val LAYOUT_CREATOR = TokenSet.create(KW_WHERE, KW_PRIMITIVE, KW_PRIVATE, KW_VARIABLE)
+		@JvmField val LAYOUT_CREATOR = TokenSet.create(KW_WHERE, KW_PRIMITIVE, KW_PRIVATE, KW_VARIABLE, KW_FIELD, KW_ABSTRACT, KW_MUTUAL, KW_POSTULATE)
 		@JvmField val STRINGS = TokenSet.create(CHR_LIT, STR_LIT)
 		@JvmField val IDENTIFIERS = TokenSet.create(IDENTIFIER)
 

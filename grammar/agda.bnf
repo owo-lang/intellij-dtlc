@@ -27,8 +27,8 @@ module ::= KW_MODULE nameExp KW_WHERE
 	extends=declaration
 }
 
-dataSignature ::= nameDecl+ argPrefix* COLON exp whereClause? { pin=3 }
-signature ::= nameDecl+ COLON exp whereClause? {
+dataSignature ::= nameDecl+ argPrefix* COLON exp { pin=3 }
+signature ::= nameDecl+ COLON exp {
 	pin=2
 	extends=declaration
 }
