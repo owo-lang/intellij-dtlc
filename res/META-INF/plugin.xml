@@ -45,6 +45,7 @@
 		<lang.commenter language="CubicalTT" implementationClass="org.ice1000.tt.editing.HaskellCommenter"/>
 		<lang.braceMatcher language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTBraceMatcher"/>
 		<lang.findUsagesProvider language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTFindUsagesProvider"/>
+		<lang.syntaxHighlighterFactory language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTHighlighterFactory"/>
 
 		<!--MLPolyR-->
 		<configurationType implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationType"/>
