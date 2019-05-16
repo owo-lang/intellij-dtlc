@@ -113,7 +113,7 @@ class LayoutLexer(
 			when (state) {
 				WaitingForLayout -> {
 					if (token.isCode && token.column > indentStack.peek()) {
-						tokens.add(i, virtualToken(layoutStart, tokens[i - 1]))
+						tokens.add(i, virtualToken(layoutStart, tokens[(i - 1).coerceAtLeast(0)]))
 						i++
 						indentStack.push(token.column)
 						if (token.elementType !in layoutCreatingTokens) state = Normal
