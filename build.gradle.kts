@@ -173,6 +173,13 @@ val genACoreUtility = task<LanguageUtilityGenerationTask>("genACoreUtility") {
 	hasVersion = false
 }
 
+val genCubicalTTUtility = task<LanguageUtilityGenerationTask>("genCubicalTTUtility") {
+	languageName = "CubicalTT"
+	constantPrefix = "CUBICAL_TT"
+	exeName = "cubical"
+	trimVersion = "version.trim()"
+}
+
 val genAgdaUtility = task<LanguageUtilityGenerationTask>("genAgdaUtility") {
 	languageName = "Agda"
 	constantPrefix = "AGDA"
@@ -204,6 +211,7 @@ generateCode.dependsOn(
 	genACoreUtility,
 	genAgdaUtility,
 	genRedPrlUtility,
+	genCubicalTTUtility,
 	genAgdaParser,
 	genAgdaLexer,
 	genACoreParser,
