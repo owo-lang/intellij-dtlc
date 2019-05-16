@@ -32,8 +32,7 @@ signature ::= nameDecl+ COLON exp {
 	pin=2
 	extends=declaration
 }
-implementation ::= lhs implBody? whereClause? { extends=declaration }
-private implBody ::= EQUAL exp { pin=1 }
+implementation ::= lhs eqExp? whereClause? { extends=declaration }
 withAbstraction ::= lhs KW_WITH exp barExp* {
 	pin=2
 	extends=declaration
@@ -212,8 +211,9 @@ dotExp ::= DOT exp { pin=1 }
 quoteExp ::= quoteKeyword exp { pin=1 }
 letExp ::= KW_LET layout KW_IN exp { pin=1 }
 doExp ::= KW_DO layout { pin=1 }
-implicitExp ::= OPEN_BRACE exp CLOSE_BRACE { pin=2 }
-instanceExp ::= OPEN_BRACE OPEN_BRACE exp CLOSE_BRACE CLOSE_BRACE { pin=2 }
+implicitExp ::= OPEN_BRACE exp eqExp? CLOSE_BRACE { pin=2 }
+private eqExp ::= EQUAL exp { pin=1 }
+instanceExp ::= OPEN_BRACE OPEN_BRACE exp eqExp? CLOSE_BRACE CLOSE_BRACE { pin=2 }
 string ::= CHR_LIT | STR_LIT {
 	mixin='org.ice1000.tt.psi.agda.AgdaStringMixin'
 	extends=exp
