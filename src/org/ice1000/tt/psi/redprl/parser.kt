@@ -16,11 +16,11 @@ import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.RedPrlFile
 import org.ice1000.tt.RedPrlLanguage
 import org.ice1000.tt.psi.WHITE_SPACE
-import org.ice1000.tt.psi.childrenWithLeaves
+import org.ice1000.tt.psi.childrenRevWithLeaves
 
 class RedPrlFileImpl(viewProvider: FileViewProvider) : RedPrlFile(viewProvider) {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		childrenWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
+		childrenRevWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
 class RedPrlElementType(debugName: String) : IElementType(debugName, RedPrlLanguage.INSTANCE)

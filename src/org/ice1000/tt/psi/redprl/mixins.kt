@@ -50,21 +50,19 @@ abstract class RedPrlDevDecompPatternOwnerMixin(node: ASTNode) : GeneralDeclarat
 	override val type: PsiElement? get() = null
 	override fun getNameIdentifier(): PsiElement? = findChildByClass(RedPrlDevDecompPattern::class.java)
 	override fun setName(newName: String): PsiElement = throw IncorrectOperationException("Cannot rename!")
-	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) = PsiTreeUtil
-		.getChildrenOfTypeAsList(this, RedPrlDevDecompPattern::class.java)
-		.asReversed()
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) = childrenRevWithLeaves
+		.filterIsInstance<RedPrlDevDecompPattern>()
 		.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
 abstract class RedPrlAnywayMixin(node: ASTNode) : ASTWrapperPsiElement(node) {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		childrenWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
+		childrenRevWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
 abstract class RedPrlBoundVarsOwnerMixin(node: ASTNode) : RedPrlBoundVarOwnerMixin(node) {
-	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) = PsiTreeUtil
-		.getChildrenOfTypeAsList(this, RedPrlBoundVar::class.java)
-		.asReversed()
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) = childrenRevWithLeaves
+		.filterIsInstance<RedPrlBoundVar>()
 		.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
@@ -73,7 +71,7 @@ abstract class RedPrlDevMatchClauseMixin(node: ASTNode) : GeneralDeclaration(nod
 	override fun getIcon(flags: Int) = TTIcons.RED_PRL
 	override fun setName(newName: String): PsiElement = throw IncorrectOperationException("Cannot rename!")
 	override fun getNameIdentifier(): PsiElement? = findChildByClass(RedPrlVarDecl::class.java)
-	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) = childrenWithLeaves
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) = childrenRevWithLeaves
 		.filter { it is RedPrlVarDecl || it is RedPrlBoundVar || it is RedPrlDevDecompPatternOwnerMixin }
 		.all { it.processDeclarations(processor, state, lastParent, place) }
 }
@@ -92,7 +90,7 @@ abstract class RedPrlVarOwnerMixin(node: ASTNode) : GeneralDeclaration(node), Re
 	override val type: PsiElement? get() = findChildByClass(RedPrlJudgment::class.java)
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement): Boolean =
 		super.processDeclarations(processor, state, lastParent, place) &&
-			childrenWithLeaves.filterIsInstance<RedPrlVarOwnerMixin>().all {
+			childrenRevWithLeaves.filterIsInstance<RedPrlVarOwnerMixin>().all {
 				it.processDeclarations(processor, state, lastParent, place)
 			}.orTrue()
 }

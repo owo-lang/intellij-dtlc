@@ -148,13 +148,17 @@ lhs ::= lhsStart barExp* rewriting? { pin=1 }
 rewriting ::= KW_REWRITE exp barExp* { pin=1 }
 private barExp ::= BAR exp { pin=1 }
 
-layout ::= declaration | indentationLayout
+layout ::= declaration | indentationLayout {
+	mixin='org.ice1000.tt.psi.agda.AgdaLayoutMixin'
+}
 private indentationLayout ::=
  LAYOUT_START
   (declaration (LAYOUT_SEP? declaration)*)?
  LAYOUT_END? { pin=1 }
 
-layoutSignature ::= blockOrSig | indentationSignatureLayout
+layoutSignature ::= blockOrSig | indentationSignatureLayout {
+	mixin='org.ice1000.tt.psi.agda.AgdaLayoutMixin'
+}
 private indentationSignatureLayout ::=
  LAYOUT_START
   (blockOrSig (LAYOUT_SEP? blockOrSig)*)?
@@ -219,7 +223,7 @@ string ::= CHR_LIT | STR_LIT {
 	extends=exp
 }
 
-clause ::= exp ARROW exp { pin=2 }
+clause ::= nameDecl EQUAL exp { pin=2 }
 private clauses ::= clause restClauses*
 private restClauses ::= SEMI clause { pin=1 }
 private lamBody ::= ARROW exp { pin=1 }
