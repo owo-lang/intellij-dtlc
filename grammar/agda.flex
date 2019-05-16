@@ -100,15 +100,15 @@ coinductive { return KEYWORD; }
 unquoteDecl { return KEYWORD; }
 unquoteDef { return KEYWORD; }
 postulate { return KEYWORD; }
-primitive { return KEYWORD; }
+primitive { return KW_PRIMITIVE; }
 inductive { return KEYWORD; }
 quoteGoal { return KEYWORD; }
 quoteTerm { return KEYWORD; }
 abstract { return KEYWORD; }
 instance { return KEYWORD; }
-variable { return KEYWORD; }
+variable { return KW_VARIABLE; }
 rewrite { return KEYWORD; }
-private { return KEYWORD; }
+private { return KW_PRIVATE; }
 overlap { return KEYWORD; }
 unquote { return KEYWORD; }
 pattern { return KEYWORD; }
@@ -164,7 +164,7 @@ Prop{NUMBER}* { return UNIVERSE; }
 {FLOAT} { return FLOAT; }
 {NUMBER} { return NUMBER; }
 {WHITE_SPACE} { return WHITE_SPACE; }
-{EOL}+ { return EOL; }
+{EOL} { return EOL; }
 {IDENTIFIER} { return IDENTIFIER; }
 // The JFlex compiler says this rule can never be matched!
 // [^] { return BAD_CHARACTER; }

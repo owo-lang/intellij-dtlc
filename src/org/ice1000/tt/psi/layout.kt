@@ -5,7 +5,8 @@ import com.intellij.lexer.LexerBase
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import com.intellij.util.text.CharArrayCharSequence
-import org.ice1000.tt.psi.State.*
+import org.ice1000.tt.psi.State.Normal
+import org.ice1000.tt.psi.State.WaitingForLayout
 import java.util.LinkedList
 import kotlin.collections.ArrayList
 
@@ -29,7 +30,7 @@ class LayoutLexer(
 	/*TokenSet.create(LET, OF)*/
 	private val layoutCreatingTokens: TokenSet
 ) : LexerBase() {
-	private lateinit var tokens: ArrayList<Token>
+	private val tokens = ArrayList<Token>(40)
 	private var currentTokenIndex = 0
 	private val currentToken: Token
 		get() = tokens[currentTokenIndex]
@@ -46,7 +47,7 @@ class LayoutLexer(
 		// Start the incremental lexer
 		lexer.start(buffer, startOffset, endOffset, initialState)
 
-		tokens = doLayout()
+		doLayout()
 		currentTokenIndex = 0
 	}
 
@@ -64,20 +65,19 @@ class LayoutLexer(
 	}
 
 	private inner class Token(
-		val elementType: IElementType?,
-		val start: Int,
-		val end: Int,
-		val column: Int,
-		val line: Line
+		@JvmField val elementType: IElementType?,
+		@JvmField val start: Int,
+		@JvmField val end: Int,
+		@JvmField val column: Int,
+		@JvmField val line: Line
 	) {
 		override fun toString() = "${elementType.toString()} ($start, $end)"
 		val isEOF: Boolean get() = elementType == null
 		val isCode: Boolean get() = elementType !in nonCodeTokens && !isEOF
-		fun isFirstSignificantTokenOnLine() = isCode && column == line.columnWhereCodeStarts
+		fun isNextLayoutLine() = isCode && column == line.columnWhereCodeStarts
 	}
 
-	private fun slurpTokens(): MutableList<Token> {
-		val tokens = ArrayList<Token>()
+	private fun slurpTokens() {
 		var line = Line()
 		var currentColumn = 0
 		while (true) {
@@ -99,15 +99,14 @@ class LayoutLexer(
 
 			lexer.advance()
 		}
-		return tokens
 	}
 
-	private fun doLayout(): ArrayList<Token> {
-		val tokens = slurpTokens()
+	private fun doLayout() {
+		slurpTokens()
 
 		// initial state
 		var i = 0
-		var state = Start
+		var state = Normal
 		val indentStack = IndentStack()
 		indentStack.push(0) // top-level is an implicit section
 
@@ -115,16 +114,13 @@ class LayoutLexer(
 			val token = tokens[i]
 
 			when (state) {
-				Start -> {
-					if (token.isCode && token.column == 0) state = Normal
-				}
 				WaitingForLayout -> {
 					if (token.isCode && token.column > indentStack.peek()) {
 						tokens.add(i, virtualToken(layoutStart, tokens[i - 1]))
 						i++
 						state = Normal
 						indentStack.push(token.column)
-					} else if (token.isFirstSignificantTokenOnLine() && token.column <= indentStack.peek()) {
+					} else if (token.isNextLayoutLine() && token.column <= indentStack.peek()) {
 						// The program is malformed: most likely because the new section is empty
 						// (the user is still editing the text) or they did not indent the section.
 						// The empty section case is a common workflow, so we must handle it by bailing
@@ -135,28 +131,27 @@ class LayoutLexer(
 						i--
 					}
 				}
-				Normal -> when {
-					token.elementType in layoutCreatingTokens -> state = WaitingForLayout
-					token.isFirstSignificantTokenOnLine() -> i = doLayout0(i, tokens, token, indentStack)
-					/*isSingleLineLetIn(i, tokens) -> {
-						tokens.add(i, virtualToken(layoutEnd, tokens[i - 1]))
-						i++
-						indentStack.pop()
-					}*/
+				Normal -> {
+					if (token.elementType in layoutCreatingTokens) state = WaitingForLayout
+					if (token.isNextLayoutLine()) i = insideLayout(i, token, indentStack)
+					/*
+          isSingleLineLetIn(i, tokens) -> {
+           tokens.add(i, virtualToken(layoutEnd, tokens[i - 1]))
+           i++
+           indentStack.pop()
+          }*/
 				}
 			}
 
 			i++
 			if (i >= tokens.size) break
 		}
-
-		return ArrayList(tokens)
 	}
 
 	/**
 	 * Extracted from [doLayout] to reduce indentation.
 	 */
-	private fun doLayout0(i: Int, tokens: MutableList<Token>, token: Token, indentStack: IndentStack): Int {
+	private fun insideLayout(i: Int, token: Token, indentStack: IndentStack): Int {
 		var i1 = i
 		var insertAt = i1
 
@@ -169,30 +164,24 @@ class LayoutLexer(
 		// Note that a virtual token has to appear after a whitespace token, since the real token
 		// is combined with the virtual token during parsing (their text ranges overlap).
 		loop@ for (k in (i1 - 1) downTo 1) {
-			if (tokens[k].isCode) {
-				for (m in (k + 1) until (i1 + 1)) {
-					if (tokens[m].elementType == endOfLine) {
-						insertAt = m + 1
-						break@loop
-					}
-				}
+			if (tokens[k].isCode) for (m in (k + 1) until (i1 + 1)) if (tokens[m].elementType == endOfLine) {
+				insertAt = m + 1
+				break@loop
 			}
 		}
 
 		val precedingToken = tokens[insertAt - 1]
 
-		while (token.column <= indentStack.peek()) {
-			if (token.column == indentStack.peek()) {
-				tokens.add(insertAt, virtualToken(layoutSeparator, precedingToken))
-				i1++
-				break
-			} else if (token.column < indentStack.peek()) {
-				tokens.add(insertAt, virtualToken(layoutEnd, precedingToken))
-				i1++
-				insertAt++
-				indentStack.pop()
-			}
-		}
+		while (true) if (token.column == indentStack.peek()) {
+			tokens.add(insertAt, virtualToken(layoutSeparator, precedingToken))
+			i1++
+			break
+		} else if (token.column < indentStack.peek()) {
+			tokens.add(insertAt, virtualToken(layoutEnd, precedingToken))
+			i1++
+			insertAt++
+			indentStack.pop()
+		} else break
 		return i1
 	}
 
@@ -206,11 +195,13 @@ class LayoutLexer(
 }
 
 private enum class State {
-	/**
+	/*
 	 * The start state.
 	 * Do not perform layout until we get to the first real line of code.
+	 *
+	 * In DTLC, there can be layout at the beginning of files.
 	 */
-	Start,
+	/*Start,*/
 
 	/**
 	 * Waiting for the first line of code inside a let/in or case/of in order to open a new section.
@@ -277,4 +268,4 @@ private class IndentStack : LinkedList<Int>() {
 	}
 }
 
-internal class Line(var columnWhereCodeStarts: Int? = null)
+internal class Line(@JvmField var columnWhereCodeStarts: Int? = null)

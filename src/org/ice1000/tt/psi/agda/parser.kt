@@ -18,12 +18,12 @@ import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.AgdaFile
 import org.ice1000.tt.AgdaLanguage
 import org.ice1000.tt.psi.LayoutLexer
-import org.ice1000.tt.psi.WHITE_SPACE
 import org.ice1000.tt.psi.agda.AgdaTypes.*
 
 class AgdaElementType(debugName: String) : IElementType(debugName, AgdaLanguage.INSTANCE)
 
 class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.INSTANCE) {
+	@Suppress("MemberVisibilityCanBePrivate")
 	companion object Builtin {
 		@JvmField val LINE_COMMENT = AgdaTokenType("line comment")
 		@JvmField val PRAGMA = AgdaTokenType("{-# #-}")
@@ -32,14 +32,14 @@ class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.IN
 		@JvmField val COMMENTS = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT, PRAGMA)
 		@JvmField val WHITE_SPACE = TokenSet.create(EOL, TokenType.WHITE_SPACE)
 		@JvmField val NON_CODE = TokenSet.orSet(COMMENTS, WHITE_SPACE, TokenSet.create(EOL, LAYOUT_START, LAYOUT_END, LAYOUT_SEP))
-		@JvmField val LAYOUT_CREATOR = TokenSet.create(KW_WHERE)
+		@JvmField val LAYOUT_CREATOR = TokenSet.create(KW_WHERE, KW_PRIMITIVE, KW_PRIVATE, KW_VARIABLE)
 		@JvmField val STRINGS = TokenSet.create(CHR_LIT, STR_LIT)
 		@JvmField val IDENTIFIERS = TokenSet.create(IDENTIFIER)
 
-		@JvmStatic fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(AgdaLanguage.INSTANCE, text)?.firstChild
-		@JvmStatic fun createSignature(text: String, project: Project) = fromText(text, project) as? AgdaSignature
-		@JvmStatic fun createExp(text: String, project: Project) = createSignature("f : $text", project)?.exp
-		@JvmStatic fun createStr(text: String, project: Project) = createExp(text, project) as? AgdaString
+		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(AgdaLanguage.INSTANCE, text)?.firstChild
+		fun createSignature(text: String, project: Project) = fromText(text, project) as? AgdaSignature
+		fun createExp(text: String, project: Project) = createSignature("f : $text", project)?.exp
+		fun createStr(text: String, project: Project) = createExp(text, project) as? AgdaString
 	}
 }
 

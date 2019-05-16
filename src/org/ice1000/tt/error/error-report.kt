@@ -253,7 +253,6 @@ private object ErrorReportBundle {
 	@NonNls private const val BUNDLE = "org.ice1000.tt.error.report-bundle"
 	private val bundle: ResourceBundle by lazy { ResourceBundle.getBundle(BUNDLE) }
 
-	@JvmStatic
 	internal fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any) =
 		CommonBundle.message(bundle, key, *params)
 }
