@@ -14,6 +14,7 @@
   tokenTypeClass="org.ice1000.tt.psi.agda.AgdaTokenType"
 
   extends(".*Exp")=exp
+  extends(".*Arg")=argPrefix
 }
 
 /// This is just a placeholder.
@@ -26,6 +27,7 @@ module ::= KW_MODULE nameExp KW_WHERE
 	extends=declaration
 }
 
+dataSignature ::= nameDecl+ argPrefix* COLON exp whereClause? { pin=3 }
 signature ::= nameDecl+ COLON exp whereClause? {
 	pin=2
 	extends=declaration
@@ -41,11 +43,11 @@ withAbstraction ::= exp KW_WITH exp {
 private unquoteKeywords ::=
    KW_UNQUOTE_DEF
  | KW_UNQUOTE_DECL
- | KW_OPEN
 unquote ::= unquoteKeywords exp {
 	pin=1
 	extends=declaration
 }
+open ::= KW_OPEN exp { extends=declaration }
 private aliasKeywords ::=
    KW_PATTERN
  | KW_SYNTAX
@@ -61,15 +63,16 @@ infix ::= infixKeywords NUMBER nameExp+ {
 	pin=1
 	extends=declaration
 }
-importPackage ::= KW_OPEN? KW_IMPORT nameExp (visibility | renaming)* {
+importPackage ::= KW_OPEN? KW_IMPORT nameExp importModification* {
 	pin=2
 }
+private importModification ::= visibility | renaming
 visibilityKeywords ::= "using" | "hiding"
 visibility ::= visibilityKeywords OPEN_PAREN (nameExp nameExpRest*)? CLOSE_PAREN { pin=1 }
 private nameExpRest ::= SEMI nameExp { pin=1 }
 
 renaming ::= "renaming" OPEN_PAREN (renamePair renamePairRest*)? CLOSE_PAREN { pin=1 }
-renamePair ::= nameExp "to" nameDecl
+renamePair ::= nameExp "to" nameDecl { pin=2 }
 private renamePairRest ::= SEMI renamePair { pin=1 }
 
 macro ::= KW_MACRO layout { pin=1 }
@@ -77,8 +80,8 @@ whereClause ::= KW_WHERE layout { pin=1 }
 whereSignatureClause ::= KW_WHERE layoutSignature { pin=1 }
 whereRecordClause ::= KW_WHERE layoutRecord { pin=1 }
 
-data ::= (KW_DATA | KW_CODATA) signature whereSignatureClause { pin=1 }
-record ::= KW_RECORD signature whereRecordClause { pin=1 }
+data ::= (KW_DATA | KW_CODATA) dataSignature whereSignatureClause { pin=1 }
+record ::= KW_RECORD dataSignature whereRecordClause { pin=1 }
 
 recordDecl ::=
    recordDeclKeywords
@@ -111,6 +114,7 @@ declaration ::=
  | data
  | record
  | alias
+ | open
  | infix
  | importPackage
  | withAbstraction
@@ -192,7 +196,7 @@ lamExp ::= LAMBDA exp ARROW exp { pin=3 }
 matchExp ::= LAMBDA OPEN_BRACE clauses CLOSE_BRACE { pin=2 }
 parenExp ::= OPEN_PAREN exp CLOSE_PAREN { pin=2 }
 idiomExp ::= OPEN_IDIOM_BRACKET exp CLOSE_IDIOM_BRACKET { pin=1 }
-recordExp ::= KW_RECORD OPEN_BRACE clauses CLOSE_BRACE { pin=1 }
+recordExp ::= KW_RECORD OPEN_BRACE clauses CLOSE_BRACE { pin=2 }
 dotExp ::= DOT exp { pin=1 }
 quoteExp ::= quoteKeyword exp { pin=1 }
 letExp ::= KW_LET layout KW_IN exp { pin=1 }
@@ -207,13 +211,13 @@ clause ::= exp ARROW exp { pin=2 }
 private clauses ::= clause restClauses*
 private restClauses ::= SEMI clause { pin=1 }
 
-arg ::= argPrefix ARROW?
-private argPrefix ::=
+private arg ::= argPrefix ARROW?
+argPrefix ::=
    explicitArg
  | implicitArg
  | instanceArg
  | forallArg
-explicitArg ::= OPEN_PAREN signature CLOSE_PAREN { pin=1 }
+explicitArg ::= OPEN_PAREN signature CLOSE_PAREN
 implicitArg ::= OPEN_BRACE signature CLOSE_PAREN { pin=2 }
 instanceArg ::= OPEN_BRACE OPEN_BRACE signature CLOSE_PAREN CLOSE_PAREN { pin=2 }
 forallArg ::= KW_FORALL nameDecl+ { pin=1 }

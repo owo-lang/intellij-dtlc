@@ -25,10 +25,12 @@ usages), including:
   [OwO] (WIP)
 
 "rich" means executor (running a file, managing the compiler) \+
-parser (which means syntax highlight) \+
+parser (which means syntax highlight, syntax-aware selection) \+
 reference resolver (which means goto definition and completion),
 "poor" means executor (running a file, managing the compiler) \+
-lexer (which means syntax highlight),
+incomplete parser (which means syntax highlight, syntax-aware selection
+but complex syntax might be parsed incorrectly) \+
+incomplete reference resolving (a stupid one),
 "WIP" means it's under construction, planned to be rich but not yet.
 
 This plugin is created for personal entertainment purpose.
