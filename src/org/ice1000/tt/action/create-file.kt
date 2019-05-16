@@ -71,6 +71,7 @@ class NewTTActionGroup : DefaultActionGroup(
 	NewMiniTTFile,
 	NewAgdaFile,
 	NewRedPrlFile,
+	NewCubicalTTFile,
 	NewMLPolyRFile
 ), DumbAware {
 	init {

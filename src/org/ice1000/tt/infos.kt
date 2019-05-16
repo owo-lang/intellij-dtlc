@@ -31,13 +31,14 @@ class OwOFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, OwOLan
 
 class TTFileTypeFactory : FileTypeFactory() {
 	override fun createFileTypes(consumer: FileTypeConsumer) {
-		consumer.consume(MiniTTFileType, MINI_TT_EXTENSION)
-		consumer.consume(ACoreFileType, AGDA_CORE_EXTENSION)
-		consumer.consume(OwOFileType, OWO_EXTENSION)
-		consumer.consume(AgdaFileType, AGDA_EXTENSION)
-		consumer.consume(VoileFileType, VOILE_EXTENSION)
-		consumer.consume(MLPolyRFileType, MLPOLYR_EXTENSION)
-		consumer.consume(RedPrlFileType, RED_PRL_EXTENSION)
+		consumer.consume(MiniTTFileType)
+		consumer.consume(ACoreFileType)
+		consumer.consume(OwOFileType)
+		consumer.consume(AgdaFileType)
+		consumer.consume(CubicalTTFileType)
+		consumer.consume(VoileFileType)
+		consumer.consume(MLPolyRFileType)
+		consumer.consume(RedPrlFileType)
 	}
 }
 
