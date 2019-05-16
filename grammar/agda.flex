@@ -31,7 +31,7 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 
 WHITE_SPACE=[\ \t\f]+
 EOL=\r\n|\r|\n
-IDENTIFIER=[^.;{}()@\ \t\f\r\n][^'.;{}()@\ \t\f\r\n]*
+IDENTIFIER=[^.;→{}()@\ \t\f\r\n][^'.;{}()@\ \t\f\r\n]*
 NUMBER=[\u2070-\u20890-9]+
 LINE_COMMENT=--[^\n\r]*
 STR=\"([^\\\"]|\\t|\\n|\\\"|\\\\)*\"

@@ -4,6 +4,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import org.intellij.lang.annotations.Language
 
@@ -18,7 +19,9 @@ open class LanguageUtilityGenerationTask : DefaultTask() {
 	@field:Input var hasVersion: Boolean = true
 	@field:Input var generateSettings: Boolean = true
 	@field:OutputDirectory
-	val outDir = basePackage.split('.').fold(project.projectDir.resolve("gen")) { dir, p -> dir.resolve(p) }
+	val outDir = basePackage.split('.').fold(project.buildDir.resolve("gen")) { dir, p -> dir.resolve(p) }
+	@field:OutputDirectory
+	val pluginXmlDir = project.buildDir.resolve("genRes").resolve("META-INF")
 
 	init {
 		group = "code generation"
@@ -347,5 +350,31 @@ class ${languageName}CommandLineState(
 		val exe = outDir.resolve("execution").apply { mkdirs() }
 		exe.resolve("$nickname-generated.kt").writeText(runConfig)
 		if (generateCliState) exe.resolve("$nickname-cli-state.kt").writeText(cliState)
+		pluginXmlDir.mkdirs()
+		val pluginXml = pluginXmlDir.resolve("plugin-$nickname-generated.xml")
+		@Language("XML")
+		val pluginXmlContent = """
+<idea-plugin>
+	<extensions defaultExtensionNs='com.intellij'>
+		<liveTemplateContext implementation="org.ice1000.tt.editing.${languageName}DefaultContext"/>
+		<configurationType implementation="org.ice1000.tt.execution.${languageName}RunConfigurationType"/>
+		<runConfigurationProducer implementation="org.ice1000.tt.execution.${languageName}RunConfigurationProducer"/>
+		<lang.refactoringSupport language="$languageName" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
+
+		<projectConfigurable
+			groupId="language"
+			id="TT.$languageName.Configurable"
+			displayName="$languageName"
+			instance="org.ice1000.tt.project.${languageName}ProjectConfigurable"/>
+	</extensions>
+
+	<project-components>
+		<component>
+			<implementation-class>org.ice1000.tt.project.${languageName}ProjectSettingsService</implementation-class>
+		</component>
+	</project-components>
+</idea-plugin>
+"""
+		pluginXml.apply { if (!exists()) createNewFile() }.writeText(pluginXmlContent)
 	}
 }

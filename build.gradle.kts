@@ -86,9 +86,9 @@ tasks.withType<PatchPluginXmlTask> {
 sourceSets {
 	main {
 		withConvention(KotlinSourceSet::class) {
-			listOf(java, kotlin).forEach { it.srcDirs("src", "gen") }
+			listOf(java, kotlin).forEach { it.srcDirs("src", "$buildDir/gen") }
 		}
-		resources.srcDir("res")
+		resources.srcDirs("res", "$buildDir/genRes")
 	}
 
 	test {
@@ -125,7 +125,7 @@ task("isCI") {
 fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
 	val lowerCaseName = name.toLowerCase()
 	val parserRoot = Paths.get("org", "ice1000", "tt", "psi", lowerCaseName)!!
-	val lexerRoot = Paths.get("gen", "org", "ice1000", "tt", "psi", lowerCaseName)!!
+	val lexerRoot = Paths.get("build", "gen", "org", "ice1000", "tt", "psi", lowerCaseName)!!
 	fun path(more: Iterable<*>) = more.joinToString(File.separator)
 	fun bnf(name: String) = Paths.get("grammar", "$name.bnf").toString()
 	fun flex(name: String) = Paths.get("grammar", "$name.flex").toString()
@@ -134,7 +134,7 @@ fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
 		group = "code generation"
 		description = "Generate Parser and Psi classes for $name"
 		source = bnf(lowerCaseName)
-		targetRoot = "gen/"
+		targetRoot = "$buildDir/gen/"
 		pathToParser = path(parserRoot + "${name}Parser.java")
 		pathToPsiRoot = path(parserRoot)
 		purgeOldFiles = true
