@@ -14,7 +14,6 @@
   tokenTypeClass="org.ice1000.tt.psi.agda.AgdaTokenType"
 
   extends(".*Exp")=exp
-  extends(".*Block")=declaration
 }
 
 /// This is just a placeholder.
@@ -126,7 +125,10 @@ private blockKeyword ::=
  | KW_ABSTRACT
  | KW_INSTANCE
  | KW_MUTUAL
-block ::= blockKeyword layout { pin=1 }
+block ::= blockKeyword layout {
+	pin=1
+	extends=declaration
+}
 
 private lhsStart ::= exp | ELLIPSIS
 lhs ::= lhsStart barExp* rewriting? { pin=1 }
