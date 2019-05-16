@@ -14,7 +14,7 @@ import org.ice1000.tt.psi.childrenRevWithLeaves
 
 abstract class AgdaLayoutMixin(node: ASTNode) : ASTWrapperPsiElement(node) {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) = childrenRevWithLeaves
-		.filter { it is AgdaSignature || it is AgdaDataSignature || it is AgdaDataMixin }
+		.filter { it is AgdaSignatureMixin || it is AgdaDataMixin }
 		.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
