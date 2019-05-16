@@ -12,26 +12,17 @@ usages), including:
 + ![](./res/icons/voile/voile.svg)
   [Voile] (WIP)
 + ![](./res/icons/minitt/minitt.svg)
-  [minitt] (rich)
+  [minitt]
 + ![](./res/icons/mlpr/mlpr_file.svg)
-  [MLPolyR] (rich)
+  [MLPolyR]
 + ![](./res/icons/mtt/mtt_file.svg)
-  [Vanilla Mini-TT][Mini-TT] (rich) ([GitHub mirror][acore-mirror])
+  [Vanilla Mini-TT][Mini-TT] ([GitHub mirror][acore-mirror])
 + ![](./res/icons/redprl/redprl.svg)
-  [RedPRL] (rich) ([GitHub source][RedPRL-gh])
+  [RedPRL] ([GitHub source][RedPRL-gh])
 + ![](./res/icons/agda/agda.svg)
-  [Agda] (poor)
+  [Agda]
 + ![](./res/icons/owo_file.png)
   [OwO] (WIP)
-
-"rich" means executor (running a file, managing the compiler) \+
-parser (which means syntax highlight, syntax-aware selection) \+
-reference resolver (which means goto definition and completion),
-"poor" means executor (running a file, managing the compiler) \+
-incomplete parser (which means syntax highlight, syntax-aware selection
-but complex syntax might be parsed incorrectly) \+
-incomplete reference resolving (a stupid one),
-"WIP" means it's under construction, planned to be rich but not yet.
 
 This plugin is created for personal entertainment purpose.
 Don't expect too much, but contributions/discussions/feature requests
