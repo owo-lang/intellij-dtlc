@@ -25,6 +25,10 @@ import org.jetbrains.annotations.NonNls
 @NonNls const val MLPOLYR_EXTENSION = "mlpr"
 @NonNls const val MLPOLYR_LANGUAGE_NAME = "MLPolyR"
 
+@NonNls const val CUBICAL_TT_WEBSITE = "https://arxiv.org/abs/1611.02108"
+@NonNls const val CUBICAL_TT_EXTENSION = "ctt"
+@NonNls const val CUBICAL_TT_LANGUAGE_NAME = "CubicalTT"
+
 @NonNls const val RED_PRL_WEBSITE = "http://www.redprl.org/"
 @NonNls const val RED_PRL_EXTENSION = "prl"
 @NonNls const val RED_PRL_LANGUAGE_NAME = "RedPRL"
