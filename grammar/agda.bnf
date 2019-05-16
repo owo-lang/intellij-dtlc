@@ -1,3 +1,4 @@
+//noinspection BnfResolveForFile
 {
   generate=[java="8" names="long"]
 
@@ -24,21 +25,30 @@ token ::=
  | OPEN_PAREN | CLOSE_PAREN | OPEN_BRACE
  | CLOSE_BRACE | BAR | AS
 
-module ::= KW_MODULE IDENTIFIER KW_WHERE
+module ::= KW_MODULE nameExp KW_WHERE
  layout {
 	pin=1
 	extends=declaration
 }
 
-signature ::= IDENTIFIER COLON exp whereClause? {
+signature ::= nameExp COLON exp whereClause? {
 	pin=2
 	extends=declaration
 }
-implementation ::= exp EQUAL exp whereClause? {
+implementation ::= lhs EQUAL exp whereClause? {
 	pin=2
 	extends=declaration
 }
-whereClause ::= KW_WHERE layout+ { pin=1 }
+withAbstraction ::= exp KW_WITH exp {
+	pin=2
+	extends=declaration
+}
+unquote ::= KW_UNQUOTE_DECL exp {
+	pin=1
+	extends=declaration
+}
+macro ::= KW_MACRO layout { pin=1 }
+whereClause ::= KW_WHERE layout { pin=1 }
 declaration ::=
    signature
  | implementation
@@ -46,10 +56,26 @@ declaration ::=
  | primitiveBlock
  | privateBlock
  | variableBlock
+ | abstractBlock
+ | postulateBlock
+ | instanceBlock
+ | mutualBlock
+ | withAbstraction
+ | macro
+ | unquote
 
 primitiveBlock ::= KW_PRIMITIVE layout { pin=1 }
 privateBlock ::= KW_PRIVATE layout { pin=1 }
 variableBlock ::= KW_VARIABLE layout { pin=1 }
+postulateBlock ::= KW_POSTULATE layout { pin=1 }
+abstractBlock ::= KW_ABSTRACT layout { pin=1 }
+instanceBlock ::= KW_INSTANCE layout { pin=1 }
+mutualBlock ::= KW_MUTUAL layout { pin=1 }
+
+private lhsStart ::= exp | ELLIPSIS
+lhs ::= lhsStart barExp* rewriting? { pin=1 }
+rewriting ::= KW_REWRITE exp barExp* { pin=1 }
+private barExp ::= BAR exp { pin=1 }
 
 layout ::= declaration | indentationLayout
 private indentationLayout ::=
@@ -59,11 +85,47 @@ private indentationLayout ::=
 
 private layoutElement ::= LAYOUT_SEP? declaration
 
-exp ::= holeExp | string | nameExp | typeExp | token
+exp ::= atomic+
+
+private atomic ::=
+   string
+ | holeExp
+ | nameExp
+ | typeExp
+ | numExp
+ | lamExp
+ | idiomExp
+ | matchExp
+ | recordExp
+ | dotExp
+ | quoteExp
+ | absurdExp
+ | parenExp
+
 holeExp ::= UNDERSCORE | QUESTION_MARK | HOLE
-nameExp ::= IDENTIFIER
+nameExp ::= IDENTIFIER (DOT IDENTIFIER)*
 typeExp ::= UNIVERSE
+numExp ::= NUMBER | FLOAT
+lamExp ::= LAMBDA exp ARROW exp { pin=3 }
+matchExp ::= LAMBDA OPEN_BRACE clauses CLOSE_BRACE { pin=2 }
+parenExp ::= OPEN_PAREN exp CLOSE_PAREN { pin=2 }
+idiomExp ::= OPEN_IDIOM_BRACKET exp CLOSE_IDIOM_BRACKET { pin=1 }
+recordExp ::= KW_RECORD OPEN_BRACE clauses CLOSE_BRACE { pin=1 }
+absurdExp ::= OPEN_PAREN CLOSE_PAREN
+dotExp ::= DOT exp { pin=1 }
+quoteExp ::= quoteKeyword exp { pin=1 }
 string ::= CHR_LIT | STR_LIT {
 	mixin='org.ice1000.tt.psi.agda.AgdaStringMixin'
 	extends=exp
 }
+
+clause ::= exp ARROW exp { pin=2 }
+private clauses ::= clause restClauses*
+private restClauses ::= SEMI clause { pin=1 }
+
+private quoteKeyword ::=
+   KW_QUOTE
+ | KW_QUOTE_TERM
+ | KW_QUOTE_GOAL
+ | KW_QUOTE_CONTEXT
+ | KW_UNQUOTE

@@ -43,6 +43,8 @@ identChrs = [a-zA-Z0-9\'/-]*
 
 // Slightly modified
 
+// Refernce: https://github.com/RedPRL/sml-redprl/blob/master/src/redprl/redprl.lex
+
 %%
 
 <INSIDE_COMMENT> {

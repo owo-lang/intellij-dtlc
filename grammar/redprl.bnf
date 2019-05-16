@@ -22,6 +22,7 @@
 // Regular expressions:
 //  s/\(Ast\.\$\$[^\n]+//rg
 
+// Reference: https://github.com/RedPRL/sml-redprl/blob/master/src/redprl/redprl.grm
 file ::= mlDecl mlDeclRest*
 private mlDeclRest ::= DOT mlDecl? { pin=1 }
 

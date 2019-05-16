@@ -38,7 +38,7 @@ class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.IN
 
 		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(AgdaLanguage.INSTANCE, text)?.firstChild
 		fun createSignature(text: String, project: Project) = fromText(text, project) as? AgdaSignature
-		fun createExp(text: String, project: Project) = createSignature("f : $text", project)?.exp
+		fun createExp(text: String, project: Project) = createSignature("f : $text", project)?.expList?.firstOrNull()
 		fun createStr(text: String, project: Project) = createExp(text, project) as? AgdaString
 	}
 }
