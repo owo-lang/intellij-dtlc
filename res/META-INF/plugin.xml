@@ -20,6 +20,7 @@
 		<liveTemplateContext implementation="org.ice1000.tt.editing.ACoreDefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.RedPrlDefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.MLPolyRDefaultContext"/>
+		<liveTemplateContext implementation="org.ice1000.tt.editing.CubicalTTDefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.TTParentContext"/>
 
 		<!--Agda-->

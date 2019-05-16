@@ -1,2 +1,26 @@
 <templateSet group="Agda">
+	<template
+		name="data"
+		value="data $name$ : $type$ where&#10;  $END$"
+		description="data ... where"
+		toReformat="true"
+		toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="AGDA_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
+	<template
+		name="record"
+		value="record $name$ : $type$ where&#10;  $END$"
+		description="record ... where"
+		toReformat="false"
+		toShortenFQNames="true">
+		<variable name="name" expression="" defaultValue="" alwaysStopAt="true"/>
+		<variable name="type" expression="" defaultValue="" alwaysStopAt="true"/>
+		<context>
+			<option name="AGDA_DEFAULT_CONTEXT_ID" value="true"/>
+		</context>
+	</template>
 </templateSet>
