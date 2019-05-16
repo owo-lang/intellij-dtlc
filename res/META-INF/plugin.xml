@@ -30,6 +30,7 @@
 		<lang.commenter language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaCommenter"/>
 		<lang.braceMatcher language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaBraceMatcher"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.agda.AgdaColorSettingsPage"/>
+		<lang.foldingBuilder language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaFoldingBuilder"/>
 		<lang.elementManipulator
 			forClass="org.ice1000.tt.psi.agda.AgdaStringMixin"
 			implementationClass="org.ice1000.tt.psi.agda.AgdaStringManipulator"/>
