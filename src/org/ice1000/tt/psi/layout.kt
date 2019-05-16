@@ -29,8 +29,8 @@ class LayoutLexer(
 	private val nonCodeTokens: TokenSet,
 	/*TokenSet.create(LET, OF)*/
 	private val layoutCreatingTokens: TokenSet,
-	private val initialState: (List<Token>) -> State = { WaitingForLayout },
-	private val letInTokens: LetIn? = null
+	private val letInTokens: LetIn? = null,
+	private val initialState: (List<Token>) -> State = { WaitingForLayout }
 ) : LexerBase() {
 	private val tokens = ArrayList<Token>(40)
 	private var currentTokenIndex = 0
