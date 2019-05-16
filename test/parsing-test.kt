@@ -70,4 +70,5 @@ class RedPrlParsingTest : DtlcParsingTestCase("parse/redprl", "prl", RedPrlParse
 
 class AgdaParsingTest : DtlcParsingTestCase("parse/agda", "agda", AgdaParserDefinition()) {
 	fun `test module-layout`() = doTest(true, true)
+	fun `test private-primitive-variable`() = doTest(true, true)
 }

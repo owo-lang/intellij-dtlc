@@ -118,9 +118,11 @@ class LayoutLexer(
 					if (token.isCode && token.column > indentStack.peek()) {
 						tokens.add(i, virtualToken(layoutStart, tokens[i - 1]))
 						i++
-						state = Normal
 						indentStack.push(token.column)
-					} else if (token.isNextLayoutLine() && token.column <= indentStack.peek()) {
+						if (token.elementType !in layoutCreatingTokens) state = Normal
+						if (token.isNextLayoutLine()) i = insideLayout(i, token, indentStack)
+					}
+					if (token.isNextLayoutLine() && token.column <= indentStack.peek()) {
 						// The program is malformed: most likely because the new section is empty
 						// (the user is still editing the text) or they did not indent the section.
 						// The empty section case is a common workflow, so we must handle it by bailing
