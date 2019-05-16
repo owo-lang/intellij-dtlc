@@ -36,7 +36,7 @@ implementation ::= lhs EQUAL exp whereClause? {
 	pin=2
 	extends=declaration
 }
-withAbstraction ::= exp KW_WITH exp {
+withAbstraction ::= exp KW_WITH exp barExp* {
 	pin=2
 	extends=declaration
 }
@@ -65,6 +65,7 @@ infix ::= infixKeywords NUMBER nameExp+ {
 }
 importPackage ::= KW_OPEN? KW_IMPORT nameExp importModification* {
 	pin=2
+	extends=declaration
 }
 private importModification ::= visibility | renaming
 visibilityKeywords ::= "using" | "hiding"
@@ -77,7 +78,7 @@ private renamePairRest ::= SEMI renamePair { pin=1 }
 
 macro ::= KW_MACRO layout { pin=1 }
 whereClause ::= KW_WHERE layout { pin=1 }
-whereSignatureClause ::= KW_WHERE layoutSignature { pin=1 }
+whereSignatureClause ::= KW_WHERE layoutSignature? { pin=1 }
 whereRecordClause ::= KW_WHERE layoutRecord { pin=1 }
 
 data ::= (KW_DATA | KW_CODATA) dataSignature whereSignatureClause { pin=1 }
