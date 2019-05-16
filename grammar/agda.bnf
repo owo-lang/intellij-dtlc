@@ -178,6 +178,7 @@ private atomic ::=
  | quoteExp
  | letExp
  | instanceExp
+ | implicitExp
  | doExp
  | parenExp
 
@@ -202,6 +203,7 @@ dotExp ::= DOT exp { pin=1 }
 quoteExp ::= quoteKeyword exp { pin=1 }
 letExp ::= KW_LET layout KW_IN exp { pin=1 }
 doExp ::= KW_DO layout { pin=1 }
+implicitExp ::= OPEN_BRACE exp CLOSE_BRACE { pin=2 }
 instanceExp ::= OPEN_BRACE OPEN_BRACE exp CLOSE_BRACE CLOSE_BRACE { pin=2 }
 string ::= CHR_LIT | STR_LIT {
 	mixin='org.ice1000.tt.psi.agda.AgdaStringMixin'
@@ -219,8 +221,8 @@ argPrefix ::=
  | instanceArg
  | forallArg
 explicitArg ::= OPEN_PAREN signature CLOSE_PAREN
-implicitArg ::= OPEN_BRACE signature CLOSE_PAREN { pin=2 }
-instanceArg ::= OPEN_BRACE OPEN_BRACE signature CLOSE_PAREN CLOSE_PAREN { pin=2 }
+implicitArg ::= OPEN_BRACE signature CLOSE_BRACE { pin=2 }
+instanceArg ::= OPEN_BRACE OPEN_BRACE signature CLOSE_BRACE CLOSE_BRACE { pin=2 }
 forallArg ::= KW_FORALL nameDecl+ { pin=1 }
 
 private quoteKeyword ::=

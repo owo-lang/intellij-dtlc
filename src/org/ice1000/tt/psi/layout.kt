@@ -3,6 +3,7 @@ package org.ice1000.tt.psi
 import com.intellij.lexer.Lexer
 import com.intellij.lexer.LexerBase
 import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.TokenSet
 import com.intellij.util.containers.IntStack
 import com.intellij.util.text.CharArrayCharSequence
 import org.ice1000.tt.psi.State.Normal
@@ -24,9 +25,9 @@ class LayoutLexer(
 	private val layoutSeparator: IElementType,
 	private val layoutEnd: IElementType,
 	/*TokenSet.orSet(TokenSet.create(TokenType.WHITE_SPACE, TAB, endOfLine), ELM_COMMENTS)*/
-	private val nonCodeTokens: List<IElementType>,
+	private val nonCodeTokens: TokenSet,
 	/*TokenSet.create(LET, OF)*/
-	private val layoutCreatingTokens: List<IElementType>
+	private val layoutCreatingTokens: TokenSet
 ) : LexerBase() {
 	private val tokens = ArrayList<Token>(40)
 	private var currentTokenIndex = 0

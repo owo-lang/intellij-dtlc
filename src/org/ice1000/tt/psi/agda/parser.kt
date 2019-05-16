@@ -32,21 +32,6 @@ class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.IN
 		@JvmField val WHITE_SPACE = TokenSet.create(EOL, TokenType.WHITE_SPACE)
 		@JvmField val STRINGS = TokenSet.create(AgdaTypes.CHR_LIT, AgdaTypes.STR_LIT)
 		@JvmField val IDENTIFIERS = TokenSet.create(AgdaTypes.IDENTIFIER)
-		@JvmField val NON_CODE = listOf(EOL,
-			AgdaTypes.LAYOUT_START,
-			AgdaTypes.LAYOUT_END,
-			AgdaTypes.LAYOUT_SEP
-		) + COMMENTS.types + WHITE_SPACE.types
-		@JvmField val LAYOUT_CREATOR = listOf(
-			AgdaTypes.KW_WHERE,
-			AgdaTypes.KW_PRIMITIVE,
-			AgdaTypes.KW_PRIVATE,
-			AgdaTypes.KW_VARIABLE,
-			AgdaTypes.KW_FIELD,
-			AgdaTypes.KW_ABSTRACT,
-			AgdaTypes.KW_MUTUAL,
-			AgdaTypes.KW_POSTULATE
-		)
 
 		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(AgdaLanguage.INSTANCE, text)?.firstChild
 		fun createSignature(text: String, project: Project) = fromText(text, project) as? AgdaSignature
@@ -55,6 +40,25 @@ class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.IN
 	}
 }
 
+@JvmField val NON_CODE = TokenSet.orSet(
+	AgdaTokenType.COMMENTS, AgdaTokenType.WHITE_SPACE,
+	TokenSet.create(
+		AgdaTypes.LAYOUT_START,
+		AgdaTypes.LAYOUT_END,
+		AgdaTypes.LAYOUT_SEP
+	))
+@JvmField val LAYOUT_CREATOR = TokenSet.create(
+	AgdaTypes.KW_WHERE,
+	AgdaTypes.KW_PRIMITIVE,
+	AgdaTypes.KW_PRIVATE,
+	AgdaTypes.KW_VARIABLE,
+	AgdaTypes.KW_FIELD,
+	AgdaTypes.KW_ABSTRACT,
+	AgdaTypes.KW_MUTUAL,
+	AgdaTypes.KW_POSTULATE
+)
+
+
 fun agdaLexer() = FlexAdapter(AgdaLexer())
 fun agdaLayoutLexer() = LayoutLexer(
 	agdaLexer(),
@@ -62,8 +66,8 @@ fun agdaLayoutLexer() = LayoutLexer(
 	AgdaTypes.LAYOUT_START,
 	AgdaTypes.LAYOUT_SEP,
 	AgdaTypes.LAYOUT_END,
-	AgdaTokenType.NON_CODE,
-	AgdaTokenType.LAYOUT_CREATOR
+	NON_CODE,
+	LAYOUT_CREATOR
 )
 
 class AgdaParserDefinition : ParserDefinition {
