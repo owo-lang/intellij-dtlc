@@ -14,7 +14,7 @@ usages), including:
 + ![](./res/icons/minitt/minitt.svg)
   [minitt]
 + ![](./res/icons/mlpr/mlpr_file.svg)
-  [MLPolyR]
+  [MLPolyR] ([GitHub source][MLPolyR-gh])
 + ![](./res/icons/mtt/mtt_file.svg)
   [Vanilla Mini-TT][Mini-TT] ([GitHub mirror][acore-mirror])
 + ![](./res/icons/redprl/redprl.svg)
@@ -28,7 +28,8 @@ This plugin is created for personal entertainment purpose.
 Don't expect too much, but contributions/discussions/feature requests
 are welcomed!
 
- [MLPolyR]: https://github.com/owo-lang/MLPolyR
+ [MLPolyR]: https://people.cs.uchicago.edu/~blume/mlpolyr/
+ [MLPolyR-gh]: https://github.com/owo-lang/MLPolyR
  [minitt]: https://github.com/owo-lang/minitt-rs
  [Mini-TT]: http://www.cse.chalmers.se/research/group/logic/Mini-TT/
  [acore-mirror]: https://github.com/owo-lang/Mini-TT

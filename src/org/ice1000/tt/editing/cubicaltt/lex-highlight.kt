@@ -18,6 +18,8 @@ object CubicalTTHighlighter : SyntaxHighlighter {
 	@JvmField val COMMA = TextAttributesKey.createTextAttributesKey("CUBICAL_TT_COMMA", DefaultLanguageHighlighterColors.COMMA)
 	@JvmField val PAREN = TextAttributesKey.createTextAttributesKey("CUBICAL_TT_PARENTHESES", DefaultLanguageHighlighterColors.PARENTHESES)
 	@JvmField val BRACK = TextAttributesKey.createTextAttributesKey("CUBICAL_TT_BRACK", DefaultLanguageHighlighterColors.BRACKETS)
+	@JvmField val UNDEFINED = TextAttributesKey.createTextAttributesKey("CUBICAL_TT_UNDEFINED", DefaultLanguageHighlighterColors.KEYWORD)
+	@JvmField val HOLE = TextAttributesKey.createTextAttributesKey("CUBICAL_TT_HOLE", DefaultLanguageHighlighterColors.LABEL)
 	@JvmField val LINE_COMMENT = TextAttributesKey.createTextAttributesKey("CUBICAL_TT_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
 	@JvmField val BLOCK_COMMENT = TextAttributesKey.createTextAttributesKey("CUBICAL_TT_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
 
@@ -27,6 +29,8 @@ object CubicalTTHighlighter : SyntaxHighlighter {
 	@JvmField val COMMA_KEY = arrayOf(COMMA)
 	@JvmField val PAREN_KEY = arrayOf(PAREN)
 	@JvmField val BRACK_KEY = arrayOf(BRACK)
+	@JvmField val UNDEFINED_KEY = arrayOf(UNDEFINED)
+	@JvmField val HOLE_KEY = arrayOf(HOLE)
 	@JvmField val LINE_COMMENT_KEY = arrayOf(LINE_COMMENT)
 	@JvmField val BLOCK_COMMENT_KEY = arrayOf(BLOCK_COMMENT)
 
@@ -34,7 +38,6 @@ object CubicalTTHighlighter : SyntaxHighlighter {
 		CubicalTTTypes.KW_TRANSPARENT_ALL,
 		CubicalTTTypes.KW_TRANSPARENT,
 		CubicalTTTypes.KW_TRANSPORT,
-		CubicalTTTypes.KW_UNDEFINED,
 		CubicalTTTypes.KW_IMPORT,
 		CubicalTTTypes.KW_MODULE,
 		CubicalTTTypes.KW_MUTUAL,
@@ -67,6 +70,8 @@ object CubicalTTHighlighter : SyntaxHighlighter {
 		CubicalTTTypes.LPAREN, CubicalTTTypes.RPAREN -> PAREN_KEY
 		CubicalTTTypes.LBRACK, CubicalTTTypes.RBRACK -> BRACK_KEY
 		CubicalTTTypes.COMMA -> COMMA_KEY
+		CubicalTTTypes.KW_UNDEFINED -> UNDEFINED_KEY
+		CubicalTTTypes.HOLE -> HOLE_KEY
 		CubicalTTTokenType.LINE_COMMENT -> LINE_COMMENT_KEY
 		CubicalTTTokenType.BLOCK_COMMENT -> BLOCK_COMMENT_KEY
 		in KEYWORDS -> KEYWORD_KEY

@@ -68,4 +68,14 @@
 			<option name="EFFECT_COLOR" value="85A658"/>
 		</value>
 	</option>
+	<option name="CUBICAL_TT_HOLE">
+		<value>
+			<option name="EFFECT_COLOR" value="85A658"/>
+		</value>
+	</option>
+	<option name="CUBICAL_TT_UNDEFINED">
+		<value>
+			<option name="EFFECT_COLOR" value="85A658"/>
+		</value>
+	</option>
 </list>
