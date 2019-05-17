@@ -47,6 +47,7 @@
 		<lang.findUsagesProvider language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTFindUsagesProvider"/>
 		<lang.syntaxHighlighterFactory language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTHighlighterFactory"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTColorSettingsPage"/>
+		<annotator language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTAnnotator"/>
 
 		<!--MLPolyR-->
 		<configurationType implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationType"/>
