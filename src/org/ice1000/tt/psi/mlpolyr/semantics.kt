@@ -3,14 +3,14 @@ package org.ice1000.tt.psi.mlpolyr
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.ASTNode
-import com.intellij.openapi.util.TextRange
-import com.intellij.psi.*
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiElementResolveResult
+import com.intellij.psi.ResolveResult
 import com.intellij.psi.impl.source.resolve.ResolveCache
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
 import icons.SemanticIcons
 import org.ice1000.tt.psi.*
-import org.ice1000.tt.psi.mlpolyr.impl.MLPolyRExpImpl
 import javax.swing.Icon
 
 enum class MLPolyRSymbolKind(val icon: Icon?) {
@@ -37,21 +37,7 @@ fun MLPolyRGeneralPat.patSymbolKind(): MLPolyRSymbolKind {
 	}
 }
 
-abstract class MLPolyRLabelMixin(node: ASTNode) : MLPolyRExpImpl(node), MLPolyRLabel, PsiPolyVariantReference, PsiNameIdentifierOwner {
-	override fun isSoft() = true
-	override fun getRangeInElement() = TextRange(0, textLength)
-
-	override fun getElement() = this
-	override fun getReference() = this
-	override fun getReferences() = arrayOf(reference)
-	override fun isReferenceTo(reference: PsiElement) = reference == resolve()
-	override fun getCanonicalText(): String = text
-	override fun resolve(): PsiElement? = multiResolve(false).firstOrNull()?.run { element }
-
-	override fun bindToElement(element: PsiElement): PsiElement = throw IncorrectOperationException("Unsupported")
-	override fun getNameIdentifier() = this
-	override fun getName() = canonicalText
-	override fun setName(newName: String): PsiElement? = handleElementRename(newName)
+abstract class MLPolyRLabelMixin(node: ASTNode) : GeneralReference(node), MLPolyRLabel {
 	override fun handleElementRename(newName: String): PsiElement? =
 		replace(MLPolyRTokenType.createLabel(newName, project)
 			?: throw IncorrectOperationException("Invalid label: $newName"))
@@ -78,18 +64,7 @@ abstract class MLPolyRLabelMixin(node: ASTNode) : MLPolyRExpImpl(node), MLPolyRL
 	}
 }
 
-abstract class MLPolyRIdentifierMixin(node: ASTNode) : MLPolyRExpImpl(node), MLPolyRIdentifier, PsiPolyVariantReference {
-	override fun isSoft() = true
-	override fun getRangeInElement() = TextRange(0, textLength)
-
-	override fun getElement() = this
-	override fun getReference() = this
-	override fun getReferences() = arrayOf(reference)
-	override fun isReferenceTo(reference: PsiElement) = reference == resolve()
-	override fun getCanonicalText(): String = text
-	override fun resolve(): PsiElement? = multiResolve(false).firstOrNull()?.run { element }
-
-	override fun bindToElement(element: PsiElement): PsiElement = throw IncorrectOperationException("Unsupported")
+abstract class MLPolyRIdentifierMixin(node: ASTNode) : GeneralReference(node), MLPolyRIdentifier {
 	override fun handleElementRename(newName: String): PsiElement? =
 		replace(MLPolyRTokenType.createIdentifier(newName, project)
 			?: throw IncorrectOperationException("Invalid name: $newName"))

@@ -4,12 +4,11 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.progress.ProgressIndicatorProvider
 import com.intellij.openapi.util.Key
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiNameIdentifierOwner
-import com.intellij.psi.PsiReference
-import com.intellij.psi.ResolveState
+import com.intellij.openapi.util.TextRange
+import com.intellij.psi.*
 import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.util.IncorrectOperationException
 import org.ice1000.tt.orTrue
 
 abstract class ResolveProcessor<ResolveResult> : PsiScopeProcessor {
@@ -58,4 +57,18 @@ abstract class GeneralNameIdentifier(node: ASTNode) : ASTWrapperPsiElement(node)
 	override fun getName(): String? = text
 	override fun getNameIdentifier() = this
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) = processor.execute(this, state)
+}
+
+abstract class GeneralReference(node: ASTNode) : ASTWrapperPsiElement(node), PsiPolyVariantReference {
+	override fun isSoft() = true
+	override fun getRangeInElement() = TextRange(0, textLength)
+	override fun getName(): String? = text
+
+	override fun getElement() = this
+	override fun getReference() = this
+	override fun getReferences() = arrayOf(reference)
+	override fun isReferenceTo(reference: PsiElement) = reference == resolve()
+	override fun getCanonicalText() = text
+	override fun resolve(): PsiElement? = multiResolve(false).firstOrNull()?.run { element }
+	override fun bindToElement(element: PsiElement): PsiElement = throw IncorrectOperationException("Unsupported")
 }
