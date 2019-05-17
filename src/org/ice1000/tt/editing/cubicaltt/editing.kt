@@ -16,6 +16,7 @@ class CubicalTTBraceMatcher : PairedBraceMatcher {
 		private val PAIRS = arrayOf(
 			BracePair(CubicalTTTypes.LPAREN, CubicalTTTypes.RPAREN, false),
 			BracePair(CubicalTTTypes.LT, CubicalTTTypes.GT, false),
+			BracePair(CubicalTTTypes.KW_LET, CubicalTTTypes.KW_IN, false),
 			BracePair(CubicalTTTypes.LBRACK, CubicalTTTypes.RBRACK, false),
 			BracePair(CubicalTTTypes.LAYOUT_START, CubicalTTTypes.LAYOUT_END, false))
 	}
