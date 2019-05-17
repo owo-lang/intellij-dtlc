@@ -2,13 +2,10 @@ package org.ice1000.tt.psi.cubicaltt
 
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
-import com.intellij.lang.PsiParser
 import com.intellij.lexer.FlexAdapter
-import com.intellij.lexer.Lexer
 import com.intellij.openapi.project.Project
 import com.intellij.psi.FileViewProvider
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
+import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.TokenType
 import com.intellij.psi.stubs.PsiFileStubImpl
 import com.intellij.psi.tree.IElementType
@@ -29,6 +26,9 @@ class CubicalTTTokenType(debugName: String) : IElementType(debugName, CubicalTTL
 		@JvmField val IDENTIFIERS = TokenSet.create(CubicalTTTypes.IDENTIFIER)
 		@JvmField val WHITE_SPACE = TokenSet.create(EOL, TokenType.WHITE_SPACE)
 
+		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(CubicalTTLanguage.INSTANCE, text).firstChild
+		fun createExp(text: String, project: Project) = fromText(text, project) as? CubicalTTExp
+		fun createNameExp(text: String, project: Project) = createExp(text, project) as? CubicalTTNameExp
 	}
 }
 

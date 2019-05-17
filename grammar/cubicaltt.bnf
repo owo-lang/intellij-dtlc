@@ -21,10 +21,12 @@ entryPoints ::= module | exp
 nameDecl ::= IDENTIFIER
 nameUsage ::= IDENTIFIER {
 	extends=formula
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTNameMixin'
 }
 // Have to make a wrapper due to a (seem-to-be) bug of Grammar-Kit.
 nameExp ::= IDENTIFIER {
 	extends=exp
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTNameMixin'
 }
 module ::= KW_MODULE nameDecl KW_WHERE
  LAYOUT_START
