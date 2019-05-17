@@ -101,7 +101,7 @@ funExp ::= exp ARROW exp
 appFormulaExp ::= exp AT formula
 letExp ::= KW_LET LAYOUT_START decls LAYOUT_END KW_IN exp { pin=1 }
 lamExp ::= LAMBDA pteles ARROW exp { pin=1 }
-pLamExp ::= LT nameDecl GT exp { pin=1 }
+pLamExp ::= LT nameDecl+ GT exp { pin=1 }
 splitExp ::= KW_SPLIT_AT exp KW_WITH LAYOUT_START branches LAYOUT_END { pin=1 }
 dtExp ::= pteles (ARROW | TIMES) exp { pin=2 }
 expExpExp ::= expExpExpKeywords atomic atomic atomic { pin=1 }
@@ -113,7 +113,7 @@ private sysExpKeywords ::= KW_GLUE | KW_GLUE2 | KW_UNGLUE | KW_IDC
 transExp ::= KW_TRANSPORT atomic atomic { pin=1 }
 idJExp ::= KW_IDJ atomic atomic atomic atomic atomic atomic { pin=1 }
 projectionExp ::= exp (DOT_ONE | DOT_TWO)
-pairExp ::= LPAREN exp COMMA exp* RPAREN { pin=3 }
+pairExp ::= LPAREN exp (COMMA exp)+ RPAREN { pin=3 }
 pConExp ::= nameUsage LAYOUT_START exp LAYOUT_END { pin=2 } // c{T A B} x1 x2 @ phi
 typeExp ::= KW_U
 holeExp ::= HOLE
@@ -132,9 +132,11 @@ formula ::=
  | neg
  | nameUsage
  | dim
+ | parenj
 conj ::= formula AND formula { extends=formula }
 disj ::= formula OR  formula { extends=formula }
 neg ::= MINUS formula { extends=formula }
+parenj ::= LPAREN formula RPAREN { extends=formula }
 
 // Branches
 private branches ::= (branch LAYOUT_SEP?)*
