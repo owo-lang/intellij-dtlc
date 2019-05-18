@@ -7,6 +7,15 @@
 	<resource-bundle>org.ice1000.tt.tt-bundle</resource-bundle>
 
 	<extensions defaultExtensionNs="com.intellij">
+		<internalFileTemplate name="Agda File"/>
+		<internalFileTemplate name="ACore File"/>
+		<internalFileTemplate name="CubicalTT File"/>
+		<internalFileTemplate name="MiniTT File"/>
+		<internalFileTemplate name="MLPolyR File"/>
+		<internalFileTemplate name="OwO File"/>
+		<internalFileTemplate name="RedPrl File"/>
+		<internalFileTemplate name="Voile File"/>
+
 		<!--Common-->
 		<fileTypeFactory implementation="org.ice1000.tt.TTFileTypeFactory"/>
 		<errorHandler implementation="org.ice1000.tt.error.GitHubErrorReporter"/>
@@ -55,7 +64,7 @@
 		<colorSettingsPage implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTColorSettingsPage"/>
 		<annotator language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTAnnotator"/>
 		<stubIndex implementation="org.ice1000.tt.psi.cubicaltt.CubicalTTModuleStubKey"/>
-		<stubIndex implementation="org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStubKey"/>
+		<!--<stubIndex implementation="org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStubKey"/>-->
 
 		<!--MLPolyR-->
 		<configurationType implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationType"/>
