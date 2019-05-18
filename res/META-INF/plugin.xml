@@ -22,7 +22,12 @@
 		<liveTemplateContext implementation="org.ice1000.tt.editing.RedPrlDefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.MLPolyRDefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.CubicalTTDefaultContext"/>
+		<liveTemplateContext implementation="org.ice1000.tt.editing.VoileDefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.TTParentContext"/>
+
+		<!--Voile-->
+		<configurationType implementation="org.ice1000.tt.execution.VoileRunConfigurationType"/>
+		<runConfigurationProducer implementation="org.ice1000.tt.execution.VoileRunConfigurationProducer"/>
 
 		<!--Agda-->
 		<configurationType implementation="org.ice1000.tt.execution.AgdaRunConfigurationType"/>
@@ -136,6 +141,11 @@
 			id="TT.CubicalTT.Configurable"
 			displayName="Cubical-TT"
 			instance="org.ice1000.tt.project.CubicalTTProjectConfigurable"/>
+		<projectConfigurable
+			groupId="language"
+			id="TT.Voile.Configurable"
+			displayName="Voile"
+			instance="org.ice1000.tt.project.VoileProjectConfigurable"/>
 	</extensions>
 
 	<project-components>
@@ -156,6 +166,9 @@
 		</component>
 		<component>
 			<implementation-class>org.ice1000.tt.project.CubicalTTProjectSettingsService</implementation-class>
+		</component>
+		<component>
+			<implementation-class>org.ice1000.tt.project.VoileProjectSettingsService</implementation-class>
 		</component>
 	</project-components>
 

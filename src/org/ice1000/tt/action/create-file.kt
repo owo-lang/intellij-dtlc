@@ -53,17 +53,6 @@ private object NewOwOFile : NewTTFile(
 	}
 }
 
-private object NewVoileFile : NewTTFile(
-	TTBundle.message("voile.actions.new-file.name"),
-	TTBundle.message("voile.actions.new-file.description"),
-	TTIcons.VOILE_FILE) {
-	override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
-		builder
-			.setTitle(TTBundle.message("voile.actions.new-file.title"))
-			.addKind("File", TTIcons.VOILE_FILE, "Voile File")
-	}
-}
-
 class NewTTActionGroup : DefaultActionGroup(
 	NewOwOFile,
 	NewVoileFile,

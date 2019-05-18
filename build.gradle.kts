@@ -184,6 +184,13 @@ val genACoreUtility = utilities("genACoreUtility") {
 	hasVersion = false
 }
 
+val genVoileUtility = utilities("genVoileUtility") {
+	languageName = "Voile"
+	constantPrefix = "VOILE"
+	exeName = "voilec"
+	trimVersion = """version.removePrefix("voilec").trim()"""
+}
+
 val genCubicalTTUtility = utilities("genCubicalTTUtility") {
 	languageName = "CubicalTT"
 	constantPrefix = "CUBICAL_TT"
