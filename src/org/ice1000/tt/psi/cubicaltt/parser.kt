@@ -8,9 +8,7 @@ import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.TokenType
-import com.intellij.psi.stubs.PsiFileStubImpl
 import com.intellij.psi.tree.IElementType
-import com.intellij.psi.tree.IStubFileElementType
 import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.CubicalTTFile
 import org.ice1000.tt.CubicalTTLanguage
@@ -71,17 +69,13 @@ fun cubicalTTLayoutLexer() = LayoutLexer(
 )
 
 class CubicalTTParserDefinition : ParserDefinition {
-	private companion object {
-		private val FILE = IStubFileElementType<PsiFileStubImpl<CubicalTTFileImpl>>(CubicalTTLanguage.INSTANCE)
-	}
-
 	override fun getStringLiteralElements() = TokenSet.EMPTY
 	override fun getCommentTokens() = CubicalTTTokenType.COMMENTS
 	override fun createElement(node: ASTNode?) = CubicalTTTypes.Factory.createElement(node)
 	override fun createFile(viewProvider: FileViewProvider) = CubicalTTFileImpl(viewProvider)
 	override fun createLexer(project: Project?) = cubicalTTLayoutLexer()
 	override fun createParser(project: Project?) = CubicalTTParser()
-	override fun getFileNodeType() = FILE
+	override fun getFileNodeType() = CubicalTTFileStub.Type
 	override fun getWhitespaceTokens() = CubicalTTTokenType.WHITE_SPACE
 	// TODO: replace after dropping support for 183
 	override fun spaceExistanceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY

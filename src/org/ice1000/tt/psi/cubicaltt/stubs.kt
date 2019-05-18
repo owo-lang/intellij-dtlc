@@ -1,9 +1,24 @@
 package org.ice1000.tt.psi.cubicaltt
 
 import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiFile
 import com.intellij.psi.stubs.*
+import com.intellij.psi.tree.IStubFileElementType
 import org.ice1000.tt.CubicalTTLanguage
 import org.ice1000.tt.psi.cubicaltt.impl.CubicalTTModuleImpl
+
+class CubicalTTFileStub(file: CubicalTTFileImpl?) : PsiFileStubImpl<CubicalTTFileImpl>(file) {
+	override fun getType() = Type
+	companion object Type : IStubFileElementType<PsiFileStubImpl<CubicalTTFileImpl>>(CubicalTTLanguage.INSTANCE) {
+		override fun getStubVersion() = 0
+		override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>?) = CubicalTTFileStub(null)
+		override fun serialize(stub: PsiFileStubImpl<CubicalTTFileImpl>, dataStream: StubOutputStream) = Unit
+		override fun getExternalId() = "cubicaltt.file"
+		override fun getBuilder() = object : DefaultStubBuilder() {
+			override fun createStubForFile(file: PsiFile) = CubicalTTFileStub(file as? CubicalTTFileImpl)
+		}
+	}
+}
 
 class CubicalTTDeclStub(
 	parent: StubElement<*>,
