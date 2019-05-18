@@ -28,6 +28,7 @@
 		<!--Voile-->
 		<configurationType implementation="org.ice1000.tt.execution.VoileRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.VoileRunConfigurationProducer"/>
+		<lang.commenter language="Voile" implementationClass="org.ice1000.tt.editing.CxxCommenter"/>
 
 		<!--Agda-->
 		<configurationType implementation="org.ice1000.tt.execution.AgdaRunConfigurationType"/>
@@ -53,6 +54,7 @@
 		<lang.syntaxHighlighterFactory language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTHighlighterFactory"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTColorSettingsPage"/>
 		<annotator language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTAnnotator"/>
+		<stubIndex implementation="org.ice1000.tt.psi.cubicaltt.CubicalTTModuleStubKey"/>
 
 		<!--MLPolyR-->
 		<configurationType implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationType"/>
@@ -101,7 +103,7 @@
 		<configurationType implementation="org.ice1000.tt.execution.RedPrlRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.RedPrlRunConfigurationProducer"/>
 		<lang.parserDefinition language="RedPRL" implementationClass="org.ice1000.tt.psi.redprl.RedPrlParserDefinition"/>
-		<lang.commenter language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlCommenter"/>
+		<lang.commenter language="RedPRL" implementationClass="org.ice1000.tt.editing.CxxCommenter"/>
 		<annotator language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlAnnotator"/>
 		<lang.braceMatcher language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlBraceMatcher"/>
 		<lang.findUsagesProvider language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlFindUsagesProvider"/>

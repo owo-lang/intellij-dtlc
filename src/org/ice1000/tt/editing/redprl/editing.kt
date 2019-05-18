@@ -6,17 +6,10 @@ import com.intellij.lang.cacheBuilder.DefaultWordsScanner
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
-import org.ice1000.tt.editing.TTCommenter
 import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.psi.redprl.RedPrlTokenType
 import org.ice1000.tt.psi.redprl.RedPrlTypes
 import org.ice1000.tt.psi.redprl.redPrlLexer
-
-class RedPrlCommenter : TTCommenter() {
-	override fun getLineCommentPrefix() = "// "
-	override fun getBlockCommentPrefix() = "/*"
-	override fun getBlockCommentSuffix() = "*/"
-}
 
 class RedPrlBraceMatcher : PairedBraceMatcher {
 	private companion object Pairs {

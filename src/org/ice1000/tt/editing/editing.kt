@@ -31,3 +31,9 @@ class HaskellCommenter : TTCommenter() {
 	override fun getBlockCommentSuffix() = "-}"
 	override fun getLineCommentPrefix() = "--"
 }
+
+class CxxCommenter : TTCommenter() {
+	override fun getLineCommentPrefix() = "// "
+	override fun getBlockCommentPrefix() = "/*"
+	override fun getBlockCommentSuffix() = "*/"
+}

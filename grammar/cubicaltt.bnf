@@ -23,6 +23,7 @@ nameUsage ::= IDENTIFIER {
 	extends=formula
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTNameMixin'
 }
+moduleUsage ::= IDENTIFIER { mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTModuleUsageMixin' }
 // Have to make a wrapper due to a (seem-to-be) bug of Grammar-Kit.
 nameExp ::= IDENTIFIER {
 	extends=exp
@@ -32,10 +33,13 @@ module ::= KW_MODULE nameDecl KW_WHERE
  LAYOUT_START
   imports
   decls
- LAYOUT_END? { pin=1 }
+ LAYOUT_END? {
+	pin=1
+	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTModuleStub'
+}
 
 private imports ::= (import LAYOUT_SEP)*
-import ::= KW_IMPORT nameUsage { pin=1 }
+import ::= KW_IMPORT moduleUsage { pin=1 }
 
 private decls ::= (decl LAYOUT_SEP?)*
 decl ::=
