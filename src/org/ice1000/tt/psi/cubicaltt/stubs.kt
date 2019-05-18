@@ -70,7 +70,7 @@ object CubicalTTModuleStubType : CubicalTTStubType<CubicalTTModuleStub, CubicalT
 }
 
 object CubicalTTDeclStubType : CubicalTTStubType<CubicalTTDeclStub, CubicalTTDecl>("decl") {
-	override fun createPsi(stub: CubicalTTDeclStub) = CubicalTTDefImpl(stub, this)
+	override fun createPsi(stub: CubicalTTDeclStub) = TODO(/*CubicalTTDefImpl(stub, this)*/)
 	override fun createStub(psi: CubicalTTDecl, parentStub: StubElement<*>) = CubicalTTDeclStub(parentStub, psi.childrenWithLeaves.firstOrNull { it is CubicalTTNameDecl }?.text.orEmpty())
 	override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>) = CubicalTTDeclStub(parentStub, dataStream.readNameString().orEmpty())
 	override fun serialize(stub: CubicalTTDeclStub, dataStream: StubOutputStream) = dataStream.writeName(stub.declName)

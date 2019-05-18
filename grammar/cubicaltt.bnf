@@ -35,6 +35,8 @@ module ::= KW_MODULE nameDecl KW_WHERE
   decls
  LAYOUT_END? {
 	pin=1
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTModuleMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTModuleStub'
 	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
 }
@@ -53,7 +55,8 @@ decl ::=
  | opaque
  | transparent
  | transparentAll {
-	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
+	// stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
+	// elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
 }
 
 def ::= nameDecl teles COLON exp EQ expWhere { extends=decl }

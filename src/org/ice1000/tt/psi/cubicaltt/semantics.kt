@@ -18,10 +18,12 @@ enum class CubicalTTSymbolKind(val icon: Icon?) {
 abstract class CubicalTTModuleUsageMixin(node: ASTNode) : GeneralReference(node), CubicalTTModuleUsage {
 	override fun handleElementRename(newName: String): PsiElement? = throw IncorrectOperationException("Invalid name: $newName")
 	override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
-		val file = containingFile ?: return emptyArray()
 		if (!isValid || project.isDisposed) return emptyArray()
-		return ResolveCache.getInstance(project)
-			.resolveWithCaching(this, resolver, true, incompleteCode, file)
+		return modules(this)
+			.filter { it.stub?.moduleName == name }
+			.map(::PsiElementResolveResult)
+			.toList()
+			.toTypedArray()
 	}
 
 	override fun getVariants() = modules(this)
@@ -31,14 +33,6 @@ abstract class CubicalTTModuleUsageMixin(node: ASTNode) : GeneralReference(node)
 		.toTypedArray()
 
 	companion object ResolverHolder {
-		private val resolver = ResolveCache.PolyVariantResolver<CubicalTTModuleUsageMixin> { ref, _ ->
-			modules(ref)
-				.filter { it.stub?.moduleName == ref.name }
-				.map(::PsiElementResolveResult)
-				.toList()
-				.toTypedArray()
-		}
-
 		private fun modules(ref: CubicalTTModuleUsageMixin) = ref.containingFile
 			?.containingDirectory
 			?.files
