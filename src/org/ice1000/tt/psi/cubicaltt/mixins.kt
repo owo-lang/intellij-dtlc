@@ -3,6 +3,7 @@ package org.ice1000.tt.psi.cubicaltt
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.extapi.psi.StubBasedPsiElementBase
 import com.intellij.lang.ASTNode
+import com.intellij.navigation.ItemPresentation
 import com.intellij.navigation.NavigationItem
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
@@ -17,6 +18,7 @@ import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.GeneralNameIdentifier
 import org.ice1000.tt.psi.childrenRevWithLeaves
 import org.ice1000.tt.psi.childrenWithLeaves
+import javax.swing.Icon
 
 interface CubicalTTDecl : PsiElement, NavigationItem
 
@@ -25,6 +27,11 @@ abstract class CubicalTTModuleMixin : StubBasedPsiElementBase<CubicalTTModuleStu
 	constructor(stub: CubicalTTModuleStub, type: IStubElementType<*, *>) : super(stub, type)
 	constructor(stub: CubicalTTModuleStub, type: IElementType, node: ASTNode) : super(stub, type, node)
 
+	override fun getPresentation() = object : ItemPresentation {
+		override fun getLocationString() = containingFile.name
+		override fun getIcon(dark: Boolean) = TTIcons.CUBICAL_TT_FILE
+		override fun getPresentableText() = name
+	}
 	override fun getNameIdentifier() = nameDecl
 	override fun setName(newName: String): PsiElement {
 		CubicalTTTokenType.createNameDecl(newName, project)?.let { nameDecl?.replace(it) }
@@ -50,10 +57,16 @@ abstract class CubicalTTDeclMixin : StubBasedPsiElementBase<CubicalTTDeclStub>, 
 	constructor(stub: CubicalTTDeclStub, type: IStubElementType<*, *>) : super(stub, type)
 	constructor(stub: CubicalTTDeclStub, type: IElementType, node: ASTNode) : super(stub, type, node)
 
-	override fun getNameIdentifier() = findChildByClass(CubicalTTNameDecl::class.java)
+	override fun getNameIdentifier() = findChildByClass(CubicalTTNameDeclMixin::class.java)
 	override fun setName(newName: String): PsiElement {
 		CubicalTTTokenType.createNameDecl(newName, project)?.let { nameIdentifier?.replace(it) }
 		return this
+	}
+
+	override fun getPresentation() = object : ItemPresentation {
+		override fun getLocationString() = containingFile.name
+		override fun getIcon(dark: Boolean) = nameIdentifier?.getIcon(0) ?: TTIcons.CUBICAL_TT_FILE
+		override fun getPresentableText() = name
 	}
 
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
