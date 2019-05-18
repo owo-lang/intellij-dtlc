@@ -51,47 +51,25 @@ private decls ::= (decl LAYOUT_SEP?)*
 private decl ::=
    def
  | data
- | hdata
- | split
- | undef
  | mutual
  | opaque
  | transparent
  | transparentAll
 
-def ::= nameDecl teles COLON exp EQ expWhere {
+def ::= nameDecl teles COLON exp EQ defBody {
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDefMixin'
 	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.cubicaltt.CubicalTTDecl']
 	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
 	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
 }
-data ::= KW_DATA nameDecl teles EQ labels {
+data ::= (KW_DATA | KW_HDATA) nameDecl teles EQ labels {
 	pin=1
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDataMixin'
 	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.cubicaltt.CubicalTTDecl']
-	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
+	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDataStub'
 	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
 }
-hdata ::= KW_HDATA nameDecl teles EQ labels {
-	pin=1
-	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDataMixin'
-	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.cubicaltt.CubicalTTDecl']
-	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
-	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
-}
-split ::= nameDecl teles COLON exp EQ KW_SPLIT LAYOUT_START branches LAYOUT_END? {
-	pin=6
-	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
-	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.cubicaltt.CubicalTTDecl']
-	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
-	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
-}
-undef ::= nameDecl teles COLON exp EQ KW_UNDEFINED {
-	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
-	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.cubicaltt.CubicalTTDecl']
-	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
-	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
-}
+private defBody ::= expWhere | splitBody | KW_UNDEFINED
 mutual ::= KW_MUTUAL LAYOUT_START decls LAYOUT_END {
 	pin=1
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclListMixin'
@@ -101,6 +79,7 @@ transparent ::= KW_TRANSPARENT nameUsage { pin=1 }
 transparentAll ::= KW_TRANSPARENT_ALL
 
 expWhere ::= exp (KW_WHERE LAYOUT_START decls LAYOUT_END?)? { pin=1 }
+splitBody ::= KW_SPLIT LAYOUT_START branches LAYOUT_END? { pin=1 }
 
 // Telescopes
 private teles ::= tele*

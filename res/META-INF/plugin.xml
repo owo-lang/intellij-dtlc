@@ -66,6 +66,7 @@
 		<annotator language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTAnnotator"/>
 		<stubIndex implementation="org.ice1000.tt.psi.cubicaltt.CubicalTTModuleStubKey"/>
 		<stubIndex implementation="org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStubKey"/>
+		<stubIndex implementation="org.ice1000.tt.psi.cubicaltt.CubicalTTDataStubKey"/>
 		<stubElementTypeHolder class="org.ice1000.tt.psi.cubicaltt.CubicalTTTypes"/>
 		<gotoSymbolContributor implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTModuleNavigationContributor"/>
 		<gotoSymbolContributor implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTDeclNavigationContributor"/>

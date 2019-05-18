@@ -21,7 +21,7 @@ enum class CubicalTTSymbolKind(val icon: Icon?) {
 
 fun CubicalTTNameDecl.symbolKind() = when (parent) {
 	is CubicalTTTele -> CubicalTTSymbolKind.Parameter
-	is CubicalTTHdata, is CubicalTTData -> CubicalTTSymbolKind.Data
+	is CubicalTTData -> CubicalTTSymbolKind.Data
 	else -> CubicalTTSymbolKind.Function
 }
 

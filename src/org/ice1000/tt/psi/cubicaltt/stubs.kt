@@ -7,6 +7,7 @@ import com.intellij.psi.stubs.*
 import com.intellij.psi.tree.IStubFileElementType
 import org.ice1000.tt.CubicalTTLanguage
 import org.ice1000.tt.psi.childrenWithLeaves
+import org.ice1000.tt.psi.cubicaltt.impl.CubicalTTDataImpl
 import org.ice1000.tt.psi.cubicaltt.impl.CubicalTTDefImpl
 import org.ice1000.tt.psi.cubicaltt.impl.CubicalTTModuleImpl
 
@@ -25,6 +26,7 @@ class CubicalTTFileStub(file: CubicalTTFileImpl?) : PsiFileStubImpl<CubicalTTFil
 
 fun factory(name: String): CubicalTTStubType<*, *> = when (name) {
 	"MODULE" -> CubicalTTModuleStubType
+	"DATA" -> CubicalTTDataStubType
 	else -> CubicalTTDeclStubType
 }
 
@@ -40,6 +42,11 @@ class CubicalTTDeclStub(
 	val declName: String
 ) : StubBase<CubicalTTDecl>(parent, CubicalTTDeclStubType), StubElement<CubicalTTDecl>
 
+class CubicalTTDataStub(
+	parent: StubElement<*>,
+	val dataName: String
+) : StubBase<CubicalTTData>(parent, CubicalTTDataStubType), StubElement<CubicalTTData>
+
 class CubicalTTModuleStub(
 	parent: StubElement<*>,
 	val moduleName: String
@@ -52,6 +59,11 @@ object CubicalTTModuleStubKey : StringStubIndexExtension<CubicalTTModule>() {
 
 object CubicalTTDeclStubKey : StringStubIndexExtension<CubicalTTDecl>() {
 	private val KEY = StubIndexKey.createIndexKey<String, CubicalTTDecl>(CubicalTTDeclStubType.externalId)
+	override fun getKey() = KEY
+}
+
+object CubicalTTDataStubKey : StringStubIndexExtension<CubicalTTData>() {
+	private val KEY = StubIndexKey.createIndexKey<String, CubicalTTData>(CubicalTTDataStubType.externalId)
 	override fun getKey() = KEY
 }
 
@@ -79,5 +91,22 @@ object CubicalTTDeclStubType : CubicalTTStubType<CubicalTTDeclStub, CubicalTTDec
 
 	override fun indexStub(stub: CubicalTTDeclStub, sink: IndexSink) {
 		sink.occurrence(CubicalTTModuleStubKey.key, stub.declName)
+	}
+}
+
+object CubicalTTDataStubType : CubicalTTStubType<CubicalTTDataStub, CubicalTTData>("data") {
+	override fun createPsi(stub: CubicalTTDataStub) = CubicalTTDataImpl(stub, this)
+	override fun createStub(psi: CubicalTTData, parentStub: StubElement<*>) = CubicalTTDataStub(parentStub, psi.nameDecl?.text.orEmpty())
+	override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>) = CubicalTTDataStub(parentStub, dataStream.readNameString().orEmpty())
+	override fun serialize(stub: CubicalTTDataStub, dataStream: StubOutputStream) = dataStream.writeName(stub.dataName)
+	override fun shouldCreateStub(node: ASTNode?): Boolean {
+		val parent = node?.psi?.parent
+		if (parent is CubicalTTLetExp) return false
+		if (parent is CubicalTTExpWhere) return false
+		return super.shouldCreateStub(node)
+	}
+
+	override fun indexStub(stub: CubicalTTDataStub, sink: IndexSink) {
+		sink.occurrence(CubicalTTModuleStubKey.key, stub.dataName)
 	}
 }

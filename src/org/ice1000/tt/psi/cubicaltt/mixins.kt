@@ -18,7 +18,6 @@ import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.GeneralNameIdentifier
 import org.ice1000.tt.psi.childrenRevWithLeaves
 import org.ice1000.tt.psi.childrenWithLeaves
-import javax.swing.Icon
 
 interface CubicalTTDecl : PsiElement, NavigationItem
 
@@ -58,6 +57,7 @@ abstract class CubicalTTDeclMixin : StubBasedPsiElementBase<CubicalTTDeclStub>, 
 	constructor(stub: CubicalTTDeclStub, type: IElementType, node: ASTNode) : super(stub, type, node)
 
 	override fun getNameIdentifier() = findChildByClass(CubicalTTNameDeclMixin::class.java)
+	override fun toString() = name ?: super.toString()
 	override fun setName(newName: String): PsiElement {
 		CubicalTTTokenType.createNameDecl(newName, project)?.let { nameIdentifier?.replace(it) }
 		return this
@@ -81,14 +81,26 @@ abstract class CubicalTTDefMixin : CubicalTTDeclMixin, CubicalTTDef {
 	constructor(stub: CubicalTTDeclStub, type: IElementType, node: ASTNode) : super(stub, type, node)
 
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		expWhere.childrenWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
+		expWhere?.childrenWithLeaves?.all { it.processDeclarations(processor, state, lastParent, place) }.orTrue()
 			&& super.processDeclarations(processor, state, lastParent, place).orTrue()
 }
 
-abstract class CubicalTTDataMixin : CubicalTTDeclMixin, CubicalTTData, CubicalTTHdata {
+abstract class CubicalTTDataMixin : StubBasedPsiElementBase<CubicalTTDataStub>, CubicalTTData {
 	constructor(node: ASTNode) : super(node)
-	constructor(stub: CubicalTTDeclStub, type: IStubElementType<*, *>) : super(stub, type)
-	constructor(stub: CubicalTTDeclStub, type: IElementType, node: ASTNode) : super(stub, type, node)
+	constructor(stub: CubicalTTDataStub, type: IStubElementType<*, *>) : super(stub, type)
+	constructor(stub: CubicalTTDataStub, type: IElementType, node: ASTNode) : super(stub, type, node)
+
+	override fun getNameIdentifier() = nameDecl
+	override fun getPresentation() = object : ItemPresentation {
+		override fun getLocationString() = containingFile.name
+		override fun getIcon(dark: Boolean) = nameIdentifier?.getIcon(0) ?: TTIcons.CUBICAL_TT_FILE
+		override fun getPresentableText() = name
+	}
+
+	override fun setName(newName: String): PsiElement {
+		CubicalTTTokenType.createNameDecl(newName, project)?.let { nameIdentifier?.replace(it) }
+		return this
+	}
 
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		labelList.all { it.processDeclarations(processor, state, lastParent, place) }
