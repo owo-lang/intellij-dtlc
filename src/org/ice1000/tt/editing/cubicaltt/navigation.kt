@@ -8,10 +8,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.stubs.StubIndex
 import com.intellij.psi.stubs.StubIndexKey
-import org.ice1000.tt.psi.cubicaltt.CubicalTTDecl
-import org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStubKey
-import org.ice1000.tt.psi.cubicaltt.CubicalTTModule
-import org.ice1000.tt.psi.cubicaltt.CubicalTTModuleStubKey
+import org.ice1000.tt.psi.cubicaltt.*
 
 abstract class CubicalTTNavigationContributor<T>(
 	private val indexKey: StubIndexKey<String, T>,
@@ -47,7 +44,17 @@ class CubicalTTModuleNavigationContributor : CubicalTTNavigationContributor<Cubi
 	CubicalTTModule::class.java
 )
 
-class CubicalTTDeclNavigationContributor : CubicalTTNavigationContributor<CubicalTTDecl>(
-	CubicalTTDeclStubKey.key,
-	CubicalTTDecl::class.java
+class CubicalTTDeclNavigationContributor : CubicalTTNavigationContributor<CubicalTTDef>(
+	CubicalTTDefStubKey.key,
+	CubicalTTDef::class.java
+)
+
+class CubicalTTDataNavigationContributor : CubicalTTNavigationContributor<CubicalTTData>(
+	CubicalTTDataStubKey.key,
+	CubicalTTData::class.java
+)
+
+class CubicalTTLabelNavigationContributor : CubicalTTNavigationContributor<CubicalTTLabel>(
+	CubicalTTLabelStubKey.key,
+	CubicalTTLabel::class.java
 )

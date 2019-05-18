@@ -59,7 +59,7 @@ private decl ::=
 def ::= nameDecl teles COLON exp EQ defBody {
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDefMixin'
 	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.cubicaltt.CubicalTTDecl']
-	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
+	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDefStub'
 	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
 }
 data ::= (KW_DATA | KW_HDATA) nameDecl teles EQ labels {
@@ -96,9 +96,9 @@ tele ::= LPAREN nameDecl+ COLON exp RPAREN {
 private labels ::= (label BAR?)*
 label ::= nameDecl teles (LT nameDecl* GT system)? {
 	pin=1
-	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTLabelMixin'
 	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.cubicaltt.CubicalTTDecl']
-	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
+	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTLabelStub'
 	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
 }
 

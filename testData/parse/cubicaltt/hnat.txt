@@ -33,14 +33,14 @@ FILE
       PsiWhiteSpace(' ')
       PsiElement(EQ)('=')
       PsiWhiteSpace(' ')
-      decl nzero
+      label nzero
         CubicalTTNameDeclImpl(NAME_DECL)
           PsiElement(IDENTIFIER)('nzero')
       PsiWhiteSpace('\n')
       PsiWhiteSpace('           ')
       PsiElement(BAR)('|')
       PsiWhiteSpace(' ')
-      decl nsuc
+      label nsuc
         CubicalTTNameDeclImpl(NAME_DECL)
           PsiElement(IDENTIFIER)('nsuc')
         PsiWhiteSpace(' ')

@@ -53,10 +53,35 @@ abstract class CubicalTTImportMixin(node: ASTNode) : ASTWrapperPsiElement(node),
 		moduleUsage?.reference?.resolve()?.processDeclarations(processor, state, lastParent, place).orTrue()
 }
 
-abstract class CubicalTTDeclMixin : StubBasedPsiElementBase<CubicalTTDeclStub>, CubicalTTDecl, PsiNameIdentifierOwner {
+abstract class CubicalTTLabelMixin : StubBasedPsiElementBase<CubicalTTLabelStub>, CubicalTTLabel, PsiNameIdentifierOwner {
 	constructor(node: ASTNode) : super(node)
-	constructor(stub: CubicalTTDeclStub, type: IStubElementType<*, *>) : super(stub, type)
-	constructor(stub: CubicalTTDeclStub, type: IElementType, node: ASTNode) : super(stub, type, node)
+	constructor(stub: CubicalTTLabelStub, type: IStubElementType<*, *>) : super(stub, type)
+	constructor(stub: CubicalTTLabelStub, type: IElementType, node: ASTNode) : super(stub, type, node)
+
+	override fun getNameIdentifier() = findChildByClass(CubicalTTNameDeclMixin::class.java)
+	override fun toString() = "label $name"
+	override fun getName() = nameIdentifier?.text
+	override fun setName(newName: String): PsiElement {
+		CubicalTTTokenType.createNameDecl(newName, project)?.let { nameIdentifier?.replace(it) }
+		return this
+	}
+
+	override fun getPresentation() = object : ItemPresentation {
+		override fun getLocationString() = containingFile.name
+		override fun getIcon(dark: Boolean) = nameIdentifier?.getIcon(0) ?: TTIcons.CUBICAL_TT_FILE
+		override fun getPresentableText() = name
+	}
+
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		childrenRevWithLeaves.filterIsInstance<CubicalTTTele>().all {
+			it.processDeclarations(processor, state, lastParent, place)
+		} && nameIdentifier?.processDeclarations(processor, state, lastParent, place).orTrue()
+}
+
+abstract class CubicalTTDefMixin : StubBasedPsiElementBase<CubicalTTDefStub>, CubicalTTDef, PsiNameIdentifierOwner {
+	constructor(node: ASTNode) : super(node)
+	constructor(stub: CubicalTTDefStub, type: IStubElementType<*, *>) : super(stub, type)
+	constructor(stub: CubicalTTDefStub, type: IElementType, node: ASTNode) : super(stub, type, node)
 
 	override fun getNameIdentifier() = findChildByClass(CubicalTTNameDeclMixin::class.java)
 	override fun toString() = "decl $name"
@@ -76,16 +101,6 @@ abstract class CubicalTTDeclMixin : StubBasedPsiElementBase<CubicalTTDeclStub>, 
 		childrenRevWithLeaves.filterIsInstance<CubicalTTTele>().all {
 			it.processDeclarations(processor, state, lastParent, place)
 		} && nameIdentifier?.processDeclarations(processor, state, lastParent, place).orTrue()
-}
-
-abstract class CubicalTTDefMixin : CubicalTTDeclMixin, CubicalTTDef {
-	constructor(node: ASTNode) : super(node)
-	constructor(stub: CubicalTTDeclStub, type: IStubElementType<*, *>) : super(stub, type)
-	constructor(stub: CubicalTTDeclStub, type: IElementType, node: ASTNode) : super(stub, type, node)
-
-	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		expWhere?.childrenWithLeaves?.all { it.processDeclarations(processor, state, lastParent, place) }.orTrue()
-			&& super.processDeclarations(processor, state, lastParent, place).orTrue()
 }
 
 abstract class CubicalTTDataMixin : StubBasedPsiElementBase<CubicalTTDataStub>, CubicalTTData {

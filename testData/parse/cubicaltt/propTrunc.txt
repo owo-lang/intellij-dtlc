@@ -40,7 +40,7 @@ FILE
       PsiWhiteSpace('  ')
       PsiElement(EQ)('=')
       PsiWhiteSpace(' ')
-      decl inc
+      label inc
         CubicalTTNameDeclImpl(NAME_DECL)
           PsiElement(IDENTIFIER)('inc')
         PsiWhiteSpace(' ')
@@ -58,7 +58,7 @@ FILE
       PsiWhiteSpace('  ')
       PsiElement(BAR)('|')
       PsiWhiteSpace(' ')
-      decl inh
+      label inh
         CubicalTTNameDeclImpl(NAME_DECL)
           PsiElement(IDENTIFIER)('inh')
         PsiWhiteSpace(' ')
