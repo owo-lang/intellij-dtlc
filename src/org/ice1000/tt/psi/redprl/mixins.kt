@@ -97,7 +97,6 @@ abstract class RedPrlVarOwnerMixin(node: ASTNode) : GeneralDeclaration(node), Re
 
 abstract class RedPrlVarDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlVarDecl, RedPrlKindedSymbol {
 	override val kind: RedPrlSymbolKind by lazy(::opSymbolKind)
-	override fun visit(visitor: (RedPrlVarDecl) -> Boolean) = visitor(this)
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) =
 		replace(RedPrlTokenType.createVarDecl(newName, project)
@@ -139,7 +138,6 @@ abstract class RedPrlDeclArgumentsParensMixin(node: ASTNode) : ASTWrapperPsiElem
 
 abstract class RedPrlOpDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlOpDecl, RedPrlKindedSymbol {
 	override val kind: RedPrlSymbolKind by lazy(::opSymbolKind)
-	override fun visit(visitor: (RedPrlOpDecl) -> Boolean) = visitor(this)
 	override fun getIcon(flags: Int) = kind.icon ?: TTIcons.RED_PRL
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) =
@@ -149,7 +147,6 @@ abstract class RedPrlOpDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), R
 
 abstract class RedPrlMetaDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlMetaDecl {
 	override val kind: RedPrlSymbolKind by lazy(::opSymbolKind)
-	override fun visit(visitor: (RedPrlMetaDecl) -> Boolean) = visitor(this)
 	override fun getIcon(flags: Int) = RedPrlSymbolKind.Parameter.icon
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) =

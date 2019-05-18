@@ -47,6 +47,22 @@ class PatternResolveProcessor(
 	}
 }
 
+class NameIdentifierResolveProcessor(
+	private val name: String,
+	private val accessible: (GeneralNameIdentifier) -> Boolean = { it.text == name }
+) : ResolveProcessor<PsiElementResolveResult>() {
+	override val candidateSet = ArrayList<PsiElementResolveResult>(3)
+	override fun execute(element: PsiElement, resolveState: ResolveState): Boolean = when {
+		candidateSet.isNotEmpty() -> false
+		element is GeneralNameIdentifier -> {
+			val access = accessible(element)
+			if (access) candidateSet += PsiElementResolveResult(element, true)
+			!access
+		}
+		else -> true
+	}
+}
+
 class PatternCompletionProcessor(
 	private val accessible: (PsiElement) -> Boolean = { true },
 	private val lookupElement: (PsiElement) -> LookupElement = {
@@ -64,5 +80,23 @@ class PatternCompletionProcessor(
 			candidateSet += lookupElement(variable)
 			true
 		}
+	}
+}
+
+class NameIdentifierCompletionProcessor(
+	private val accessible: (GeneralNameIdentifier) -> Boolean = { true },
+	private val lookupElement: (GeneralNameIdentifier) -> LookupElement = {
+		val declaration = PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
+		LookupElementBuilder
+			.create(it.text)
+			.withIcon(it.getIcon(0))
+			.withTypeText(declaration?.type?.bodyText(40) ?: "Unknown", true)
+	}) : ResolveProcessor<LookupElement>() {
+	override val candidateSet = ArrayList<LookupElement>(10)
+	override fun execute(element: PsiElement, resolveState: ResolveState): Boolean {
+		if (element !is GeneralNameIdentifier) return true
+		if (!accessible(element)) return true
+		candidateSet += lookupElement(element)
+		return true
 	}
 }

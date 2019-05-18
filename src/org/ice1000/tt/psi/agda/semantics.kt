@@ -21,7 +21,7 @@ abstract class AgdaNameExpMixin(node: ASTNode) : GeneralReference(node), AgdaNam
 	}
 
 	override fun getVariants(): Array<LookupElement> {
-		val variantsProcessor = PatternCompletionProcessor(lookupElement =
+		val variantsProcessor = NameIdentifierCompletionProcessor(lookupElement =
 		{ LookupElementBuilder.create(it.text).withIcon(it.getIcon(0)) })
 		treeWalkUp(variantsProcessor, this, containingFile)
 		return variantsProcessor.candidateSet.toTypedArray()
@@ -30,7 +30,7 @@ abstract class AgdaNameExpMixin(node: ASTNode) : GeneralReference(node), AgdaNam
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<AgdaNameExpMixin> { ref, _ ->
 			val name = ref.canonicalText
-			resolveWith(PatternResolveProcessor(name), ref)
+			resolveWith(NameIdentifierResolveProcessor(name), ref)
 		}
 	}
 }

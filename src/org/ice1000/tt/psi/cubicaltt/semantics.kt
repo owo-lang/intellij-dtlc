@@ -39,7 +39,7 @@ abstract class CubicalTTNameMixin(node: ASTNode) : GeneralReference(node), Cubic
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
 	override fun getVariants(): Array<LookupElement> {
-		val variantsProcessor = PatternCompletionProcessor(lookupElement = {
+		val variantsProcessor = NameIdentifierCompletionProcessor(lookupElement = {
 			LookupElementBuilder.create(it.text).withIcon(TTIcons.AGDA_CORE)
 		})
 		treeWalkUp(variantsProcessor, element, element.containingFile)
@@ -48,7 +48,7 @@ abstract class CubicalTTNameMixin(node: ASTNode) : GeneralReference(node), Cubic
 
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<CubicalTTNameMixin> { ref, _ ->
-			resolveWith(PatternResolveProcessor(ref.text), ref)
+			resolveWith(NameIdentifierResolveProcessor(ref.text), ref)
 		}
 	}
 }

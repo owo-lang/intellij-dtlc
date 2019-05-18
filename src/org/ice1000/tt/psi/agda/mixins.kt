@@ -19,7 +19,6 @@ abstract class AgdaLayoutMixin(node: ASTNode) : ASTWrapperPsiElement(node) {
 }
 
 abstract class AgdaNameDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), AgdaNameDecl {
-	override fun visit(visitor: (AgdaNameDecl) -> Boolean) = visitor(this)
 	override fun setName(newName: String): PsiElement? = throw IncorrectOperationException("Does not support Agda rename")
 	override fun getIcon(flags: Int) = SemanticIcons.PINK_LAMBDA
 }

@@ -66,7 +66,7 @@ abstract class RedPrlMetaUsageMixin(node: ASTNode) : RedPrlVarUsageMixin(node), 
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
 	override fun getVariants(): Array<LookupElement> {
-		val variantsProcessor = PatternCompletionProcessor(completion(this), {
+		val variantsProcessor = NameIdentifierCompletionProcessor(completion(this), {
 			val declaration = PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
 			LookupElementBuilder
 				.create(it.text)
@@ -79,7 +79,6 @@ abstract class RedPrlMetaUsageMixin(node: ASTNode) : RedPrlVarUsageMixin(node), 
 }
 
 abstract class RedPrlBoundVarMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlBoundVar {
-	override fun visit(visitor: (RedPrlBoundVar) -> Boolean) = visitor(this)
 	override fun getIcon(flags: Int) = RedPrlSymbolKind.Pattern.icon
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) =
@@ -111,7 +110,7 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 	}
 
 	override fun getVariants(): Array<LookupElement> {
-		val variantsProcessor = PatternCompletionProcessor(completion(this), {
+		val variantsProcessor = NameIdentifierCompletionProcessor(completion(this), {
 			LookupElementBuilder
 				.create(it.text)
 				.withIcon(it.getIcon(0))
@@ -127,7 +126,7 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<RedPrlOpUsageMixin> { ref, _ ->
 			val name = ref.canonicalText
-			resolveWith(PatternResolveProcessor(name, accessible(name, ref)), ref)
+			resolveWith(NameIdentifierResolveProcessor(name, accessible(name, ref)), ref)
 		}
 	}
 }
@@ -156,7 +155,7 @@ abstract class RedPrlVarUsageMixin(node: ASTNode) : RedPrlTermAndTacImpl(node), 
 	}
 
 	override fun getVariants(): Array<LookupElement> {
-		val variantsProcessor = PatternCompletionProcessor(completion(this), {
+		val variantsProcessor = NameIdentifierCompletionProcessor(completion(this), {
 			LookupElementBuilder.create(it.text).withIcon(it.getIcon(0))
 		})
 		treeWalkUp(variantsProcessor, this, containingFile)
@@ -166,7 +165,7 @@ abstract class RedPrlVarUsageMixin(node: ASTNode) : RedPrlTermAndTacImpl(node), 
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<RedPrlVarUsageMixin> { ref, _ ->
 			val name = ref.canonicalText
-			resolveWith(PatternResolveProcessor(name, accessible(name, ref)), ref)
+			resolveWith(NameIdentifierResolveProcessor(name, accessible(name, ref)), ref)
 		}
 	}
 }

@@ -20,10 +20,7 @@
 /// This is just a placeholder.
 file ::= module | layout
 nameDecl ::= IDENTIFIER {
-	implements=[
-		'org.ice1000.tt.psi.IPattern<AgdaNameDecl>'
-		'com.intellij.psi.PsiNameIdentifierOwner'
-	]
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.agda.AgdaNameDeclMixin'
 }
 

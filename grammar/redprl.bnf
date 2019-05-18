@@ -28,10 +28,7 @@ private mlDeclRest ::= DOT mlDecl? { pin=1 }
 
 private ident ::= varUsage | opUsage
 boundVar ::= VARNAME | UNDER {
-	implements=[
-		'com.intellij.psi.PsiNameIdentifierOwner'
-		'org.ice1000.tt.psi.IPattern<RedPrlBoundVar>'
-	]
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.redprl.RedPrlBoundVarMixin'
 }
 
@@ -51,7 +48,6 @@ opDecl ::= OPNAME {
 	implements=[
 		'com.intellij.psi.PsiNameIdentifierOwner'
 		'org.ice1000.tt.psi.redprl.RedPrlKindedSymbol'
-		'org.ice1000.tt.psi.IPattern<RedPrlOpDecl>'
 	]
 	mixin='org.ice1000.tt.psi.redprl.RedPrlOpDeclMixin'
 }
@@ -63,7 +59,6 @@ varUsage ::= VARNAME {
 varDecl ::= VARNAME {
 	implements=[
 		'com.intellij.psi.PsiNameIdentifierOwner'
-		'org.ice1000.tt.psi.IPattern<RedPrlVarDecl>'
 		'org.ice1000.tt.psi.redprl.RedPrlKindedSymbol'
 	]
 	mixin='org.ice1000.tt.psi.redprl.RedPrlVarDeclMixin'
