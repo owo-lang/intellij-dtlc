@@ -32,6 +32,8 @@ abstract class CubicalTTModuleMixin : StubBasedPsiElementBase<CubicalTTModuleStu
 		override fun getPresentableText() = name
 	}
 	override fun getNameIdentifier() = nameDecl
+	override fun getName() = nameIdentifier?.text
+	override fun toString() = "module $name"
 	override fun setName(newName: String): PsiElement {
 		CubicalTTTokenType.createNameDecl(newName, project)?.let { nameDecl?.replace(it) }
 		return this
@@ -57,7 +59,8 @@ abstract class CubicalTTDeclMixin : StubBasedPsiElementBase<CubicalTTDeclStub>, 
 	constructor(stub: CubicalTTDeclStub, type: IElementType, node: ASTNode) : super(stub, type, node)
 
 	override fun getNameIdentifier() = findChildByClass(CubicalTTNameDeclMixin::class.java)
-	override fun toString() = name ?: super.toString()
+	override fun toString() = "decl $name"
+	override fun getName() = nameIdentifier?.text
 	override fun setName(newName: String): PsiElement {
 		CubicalTTTokenType.createNameDecl(newName, project)?.let { nameIdentifier?.replace(it) }
 		return this
@@ -91,6 +94,8 @@ abstract class CubicalTTDataMixin : StubBasedPsiElementBase<CubicalTTDataStub>, 
 	constructor(stub: CubicalTTDataStub, type: IElementType, node: ASTNode) : super(stub, type, node)
 
 	override fun getNameIdentifier() = nameDecl
+	override fun toString() = "data $name"
+	override fun getName() = nameIdentifier?.text
 	override fun getPresentation() = object : ItemPresentation {
 		override fun getLocationString() = containingFile.name
 		override fun getIcon(dark: Boolean) = nameIdentifier?.getIcon(0) ?: TTIcons.CUBICAL_TT_FILE

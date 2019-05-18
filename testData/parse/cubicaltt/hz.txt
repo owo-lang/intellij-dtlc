@@ -3,7 +3,7 @@ FILE
   PsiWhiteSpace('\n')
   PsiComment(line comment)('--   (x1,x2) ~ (y1,y2) := (x1 + y2 = x2 + y1)')
   PsiWhiteSpace('\n')
-  CubicalTTModuleImpl(MODULE)
+  module hz
     PsiElement(KW_MODULE)('module')
     PsiWhiteSpace(' ')
     CubicalTTNameDeclImpl(NAME_DECL)
@@ -15,19 +15,19 @@ FILE
     CubicalTTImportImpl(IMPORT)
       PsiElement(KW_IMPORT)('import')
       PsiWhiteSpace(' ')
-      CubicalTTNameUsageImpl(NAME_USAGE)
+      CubicalTTModuleUsageImpl(MODULE_USAGE)
         PsiElement(IDENTIFIER)('nat')
     PsiWhiteSpace('\n')
     CubicalTTImportImpl(IMPORT)
       PsiElement(KW_IMPORT)('import')
       PsiWhiteSpace(' ')
-      CubicalTTNameUsageImpl(NAME_USAGE)
+      CubicalTTModuleUsageImpl(MODULE_USAGE)
         PsiElement(IDENTIFIER)('setquot')
     PsiWhiteSpace('\n')
     PsiWhiteSpace('\n')
     PsiComment(line comment)('-- shorthand for nat x nat')
     PsiWhiteSpace('\n')
-    CubicalTTDefImpl(DEF)
+    decl nat2
       CubicalTTNameDeclImpl(NAME_DECL)
         PsiElement(IDENTIFIER)('nat2')
       PsiWhiteSpace(' ')
@@ -51,7 +51,7 @@ FILE
               PsiElement(IDENTIFIER)('nat')
     PsiWhiteSpace('\n')
     PsiWhiteSpace('\n')
-    CubicalTTDefImpl(DEF)
+    decl natlemma
       CubicalTTNameDeclImpl(NAME_DECL)
         PsiElement(IDENTIFIER)('natlemma')
       PsiWhiteSpace(' ')
@@ -165,7 +165,7 @@ FILE
         CubicalTTLetExpImpl(LET_EXP)
           PsiElement(KW_LET)('let')
           PsiElement(LAYOUT_START)(' ')
-          CubicalTTDefImpl(DEF)
+          decl rem
             CubicalTTNameDeclImpl(NAME_DECL)
               PsiElement(IDENTIFIER)('rem')
             PsiWhiteSpace(' ')
@@ -419,7 +419,7 @@ FILE
                 PsiElement(RBRACK)(']')
     PsiWhiteSpace('\n')
     PsiWhiteSpace('\n')
-    CubicalTTDefImpl(DEF)
+    decl rel
       CubicalTTNameDeclImpl(NAME_DECL)
         PsiElement(IDENTIFIER)('rel')
       PsiWhiteSpace(' ')
@@ -448,7 +448,7 @@ FILE
         PsiElement(KW_WHERE)('where')
         PsiWhiteSpace('\n')
         PsiElement(LAYOUT_START)('  ')
-        CubicalTTDefImpl(DEF)
+        decl r
           CubicalTTNameDeclImpl(NAME_DECL)
             PsiElement(IDENTIFIER)('r')
           PsiWhiteSpace(' ')
@@ -576,7 +576,7 @@ FILE
         PsiWhiteSpace('    ')
         PsiWhiteSpace('\n')
         PsiWhiteSpace('  ')
-        CubicalTTDefImpl(DEF)
+        decl rem
           CubicalTTNameDeclImpl(NAME_DECL)
             PsiElement(IDENTIFIER)('rem')
           PsiWhiteSpace(' ')
@@ -615,7 +615,7 @@ FILE
             PsiElement(KW_WHERE)('where')
             PsiWhiteSpace('\n')
             PsiElement(LAYOUT_START)('    ')
-            CubicalTTDefImpl(DEF)
+            decl rem1
               CubicalTTNameDeclImpl(NAME_DECL)
                 PsiElement(IDENTIFIER)('rem1')
               PsiWhiteSpace(' ')
@@ -770,7 +770,7 @@ FILE
                   CubicalTTLetExpImpl(LET_EXP)
                     PsiElement(KW_LET)('let')
                     PsiElement(LAYOUT_START)(' ')
-                    CubicalTTDefImpl(DEF)
+                    decl rem
                       CubicalTTNameDeclImpl(NAME_DECL)
                         PsiElement(IDENTIFIER)('rem')
                       PsiWhiteSpace(' ')
@@ -915,7 +915,7 @@ FILE
                     PsiWhiteSpace('\n')
                     PsiWhiteSpace('\n')
                     PsiWhiteSpace('          ')
-                    CubicalTTDefImpl(DEF)
+                    decl rem1
                       CubicalTTNameDeclImpl(NAME_DECL)
                         PsiElement(IDENTIFIER)('rem1')
                       PsiWhiteSpace(' ')
@@ -1051,7 +1051,7 @@ FILE
                     PsiWhiteSpace('\n')
                     PsiWhiteSpace('\n')
                     PsiWhiteSpace('          ')
-                    CubicalTTDefImpl(DEF)
+                    decl rem2
                       CubicalTTNameDeclImpl(NAME_DECL)
                         PsiElement(IDENTIFIER)('rem2')
                       PsiWhiteSpace(' ')
@@ -1186,7 +1186,7 @@ FILE
                                   PsiElement(DOT_ONE)('.1')
                     PsiWhiteSpace('\n')
                     PsiWhiteSpace('          ')
-                    CubicalTTDefImpl(DEF)
+                    decl rem3
                       CubicalTTNameDeclImpl(NAME_DECL)
                         PsiElement(IDENTIFIER)('rem3')
                       PsiWhiteSpace(' ')
@@ -1348,7 +1348,7 @@ FILE
                                 PsiElement(RPAREN)(')')
                     PsiWhiteSpace('\n')
                     PsiWhiteSpace('          ')
-                    CubicalTTDefImpl(DEF)
+                    decl rem4
                       CubicalTTNameDeclImpl(NAME_DECL)
                         PsiElement(IDENTIFIER)('rem4')
                       PsiWhiteSpace(' ')
@@ -1578,7 +1578,7 @@ FILE
                     PsiWhiteSpace('\n')
                     PsiWhiteSpace('\n')
                     PsiWhiteSpace('          ')
-                    CubicalTTDefImpl(DEF)
+                    decl rem5
                       CubicalTTNameDeclImpl(NAME_DECL)
                         PsiElement(IDENTIFIER)('rem5')
                       PsiWhiteSpace(' ')
@@ -1827,7 +1827,7 @@ FILE
                               PsiElement(IDENTIFIER)('rem5')
             PsiWhiteSpace('\n')
             PsiWhiteSpace('    ')
-            CubicalTTDefImpl(DEF)
+            decl rem2
               CubicalTTNameDeclImpl(NAME_DECL)
                 PsiElement(IDENTIFIER)('rem2')
               PsiWhiteSpace(' ')
@@ -1878,7 +1878,7 @@ FILE
                         PsiElement(DOT_TWO)('.2')
             PsiWhiteSpace('\n')
             PsiWhiteSpace('    ')
-            CubicalTTDefImpl(DEF)
+            decl rem3
               CubicalTTNameDeclImpl(NAME_DECL)
                 PsiElement(IDENTIFIER)('rem3')
               PsiWhiteSpace(' ')
@@ -1973,7 +1973,7 @@ FILE
                   CubicalTTLetExpImpl(LET_EXP)
                     PsiElement(KW_LET)('let')
                     PsiElement(LAYOUT_START)(' ')
-                    CubicalTTDefImpl(DEF)
+                    decl rem
                       CubicalTTNameDeclImpl(NAME_DECL)
                         PsiElement(IDENTIFIER)('rem')
                       PsiWhiteSpace(' ')
@@ -2219,7 +2219,7 @@ FILE
                           PsiElement(RBRACK)(']')
     PsiWhiteSpace('\n')
     PsiWhiteSpace('\n')
-    CubicalTTDefImpl(DEF)
+    decl hz
       CubicalTTNameDeclImpl(NAME_DECL)
         PsiElement(IDENTIFIER)('hz')
       PsiWhiteSpace(' ')
@@ -2244,7 +2244,7 @@ FILE
                 PsiElement(IDENTIFIER)('rel')
               PsiElement(DOT_ONE)('.1')
     PsiWhiteSpace('\n')
-    CubicalTTDefImpl(DEF)
+    decl zeroz
       CubicalTTNameDeclImpl(NAME_DECL)
         PsiElement(IDENTIFIER)('zeroz')
       PsiWhiteSpace(' ')
@@ -2277,7 +2277,7 @@ FILE
                   PsiElement(IDENTIFIER)('zero')
                 PsiElement(RPAREN)(')')
     PsiWhiteSpace('\n')
-    CubicalTTDefImpl(DEF)
+    decl onez
       CubicalTTNameDeclImpl(NAME_DECL)
         PsiElement(IDENTIFIER)('onez')
       PsiWhiteSpace(' ')
@@ -2311,7 +2311,7 @@ FILE
                 PsiElement(RPAREN)(')')
     PsiWhiteSpace('\n')
     PsiWhiteSpace('\n')
-    CubicalTTDefImpl(DEF)
+    decl discretehz
       CubicalTTNameDeclImpl(NAME_DECL)
         PsiElement(IDENTIFIER)('discretehz')
       PsiWhiteSpace(' ')
@@ -2346,7 +2346,7 @@ FILE
         PsiElement(KW_WHERE)('where')
         PsiWhiteSpace('\n')
         PsiElement(LAYOUT_START)('  ')
-        CubicalTTDefImpl(DEF)
+        decl rem
           CubicalTTNameDeclImpl(NAME_DECL)
             PsiElement(IDENTIFIER)('rem')
           PsiWhiteSpace(' ')
@@ -2481,7 +2481,7 @@ FILE
     PsiWhiteSpace('\n')
     PsiComment(line comment)('-- Use the decision procedure to compute if "0 = 1":')
     PsiWhiteSpace('\n')
-    CubicalTTDefImpl(DEF)
+    decl test01
       CubicalTTNameDeclImpl(NAME_DECL)
         PsiElement(IDENTIFIER)('test01')
       PsiWhiteSpace(' ')
@@ -2515,7 +2515,7 @@ FILE
     PsiWhiteSpace('\n')
     PsiComment(line comment)('-- Use the decision procedure to compute if "1 = 1":')
     PsiWhiteSpace('\n')
-    CubicalTTDefImpl(DEF)
+    decl test11
       CubicalTTNameDeclImpl(NAME_DECL)
         PsiElement(IDENTIFIER)('test11')
       PsiWhiteSpace(' ')
