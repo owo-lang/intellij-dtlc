@@ -8,5 +8,5 @@
 
 module ${NAME} where
 
-${NAME_SNAKE} : Set
-${NAME_SNAKE} = {!!}
+${NAME_CAMEL} : Set
+${NAME_CAMEL} = {!!}

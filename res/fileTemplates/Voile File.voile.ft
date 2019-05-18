@@ -1,7 +1,8 @@
---
--- Created by Dependently-Typed Lambda Calculus on ${YEAR}-${MONTH}-${DAY}
--- ${NAME}
--- Author: ${USER}
---
+//
+// Created by Dependently-Typed Lambda Calculus on ${YEAR}-${MONTH}-${DAY}
+// ${NAME}
+// Author: ${USER}
+//
 
--- Improve file template after we've decide on the concrete syntax
+val ${NAME_SNAKE} : Type1;
+let ${NAME_SNAKE} = Type;
