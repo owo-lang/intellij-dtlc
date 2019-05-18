@@ -36,6 +36,7 @@ module ::= KW_MODULE nameDecl KW_WHERE
  LAYOUT_END? {
 	pin=1
 	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTModuleStub'
+	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
 }
 
 private imports ::= (import LAYOUT_SEP)*
@@ -51,7 +52,9 @@ decl ::=
  | mutual
  | opaque
  | transparent
- | transparentAll
+ | transparentAll {
+	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
+}
 
 def ::= nameDecl teles COLON exp EQ expWhere { extends=decl }
 data ::= KW_DATA nameDecl teles EQ labels { pin=1 extends=decl }
