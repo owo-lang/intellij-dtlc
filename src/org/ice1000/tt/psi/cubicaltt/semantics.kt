@@ -7,6 +7,8 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementResolveResult
 import com.intellij.psi.ResolveResult
 import com.intellij.psi.impl.source.resolve.ResolveCache
+import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
 import icons.SemanticIcons
 import icons.TTIcons
@@ -43,14 +45,18 @@ abstract class CubicalTTModuleUsageMixin(node: ASTNode) : GeneralReference(node)
 
 	companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<CubicalTTModuleUsageMixin> { ref, _ ->
+			val name = ref.name.orEmpty()
+			val stubBased = CubicalTTModuleStubKey[name, ref.project, GlobalSearchScope.allScope(ref.project)]
+			if (stubBased.isNotEmpty()) return@PolyVariantResolver stubBased.map(::PsiElementResolveResult).toTypedArray()
 			modules(ref)
-				.filter { (it.stub?.moduleName ?: it.nameDecl?.text) == ref.name }
+				.filter { (it.stub?.moduleName ?: it.nameDecl?.text) == name }
 				.map(::PsiElementResolveResult)
 				.toList()
 				.toTypedArray()
 		}
 
-		private fun modules(ref: CubicalTTModuleUsageMixin) = ref.containingFile
+		private fun modules(ref: CubicalTTModuleUsageMixin) = ref
+			.containingFile
 			?.containingDirectory
 			?.files
 			.orEmpty()
@@ -80,7 +86,10 @@ abstract class CubicalTTNameMixin(node: ASTNode) : GeneralReference(node), Cubic
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
 	override fun getVariants(): Array<LookupElement> {
-		val variantsProcessor = NameIdentifierCompletionProcessor(lookupElement = {
+		val variantsProcessor = NameIdentifierCompletionProcessor({
+			if ((it as? CubicalTTNameDeclMixin)?.kind !in paramFamily) true
+			else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, CubicalTTDecl::class.java), this, false)
+		}, {
 			LookupElementBuilder
 				.create(it.text)
 				.withTypeText((it as? CubicalTTNameDeclMixin)?.kind?.name ?: "")
@@ -91,8 +100,18 @@ abstract class CubicalTTNameMixin(node: ASTNode) : GeneralReference(node), Cubic
 	}
 
 	private companion object ResolverHolder {
+		val paramFamily = listOf(CubicalTTSymbolKind.Parameter)
+
 		private val resolver = ResolveCache.PolyVariantResolver<CubicalTTNameMixin> { ref, _ ->
-			resolveWith(NameIdentifierResolveProcessor(ref.text), ref)
+			val name = ref.name.orEmpty()
+			var stubBased: Collection<PsiElement> = CubicalTTDefStubKey[name, ref.project, GlobalSearchScope.allScope(ref.project)]
+			if (stubBased.isEmpty()) stubBased = CubicalTTLabelStubKey[name, ref.project, GlobalSearchScope.allScope(ref.project)]
+			if (stubBased.isEmpty()) stubBased = CubicalTTDataStubKey[name, ref.project, GlobalSearchScope.allScope(ref.project)]
+			if (stubBased.isNotEmpty()) return@PolyVariantResolver stubBased.map(::PsiElementResolveResult).toTypedArray()
+			resolveWith(NameIdentifierResolveProcessor(name) {
+				if ((it as? CubicalTTNameDeclMixin)?.kind !in paramFamily) it.text == name
+				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, CubicalTTDecl::class.java), ref, false)
+			}, ref)
 		}
 	}
 }

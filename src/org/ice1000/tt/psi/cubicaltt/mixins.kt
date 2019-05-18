@@ -18,6 +18,7 @@ import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.GeneralNameIdentifier
 import org.ice1000.tt.psi.childrenRevWithLeaves
 import org.ice1000.tt.psi.childrenWithLeaves
+import javax.swing.Icon
 
 interface CubicalTTDecl : PsiElement, NavigationItem
 
@@ -31,6 +32,7 @@ abstract class CubicalTTModuleMixin : StubBasedPsiElementBase<CubicalTTModuleStu
 		override fun getIcon(dark: Boolean) = TTIcons.CUBICAL_TT_FILE
 		override fun getPresentableText() = name
 	}
+	override fun getIcon(flags: Int) = nameIdentifier?.getIcon(flags)
 	override fun getNameIdentifier() = nameDecl
 	override fun getName() = nameIdentifier?.text
 	override fun toString() = "module $name"
@@ -72,6 +74,7 @@ abstract class CubicalTTLabelMixin : StubBasedPsiElementBase<CubicalTTLabelStub>
 		override fun getPresentableText() = name
 	}
 
+	override fun getIcon(flags: Int) = nameIdentifier?.getIcon(flags)
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		childrenRevWithLeaves.filterIsInstance<CubicalTTTele>().all {
 			it.processDeclarations(processor, state, lastParent, place)
@@ -97,6 +100,7 @@ abstract class CubicalTTDefMixin : StubBasedPsiElementBase<CubicalTTDefStub>, Cu
 		override fun getPresentableText() = name
 	}
 
+	override fun getIcon(flags: Int) = nameIdentifier?.getIcon(flags)
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		childrenRevWithLeaves.filterIsInstance<CubicalTTTele>().all {
 			it.processDeclarations(processor, state, lastParent, place)
@@ -122,9 +126,10 @@ abstract class CubicalTTDataMixin : StubBasedPsiElementBase<CubicalTTDataStub>, 
 		return this
 	}
 
+	override fun getIcon(flags: Int) = nameIdentifier?.getIcon(flags)
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		labelList.all { it.processDeclarations(processor, state, lastParent, place) }
-			&& super.processDeclarations(processor, state, lastParent, place).orTrue()
+			&& nameIdentifier?.processDeclarations(processor, state, lastParent, place).orTrue()
 }
 
 abstract class CubicalTTNameDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), CubicalTTNameDecl {

@@ -143,7 +143,10 @@ pLamExp ::= LT nameDecl+ GT exp {
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclListMixin'
 }
 splitExp ::= KW_SPLIT_AT exp KW_WITH LAYOUT_START branches LAYOUT_END { pin=1 }
-dtExp ::= pteles (ARROW | TIMES) exp { pin=2 }
+dtExp ::= pteles (ARROW | TIMES) exp {
+	pin=2
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclListMixin'
+}
 expExpExp ::= expExpExpKeywords atomic atomic atomic { pin=1 }
 private expExpExpKeywords ::= KW_PATH_P | KW_ID
 sysExpExp ::= sysExpExpKeywords atomic atomic system { pin=1 }
