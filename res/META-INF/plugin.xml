@@ -53,6 +53,7 @@
 		<lang.elementManipulator
 			forClass="org.ice1000.tt.psi.agda.AgdaStringMixin"
 			implementationClass="org.ice1000.tt.psi.agda.AgdaStringManipulator"/>
+		<completion.contributor language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaCompletionContributor"/>
 
 		<!--CubicalTT-->
 		<configurationType implementation="org.ice1000.tt.execution.CubicalTTRunConfigurationType"/>
