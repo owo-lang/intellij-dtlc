@@ -48,6 +48,7 @@
 		<lang.braceMatcher language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaBraceMatcher"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.agda.AgdaColorSettingsPage"/>
 		<lang.foldingBuilder language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaFoldingBuilder"/>
+		<stubElementTypeHolder class="org.ice1000.tt.psi.agda.AgdaTypes"/>
 		<annotator language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaAnnotator"/>
 		<lang.elementManipulator
 			forClass="org.ice1000.tt.psi.agda.AgdaStringMixin"
@@ -65,6 +66,7 @@
 		<annotator language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTAnnotator"/>
 		<stubIndex implementation="org.ice1000.tt.psi.cubicaltt.CubicalTTModuleStubKey"/>
 		<stubIndex implementation="org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStubKey"/>
+		<stubElementTypeHolder class="org.ice1000.tt.psi.cubicaltt.CubicalTTTypes"/>
 		<gotoSymbolContributor implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTModuleNavigationContributor"/>
 		<gotoSymbolContributor implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTDeclNavigationContributor"/>
 
@@ -79,6 +81,7 @@
 		<lang.refactoringSupport language="MLPolyR" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.mlpolyr.MLPolyRColorSettingsPage"/>
 		<annotator language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRAnnotator"/>
+		<stubElementTypeHolder class="org.ice1000.tt.psi.mlpolyr.MLPolyRTypes"/>
 		<completion.contributor language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRCompletionContributor"/>
 		<lang.foldingBuilder language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRFoldingBuilder"/>
 		<lang.elementManipulator
@@ -92,6 +95,7 @@
 		<lang.syntaxHighlighterFactory language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreHighlighterFactory"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.acore.ACoreColorSettingsPage"/>
 		<annotator language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreAnnotator"/>
+		<stubElementTypeHolder class="org.ice1000.tt.psi.acore.ACoreTypes"/>
 		<lang.refactoringSupport language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<lang.findUsagesProvider language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreFindUsagesProvider"/>
 		<lang.commenter language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.HaskellCommenter"/>
@@ -105,6 +109,7 @@
 		<lang.syntaxHighlighterFactory language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTHighlighterFactory"/>
 		<annotator language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTAnnotator"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.minitt.MiniTTColorSettingsPage"/>
+		<stubElementTypeHolder class="org.ice1000.tt.psi.minitt.MiniTTTypes"/>
 		<lang.commenter language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTCommenter"/>
 		<lang.braceMatcher language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTBraceMatcher"/>
 		<lang.findUsagesProvider language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTFindUsagesProvider"/>
@@ -117,6 +122,7 @@
 		<lang.parserDefinition language="RedPRL" implementationClass="org.ice1000.tt.psi.redprl.RedPrlParserDefinition"/>
 		<lang.commenter language="RedPRL" implementationClass="org.ice1000.tt.editing.CxxCommenter"/>
 		<annotator language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlAnnotator"/>
+		<stubElementTypeHolder class="org.ice1000.tt.psi.redprl.RedPrlTypes"/>
 		<lang.braceMatcher language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlBraceMatcher"/>
 		<lang.findUsagesProvider language="RedPRL" implementationClass="org.ice1000.tt.editing.redprl.RedPrlFindUsagesProvider"/>
 		<lang.refactoringSupport language="RedPRL" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
