@@ -74,6 +74,7 @@
 		<gotoSymbolContributor implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTDeclNavigationContributor"/>
 		<gotoSymbolContributor implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTDataNavigationContributor"/>
 		<gotoSymbolContributor implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTLabelNavigationContributor"/>
+		<completion.contributor language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTCompletionContributor"/>
 
 		<!--MLPolyR-->
 		<configurationType implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationType"/>

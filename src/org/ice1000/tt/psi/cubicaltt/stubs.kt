@@ -1,10 +1,13 @@
 package org.ice1000.tt.psi.cubicaltt
 
+import com.intellij.codeInsight.lookup.LookupElement
+import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.stubs.*
 import com.intellij.psi.tree.IStubFileElementType
+import icons.SemanticIcons
 import org.ice1000.tt.CubicalTTLanguage
 import org.ice1000.tt.psi.childrenWithLeaves
 import org.ice1000.tt.psi.cubicaltt.impl.CubicalTTDataImpl
@@ -40,20 +43,30 @@ abstract class CubicalTTStubType<Stub: StubElement<*>, Psi: PsiElement>(
 	override fun getExternalId() = "cubicaltt.${super.toString()}"
 }
 
+interface CubicalCompletionElement {
+	val lookupElement: LookupElement
+}
+
 class CubicalTTDefStub(
 	parent: StubElement<*>,
 	val declName: String
-) : StubBase<CubicalTTDef>(parent, CubicalTTDefStubType), StubElement<CubicalTTDef>
+) : StubBase<CubicalTTDef>(parent, CubicalTTDefStubType), StubElement<CubicalTTDef>, CubicalCompletionElement {
+	override val lookupElement get() = LookupElementBuilder.create(declName).withIcon(SemanticIcons.PINK_LAMBDA)
+}
 
 class CubicalTTLabelStub(
 	parent: StubElement<*>,
 	val labelName: String
-) : StubBase<CubicalTTLabel>(parent, CubicalTTLabelStubType), StubElement<CubicalTTLabel>
+) : StubBase<CubicalTTLabel>(parent, CubicalTTLabelStubType), StubElement<CubicalTTLabel>, CubicalCompletionElement {
+	override val lookupElement get() = LookupElementBuilder.create(labelName).withIcon(SemanticIcons.BLUE_C)
+}
 
 class CubicalTTDataStub(
 	parent: StubElement<*>,
 	val dataName: String
-) : StubBase<CubicalTTData>(parent, CubicalTTDataStubType), StubElement<CubicalTTData>
+) : StubBase<CubicalTTData>(parent, CubicalTTDataStubType), StubElement<CubicalTTData>, CubicalCompletionElement {
+	override val lookupElement get() = LookupElementBuilder.create(dataName).withIcon(SemanticIcons.BLUE_HOLE)
+}
 
 class CubicalTTModuleStub(
 	parent: StubElement<*>,
