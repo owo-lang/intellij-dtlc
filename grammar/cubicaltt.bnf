@@ -42,7 +42,10 @@ module ::= KW_MODULE nameDecl KW_WHERE
 }
 
 private imports ::= (import LAYOUT_SEP)*
-import ::= KW_IMPORT moduleUsage { pin=1 }
+import ::= KW_IMPORT moduleUsage {
+	pin=1
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTImportMixin'
+}
 
 private decls ::= (decl LAYOUT_SEP?)*
 private decl ::=

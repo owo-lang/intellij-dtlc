@@ -38,6 +38,11 @@ abstract class CubicalTTDeclListMixin(node: ASTNode) : ASTWrapperPsiElement(node
 		childrenRevWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
+abstract class CubicalTTImportMixin(node: ASTNode) : ASTWrapperPsiElement(node), CubicalTTImport {
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		moduleUsage?.reference?.resolve()?.processDeclarations(processor, state, lastParent, place).orTrue()
+}
+
 abstract class CubicalTTDeclMixin : StubBasedPsiElementBase<CubicalTTDeclStub>, CubicalTTDecl, PsiNameIdentifierOwner {
 	constructor(node: ASTNode) : super(node)
 	constructor(stub: CubicalTTDeclStub, type: IStubElementType<*, *>) : super(stub, type)
