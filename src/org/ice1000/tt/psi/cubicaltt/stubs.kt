@@ -7,10 +7,8 @@ import com.intellij.psi.stubs.*
 import com.intellij.psi.tree.IStubFileElementType
 import org.ice1000.tt.CubicalTTLanguage
 import org.ice1000.tt.psi.childrenWithLeaves
-import org.ice1000.tt.psi.cubicaltt.impl.CubicalTTDeclImpl
 import org.ice1000.tt.psi.cubicaltt.impl.CubicalTTDefImpl
 import org.ice1000.tt.psi.cubicaltt.impl.CubicalTTModuleImpl
-import java.lang.IllegalArgumentException
 
 class CubicalTTFileStub(file: CubicalTTFileImpl?) : PsiFileStubImpl<CubicalTTFileImpl>(file) {
 	override fun getType() = Type
@@ -40,7 +38,7 @@ abstract class CubicalTTStubType<Stub: StubElement<*>, Psi: PsiElement>(
 class CubicalTTDeclStub(
 	parent: StubElement<*>,
 	val declName: String
-) : StubBase<CubicalTTDecl>(parent, TODO()), StubElement<CubicalTTDecl>
+) : StubBase<CubicalTTDecl>(parent, CubicalTTDeclStubType), StubElement<CubicalTTDecl>
 
 class CubicalTTModuleStub(
 	parent: StubElement<*>,
@@ -53,8 +51,8 @@ object CubicalTTModuleStubKey : StringStubIndexExtension<CubicalTTModule>() {
 	override fun getAllKeys(project: Project) = StubIndex.getInstance().getAllKeys(key, project)
 }
 
-object CubicalTTDeclStubKey : StringStubIndexExtension<CubicalTTDecl>() {
-	private val KEY = StubIndexKey.createIndexKey<String, CubicalTTDecl>(CubicalTTDeclStubType.externalId)
+object CubicalTTDeclStubKey : StringStubIndexExtension<CubicalTTDef>() {
+	private val KEY = StubIndexKey.createIndexKey<String, CubicalTTDef>(CubicalTTDeclStubType.externalId)
 	override fun getKey() = KEY
 	override fun getAllKeys(project: Project) = StubIndex.getInstance().getAllKeys(key, project)
 }
@@ -70,7 +68,7 @@ object CubicalTTModuleStubType : CubicalTTStubType<CubicalTTModuleStub, CubicalT
 }
 
 object CubicalTTDeclStubType : CubicalTTStubType<CubicalTTDeclStub, CubicalTTDecl>("decl") {
-	override fun createPsi(stub: CubicalTTDeclStub) = TODO(/*CubicalTTDefImpl(stub, this)*/)
+	override fun createPsi(stub: CubicalTTDeclStub) = CubicalTTDefImpl(stub, this)
 	override fun createStub(psi: CubicalTTDecl, parentStub: StubElement<*>) = CubicalTTDeclStub(parentStub, psi.childrenWithLeaves.firstOrNull { it is CubicalTTNameDecl }?.text.orEmpty())
 	override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>) = CubicalTTDeclStub(parentStub, dataStream.readNameString().orEmpty())
 	override fun serialize(stub: CubicalTTDeclStub, dataStream: StubOutputStream) = dataStream.writeName(stub.declName)

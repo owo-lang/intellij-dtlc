@@ -64,7 +64,7 @@
 		<colorSettingsPage implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTColorSettingsPage"/>
 		<annotator language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTAnnotator"/>
 		<stubIndex implementation="org.ice1000.tt.psi.cubicaltt.CubicalTTModuleStubKey"/>
-		<!--<stubIndex implementation="org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStubKey"/>-->
+		<stubIndex implementation="org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStubKey"/>
 
 		<!--MLPolyR-->
 		<configurationType implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationType"/>

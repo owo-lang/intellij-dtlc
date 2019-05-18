@@ -13,6 +13,10 @@ import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
 import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.GeneralNameIdentifier
+import org.ice1000.tt.psi.childrenRevWithLeaves
+import org.ice1000.tt.psi.childrenWithLeaves
+
+interface CubicalTTDecl : PsiElement
 
 abstract class CubicalTTModuleMixin : StubBasedPsiElementBase<CubicalTTModuleStub>, CubicalTTModule {
 	constructor(node: ASTNode) : super(node)
@@ -26,12 +30,12 @@ abstract class CubicalTTModuleMixin : StubBasedPsiElementBase<CubicalTTModuleStu
 	}
 
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		declList.asReversed().all { it.processDeclarations(processor, state, lastParent, place) }
+		childrenRevWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
-abstract class CubicalTTMutualMixin(node: ASTNode) : ASTWrapperPsiElement(node), CubicalTTMutual {
+abstract class CubicalTTDeclListMixin(node: ASTNode) : ASTWrapperPsiElement(node) {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		declList.asReversed().all { it.processDeclarations(processor, state, lastParent, place) }
+		childrenRevWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
 abstract class CubicalTTDeclMixin : StubBasedPsiElementBase<CubicalTTDeclStub>, CubicalTTDecl, PsiNameIdentifierOwner {
@@ -49,20 +53,14 @@ abstract class CubicalTTDeclMixin : StubBasedPsiElementBase<CubicalTTDeclStub>, 
 		nameIdentifier?.processDeclarations(processor, state, lastParent, place).orTrue()
 }
 
-abstract class CubicalTTDefMixin : StubBasedPsiElementBase<CubicalTTDeclStub>, CubicalTTDef, PsiNameIdentifierOwner {
+abstract class CubicalTTDefMixin : CubicalTTDeclMixin, CubicalTTDef, PsiNameIdentifierOwner {
 	constructor(node: ASTNode) : super(node)
 	constructor(stub: CubicalTTDeclStub, type: IStubElementType<*, *>) : super(stub, type)
 	constructor(stub: CubicalTTDeclStub, type: IElementType, node: ASTNode) : super(stub, type, node)
 
-	override fun getNameIdentifier() = findChildByClass(CubicalTTNameDecl::class.java)
-	override fun setName(newName: String): PsiElement {
-		CubicalTTTokenType.createNameDecl(newName, project)?.let { nameIdentifier?.replace(it) }
-		return this
-	}
-
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		expWhere.declList.all { it.processDeclarations(processor, state, lastParent, place) }
-			&& nameIdentifier?.processDeclarations(processor, state, lastParent, place).orTrue()
+		expWhere.childrenWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
+			&& super.processDeclarations(processor, state, lastParent, place).orTrue()
 }
 
 abstract class CubicalTTNameDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), CubicalTTNameDecl {

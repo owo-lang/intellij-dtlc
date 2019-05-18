@@ -45,7 +45,7 @@ private imports ::= (import LAYOUT_SEP)*
 import ::= KW_IMPORT moduleUsage { pin=1 }
 
 private decls ::= (decl LAYOUT_SEP?)*
-decl ::=
+private decl ::=
    def
  | data
  | hdata
@@ -54,57 +54,48 @@ decl ::=
  | mutual
  | opaque
  | transparent
- | transparentAll {
-	// stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
-	// elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
-}
+ | transparentAll
 
 def ::= nameDecl teles COLON exp EQ expWhere {
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDefMixin'
-	implements=['com.intellij.psi.PsiNameIdentifierOwner']
-	extends=decl
+	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.cubicaltt.CubicalTTDecl']
+	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
+	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
 }
 data ::= KW_DATA nameDecl teles EQ labels {
 	pin=1
-	extends=decl
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
-	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.cubicaltt.CubicalTTDecl']
+	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
+	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
 }
 hdata ::= KW_HDATA nameDecl teles EQ labels {
 	pin=1
-	extends=decl
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
-	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.cubicaltt.CubicalTTDecl']
+	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
+	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
 }
 split ::= nameDecl teles COLON exp EQ KW_SPLIT LAYOUT_START branches LAYOUT_END? {
 	pin=6
-	extends=decl
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
-	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.cubicaltt.CubicalTTDecl']
+	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
+	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
 }
 undef ::= nameDecl teles COLON exp EQ KW_UNDEFINED {
-	extends=decl
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
-	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.cubicaltt.CubicalTTDecl']
+	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclStub'
+	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
 }
 mutual ::= KW_MUTUAL LAYOUT_START decls LAYOUT_END {
 	pin=1
-	extends=decl
-	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTMutualMixin'
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclListMixin'
 }
-opaque ::= KW_OPAQUE nameDecl {
-	pin=1
-	extends=decl
-	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
-	implements=['com.intellij.psi.PsiNameIdentifierOwner']
-}
-transparent ::= KW_TRANSPARENT nameDecl {
-	pin=1
-	extends=decl
-	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
-	implements=['com.intellij.psi.PsiNameIdentifierOwner']
-}
-transparentAll ::= KW_TRANSPARENT_ALL { extends=decl }
+opaque ::= KW_OPAQUE nameUsage { pin=1 }
+transparent ::= KW_TRANSPARENT nameUsage { pin=1 }
+transparentAll ::= KW_TRANSPARENT_ALL
 
 expWhere ::= exp (KW_WHERE LAYOUT_START decls LAYOUT_END?)? { pin=1 }
 
@@ -148,7 +139,10 @@ private atomic ::=
 appExp ::= exp exp+
 funExp ::= exp ARROW exp
 appFormulaExp ::= exp AT formula
-letExp ::= KW_LET LAYOUT_START decls LAYOUT_END KW_IN exp { pin=1 }
+letExp ::= KW_LET LAYOUT_START decls LAYOUT_END KW_IN exp {
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclListMixin'
+	pin=1
+}
 lamExp ::= LAMBDA pteles ARROW exp { pin=1 }
 pLamExp ::= LT nameDecl+ GT exp { pin=1 }
 splitExp ::= KW_SPLIT_AT exp KW_WITH LAYOUT_START branches LAYOUT_END { pin=1 }
