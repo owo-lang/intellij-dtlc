@@ -29,7 +29,8 @@ fun factory(name: String): CubicalTTStubType<*, *> = when (name) {
 	"MODULE" -> CubicalTTModuleStubType
 	"DATA" -> CubicalTTDataStubType
 	"LABEL" -> CubicalTTLabelStubType
-	else -> CubicalTTDefStubType
+	"DEF" -> CubicalTTDefStubType
+	else -> error("Bad stub type: $name")
 }
 
 abstract class CubicalTTStubType<Stub: StubElement<*>, Psi: PsiElement>(
@@ -102,7 +103,7 @@ object CubicalTTDefStubType : CubicalTTStubType<CubicalTTDefStub, CubicalTTDef>(
 	}
 
 	override fun indexStub(stub: CubicalTTDefStub, sink: IndexSink) {
-		sink.occurrence(CubicalTTModuleStubKey.key, stub.declName)
+		sink.occurrence(CubicalTTDefStubKey.key, stub.declName)
 	}
 }
 
@@ -112,7 +113,7 @@ object CubicalTTLabelStubType : CubicalTTStubType<CubicalTTLabelStub, CubicalTTL
 	override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>) = CubicalTTLabelStub(parentStub, dataStream.readName()?.string.orEmpty())
 	override fun serialize(stub: CubicalTTLabelStub, dataStream: StubOutputStream) = dataStream.writeName(stub.labelName)
 	override fun indexStub(stub: CubicalTTLabelStub, sink: IndexSink) {
-		sink.occurrence(CubicalTTModuleStubKey.key, stub.labelName)
+		sink.occurrence(CubicalTTLabelStubKey.key, stub.labelName)
 	}
 }
 
@@ -129,6 +130,6 @@ object CubicalTTDataStubType : CubicalTTStubType<CubicalTTDataStub, CubicalTTDat
 	}
 
 	override fun indexStub(stub: CubicalTTDataStub, sink: IndexSink) {
-		sink.occurrence(CubicalTTModuleStubKey.key, stub.dataName)
+		sink.occurrence(CubicalTTDataStubKey.key, stub.dataName)
 	}
 }
