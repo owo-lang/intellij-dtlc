@@ -60,7 +60,7 @@ decl ::=
 }
 
 def ::= nameDecl teles COLON exp EQ expWhere {
-	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDefMixin'
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 	extends=decl
 }
@@ -87,7 +87,11 @@ undef ::= nameDecl teles COLON exp EQ KW_UNDEFINED {
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 }
-mutual ::= KW_MUTUAL LAYOUT_START decls LAYOUT_END { pin=1 extends=decl }
+mutual ::= KW_MUTUAL LAYOUT_START decls LAYOUT_END {
+	pin=1
+	extends=decl
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTMutualMixin'
+}
 opaque ::= KW_OPAQUE nameDecl {
 	pin=1
 	extends=decl

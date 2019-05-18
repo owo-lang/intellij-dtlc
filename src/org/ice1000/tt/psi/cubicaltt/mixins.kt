@@ -1,5 +1,6 @@
 package org.ice1000.tt.psi.cubicaltt
 
+import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.extapi.psi.StubBasedPsiElementBase
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
@@ -28,6 +29,11 @@ abstract class CubicalTTModuleMixin : StubBasedPsiElementBase<CubicalTTModuleStu
 		declList.asReversed().all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
+abstract class CubicalTTMutualMixin(node: ASTNode) : ASTWrapperPsiElement(node), CubicalTTMutual {
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		declList.asReversed().all { it.processDeclarations(processor, state, lastParent, place) }
+}
+
 abstract class CubicalTTDeclMixin : StubBasedPsiElementBase<CubicalTTDeclStub>, CubicalTTDecl, PsiNameIdentifierOwner {
 	constructor(node: ASTNode) : super(node)
 	constructor(stub: CubicalTTDeclStub, type: IStubElementType<*, *>) : super(stub, type)
@@ -41,6 +47,22 @@ abstract class CubicalTTDeclMixin : StubBasedPsiElementBase<CubicalTTDeclStub>, 
 
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		nameIdentifier?.processDeclarations(processor, state, lastParent, place).orTrue()
+}
+
+abstract class CubicalTTDefMixin : StubBasedPsiElementBase<CubicalTTDeclStub>, CubicalTTDef, PsiNameIdentifierOwner {
+	constructor(node: ASTNode) : super(node)
+	constructor(stub: CubicalTTDeclStub, type: IStubElementType<*, *>) : super(stub, type)
+	constructor(stub: CubicalTTDeclStub, type: IElementType, node: ASTNode) : super(stub, type, node)
+
+	override fun getNameIdentifier() = findChildByClass(CubicalTTNameDecl::class.java)
+	override fun setName(newName: String): PsiElement {
+		CubicalTTTokenType.createNameDecl(newName, project)?.let { nameIdentifier?.replace(it) }
+		return this
+	}
+
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		expWhere.declList.all { it.processDeclarations(processor, state, lastParent, place) }
+			&& nameIdentifier?.processDeclarations(processor, state, lastParent, place).orTrue()
 }
 
 abstract class CubicalTTNameDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), CubicalTTNameDecl {
