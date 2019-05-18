@@ -51,8 +51,8 @@ object CubicalTTModuleStubKey : StringStubIndexExtension<CubicalTTModule>() {
 	override fun getAllKeys(project: Project) = StubIndex.getInstance().getAllKeys(key, project)
 }
 
-object CubicalTTDeclStubKey : StringStubIndexExtension<CubicalTTDef>() {
-	private val KEY = StubIndexKey.createIndexKey<String, CubicalTTDef>(CubicalTTDeclStubType.externalId)
+object CubicalTTDeclStubKey : StringStubIndexExtension<CubicalTTDecl>() {
+	private val KEY = StubIndexKey.createIndexKey<String, CubicalTTDecl>(CubicalTTDeclStubType.externalId)
 	override fun getKey() = KEY
 	override fun getAllKeys(project: Project) = StubIndex.getInstance().getAllKeys(key, project)
 }

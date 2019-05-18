@@ -36,7 +36,7 @@ module ::= KW_MODULE nameDecl KW_WHERE
  LAYOUT_END? {
 	pin=1
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTModuleMixin'
-	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'com.intellij.navigation.NavigationItem']
 	stubClass='org.ice1000.tt.psi.cubicaltt.CubicalTTModuleStub'
 	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
 }

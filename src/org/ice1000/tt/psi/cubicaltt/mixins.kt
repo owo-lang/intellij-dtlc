@@ -3,6 +3,8 @@ package org.ice1000.tt.psi.cubicaltt
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.extapi.psi.StubBasedPsiElementBase
 import com.intellij.lang.ASTNode
+import com.intellij.navigation.ItemPresentation
+import com.intellij.navigation.NavigationItem
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.ResolveState
@@ -16,7 +18,7 @@ import org.ice1000.tt.psi.GeneralNameIdentifier
 import org.ice1000.tt.psi.childrenRevWithLeaves
 import org.ice1000.tt.psi.childrenWithLeaves
 
-interface CubicalTTDecl : PsiElement
+interface CubicalTTDecl : PsiElement, NavigationItem
 
 abstract class CubicalTTModuleMixin : StubBasedPsiElementBase<CubicalTTModuleStub>, CubicalTTModule {
 	constructor(node: ASTNode) : super(node)
