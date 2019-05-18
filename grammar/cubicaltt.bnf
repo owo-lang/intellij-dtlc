@@ -108,7 +108,10 @@ private teles ::= tele*
 // in the grammar when parsing Pi
 // In Grammar-Kit we don't need this shit
 private pteles ::= tele+
-tele ::= LPAREN nameDecl+ COLON exp RPAREN { pin=3 }
+tele ::= LPAREN nameDecl+ COLON exp RPAREN {
+	pin=3
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclListMixin'
+}
 
 // Labelled sum alternatives
 private labels ::= (label BAR?)*
@@ -147,7 +150,10 @@ letExp ::= KW_LET LAYOUT_START decls LAYOUT_END KW_IN exp {
 	pin=1
 }
 lamExp ::= LAMBDA pteles ARROW exp { pin=1 }
-pLamExp ::= LT nameDecl+ GT exp { pin=1 }
+pLamExp ::= LT nameDecl+ GT exp {
+	pin=1
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclListMixin'
+}
 splitExp ::= KW_SPLIT_AT exp KW_WITH LAYOUT_START branches LAYOUT_END { pin=1 }
 dtExp ::= pteles (ARROW | TIMES) exp { pin=2 }
 expExpExp ::= expExpExpKeywords atomic atomic atomic { pin=1 }
@@ -187,4 +193,6 @@ parenj ::= LPAREN formula RPAREN { extends=formula }
 // Branches
 private branches ::= (branch LAYOUT_SEP?)*
 // TODO: better have ... @ i @ j @ k -> ... ?
-branch ::= nameUsage nameDecl* (AT nameUsage*)? ARROW expWhere
+branch ::= nameUsage nameDecl* (AT nameUsage*)? ARROW expWhere {
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclListMixin'
+}

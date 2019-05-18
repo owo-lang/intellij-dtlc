@@ -48,13 +48,11 @@ class CubicalTTModuleStub(
 object CubicalTTModuleStubKey : StringStubIndexExtension<CubicalTTModule>() {
 	private val KEY = StubIndexKey.createIndexKey<String, CubicalTTModule>(CubicalTTModuleStubType.externalId)
 	override fun getKey() = KEY
-	override fun getAllKeys(project: Project) = StubIndex.getInstance().getAllKeys(key, project)
 }
 
 object CubicalTTDeclStubKey : StringStubIndexExtension<CubicalTTDecl>() {
 	private val KEY = StubIndexKey.createIndexKey<String, CubicalTTDecl>(CubicalTTDeclStubType.externalId)
 	override fun getKey() = KEY
-	override fun getAllKeys(project: Project) = StubIndex.getInstance().getAllKeys(key, project)
 }
 
 object CubicalTTModuleStubType : CubicalTTStubType<CubicalTTModuleStub, CubicalTTModule>("module") {

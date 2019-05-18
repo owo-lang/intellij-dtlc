@@ -3,10 +3,10 @@ package org.ice1000.tt.psi.cubicaltt
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.extapi.psi.StubBasedPsiElementBase
 import com.intellij.lang.ASTNode
-import com.intellij.navigation.ItemPresentation
 import com.intellij.navigation.NavigationItem
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.ResolveState
 import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.stubs.IStubElementType
@@ -37,7 +37,7 @@ abstract class CubicalTTModuleMixin : StubBasedPsiElementBase<CubicalTTModuleStu
 
 abstract class CubicalTTDeclListMixin(node: ASTNode) : ASTWrapperPsiElement(node) {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		childrenRevWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
+		childrenRevWithLeaves.filterNot { it is PsiWhiteSpace }.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
 abstract class CubicalTTImportMixin(node: ASTNode) : ASTWrapperPsiElement(node), CubicalTTImport {
@@ -57,7 +57,9 @@ abstract class CubicalTTDeclMixin : StubBasedPsiElementBase<CubicalTTDeclStub>, 
 	}
 
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		nameIdentifier?.processDeclarations(processor, state, lastParent, place).orTrue()
+		childrenRevWithLeaves.filterIsInstance<CubicalTTTele>().all {
+			it.processDeclarations(processor, state, lastParent, place)
+		} && nameIdentifier?.processDeclarations(processor, state, lastParent, place).orTrue()
 }
 
 abstract class CubicalTTDefMixin : CubicalTTDeclMixin, CubicalTTDef, PsiNameIdentifierOwner {
@@ -71,7 +73,8 @@ abstract class CubicalTTDefMixin : CubicalTTDeclMixin, CubicalTTDef, PsiNameIden
 }
 
 abstract class CubicalTTNameDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), CubicalTTNameDecl {
-	override fun getIcon(flags: Int) = TTIcons.CUBICAL_TT_FILE
+	val kind: CubicalTTSymbolKind by lazy(::symbolKind)
+	override fun getIcon(flags: Int) = kind.icon
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) = replace(CubicalTTTokenType.createNameDecl(newName, project)
 		?: throw IncorrectOperationException("Invalid name: $newName"))
