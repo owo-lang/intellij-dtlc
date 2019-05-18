@@ -16,13 +16,9 @@ enum class CubicalTTSymbolKind(val icon: Icon?) {
 }
 
 abstract class CubicalTTNameMixin(node: ASTNode) : GeneralReference(node), CubicalTTNameExp, CubicalTTNameUsage {
-	private val containingCubicalFile: CubicalTTFile? get() = containingFile as? CubicalTTFile
+	private val containingCubicalFile: CubicalTTFileImpl? get() = containingFile as? CubicalTTFileImpl
 	override fun getCanonicalText(): String {
-		val file = containingCubicalFile ?: return text
-		val module = file
-			.childrenWithLeaves
-			.filterIsInstance<CubicalTTModule>()
-			.firstOrNull() ?: return text
+		val module = containingCubicalFile?.module ?: return text
 		val moduleName = module.nameDecl?.text ?: return text
 		return "$moduleName.$text"
 	}

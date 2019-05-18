@@ -67,7 +67,7 @@ private teles ::= tele*
 // in the grammar when parsing Pi
 // In Grammar-Kit we don't need this shit
 private pteles ::= tele+
-tele ::= LPAREN nameDecl+ COLON exp RPAREN
+tele ::= LPAREN nameDecl+ COLON exp RPAREN { pin=3 }
 
 // Labelled sum alternatives
 private labels ::= (label BAR?)*

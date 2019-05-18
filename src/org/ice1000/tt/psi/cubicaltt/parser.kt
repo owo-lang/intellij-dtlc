@@ -6,6 +6,7 @@ import com.intellij.lexer.FlexAdapter
 import com.intellij.openapi.project.Project
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiFileFactory
+import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.TokenType
 import com.intellij.psi.stubs.PsiFileStubImpl
 import com.intellij.psi.tree.IElementType
@@ -15,6 +16,12 @@ import org.ice1000.tt.CubicalTTFile
 import org.ice1000.tt.CubicalTTLanguage
 import org.ice1000.tt.psi.LayoutLexer
 import org.ice1000.tt.psi.LetIn
+import org.ice1000.tt.psi.childrenWithLeaves
+
+class CubicalTTFileImpl(viewProvider: FileViewProvider) : CubicalTTFile(viewProvider), PsiNameIdentifierOwner {
+	val module: CubicalTTModule? = childrenWithLeaves.filterIsInstance<CubicalTTModule>().firstOrNull()
+	override fun getNameIdentifier() = module?.nameDecl
+}
 
 class CubicalTTElementType(debugName: String) : IElementType(debugName, CubicalTTLanguage.INSTANCE)
 class CubicalTTTokenType(debugName: String) : IElementType(debugName, CubicalTTLanguage.INSTANCE) {
@@ -29,6 +36,9 @@ class CubicalTTTokenType(debugName: String) : IElementType(debugName, CubicalTTL
 		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(CubicalTTLanguage.INSTANCE, text).firstChild
 		fun createExp(text: String, project: Project) = fromText(text, project) as? CubicalTTExp
 		fun createNameExp(text: String, project: Project) = createExp(text, project) as? CubicalTTNameExp
+		fun createLamExp(text: String, project: Project) = createExp(text, project) as? CubicalTTLamExp
+		fun createTele(text: String, project: Project) = createLamExp("\\$text->", project)?.teleList?.firstOrNull()
+		fun createNameDecl(text: String, project: Project) = createTele("($text:a)", project)?.nameDeclList?.firstOrNull()
 	}
 }
 
@@ -62,13 +72,13 @@ fun cubicalTTLayoutLexer() = LayoutLexer(
 
 class CubicalTTParserDefinition : ParserDefinition {
 	private companion object {
-		private val FILE = IStubFileElementType<PsiFileStubImpl<CubicalTTFile>>(CubicalTTLanguage.INSTANCE)
+		private val FILE = IStubFileElementType<PsiFileStubImpl<CubicalTTFileImpl>>(CubicalTTLanguage.INSTANCE)
 	}
 
 	override fun getStringLiteralElements() = TokenSet.EMPTY
 	override fun getCommentTokens() = CubicalTTTokenType.COMMENTS
 	override fun createElement(node: ASTNode?) = CubicalTTTypes.Factory.createElement(node)
-	override fun createFile(viewProvider: FileViewProvider) = CubicalTTFile(viewProvider)
+	override fun createFile(viewProvider: FileViewProvider) = CubicalTTFileImpl(viewProvider)
 	override fun createLexer(project: Project?) = cubicalTTLayoutLexer()
 	override fun createParser(project: Project?) = CubicalTTParser()
 	override fun getFileNodeType() = FILE
