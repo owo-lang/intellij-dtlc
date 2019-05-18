@@ -11,13 +11,6 @@ import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 import java.util.*
 
-object VoileFileType : LanguageFileType(VoileLanguage.INSTANCE) {
-	override fun getDefaultExtension() = VOILE_EXTENSION
-	override fun getName() = TTBundle.message("voile.name")
-	override fun getIcon() = TTIcons.VOILE_FILE
-	override fun getDescription() = TTBundle.message("voile.name.description")
-}
-
 object OwOFileType : LanguageFileType(OwOLanguage.INSTANCE) {
 	override fun getDefaultExtension() = OWO_EXTENSION
 	override fun getName() = TTBundle.message("owo.name")
