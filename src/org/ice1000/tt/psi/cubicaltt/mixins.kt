@@ -32,7 +32,7 @@ abstract class CubicalTTModuleMixin : StubBasedPsiElementBase<CubicalTTModuleStu
 	}
 
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		childrenRevWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
+		childrenRevWithLeaves.filterNot { it is PsiWhiteSpace }.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
 abstract class CubicalTTDeclListMixin(node: ASTNode) : ASTWrapperPsiElement(node) {
@@ -62,13 +62,23 @@ abstract class CubicalTTDeclMixin : StubBasedPsiElementBase<CubicalTTDeclStub>, 
 		} && nameIdentifier?.processDeclarations(processor, state, lastParent, place).orTrue()
 }
 
-abstract class CubicalTTDefMixin : CubicalTTDeclMixin, CubicalTTDef, PsiNameIdentifierOwner {
+abstract class CubicalTTDefMixin : CubicalTTDeclMixin, CubicalTTDef {
 	constructor(node: ASTNode) : super(node)
 	constructor(stub: CubicalTTDeclStub, type: IStubElementType<*, *>) : super(stub, type)
 	constructor(stub: CubicalTTDeclStub, type: IElementType, node: ASTNode) : super(stub, type, node)
 
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		expWhere.childrenWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
+			&& super.processDeclarations(processor, state, lastParent, place).orTrue()
+}
+
+abstract class CubicalTTDataMixin : CubicalTTDeclMixin, CubicalTTData, CubicalTTHdata {
+	constructor(node: ASTNode) : super(node)
+	constructor(stub: CubicalTTDeclStub, type: IStubElementType<*, *>) : super(stub, type)
+	constructor(stub: CubicalTTDeclStub, type: IElementType, node: ASTNode) : super(stub, type, node)
+
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		labelList.all { it.processDeclarations(processor, state, lastParent, place) }
 			&& super.processDeclarations(processor, state, lastParent, place).orTrue()
 }
 

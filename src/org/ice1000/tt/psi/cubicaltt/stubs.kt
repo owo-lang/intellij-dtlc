@@ -1,6 +1,6 @@
 package org.ice1000.tt.psi.cubicaltt
 
-import com.intellij.openapi.project.Project
+import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.stubs.*
@@ -70,6 +70,13 @@ object CubicalTTDeclStubType : CubicalTTStubType<CubicalTTDeclStub, CubicalTTDec
 	override fun createStub(psi: CubicalTTDecl, parentStub: StubElement<*>) = CubicalTTDeclStub(parentStub, psi.childrenWithLeaves.firstOrNull { it is CubicalTTNameDecl }?.text.orEmpty())
 	override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>) = CubicalTTDeclStub(parentStub, dataStream.readNameString().orEmpty())
 	override fun serialize(stub: CubicalTTDeclStub, dataStream: StubOutputStream) = dataStream.writeName(stub.declName)
+	override fun shouldCreateStub(node: ASTNode?): Boolean {
+		val parent = node?.psi?.parent
+		if (parent is CubicalTTLetExp) return false
+		if (parent is CubicalTTExpWhere) return false
+		return super.shouldCreateStub(node)
+	}
+
 	override fun indexStub(stub: CubicalTTDeclStub, sink: IndexSink) {
 		sink.occurrence(CubicalTTModuleStubKey.key, stub.declName)
 	}
