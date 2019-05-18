@@ -18,7 +18,7 @@
 
 entryPoints ::= module | exp
 
-nameDecl ::= IDENTIFIER
+nameDecl ::= IDENTIFIER { mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTNameDeclMixin' }
 nameUsage ::= IDENTIFIER {
 	extends=formula
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTNameMixin'
@@ -59,14 +59,47 @@ decl ::=
 	// elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
 }
 
-def ::= nameDecl teles COLON exp EQ expWhere { extends=decl }
-data ::= KW_DATA nameDecl teles EQ labels { pin=1 extends=decl }
-hdata ::= KW_HDATA nameDecl teles EQ labels { pin=1 extends=decl }
-split ::= nameDecl teles COLON exp EQ KW_SPLIT LAYOUT_START branches LAYOUT_END? { pin=6 extends=decl }
-undef ::= nameDecl teles COLON exp EQ KW_UNDEFINED { extends=decl }
+def ::= nameDecl teles COLON exp EQ expWhere {
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	extends=decl
+}
+data ::= KW_DATA nameDecl teles EQ labels {
+	pin=1
+	extends=decl
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+}
+hdata ::= KW_HDATA nameDecl teles EQ labels {
+	pin=1
+	extends=decl
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+}
+split ::= nameDecl teles COLON exp EQ KW_SPLIT LAYOUT_START branches LAYOUT_END? {
+	pin=6
+	extends=decl
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+}
+undef ::= nameDecl teles COLON exp EQ KW_UNDEFINED {
+	extends=decl
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+}
 mutual ::= KW_MUTUAL LAYOUT_START decls LAYOUT_END { pin=1 extends=decl }
-opaque ::= KW_OPAQUE nameDecl { pin=1 extends=decl }
-transparent ::= KW_TRANSPARENT nameDecl { pin=1 extends=decl }
+opaque ::= KW_OPAQUE nameDecl {
+	pin=1
+	extends=decl
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+}
+transparent ::= KW_TRANSPARENT nameDecl {
+	pin=1
+	extends=decl
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+}
 transparentAll ::= KW_TRANSPARENT_ALL { extends=decl }
 
 expWhere ::= exp (KW_WHERE LAYOUT_START decls LAYOUT_END?)? { pin=1 }
