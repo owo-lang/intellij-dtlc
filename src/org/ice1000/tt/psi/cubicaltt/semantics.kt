@@ -20,15 +20,16 @@ abstract class CubicalTTModuleUsageMixin(node: ASTNode) : GeneralReference(node)
 	override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
 		if (!isValid || project.isDisposed) return emptyArray()
 		return modules(this)
-			.filter { it.stub?.moduleName == name }
+			.filter { (it.stub?.moduleName ?: it.nameDecl?.text) == name }
 			.map(::PsiElementResolveResult)
 			.toList()
 			.toTypedArray()
 	}
 
 	override fun getVariants() = modules(this)
-		.map(CubicalTTModule::getStub)
-		.map { LookupElementBuilder.create(it.moduleName).withIcon(TTIcons.CUBICAL_TT_FILE) }
+		.mapNotNull { it.stub?.moduleName ?: it.nameDecl?.text }
+		.map(LookupElementBuilder::create)
+		.map { it.withIcon(TTIcons.CUBICAL_TT_FILE) }
 		.toList()
 		.toTypedArray()
 
@@ -39,7 +40,6 @@ abstract class CubicalTTModuleUsageMixin(node: ASTNode) : GeneralReference(node)
 			.orEmpty()
 			.asSequence()
 			.filterIsInstance<CubicalTTFileImpl>()
-			.filter { it.stub != null }
 			.mapNotNull(CubicalTTFileImpl::module)
 	}
 }
