@@ -8,7 +8,10 @@ import com.intellij.util.ProcessingContext
 import icons.TTIcons
 import org.ice1000.tt.editing.SimpleProvider
 import org.ice1000.tt.psi.childrenWithLeaves
-import org.ice1000.tt.psi.cubicaltt.*
+import org.ice1000.tt.psi.cubicaltt.CubicalCompletionElement
+import org.ice1000.tt.psi.cubicaltt.CubicalTTFileImpl
+import org.ice1000.tt.psi.cubicaltt.CubicalTTImportMixin
+import org.ice1000.tt.psi.cubicaltt.CubicalTTModuleMixin
 
 class CubicalTTCompletionContributor : CompletionContributor(), DumbAware {
 	private val keywords = listOf(
@@ -26,14 +29,15 @@ class CubicalTTCompletionContributor : CompletionContributor(), DumbAware {
 
 	init {
 		extend(CompletionType.BASIC, psiElement(), SimpleProvider(keywords))
-		extend(CompletionType.BASIC, psiElement(CubicalTTTypes.NAME_EXP), object : CompletionProvider<CompletionParameters>() {
+		extend(CompletionType.BASIC, psiElement(), object : CompletionProvider<CompletionParameters>() {
 			override fun addCompletions(
 				parameters: CompletionParameters,
 				context: ProcessingContext,
 				result: CompletionResultSet
 			) {
 				val file = parameters.originalFile as? CubicalTTFileImpl ?: return
-				file.childrenWithLeaves
+				val module = file.module ?: return
+				module.childrenWithLeaves
 					.filterIsInstance<CubicalTTImportMixin>()
 					.mapNotNull { it.moduleUsage }
 					.mapNotNull { it.reference?.resolve() }
