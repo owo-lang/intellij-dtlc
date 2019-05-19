@@ -88,7 +88,7 @@ sourceSets {
 		withConvention(KotlinSourceSet::class) {
 			listOf(java, kotlin).forEach { it.srcDirs("src", "$buildDir/gen") }
 		}
-		resources.srcDirs("res", "$buildDir/genRes")
+		resources.srcDir("res")
 	}
 
 	test {
