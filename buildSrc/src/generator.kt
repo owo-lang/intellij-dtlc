@@ -314,7 +314,7 @@ class ${languageName}RunConfigurationProducer : RunConfigurationProducer<${langu
 		configuration.targetFile == context.dataContext.getData(CommonDataKeys.VIRTUAL_FILE)?.path
 
 	override fun setupConfigurationFromContext(
-		configuration: ${languageName}RunConfiguration, context: ConfigurationContext, ref: Ref<PsiElement>?): Boolean {
+		configuration: ${languageName}RunConfiguration, context: ConfigurationContext, ref: Ref<PsiElement>): Boolean {
 		val file = context.dataContext.getData(CommonDataKeys.VIRTUAL_FILE)
 		if (file?.fileType != ${languageName}FileType) return false
 		val config = context.project.${configName}SettingsNullable ?: return false
