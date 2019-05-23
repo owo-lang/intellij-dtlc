@@ -9,12 +9,9 @@ import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
 import org.ice1000.tt.orTrue
-import org.ice1000.tt.psi.GeneralDeclaration
-import org.ice1000.tt.psi.GeneralNameIdentifier
-import org.ice1000.tt.psi.elementType
+import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.minitt.impl.MiniTTExpressionImpl
 import org.ice1000.tt.psi.minitt.impl.MiniTTPatternImpl
-import org.ice1000.tt.psi.prevSiblingIgnoring
 
 abstract class MiniTTAtomPatternMixin(node: ASTNode) : MiniTTPatternImpl(node), MiniTTAtomPattern {
 	override fun visit(visitor: (MiniTTVariable) -> Boolean) =
@@ -39,8 +36,7 @@ abstract class MiniTTGeneralDeclaration(node: ASTNode) : GeneralDeclaration(node
 	override fun getIcon(flags: Int) = TTIcons.MINI_TT
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String): PsiElement {
-		val newPattern = MiniTTTokenType.createPattern(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName")
+		val newPattern = MiniTTTokenType.createPattern(newName, project) ?: invalidName(newName)
 		nameIdentifier?.replace(newPattern)
 		return this
 	}
@@ -52,8 +48,7 @@ abstract class MiniTTGeneralPattern(node: ASTNode) : GeneralNameIdentifier(node)
 	override fun getIcon(flags: Int) = TTIcons.MINI_TT
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) =
-		replace(MiniTTTokenType.createPattern(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName"))
+		replace(MiniTTTokenType.createPattern(newName, project) ?: invalidName(newName))
 }
 
 abstract class MiniTTLambdaExpressionMixin(node: ASTNode) : MiniTTGeneralDeclaration(node), MiniTTLambdaExpression {

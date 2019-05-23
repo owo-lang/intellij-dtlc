@@ -6,7 +6,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.ResolveState
 import com.intellij.psi.TokenType
 import com.intellij.psi.scope.PsiScopeProcessor
-import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
 import org.ice1000.tt.orTrue
@@ -80,8 +79,7 @@ abstract class RedPrlVarOwnerMixin(node: ASTNode) : GeneralDeclaration(node), Re
 	override fun getIcon(flags: Int) = TTIcons.RED_PRL
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String): PsiElement {
-		val newOpDecl = varDecl?.run { RedPrlTokenType.createVarDecl(newName, project) }
-			?: throw IncorrectOperationException("Invalid name: $newName")
+		val newOpDecl = varDecl?.run { RedPrlTokenType.createVarDecl(newName, project) } ?: invalidName(newName)
 		nameIdentifier?.replace(newOpDecl)
 		return this
 	}
@@ -99,8 +97,7 @@ abstract class RedPrlVarDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), 
 	override val kind: RedPrlSymbolKind by lazy(::opSymbolKind)
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) =
-		replace(RedPrlTokenType.createVarDecl(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName"))
+		replace(RedPrlTokenType.createVarDecl(newName, project) ?: invalidName(newName))
 }
 
 abstract class RedPrlDeclArgumentMixin(node: ASTNode) : GeneralDeclaration(node), RedPrlDeclArgument {
@@ -114,8 +111,7 @@ abstract class RedPrlOpOwnerMixin(node: ASTNode) : GeneralDeclaration(node), Red
 	override fun getIcon(flags: Int) = TTIcons.RED_PRL
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String): PsiElement {
-		val newOpDecl = RedPrlTokenType.createOpDecl(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName")
+		val newOpDecl = RedPrlTokenType.createOpDecl(newName, project) ?: invalidName(newName)
 		nameIdentifier?.replace(newOpDecl)
 		return this
 	}
@@ -141,8 +137,7 @@ abstract class RedPrlOpDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), R
 	override fun getIcon(flags: Int) = kind.icon ?: TTIcons.RED_PRL
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) =
-		replace(RedPrlTokenType.createOpDecl(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName"))
+		replace(RedPrlTokenType.createOpDecl(newName, project) ?: invalidName(newName))
 }
 
 abstract class RedPrlMetaDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlMetaDecl {
@@ -150,6 +145,5 @@ abstract class RedPrlMetaDeclMixin(node: ASTNode) : GeneralNameIdentifier(node),
 	override fun getIcon(flags: Int) = RedPrlSymbolKind.Parameter.icon
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) =
-		replace(RedPrlTokenType.createMetaDecl(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName"))
+		replace(RedPrlTokenType.createMetaDecl(newName, project) ?: invalidName(newName))
 }

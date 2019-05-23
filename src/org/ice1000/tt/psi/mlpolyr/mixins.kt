@@ -11,6 +11,7 @@ import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.GeneralDeclaration
 import org.ice1000.tt.psi.GeneralNameIdentifier
 import org.ice1000.tt.psi.IPattern
+import org.ice1000.tt.psi.invalidName
 import org.ice1000.tt.psi.mlpolyr.impl.MLPolyRExpImpl
 
 abstract class MLPolyRDeclaration(node: ASTNode) : GeneralDeclaration(node) {
@@ -18,8 +19,7 @@ abstract class MLPolyRDeclaration(node: ASTNode) : GeneralDeclaration(node) {
 	override fun getIcon(flags: Int) = TTIcons.MLPOLYR
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String): PsiElement {
-		val newPattern = MLPolyRTokenType.createPat(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName")
+		val newPattern = MLPolyRTokenType.createPat(newName, project) ?: invalidName(newName)
 		nameIdentifier?.replace(newPattern)
 		return this
 	}
@@ -55,8 +55,7 @@ abstract class MLPolyRGeneralPat(node: ASTNode) : GeneralNameIdentifier(node), I
 	override fun getIcon(flags: Int) = kind.icon ?: TTIcons.MLPOLYR
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) =
-		replace(MLPolyRTokenType.createPat(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName"))
+		replace(MLPolyRTokenType.createPat(newName, project) ?: invalidName(newName))
 
 	override fun visit(visitor: (MLPolyRNamePat) -> Boolean): Boolean =
 		PsiTreeUtil.findChildrenOfType(this, MLPolyRGeneralPat::class.java).all { it.visit(visitor) }

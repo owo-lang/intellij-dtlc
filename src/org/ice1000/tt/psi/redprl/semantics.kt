@@ -62,7 +62,7 @@ private fun completion(ref: PsiElement) = { it: PsiElement ->
 abstract class RedPrlMetaUsageMixin(node: ASTNode) : RedPrlVarUsageMixin(node), RedPrlMetaUsage/*, PsiPolyVariantReference*/ {
 	override fun handleElementRename(newName: String): PsiElement? =
 		replace(RedPrlTokenType.createMetaUsage(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName"))
+			?: invalidName(newName))
 
 	override fun getVariants() = resolveWith(NameIdentifierCompletionProcessor(completion(this), {
 		val declaration = PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)

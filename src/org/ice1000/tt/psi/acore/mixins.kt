@@ -9,12 +9,9 @@ import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
 import org.ice1000.tt.orTrue
-import org.ice1000.tt.psi.GeneralDeclaration
-import org.ice1000.tt.psi.GeneralNameIdentifier
+import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.acore.impl.ACoreExpressionImpl
 import org.ice1000.tt.psi.acore.impl.ACorePatternImpl
-import org.ice1000.tt.psi.elementType
-import org.ice1000.tt.psi.prevSiblingIgnoring
 
 abstract class ACoreAtomPatternMixin(node: ASTNode) : ACorePatternImpl(node), ACoreAtomPattern {
 	override fun visit(visitor: (ACoreVariable) -> Boolean) =
@@ -35,7 +32,7 @@ abstract class ACoreGeneralDeclaration(node: ASTNode) : GeneralDeclaration(node)
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String): PsiElement {
 		val newPattern = ACoreTokenType.createPattern(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName")
+			?: invalidName(newName)
 		nameIdentifier?.replace(newPattern)
 		return this
 	}
@@ -48,7 +45,7 @@ abstract class ACoreGeneralPattern(node: ASTNode) : GeneralNameIdentifier(node) 
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) =
 		replace(ACoreTokenType.createPattern(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName"))
+			?: invalidName(newName))
 }
 
 abstract class ACoreLambdaMixin(node: ASTNode) : ACoreGeneralDeclaration(node), ACoreLambda {

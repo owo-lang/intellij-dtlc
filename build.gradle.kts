@@ -68,7 +68,7 @@ intellij {
 		.mapNotNull { fromToolbox(root, it) }.firstOrNull()
 	pycharmPath?.absolutePath?.let { alternativeIdePath = it }
 
-	setPlugins("PsiViewer:191.4212")
+	setPlugins("PsiViewer:192-SNAPSHOT")
 }
 
 java {

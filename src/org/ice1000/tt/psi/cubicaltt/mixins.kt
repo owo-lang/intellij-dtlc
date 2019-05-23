@@ -17,8 +17,7 @@ import icons.TTIcons
 import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.GeneralNameIdentifier
 import org.ice1000.tt.psi.childrenRevWithLeaves
-import org.ice1000.tt.psi.childrenWithLeaves
-import javax.swing.Icon
+import org.ice1000.tt.psi.invalidName
 
 interface CubicalTTDecl : PsiElement, NavigationItem
 
@@ -136,6 +135,5 @@ abstract class CubicalTTNameDeclMixin(node: ASTNode) : GeneralNameIdentifier(nod
 	val kind: CubicalTTSymbolKind by lazy(::symbolKind)
 	override fun getIcon(flags: Int) = kind.icon
 	@Throws(IncorrectOperationException::class)
-	override fun setName(newName: String) = replace(CubicalTTTokenType.createNameDecl(newName, project)
-		?: throw IncorrectOperationException("Invalid name: $newName"))
+	override fun setName(newName: String) = replace(CubicalTTTokenType.createNameDecl(newName, project) ?: invalidName(newName))
 }
