@@ -1,6 +1,5 @@
 package org.ice1000.tt.psi.cubicaltt
 
-import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
@@ -9,7 +8,6 @@ import com.intellij.psi.ResolveResult
 import com.intellij.psi.impl.source.resolve.ResolveCache
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.util.IncorrectOperationException
 import icons.SemanticIcons
 import icons.TTIcons
 import org.ice1000.tt.psi.*
@@ -28,7 +26,7 @@ fun CubicalTTNameDecl.symbolKind() = when (parent) {
 }
 
 abstract class CubicalTTModuleUsageMixin(node: ASTNode) : GeneralReference(node), CubicalTTModuleUsage {
-	override fun handleElementRename(newName: String): PsiElement? = throw IncorrectOperationException("Invalid name: $newName")
+	override fun handleElementRename(newName: String): PsiElement? = invalidName(newName)
 	override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
 		val file = containingFile ?: return emptyArray()
 		if (!isValid || !file.isValid || project.isDisposed) return emptyArray()
@@ -82,22 +80,17 @@ abstract class CubicalTTNameMixin(node: ASTNode) : GeneralReference(node), Cubic
 	}
 
 	override fun handleElementRename(newName: String): PsiElement? =
-		replace(CubicalTTTokenType.createNameExp(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName"))
+		replace(CubicalTTTokenType.createNameExp(newName, project) ?: invalidName(newName))
 
-	override fun getVariants(): Array<LookupElement> {
-		val variantsProcessor = NameIdentifierCompletionProcessor({
-			if ((it as? CubicalTTNameDeclMixin)?.kind !in paramFamily) true
-			else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, CubicalTTDecl::class.java), this, false)
-		}, {
-			LookupElementBuilder
-				.create(it.text)
-				.withTypeText((it as? CubicalTTNameDeclMixin)?.kind?.name ?: "")
-				.withIcon(it.getIcon(0) ?: TTIcons.CUBICAL_TT)
-		})
-		treeWalkUp(variantsProcessor, element, element.containingFile)
-		return variantsProcessor.candidateSet.toTypedArray()
-	}
+	override fun getVariants() = resolveWith(NameIdentifierCompletionProcessor({
+		if ((it as? CubicalTTNameDeclMixin)?.kind !in paramFamily) true
+		else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, CubicalTTDecl::class.java), this, false)
+	}, {
+		LookupElementBuilder
+			.create(it.text)
+			.withTypeText((it as? CubicalTTNameDeclMixin)?.kind?.name ?: "")
+			.withIcon(it.getIcon(0) ?: TTIcons.CUBICAL_TT)
+	}), this)
 
 	private companion object ResolverHolder {
 		val paramFamily = listOf(CubicalTTSymbolKind.Parameter)

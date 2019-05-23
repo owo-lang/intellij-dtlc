@@ -7,6 +7,7 @@ import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.util.IncorrectOperationException
 
 val PsiElement.elementType get() = node.elementType
 
@@ -67,3 +68,7 @@ fun PsiElement.bodyText(maxSizeExpected: Int) = buildString {
 		} while (child == null)
 	}
 }
+
+@Throws(IncorrectOperationException::class)
+fun invalidName(newName: String) : Nothing
+	= throw IncorrectOperationException("Invalid name: $newName")

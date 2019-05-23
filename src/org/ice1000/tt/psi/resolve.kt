@@ -1,5 +1,6 @@
 package org.ice1000.tt.psi
 
+import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.progress.ProgressIndicatorProvider

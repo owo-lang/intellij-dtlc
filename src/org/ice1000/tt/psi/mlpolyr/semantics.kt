@@ -1,6 +1,5 @@
 package org.ice1000.tt.psi.mlpolyr
 
-import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
@@ -66,8 +65,7 @@ abstract class MLPolyRLabelMixin(node: ASTNode) : GeneralReference(node), MLPoly
 
 abstract class MLPolyRIdentifierMixin(node: ASTNode) : GeneralReference(node), MLPolyRIdentifier {
 	override fun handleElementRename(newName: String): PsiElement? =
-		replace(MLPolyRTokenType.createIdentifier(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName"))
+		replace(MLPolyRTokenType.createIdentifier(newName, project) ?: invalidName(newName))
 
 	override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
 		val file = containingFile ?: return emptyArray()
@@ -76,23 +74,19 @@ abstract class MLPolyRIdentifierMixin(node: ASTNode) : GeneralReference(node), M
 			.resolveWithCaching(this, resolver, true, incompleteCode, file)
 	}
 
-	override fun getVariants(): Array<LookupElement> {
-		val variantsProcessor = PatternCompletionProcessor({
-			if ((it as? MLPolyRGeneralPat)?.kind != MLPolyRSymbolKind.Parameter) true
-			else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, this, false)
-		}) {
-			val parent = it.parent
-			val tail = if (parent !is MLPolyRFunction) ""
-			else parent.patList.drop(1).joinToString(prefix = " ", separator = " ") { it.bodyText(20) }
-			LookupElementBuilder
-				.create(it.text)
-				.withIcon(it.getIcon(0))
-				.withTypeText((it as? MLPolyRGeneralPat)?.kind?.name ?: "??", true)
-				.withTailText(tail, true)
-		}
-		treeWalkUp(variantsProcessor, this, containingFile)
-		return variantsProcessor.candidateSet.toTypedArray()
-	}
+	override fun getVariants() = resolveWith(PatternCompletionProcessor({
+		if ((it as? MLPolyRGeneralPat)?.kind != MLPolyRSymbolKind.Parameter) true
+		else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MLPolyRFunction::class.java)?.exp, this, false)
+	}) {
+		val parent = it.parent
+		val tail = if (parent !is MLPolyRFunction) ""
+		else parent.patList.drop(1).joinToString(prefix = " ", separator = " ") { it.bodyText(20) }
+		LookupElementBuilder
+			.create(it.text)
+			.withIcon(it.getIcon(0))
+			.withTypeText((it as? MLPolyRGeneralPat)?.kind?.name ?: "??", true)
+			.withTailText(tail, true)
+	}, this)
 
 	private companion object ResolverHolder {
 		val paramFamily = listOf(MLPolyRSymbolKind.Parameter, MLPolyRSymbolKind.Pattern)

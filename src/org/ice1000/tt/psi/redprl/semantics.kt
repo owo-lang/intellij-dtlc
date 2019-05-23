@@ -1,6 +1,5 @@
 package org.ice1000.tt.psi.redprl
 
-import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
@@ -65,25 +64,20 @@ abstract class RedPrlMetaUsageMixin(node: ASTNode) : RedPrlVarUsageMixin(node), 
 		replace(RedPrlTokenType.createMetaUsage(newName, project)
 			?: throw IncorrectOperationException("Invalid name: $newName"))
 
-	override fun getVariants(): Array<LookupElement> {
-		val variantsProcessor = NameIdentifierCompletionProcessor(completion(this), {
-			val declaration = PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
-			LookupElementBuilder
-				.create(it.text)
-				.withIcon(it.getIcon(0))
-				.withTypeText(declaration?.type?.bodyText(40) ?: "Unknown", true)
-		})
-		treeWalkUp(variantsProcessor, this, containingFile)
-		return variantsProcessor.candidateSet.toTypedArray()
-	}
+	override fun getVariants() = resolveWith(NameIdentifierCompletionProcessor(completion(this), {
+		val declaration = PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
+		LookupElementBuilder
+			.create(it.text)
+			.withIcon(it.getIcon(0))
+			.withTypeText(declaration?.type?.bodyText(40) ?: "Unknown", true)
+	}), this)
 }
 
 abstract class RedPrlBoundVarMixin(node: ASTNode) : GeneralNameIdentifier(node), RedPrlBoundVar {
 	override fun getIcon(flags: Int) = RedPrlSymbolKind.Pattern.icon
 	@Throws(IncorrectOperationException::class)
 	override fun setName(newName: String) =
-		replace(RedPrlTokenType.createBoundVar(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName"))
+		replace(RedPrlTokenType.createBoundVar(newName, project) ?: invalidName(newName))
 }
 
 abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedPrlOpUsage, PsiPolyVariantReference {
@@ -99,8 +93,7 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 
 	override fun bindToElement(element: PsiElement): PsiElement = throw IncorrectOperationException("Unsupported")
 	override fun handleElementRename(newName: String): PsiElement? =
-		replace(RedPrlTokenType.createOpUsage(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName"))
+		replace(RedPrlTokenType.createOpUsage(newName, project) ?: invalidName(newName))
 
 	override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
 		val file = containingFile ?: return emptyArray()
@@ -109,19 +102,15 @@ abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedP
 			.resolveWithCaching(this, resolver, true, incompleteCode, file)
 	}
 
-	override fun getVariants(): Array<LookupElement> {
-		val variantsProcessor = NameIdentifierCompletionProcessor(completion(this), {
-			LookupElementBuilder
-				.create(it.text)
-				.withIcon(it.getIcon(0))
-				.withTypeText((it.parent as? GeneralDeclaration)?.type?.bodyText(40)
-					?: (it as? RedPrlOpDeclMixin)?.kind?.name
-					?: "??", true)
-				.withTailText((it.parent as? RedPrlOpOwnerMixin)?.parameterText ?: "", true)
-		})
-		treeWalkUp(variantsProcessor, this, containingFile)
-		return variantsProcessor.candidateSet.toTypedArray()
-	}
+	override fun getVariants() = resolveWith(NameIdentifierCompletionProcessor(completion(this), {
+		LookupElementBuilder
+			.create(it.text)
+			.withIcon(it.getIcon(0))
+			.withTypeText((it.parent as? GeneralDeclaration)?.type?.bodyText(40)
+				?: (it as? RedPrlOpDeclMixin)?.kind?.name
+				?: "??", true)
+			.withTailText((it.parent as? RedPrlOpOwnerMixin)?.parameterText ?: "", true)
+	}), this)
 
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<RedPrlOpUsageMixin> { ref, _ ->
@@ -144,8 +133,7 @@ abstract class RedPrlVarUsageMixin(node: ASTNode) : RedPrlTermAndTacImpl(node), 
 
 	override fun bindToElement(element: PsiElement): PsiElement = throw IncorrectOperationException("Unsupported")
 	override fun handleElementRename(newName: String): PsiElement? =
-		replace(RedPrlTokenType.createVarUsage(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName"))
+		replace(RedPrlTokenType.createVarUsage(newName, project) ?: invalidName(newName))
 
 	override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
 		val file = containingFile ?: return emptyArray()
@@ -154,13 +142,9 @@ abstract class RedPrlVarUsageMixin(node: ASTNode) : RedPrlTermAndTacImpl(node), 
 			.resolveWithCaching(this, resolver, true, incompleteCode, file)
 	}
 
-	override fun getVariants(): Array<LookupElement> {
-		val variantsProcessor = NameIdentifierCompletionProcessor(completion(this), {
-			LookupElementBuilder.create(it.text).withIcon(it.getIcon(0))
-		})
-		treeWalkUp(variantsProcessor, this, containingFile)
-		return variantsProcessor.candidateSet.toTypedArray()
-	}
+	override fun getVariants() = resolveWith(NameIdentifierCompletionProcessor(completion(this), {
+		LookupElementBuilder.create(it.text).withIcon(it.getIcon(0))
+	}), this)
 
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<RedPrlVarUsageMixin> { ref, _ ->

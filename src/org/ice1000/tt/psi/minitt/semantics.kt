@@ -1,13 +1,11 @@
 package org.ice1000.tt.psi.minitt
 
-import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.ResolveResult
 import com.intellij.psi.impl.source.resolve.ResolveCache
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
 import org.ice1000.tt.psi.*
 
@@ -20,16 +18,11 @@ abstract class MiniTTVariableMixin(node: ASTNode) : GeneralReference(node), Mini
 	}
 
 	override fun handleElementRename(newName: String): PsiElement? =
-		replace(MiniTTTokenType.createVariable(newName, project)
-			?: throw IncorrectOperationException("Invalid name: $newName"))
+		replace(MiniTTTokenType.createVariable(newName, project) ?: invalidName(newName))
 
-	override fun getVariants(): Array<LookupElement> {
-		val variantsProcessor = PatternCompletionProcessor(lookupElement = {
-			LookupElementBuilder.create(it.text).withIcon(TTIcons.MINI_TT)
-		})
-		treeWalkUp(variantsProcessor, element, element.containingFile)
-		return variantsProcessor.candidateSet.toTypedArray()
-	}
+	override fun getVariants() = resolveWith(PatternCompletionProcessor(lookupElement = {
+		LookupElementBuilder.create(it.text).withIcon(TTIcons.MINI_TT)
+	}), this)
 
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<MiniTTVariableMixin> { ref, _ ->
