@@ -5,7 +5,6 @@ import org.gradle.api.GradleException
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
-import org.intellij.lang.annotations.Language
 
 open class LanguageUtilityGenerationTask : DefaultTask() {
 	@field:Input var basePackage: String = "org.ice1000.tt"
@@ -17,6 +16,8 @@ open class LanguageUtilityGenerationTask : DefaultTask() {
 	@field:Input var generateCliState: Boolean = true
 	@field:Input var hasVersion: Boolean = true
 	@field:Input var generateSettings: Boolean = true
+	@field:Input var supportsParsing: Boolean = false
+	@field:Input var highlightTokenPairs: List<Pair<String, String>> = emptyList()
 	@field:OutputDirectory
 	val outDir = basePackage.split('.').fold(project.buildDir.resolve("gen")) { dir, p -> dir.resolve(p) }
 	@field:OutputDirectory
@@ -42,5 +43,9 @@ open class LanguageUtilityGenerationTask : DefaultTask() {
 		editing(nickname)
 		execution(nickname, configName)
 		pluginXml(nickname)
+		if (supportsParsing) {
+			parser(configName, nickname)
+			lexHighlight(configName, nickname)
+		}
 	}
 }

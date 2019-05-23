@@ -175,6 +175,21 @@ val genMiniTTUtility = utilities("genMiniTTUtility") {
 	exeName = "minittc"
 	runConfigInit = """additionalOptions = "--repl-plain""""
 	trimVersion = """version.removePrefix("minittc").trim()"""
+	supportsParsing = true
+	highlightTokenPairs = listOf(
+		"KEYWORD" to "KEYWORD",
+		"IDENTIFIER" to "IDENTIFIER",
+		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
+		"CONSTRUCTOR_CALL" to "FUNCTION_CALL",
+		"CONSTRUCTOR_DECL" to "FUNCTION_DECLARATION",
+		"SEMICOLON" to "SEMICOLON",
+		"COMMA" to "COMMA",
+		"UNRESOLVED" to "IDENTIFIER",
+		"OPERATOR" to "OPERATION_SIGN",
+		"PAREN" to "PARENTHESES",
+		"BRACE" to "BRACES",
+		"COMMENT" to "LINE_COMMENT"
+	)
 }
 
 val genACoreUtility = utilities("genACoreUtility") {

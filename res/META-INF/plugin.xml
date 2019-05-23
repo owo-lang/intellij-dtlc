@@ -111,7 +111,7 @@
 		<!--Mini-TT-->
 		<configurationType implementation="org.ice1000.tt.execution.MiniTTRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.MiniTTRunConfigurationProducer"/>
-		<lang.parserDefinition language="Mini-TT" implementationClass="org.ice1000.tt.psi.minitt.MiniTTParserDefinition"/>
+		<lang.parserDefinition language="Mini-TT" implementationClass="org.ice1000.tt.psi.minitt.MiniTTGeneratedParserDefinition"/>
 		<lang.syntaxHighlighterFactory language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTHighlighterFactory"/>
 		<annotator language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTAnnotator"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.minitt.MiniTTColorSettingsPage"/>
