@@ -3,7 +3,9 @@ package org.ice1000.tt.editing
 import com.intellij.codeInsight.template.TemplateContextType
 import com.intellij.codeInsight.template.impl.DefaultLiveTemplatesProvider
 import com.intellij.psi.PsiFile
-import org.ice1000.tt.*
+import org.ice1000.tt.OWO_CONTEXT_ID
+import org.ice1000.tt.OWO_LANGUAGE_NAME
+import org.ice1000.tt.OwOFileType
 
 const val TT_PARENT_CONTEXT_ID = "TTParentContext"
 

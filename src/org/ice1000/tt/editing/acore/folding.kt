@@ -10,7 +10,10 @@ import com.intellij.psi.util.PsiTreeUtil
 import org.ice1000.tt.ACoreFile
 import org.ice1000.tt.FOLDING_PLACEHOLDER
 import org.ice1000.tt.editing.*
-import org.ice1000.tt.psi.acore.*
+import org.ice1000.tt.psi.acore.ACoreDeclaration
+import org.ice1000.tt.psi.acore.ACoreEofVoid
+import org.ice1000.tt.psi.acore.ACoreTypes
+import org.ice1000.tt.psi.acore.ACoreVisitor
 import org.ice1000.tt.psi.elementType
 import org.ice1000.tt.psi.endOffset
 import org.ice1000.tt.psi.startOffset
