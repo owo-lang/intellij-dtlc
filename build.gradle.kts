@@ -21,7 +21,7 @@ val commitHash = kotlin.run {
 	output.trim()
 }
 
-val pluginComingVersion = "0.5.0"
+val pluginComingVersion = "0.5.1"
 val pluginVersion = if (isCI) "$pluginComingVersion-$commitHash" else pluginComingVersion
 val packageName = "org.ice1000.tt"
 
@@ -68,7 +68,7 @@ intellij {
 		.mapNotNull { fromToolbox(root, it) }.firstOrNull()
 	pycharmPath?.absolutePath?.let { alternativeIdePath = it }
 
-	setPlugins("PsiViewer:191.4212")
+	setPlugins(if (isCI) "PsiViewer:192-SNAPSHOT" else "PsiViewer:191.4212")
 }
 
 java {
