@@ -1,45 +1,19 @@
 package org.ice1000.tt.editing.acore
 
-import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
-import com.intellij.openapi.editor.HighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
-import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
 import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.tree.IElementType
 import icons.TTIcons
 import org.ice1000.tt.ACoreFileType
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.psi.acore.ACoreTokenType
 import org.ice1000.tt.psi.acore.ACoreTypes
-import org.ice1000.tt.psi.acore.acoreLexer
 import org.intellij.lang.annotations.Language
 
-object ACoreHighlighter : SyntaxHighlighter {
-	@JvmField val KEYWORD = TextAttributesKey.createTextAttributesKey("AGDA_CORE_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
-	@JvmField val IDENTIFIER = TextAttributesKey.createTextAttributesKey("AGDA_CORE_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER)
-	@JvmField val FUNCTION_NAME = TextAttributesKey.createTextAttributesKey("AGDA_CORE_FUNCTION_NAME", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
-	@JvmField val SEMICOLON = TextAttributesKey.createTextAttributesKey("AGDA_CORE_SEMICOLON", DefaultLanguageHighlighterColors.SEMICOLON)
-	@JvmField val COMMA = TextAttributesKey.createTextAttributesKey("AGDA_CORE_COMMA", DefaultLanguageHighlighterColors.COMMA)
-	@JvmField val UNRESOLVED = TextAttributesKey.createTextAttributesKey("AGDA_CORE_UNRESOLVED", HighlighterColors.BAD_CHARACTER)
-	@JvmField val OPERATOR = TextAttributesKey.createTextAttributesKey("AGDA_CORE_OPERATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN)
-	@JvmField val PAREN = TextAttributesKey.createTextAttributesKey("AGDA_CORE_PARENTHESES", DefaultLanguageHighlighterColors.PARENTHESES)
-	@JvmField val LINE_COMMENT = TextAttributesKey.createTextAttributesKey("AGDA_CORE_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
-	@JvmField val BLOCK_COMMENT = TextAttributesKey.createTextAttributesKey("AGDA_CORE_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
-
-	@JvmField val KEYWORD_KEY = arrayOf(KEYWORD)
-	@JvmField val IDENTIFIER_KEY = arrayOf(IDENTIFIER)
-	@JvmField val SEMICOLON_KEY = arrayOf(SEMICOLON)
-	@JvmField val COMMA_KEY = arrayOf(COMMA)
-	@JvmField val OPERATOR_KEY = arrayOf(OPERATOR)
-	@JvmField val PAREN_KEY = arrayOf(PAREN)
-	@JvmField val LINE_COMMENT_KEY = arrayOf(LINE_COMMENT)
-	@JvmField val BLOCK_COMMENT_KEY = arrayOf(BLOCK_COMMENT)
-
+object ACoreHighlighter : ACoreGeneratedSyntaxHighlighter() {
 	private val KEYWORDS_LIST = listOf(
 		ACoreTypes.LAMBDA,
 		ACoreTypes.PI,
@@ -60,7 +34,6 @@ object ACoreHighlighter : SyntaxHighlighter {
 		ACoreTypes.DOT_TWO,
 		ACoreTypes.DOT_ONE)
 
-	override fun getHighlightingLexer() = acoreLexer()
 	override fun getTokenHighlights(type: IElementType?): Array<TextAttributesKey> = when (type) {
 		ACoreTypes.COMMA -> COMMA_KEY
 		ACoreTypes.SEMICOLON -> SEMICOLON_KEY
@@ -72,10 +45,6 @@ object ACoreHighlighter : SyntaxHighlighter {
 		ACoreTokenType.BLOCK_COMMENT -> BLOCK_COMMENT_KEY
 		else -> emptyArray()
 	}
-}
-
-class ACoreHighlighterFactory : SyntaxHighlighterFactory() {
-	override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = ACoreHighlighter
 }
 
 class ACoreColorSettingsPage : ColorSettingsPage {

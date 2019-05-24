@@ -1,60 +1,19 @@
 package org.ice1000.tt.editing.redprl
 
-import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
-import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
 import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.tree.IElementType
 import icons.TTIcons
 import org.ice1000.tt.RedPrlFileType
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.psi.redprl.RedPrlTokenType
 import org.ice1000.tt.psi.redprl.RedPrlTypes
-import org.ice1000.tt.psi.redprl.redPrlLexer
 import org.intellij.lang.annotations.Language
 
-object RedPrlHighlighter : SyntaxHighlighter {
-	@JvmField val PAREN = TextAttributesKey.createTextAttributesKey("RED_PRL_PARENTHESES", DefaultLanguageHighlighterColors.PARENTHESES)
-	@JvmField val BRACK = TextAttributesKey.createTextAttributesKey("RED_PRL_BRACKET", DefaultLanguageHighlighterColors.BRACKETS)
-	@JvmField val BRACE = TextAttributesKey.createTextAttributesKey("RED_PRL_BRACE", DefaultLanguageHighlighterColors.BRACES)
-	@JvmField val KEYWORD = TextAttributesKey.createTextAttributesKey("RED_PRL_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
-	@JvmField val OP_NAME_DECL = TextAttributesKey.createTextAttributesKey("RED_PRL_OP_DECL", DefaultLanguageHighlighterColors.GLOBAL_VARIABLE)
-	@JvmField val OP_NAME_CALL = TextAttributesKey.createTextAttributesKey("RED_PRL_OP_CALL", DefaultLanguageHighlighterColors.GLOBAL_VARIABLE)
-	@JvmField val VAR_NAME_DECL = TextAttributesKey.createTextAttributesKey("RED_PRL_VAR_DECL", DefaultLanguageHighlighterColors.LOCAL_VARIABLE)
-	@JvmField val VAR_NAME_CALL = TextAttributesKey.createTextAttributesKey("RED_PRL_VAR_CALL", DefaultLanguageHighlighterColors.LOCAL_VARIABLE)
-	@JvmField val SEMICOLON = TextAttributesKey.createTextAttributesKey("RED_PRL_SEMICOLON", DefaultLanguageHighlighterColors.SEMICOLON)
-	@JvmField val COMMA = TextAttributesKey.createTextAttributesKey("RED_PRL_COMMA", DefaultLanguageHighlighterColors.COMMA)
-	@JvmField val DOT = TextAttributesKey.createTextAttributesKey("RED_PRL_DOT", DefaultLanguageHighlighterColors.DOT)
-	@JvmField val OPERATOR = TextAttributesKey.createTextAttributesKey("RED_PRL_OPERATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN)
-	@JvmField val LINE_COMMENT = TextAttributesKey.createTextAttributesKey("RED_PRL_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
-	@JvmField val BLOCK_COMMENT = TextAttributesKey.createTextAttributesKey("RED_PRL_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
-	@JvmField val NUMERAL = TextAttributesKey.createTextAttributesKey("RED_PRL_NUMERAL", DefaultLanguageHighlighterColors.NUMBER)
-	@JvmField val HASH = TextAttributesKey.createTextAttributesKey("RED_PRL_HASH", DefaultLanguageHighlighterColors.METADATA)
-	@JvmField val META_VAR_DECL = TextAttributesKey.createTextAttributesKey("RED_PRL_META_DECL", DefaultLanguageHighlighterColors.METADATA)
-	@JvmField val META_VAR_CALL = TextAttributesKey.createTextAttributesKey("RED_PRL_META_CALL", DefaultLanguageHighlighterColors.METADATA)
-	@JvmField val HOLE = TextAttributesKey.createTextAttributesKey("RED_PRL_HOLE", DefaultLanguageHighlighterColors.LABEL)
-
-	@JvmField val PAREN_KEY = arrayOf(PAREN)
-	@JvmField val BRACK_KEY = arrayOf(BRACK)
-	@JvmField val BRACE_KEY = arrayOf(BRACE)
-	@JvmField val KEYWORD_KEY = arrayOf(KEYWORD)
-	@JvmField val OP_NAME_CALL_KEY = arrayOf(OP_NAME_CALL)
-	@JvmField val VAR_NAME_CALL_KEY = arrayOf(VAR_NAME_CALL)
-	@JvmField val SEMICOLON_KEY = arrayOf(SEMICOLON)
-	@JvmField val COMMA_KEY = arrayOf(COMMA)
-	@JvmField val DOT_KEY = arrayOf(DOT)
-	@JvmField val OPERATOR_KEY = arrayOf(OPERATOR)
-	@JvmField val LINE_COMMENT_KEY = arrayOf(LINE_COMMENT)
-	@JvmField val BLOCK_COMMENT_KEY = arrayOf(BLOCK_COMMENT)
-	@JvmField val NUMERAL_KEY = arrayOf(NUMERAL)
-	@JvmField val HASH_KEY = arrayOf(HASH)
-	@JvmField val HOLE_KEY = arrayOf(HOLE)
-
+object RedPrlHighlighter : RedPrlGeneratedSyntaxHighlighter() {
 	@JvmField val OPERATORS = listOf(
 		RedPrlTypes.RANGLE,
 		RedPrlTypes.DOT,
@@ -178,7 +137,6 @@ object RedPrlHighlighter : SyntaxHighlighter {
 		RedPrlTypes.V,
 		RedPrlTypes.UNIVERSE)
 
-	override fun getHighlightingLexer() = redPrlLexer()
 	override fun getTokenHighlights(type: IElementType?): Array<TextAttributesKey> = when (type) {
 		RedPrlTypes.COMMA -> COMMA_KEY
 		RedPrlTypes.HASH -> HASH_KEY
@@ -197,10 +155,6 @@ object RedPrlHighlighter : SyntaxHighlighter {
 		in KEYWORDS -> KEYWORD_KEY
 		else -> emptyArray()
 	}
-}
-
-class RedPrlHighlighterFactory : SyntaxHighlighterFactory() {
-	override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = RedPrlHighlighter
 }
 
 class RedPrlColorSettingsPage : ColorSettingsPage {

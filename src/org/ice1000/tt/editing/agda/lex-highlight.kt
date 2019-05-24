@@ -1,14 +1,10 @@
 package org.ice1000.tt.editing.agda
 
-import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
-import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
 import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.tree.IElementType
 import icons.TTIcons
 import org.ice1000.tt.AgdaFileType
@@ -18,42 +14,7 @@ import org.ice1000.tt.psi.agda.AgdaTypes
 import org.ice1000.tt.psi.agda.agdaLexer
 import org.intellij.lang.annotations.Language
 
-object AgdaHighlighter : SyntaxHighlighter {
-	@JvmField val KEYWORD = TextAttributesKey.createTextAttributesKey("AGDA_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
-	@JvmField val IDENTIFIER = TextAttributesKey.createTextAttributesKey("AGDA_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER)
-	@JvmField val FUNCTION_NAME = TextAttributesKey.createTextAttributesKey("AGDA_FUNCTION_NAME", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
-	@JvmField val SEMICOLON = TextAttributesKey.createTextAttributesKey("AGDA_SEMICOLON", DefaultLanguageHighlighterColors.SEMICOLON)
-	@JvmField val DOT = TextAttributesKey.createTextAttributesKey("AGDA_DOT", DefaultLanguageHighlighterColors.DOT)
-	@JvmField val LINE_COMMENT = TextAttributesKey.createTextAttributesKey("AGDA_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
-	@JvmField val BLOCK_COMMENT = TextAttributesKey.createTextAttributesKey("AGDA_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
-	@JvmField val NUMBER = TextAttributesKey.createTextAttributesKey("AGDA_NUMERAL", DefaultLanguageHighlighterColors.NUMBER)
-	@JvmField val STR_LIT = TextAttributesKey.createTextAttributesKey("AGDA_STR_LIT", DefaultLanguageHighlighterColors.STRING)
-	@JvmField val CHR_LIT = TextAttributesKey.createTextAttributesKey("AGDA_CHAR_LIT", DefaultLanguageHighlighterColors.STRING)
-	@JvmField val FLOAT = TextAttributesKey.createTextAttributesKey("AGDA_FLOAT", DefaultLanguageHighlighterColors.NUMBER)
-	@JvmField val ARROW = TextAttributesKey.createTextAttributesKey("AGDA_ARROW", DefaultLanguageHighlighterColors.OPERATION_SIGN)
-	@JvmField val HOLE = TextAttributesKey.createTextAttributesKey("AGDA_HOLE", DefaultLanguageHighlighterColors.LABEL)
-	@JvmField val PAREN = TextAttributesKey.createTextAttributesKey("AGDA_PARENTHESES", DefaultLanguageHighlighterColors.PARENTHESES)
-	@JvmField val BRACK = TextAttributesKey.createTextAttributesKey("AGDA_IDIOM", DefaultLanguageHighlighterColors.BRACKETS)
-	@JvmField val BRACE = TextAttributesKey.createTextAttributesKey("AGDA_BRACE", DefaultLanguageHighlighterColors.BRACES)
-	@JvmField val PRAGMA = TextAttributesKey.createTextAttributesKey("AGDA_PRAGMA", DefaultLanguageHighlighterColors.METADATA)
-
-	@JvmField val KEYWORD_KEY = arrayOf(KEYWORD)
-	@JvmField val IDENTIFIER_KEY = arrayOf(IDENTIFIER)
-	@JvmField val SEMICOLON_KEY = arrayOf(SEMICOLON)
-	@JvmField val DOT_KEY = arrayOf(DOT)
-	@JvmField val LINE_COMMENT_KEY = arrayOf(LINE_COMMENT)
-	@JvmField val BLOCK_COMMENT_KEY = arrayOf(BLOCK_COMMENT)
-	@JvmField val NUMBER_KEY = arrayOf(NUMBER)
-	@JvmField val FLOAT_KEY = arrayOf(FLOAT)
-	@JvmField val STR_LIT_KEY = arrayOf(STR_LIT)
-	@JvmField val CHR_LIT_KEY = arrayOf(CHR_LIT)
-	@JvmField val HOLE_KEY = arrayOf(HOLE)
-	@JvmField val ARROW_KEY = arrayOf(ARROW)
-	@JvmField val PAREN_KEY = arrayOf(PAREN)
-	@JvmField val BRACK_KEY = arrayOf(BRACK)
-	@JvmField val BRACE_KEY = arrayOf(BRACE)
-	@JvmField val PRAGMA_KEY = arrayOf(PRAGMA)
-
+object AgdaHighlighter : AgdaGeneratedSyntaxHighlighter() {
 	@JvmField val KEYWORDS = listOf(
 		AgdaTypes.KW_NO_ETA_EQUALITY,
 		AgdaTypes.KW_ETA_EQUALITY,
@@ -120,10 +81,6 @@ object AgdaHighlighter : SyntaxHighlighter {
 	}
 }
 
-class AgdaHighlighterFactory : SyntaxHighlighterFactory() {
-	override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = AgdaHighlighter
-}
-
 class AgdaColorSettingsPage : ColorSettingsPage {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
@@ -170,7 +127,7 @@ test a = run $ do
   (| record
      { label = {! unimplemented !}
      ; c = 'c'
-     ; i = 233;
+     ; i = 233
      ; f = -23e666
      } |)
 """

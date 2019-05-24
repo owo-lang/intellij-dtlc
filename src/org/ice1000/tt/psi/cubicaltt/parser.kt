@@ -1,14 +1,12 @@
 package org.ice1000.tt.psi.cubicaltt
 
-import com.intellij.lang.ASTNode
-import com.intellij.lang.ParserDefinition
-import com.intellij.lexer.FlexAdapter
 import com.intellij.openapi.project.Project
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.CubicalTTFile
 import org.ice1000.tt.CubicalTTLanguage
@@ -21,7 +19,6 @@ class CubicalTTFileImpl(viewProvider: FileViewProvider) : CubicalTTFile(viewProv
 	override fun getNameIdentifier() = module?.nameDecl
 }
 
-class CubicalTTElementType(debugName: String) : IElementType(debugName, CubicalTTLanguage.INSTANCE)
 class CubicalTTTokenType(debugName: String) : IElementType(debugName, CubicalTTLanguage.INSTANCE) {
 	companion object Builtin {
 		@JvmField val LINE_COMMENT = CubicalTTTokenType("line comment")
@@ -56,7 +53,6 @@ private val LAYOUT_CREATOR = TokenSet.create(
 	CubicalTTTypes.KW_WITH
 )
 
-fun cubicalTTLexer() = FlexAdapter(CubicalTTLexer())
 fun cubicalTTLayoutLexer() = LayoutLexer(
 	cubicalTTLexer(),
 	CubicalTTTokenType.EOL,
@@ -68,15 +64,9 @@ fun cubicalTTLayoutLexer() = LayoutLexer(
 	LetIn(CubicalTTTypes.KW_LET, CubicalTTTypes.KW_IN)
 )
 
-class CubicalTTParserDefinition : ParserDefinition {
-	override fun getStringLiteralElements() = TokenSet.EMPTY
-	override fun getCommentTokens() = CubicalTTTokenType.COMMENTS
-	override fun createElement(node: ASTNode?) = CubicalTTTypes.Factory.createElement(node)
+class CubicalTTParserDefinition : CubicalTTGeneratedParserDefinition() {
 	override fun createFile(viewProvider: FileViewProvider) = CubicalTTFileImpl(viewProvider)
 	override fun createLexer(project: Project?) = cubicalTTLayoutLexer()
-	override fun createParser(project: Project?) = CubicalTTParser()
-	override fun getFileNodeType() = CubicalTTFileStub.Type
+	override fun getFileNodeType(): IFileElementType = CubicalTTFileStub.Type
 	override fun getWhitespaceTokens() = CubicalTTTokenType.WHITE_SPACE
-	// TODO: replace after dropping support for 183
-	override fun spaceExistanceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
 }

@@ -1,3 +1,4 @@
+import org.ice1000.tt.gradle.LanguageUtilityGenerationTask
 import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
 import org.jetbrains.intellij.tasks.PatchPluginXmlTask
@@ -5,7 +6,6 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.*
 import java.nio.file.Paths
-import org.ice1000.tt.gradle.LanguageUtilityGenerationTask
 
 val isCI = !System.getenv("CI").isNullOrBlank()
 val commitHash = kotlin.run {
@@ -169,6 +169,9 @@ fun utilities(name: String, job: LanguageUtilityGenerationTask.() -> Unit) = tas
 	generateCode.dependsOn(this)
 }
 
+// Useful regexs:
+// \@JvmField val ([A-Z_]+) = TextAttributesKey.createTextAttributesKey\("[^\"]+", DefaultLanguageHighlighterColors.([A-Z_]+)\)
+
 val genMiniTTUtility = utilities("genMiniTTUtility") {
 	languageName = "MiniTT"
 	constantPrefix = "MINI_TT"
@@ -188,8 +191,7 @@ val genMiniTTUtility = utilities("genMiniTTUtility") {
 		"OPERATOR" to "OPERATION_SIGN",
 		"PAREN" to "PARENTHESES",
 		"BRACE" to "BRACES",
-		"COMMENT" to "LINE_COMMENT"
-	)
+		"COMMENT" to "LINE_COMMENT")
 }
 
 val genACoreUtility = utilities("genACoreUtility") {
@@ -197,6 +199,18 @@ val genACoreUtility = utilities("genACoreUtility") {
 	constantPrefix = "AGDA_CORE"
 	exeName = "agdacore"
 	hasVersion = false
+	supportsParsing = true
+	highlightTokenPairs = listOf(
+		"KEYWORD" to "KEYWORD",
+		"IDENTIFIER" to "IDENTIFIER",
+		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
+		"SEMICOLON" to "SEMICOLON",
+		"COMMA" to "COMMA",
+		"UNRESOLVED" to "IDENTIFIER",
+		"OPERATOR" to "OPERATION_SIGN",
+		"PAREN" to "PARENTHESES",
+		"LINE_COMMENT" to "LINE_COMMENT",
+		"BLOCK_COMMENT" to "BLOCK_COMMENT")
 }
 
 val genVoileUtility = utilities("genVoileUtility") {
@@ -211,6 +225,22 @@ val genCubicalTTUtility = utilities("genCubicalTTUtility") {
 	constantPrefix = "CUBICAL_TT"
 	exeName = "cubical"
 	trimVersion = "version.trim()"
+	supportsParsing = true
+	highlightTokenPairs = listOf(
+		"KEYWORD" to "KEYWORD",
+		"IDENTIFIER" to "IDENTIFIER",
+		"SEMICOLON" to "SEMICOLON",
+		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
+		"DATATYPE_NAME" to "CLASS_NAME",
+		"COMMA" to "COMMA",
+		"PAREN" to "PARENTHESES",
+		"BRACK" to "BRACKETS",
+		"UNDEFINED" to "KEYWORD",
+		"HOLE" to "LABEL",
+		"DIMENSION" to "NUMBER",
+		"PROJECTION" to "INSTANCE_FIELD",
+		"LINE_COMMENT" to "LINE_COMMENT",
+		"BLOCK_COMMENT" to "BLOCK_COMMENT")
 }
 
 val genAgdaUtility = utilities("genAgdaUtility") {
@@ -218,6 +248,25 @@ val genAgdaUtility = utilities("genAgdaUtility") {
 	constantPrefix = "AGDA"
 	exeName = "agda"
 	trimVersion = """version.removePrefix("Agda version").trim()"""
+	supportsParsing = true
+	highlightTokenPairs = listOf(
+		"KEYWORD" to "KEYWORD",
+		"IDENTIFIER" to "IDENTIFIER",
+		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
+		"SEMICOLON" to "SEMICOLON",
+		"DOT" to "DOT",
+		"LINE_COMMENT" to "LINE_COMMENT",
+		"BLOCK_COMMENT" to "BLOCK_COMMENT",
+		"NUMBER" to "NUMBER",
+		"STR_LIT" to "STRING",
+		"CHR_LIT" to "STRING",
+		"FLOAT" to "NUMBER",
+		"ARROW" to "OPERATION_SIGN",
+		"HOLE" to "LABEL",
+		"PAREN" to "PARENTHESES",
+		"BRACK" to "BRACKETS",
+		"BRACE" to "BRACES",
+		"PRAGMA" to "METADATA")
 }
 
 val genMLPolyRUtility = utilities("genMLPolyRUtility") {
@@ -226,6 +275,34 @@ val genMLPolyRUtility = utilities("genMLPolyRUtility") {
 	exeName = "mlpolyrc"
 	runConfigInit = """additionalOptions = "-t""""
 	hasVersion = false
+	supportsParsing = true
+	highlightTokenPairs = listOf(
+		"KEYWORD" to "KEYWORD",
+		"IDENTIFIER" to "IDENTIFIER",
+		"UNRESOLVED" to "IDENTIFIER",
+		"SEMICOLON" to "SEMICOLON",
+		"COMMA" to "COMMA",
+		"OPERATOR" to "OPERATION_SIGN",
+		"PAREN" to "PARENTHESES",
+		"BRACK" to "BRACKETS",
+		"BRACE" to "BRACES",
+		"BRACE2" to "BRACES",
+		"COMMENT" to "BLOCK_COMMENT",
+		"DOT" to "DOT",
+		"INT" to "NUMBER",
+		"STRING" to "STRING",
+
+		"FUNCTION_CALL" to "FUNCTION_CALL",
+		"FUNCTION_DECL" to "FUNCTION_DECLARATION",
+		"VARIABLE_CALL" to "GLOBAL_VARIABLE",
+		"VARIABLE_DECL" to "GLOBAL_VARIABLE",
+		"PATTERN_CALL" to "LOCAL_VARIABLE",
+		"PATTERN_DECL" to "LOCAL_VARIABLE",
+		"FIELD_CALL" to "INSTANCE_FIELD",
+		"FIELD_DECL" to "INSTANCE_FIELD",
+		"PARAMETER_CALL" to "PARAMETER",
+		"PARAMETER_DECL" to "PARAMETER",
+		"CONSTRUCTOR" to "LABEL")
 }
 
 val genRedPrlUtility = utilities("genRedPrlUtility") {
@@ -233,6 +310,27 @@ val genRedPrlUtility = utilities("genRedPrlUtility") {
 	constantPrefix = "RED_PRL"
 	exeName = "redprl"
 	hasVersion = false
+	supportsParsing = true
+	highlightTokenPairs = listOf(
+		"PAREN" to "PARENTHESES",
+		"BRACK" to "BRACKETS",
+		"BRACE" to "BRACES",
+		"KEYWORD" to "KEYWORD",
+		"OP_NAME_DECL" to "GLOBAL_VARIABLE",
+		"OP_NAME_CALL" to "GLOBAL_VARIABLE",
+		"VAR_NAME_DECL" to "LOCAL_VARIABLE",
+		"VAR_NAME_CALL" to "LOCAL_VARIABLE",
+		"SEMICOLON" to "SEMICOLON",
+		"COMMA" to "COMMA",
+		"DOT" to "DOT",
+		"OPERATOR" to "OPERATION_SIGN",
+		"LINE_COMMENT" to "LINE_COMMENT",
+		"BLOCK_COMMENT" to "BLOCK_COMMENT",
+		"NUMERAL" to "NUMBER",
+		"HASH" to "METADATA",
+		"META_VAR_DECL" to "METADATA",
+		"META_VAR_CALL" to "METADATA",
+		"HOLE" to "LABEL")
 }
 
 tasks.withType<KotlinCompile> {

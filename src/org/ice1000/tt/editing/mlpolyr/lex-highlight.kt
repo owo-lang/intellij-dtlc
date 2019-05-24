@@ -1,15 +1,10 @@
 package org.ice1000.tt.editing.mlpolyr
 
-import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
-import com.intellij.openapi.editor.HighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
-import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
 import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.tree.IElementType
 import icons.TTIcons
 import org.ice1000.tt.MLPolyRFileType
@@ -19,48 +14,7 @@ import org.ice1000.tt.psi.mlpolyr.MLPolyRTypes
 import org.ice1000.tt.psi.mlpolyr.mlPolyRLexer
 import org.intellij.lang.annotations.Language
 
-object MLPolyRHighlighter : SyntaxHighlighter {
-	@JvmField val KEYWORD = TextAttributesKey.createTextAttributesKey("ML_POLY_R_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
-	@JvmField val IDENTIFIER = TextAttributesKey.createTextAttributesKey("ML_POLY_R_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER)
-	@JvmField val UNRESOLVED = TextAttributesKey.createTextAttributesKey("ML_POLY_R_UNRESOLVED", HighlighterColors.BAD_CHARACTER)
-	@JvmField val SEMICOLON = TextAttributesKey.createTextAttributesKey("ML_POLY_R_SEMICOLON", DefaultLanguageHighlighterColors.SEMICOLON)
-	@JvmField val COMMA = TextAttributesKey.createTextAttributesKey("ML_POLY_R_COMMA", DefaultLanguageHighlighterColors.COMMA)
-	@JvmField val OPERATOR = TextAttributesKey.createTextAttributesKey("ML_POLY_R_OPERATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN)
-	@JvmField val PAREN = TextAttributesKey.createTextAttributesKey("ML_POLY_R_PARENTHESES", DefaultLanguageHighlighterColors.PARENTHESES)
-	@JvmField val BRACK = TextAttributesKey.createTextAttributesKey("ML_POLY_R_BRACKET", DefaultLanguageHighlighterColors.BRACKETS)
-	@JvmField val BRACE = TextAttributesKey.createTextAttributesKey("ML_POLY_R_BRACE", DefaultLanguageHighlighterColors.BRACES)
-	@JvmField val BRACE2 = TextAttributesKey.createTextAttributesKey("ML_POLY_R_BRACE2", DefaultLanguageHighlighterColors.BRACES)
-	@JvmField val COMMENT = TextAttributesKey.createTextAttributesKey("ML_POLY_R_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
-	@JvmField val DOT = TextAttributesKey.createTextAttributesKey("ML_POLY_R_DOT", DefaultLanguageHighlighterColors.DOT)
-	@JvmField val INT = TextAttributesKey.createTextAttributesKey("ML_POLY_R_INT", DefaultLanguageHighlighterColors.NUMBER)
-	@JvmField val STRING = TextAttributesKey.createTextAttributesKey("ML_POLY_R_STRING", DefaultLanguageHighlighterColors.STRING)
-
-	@JvmField val FUNCTION_CALL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_FUNCTION_CALL", DefaultLanguageHighlighterColors.FUNCTION_CALL)
-	@JvmField val FUNCTION_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_FUNCTION_DECL", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
-	@JvmField val VARIABLE_CALL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_VARIABLE_CALL", DefaultLanguageHighlighterColors.GLOBAL_VARIABLE)
-	@JvmField val VARIABLE_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_VARIABLE_DECL", DefaultLanguageHighlighterColors.GLOBAL_VARIABLE)
-	@JvmField val PATTERN_CALL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_PATTERN_CALL", DefaultLanguageHighlighterColors.LOCAL_VARIABLE)
-	@JvmField val PATTERN_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_PATTERN_DECL", DefaultLanguageHighlighterColors.LOCAL_VARIABLE)
-	@JvmField val FIELD_CALL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_FIELD_CALL", DefaultLanguageHighlighterColors.INSTANCE_FIELD)
-	@JvmField val FIELD_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_FIELD_DECL", DefaultLanguageHighlighterColors.INSTANCE_FIELD)
-	@JvmField val PARAMETER_CALL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_PARAMETER_CALL", DefaultLanguageHighlighterColors.PARAMETER)
-	@JvmField val PARAMETER_DECL = TextAttributesKey.createTextAttributesKey("ML_POLY_R_PARAMETER_DECL", DefaultLanguageHighlighterColors.PARAMETER)
-	@JvmField val CONSTRUCTOR = TextAttributesKey.createTextAttributesKey("ML_POLY_R_CONSTRUCTOR", DefaultLanguageHighlighterColors.LABEL)
-
-	@JvmField val KEYWORD_KEY = arrayOf(KEYWORD)
-	@JvmField val IDENTIFIER_KEY = arrayOf(IDENTIFIER)
-	@JvmField val SEMICOLON_KEY = arrayOf(SEMICOLON)
-	@JvmField val COMMA_KEY = arrayOf(COMMA)
-	@JvmField val OPERATOR_KEY = arrayOf(OPERATOR)
-	@JvmField val PAREN_KEY = arrayOf(PAREN)
-	@JvmField val BRACK_KEY = arrayOf(BRACK)
-	@JvmField val BRACE_KEY = arrayOf(BRACE)
-	@JvmField val BRACE2_KEY = arrayOf(BRACE2)
-	@JvmField val COMMENT_KEY = arrayOf(COMMENT)
-	@JvmField val DOT_KEY = arrayOf(DOT)
-	@JvmField val INT_KEY = arrayOf(INT)
-	@JvmField val STRING_KEY = arrayOf(STRING)
-
+object MLPolyRHighlighter : MLPolyRGeneratedSyntaxHighlighter() {
 	private val KEYWORDS_LIST = listOf(
 		MLPolyRTypes.KW_REHANDLING,
 		MLPolyRTypes.KW_HANDLING,
@@ -113,7 +67,6 @@ object MLPolyRHighlighter : SyntaxHighlighter {
 		MLPolyRTypes.PLUSPLUS
 	)
 
-	override fun getHighlightingLexer() = mlPolyRLexer()
 	override fun getTokenHighlights(type: IElementType?): Array<TextAttributesKey> = when (type) {
 		MLPolyRTypes.COMMA -> COMMA_KEY
 		MLPolyRTypes.SEMI -> SEMICOLON_KEY
@@ -130,10 +83,6 @@ object MLPolyRHighlighter : SyntaxHighlighter {
 		in MLPolyRTokenType.COMMENTS -> COMMENT_KEY
 		else -> emptyArray()
 	}
-}
-
-class MLPolyRHighlighterFactory : SyntaxHighlighterFactory() {
-	override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = MLPolyRHighlighter
 }
 
 class MLPolyRColorSettingsPage : ColorSettingsPage {

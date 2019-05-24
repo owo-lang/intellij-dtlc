@@ -4,24 +4,15 @@
  */
 package org.ice1000.tt.psi.agda
 
-import com.intellij.lang.ASTNode
-import com.intellij.lang.ParserDefinition
-import com.intellij.lexer.FlexAdapter
 import com.intellij.openapi.project.Project
-import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.TokenType
-import com.intellij.psi.stubs.PsiFileStubImpl
 import com.intellij.psi.tree.IElementType
-import com.intellij.psi.tree.IStubFileElementType
 import com.intellij.psi.tree.TokenSet
-import org.ice1000.tt.AgdaFile
 import org.ice1000.tt.AgdaLanguage
 import org.ice1000.tt.psi.LayoutLexer
 import org.ice1000.tt.psi.LetIn
 import org.ice1000.tt.psi.State
-
-class AgdaElementType(debugName: String) : IElementType(debugName, AgdaLanguage.INSTANCE)
 
 class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.INSTANCE) {
 	@Suppress("MemberVisibilityCanBePrivate")
@@ -62,7 +53,6 @@ private val LAYOUT_CREATOR = TokenSet.create(
 	AgdaTypes.KW_POSTULATE
 )
 
-fun agdaLexer() = FlexAdapter(AgdaLexer())
 fun agdaLayoutLexer() = LayoutLexer(
 	agdaLexer(),
 	AgdaTokenType.EOL,
@@ -77,19 +67,8 @@ fun agdaLayoutLexer() = LayoutLexer(
 	else State.WaitingForLayout
 }
 
-class AgdaParserDefinition : ParserDefinition {
-	private companion object {
-		private val FILE = IStubFileElementType<PsiFileStubImpl<AgdaFile>>(AgdaLanguage.INSTANCE)
-	}
-
+class AgdaParserDefinition : AgdaGeneratedParserDefinition() {
 	override fun getStringLiteralElements() = AgdaTokenType.STRINGS
-	override fun getCommentTokens() = AgdaTokenType.COMMENTS
-	override fun createElement(node: ASTNode?) = AgdaTypes.Factory.createElement(node)
-	override fun createFile(viewProvider: FileViewProvider) = AgdaFile(viewProvider)
 	override fun createLexer(project: Project?) = agdaLayoutLexer()
-	override fun createParser(project: Project?) = AgdaParser()
-	override fun getFileNodeType() = FILE
 	override fun getWhitespaceTokens() = AgdaTokenType.WHITE_SPACE
-	// TODO: replace after dropping support for 183
-	override fun spaceExistanceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
 }
