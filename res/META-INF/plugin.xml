@@ -64,6 +64,7 @@
 		<lang.findUsagesProvider language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTFindUsagesProvider"/>
 		<lang.syntaxHighlighterFactory language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTHighlighterFactory"/>
 		<lang.refactoringSupport language="CubicalTT" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
+		<lang.foldingBuilder language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTFoldingBuilder"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTColorSettingsPage"/>
 		<annotator language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTAnnotator"/>
 		<stubIndex implementation="org.ice1000.tt.psi.cubicaltt.CubicalTTModuleStubKey"/>

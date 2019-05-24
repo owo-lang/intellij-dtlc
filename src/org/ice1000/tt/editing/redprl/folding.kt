@@ -37,7 +37,6 @@ private class FoldingVisitor(
 	private val document: Document
 ) : RedPrlVisitor() {
 
-
 	override fun visitComment(comment: PsiComment?) {
 		if (comment?.elementType == RedPrlTokenType.BLOCK_COMMENT)
 			descriptors += FoldingDescriptor(comment, comment.textRange)
