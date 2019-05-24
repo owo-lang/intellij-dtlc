@@ -7,19 +7,15 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.patterns.PlatformPatterns.psiElement
 import icons.TTIcons
 import org.ice1000.tt.editing.SimpleProvider
+import org.ice1000.tt.editing.makeKeywordsCompletion
 
 class MLPolyRCompletionContributor : CompletionContributor(), DumbAware {
-	private val keywords = listOf(
+	private val keywords = makeKeywordsCompletion(TTIcons.MLPOLYR, listOf(
 		"rehandling",
 		"handling", "default", "nocases", "orelse", "isnull", "false", "match",
 		"cases", "where", "raise", "then", "else", "true", "with", "case", "let",
 		"end", "fun", "and", "val", "try", "not", "if", "fn", "as", "of", "in"
-	).map {
-		LookupElementBuilder
-			.create(it)
-			.withTypeText("Keyword")
-			.bold()
-	}
+	))
 
 	private val builtins = listOf(
 		Triple("String.toInt", "string", "int"),
