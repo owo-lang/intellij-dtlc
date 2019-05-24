@@ -7,9 +7,9 @@ import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.PsiTreeUtil
 import org.ice1000.tt.AgdaFile
 import org.ice1000.tt.FOLDING_PLACEHOLDER
+import org.ice1000.tt.editing.collectFoldRegions
 import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.agda.*
 
@@ -23,17 +23,11 @@ class AgdaFoldingBuilder : FoldingBuilderEx(), DumbAware {
 
 	override fun buildFoldRegions(root: PsiElement, document: Document, quick: Boolean): Array<FoldingDescriptor> {
 		if (root !is AgdaFile) return emptyArray()
-		val descriptors = mutableListOf<FoldingDescriptor>()
-		val visitor = FoldingVisitor(descriptors, document)
-		PsiTreeUtil.processElements(root) {
-			it.accept(visitor)
-			true
-		}
-		return descriptors.toTypedArray()
+		return collectFoldRegions(root) { FoldingVisitor(it, document) }
 	}
 }
 
-class FoldingVisitor(
+private class FoldingVisitor(
 	private val descriptors: MutableList<FoldingDescriptor>,
 	private val document: Document
 ) : AgdaVisitor() {

@@ -2,10 +2,13 @@ package org.ice1000.tt.editing
 
 import com.intellij.lang.Commenter
 import com.intellij.lang.findUsages.FindUsagesProvider
+import com.intellij.lang.folding.FoldingDescriptor
 import com.intellij.lang.refactoring.RefactoringSupportProvider
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiNamedElement
+import com.intellij.psi.util.PsiTreeUtil
 
 abstract class TTFindUsagesProvider : FindUsagesProvider {
 	override fun canFindUsagesFor(element: PsiElement) = element is PsiNameIdentifierOwner
@@ -36,4 +39,14 @@ class CxxCommenter : TTCommenter() {
 	override fun getLineCommentPrefix() = "// "
 	override fun getBlockCommentPrefix() = "/*"
 	override fun getBlockCommentSuffix() = "*/"
+}
+
+inline fun collectFoldRegions(root: PsiElement, visitorFactory: (MutableList<FoldingDescriptor>) -> PsiElementVisitor): Array<FoldingDescriptor> {
+	val descriptors = mutableListOf<FoldingDescriptor>()
+	val visitor = visitorFactory(descriptors)
+	PsiTreeUtil.processElements(root) {
+		it.accept(visitor)
+		true
+	}
+	return descriptors.toTypedArray()
 }

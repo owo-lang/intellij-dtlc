@@ -10,6 +10,7 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import org.ice1000.tt.FOLDING_PLACEHOLDER
+import org.ice1000.tt.editing.collectFoldRegions
 import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.redprl.*
 
@@ -27,13 +28,7 @@ class RedPrlFoldingBuilder : FoldingBuilderEx(), DumbAware {
 
 	override fun buildFoldRegions(root: PsiElement, document: Document, quick: Boolean): Array<FoldingDescriptor> {
 		if (root !is RedPrlFileImpl) return emptyArray()
-		val descriptors = mutableListOf<FoldingDescriptor>()
-		val visitor = FoldingVisitor(descriptors, document)
-		PsiTreeUtil.processElements(root) {
-			it.accept(visitor)
-			true
-		}
-		return descriptors.toTypedArray()
+		return collectFoldRegions(root) { FoldingVisitor(it, document) }
 	}
 }
 

@@ -6,7 +6,6 @@ import com.intellij.lang.folding.FoldingDescriptor
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.PsiTreeUtil
 import org.ice1000.tt.ACoreFile
 import org.ice1000.tt.FOLDING_PLACEHOLDER
 import org.ice1000.tt.editing.*
@@ -33,17 +32,11 @@ class ACoreFoldingBuilder : FoldingBuilderEx(), DumbAware {
 
 	override fun buildFoldRegions(root: PsiElement, document: Document, quick: Boolean): Array<FoldingDescriptor> {
 		if (root !is ACoreFile) return emptyArray()
-		val descriptors = mutableListOf<FoldingDescriptor>()
-		val visitor = FoldingVisitor(descriptors, document)
-		PsiTreeUtil.processElements(root) {
-			it.accept(visitor)
-			true
-		}
-		return descriptors.toTypedArray()
+		return collectFoldRegions(root) { FoldingVisitor(it, document) }
 	}
 }
 
-class FoldingVisitor(
+private class FoldingVisitor(
 	private val descriptors: MutableList<FoldingDescriptor>,
 	private val document: Document
 ) : ACoreVisitor() {
