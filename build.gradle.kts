@@ -164,6 +164,7 @@ val (genMLPolyRParser, genMLPolyRLexer) = grammar("MLPolyR")
 val (genRedPrlParser, genRedPrlLexer) = grammar("RedPrl")
 val (genAgdaParser, genAgdaLexer) = grammar("Agda")
 val (genCubicalTTParser, genCubicalTTLexer) = grammar("CubicalTT")
+val (genVoileParser, genVoileLexer) = grammar("Voile")
 
 fun utilities(name: String, job: LanguageUtilityGenerationTask.() -> Unit) = task<LanguageUtilityGenerationTask>(name) {
 	this.job()
@@ -219,6 +220,19 @@ val genVoileUtility = utilities("genVoileUtility") {
 	constantPrefix = "VOILE"
 	exeName = "voilec"
 	trimVersion = """version.removePrefix("voilec").trim()"""
+	supportsParsing = true
+	highlightTokenPairs = listOf(
+		"KEYWORD" to "KEYWORD",
+		"IDENTIFIER" to "IDENTIFIER",
+		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
+		"CONSTRUCTOR" to "FUNCTION_DECLARATION",
+		"VARIANT" to "FUNCTION_DECLARATION",
+		"SEMICOLON" to "SEMICOLON",
+		"COMMA" to "COMMA",
+		"UNRESOLVED" to "IDENTIFIER",
+		"OPERATOR" to "OPERATION_SIGN",
+		"PAREN" to "PARENTHESES",
+		"LINE_COMMENT" to "LINE_COMMENT")
 }
 
 val genCubicalTTUtility = utilities("genCubicalTTUtility") {

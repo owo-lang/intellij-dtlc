@@ -33,10 +33,7 @@ expr ::=
  | pipeExpr
  | sumExpr
  | appExpr
- | unit
-
-private unit ::=
-   litExpr
+ | litExpr
  | lamExpr
  | nameUsage
  | telescopicExpr
@@ -51,7 +48,7 @@ commaExpr ::= expr COMMA expr
 sumExpr ::= expr SUM expr
 lamExpr ::= LAM nameDecl+ DOT expr { pin=1 }
 litExpr ::= META | VARIANT | CONS | BOT | KW_TYPE
-appExpr ::= unit unit+
+appExpr ::= expr expr+
 parenExpr ::= LPAREN expr RPAREN
 
 signature ::= KW_VAL nameDecl COLON expr SEMI { pin=1 }

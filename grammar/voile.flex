@@ -28,7 +28,7 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 
 WHITE_SPACE=[\ \t\f\r\n]+
 UNIVERSE = Type[0-9]*
-IDENTIFIER=[a-zA-Z_\\][a-zA-Z_0-9'\\]*
+IDENTIFIER=[a-zA-Z_][a-zA-Z_0-9'\\]*
 COMMENTS = \/\/[^\n\r]*
 LAMBDA=\\|\u03BB
 
