@@ -8,6 +8,7 @@ class VoileTokenType(debugName: String) : IElementType(debugName, VoileLanguage.
 	companion object Builtin {
 		@JvmField val LINE_COMMENT = VoileTokenType("line comment")
 		@JvmField val COMMENTS = TokenSet.create(LINE_COMMENT)
+		@JvmField val IDENTIFIERS = TokenSet.create(VoileTypes.IDENTIFIER)
 	}
 }
 

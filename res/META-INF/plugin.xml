@@ -37,10 +37,13 @@
 		<!--Voile-->
 		<configurationType implementation="org.ice1000.tt.execution.VoileRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.VoileRunConfigurationProducer"/>
-		<lang.commenter language="Voile" implementationClass="org.ice1000.tt.editing.CxxCommenter"/>
+		<lang.commenter language="Voile" implementationClass="org.ice1000.tt.editing.voile.VoileCommenter"/>
 		<lang.parserDefinition language="Voile" implementationClass="org.ice1000.tt.psi.voile.VoileGeneratedParserDefinition"/>
 		<lang.syntaxHighlighterFactory language="Voile" implementationClass="org.ice1000.tt.editing.voile.VoileHighlighterFactory"/>
 		<stubElementTypeHolder class="org.ice1000.tt.psi.voile.VoileTypes"/>
+		<lang.findUsagesProvider language="Voile" implementationClass="org.ice1000.tt.editing.voile.VoileFindUsagesProvider"/>
+		<lang.braceMatcher language="Voile" implementationClass="org.ice1000.tt.editing.voile.VoileBraceMatcher"/>
+		<lang.refactoringSupport language="Voile" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 
 		<!--Agda-->
 		<configurationType implementation="org.ice1000.tt.execution.AgdaRunConfigurationType"/>
