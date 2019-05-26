@@ -34,7 +34,7 @@ object VoileHighlighter : VoileGeneratedSyntaxHighlighter() {
 		else -> emptyArray()
 	}
 }
-class VoileColorSettingsPage : ColorSettingsPage {
+class VoileColorSettingsPage : VoileGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), VoileHighlighter.KEYWORD),
@@ -52,12 +52,8 @@ class VoileColorSettingsPage : ColorSettingsPage {
 			"Unresolved" to VoileHighlighter.UNRESOLVED)
 	}
 
-	override fun getHighlighter(): SyntaxHighlighter = VoileHighlighter
 	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS
-	override fun getIcon() = TTIcons.VOILE
 	override fun getAttributeDescriptors() = DESCRIPTORS
-	override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
-	override fun getDisplayName() = VoileFileType.name
 	// @Language("Voile")
 	override fun getDemoText() = """
 val <FD>id</FD>: (A: Type) -> A -> A;

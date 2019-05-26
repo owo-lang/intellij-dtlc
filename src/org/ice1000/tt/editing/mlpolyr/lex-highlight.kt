@@ -84,7 +84,7 @@ object MLPolyRHighlighter : MLPolyRGeneratedSyntaxHighlighter() {
 	}
 }
 
-class MLPolyRColorSettingsPage : ColorSettingsPage {
+class MLPolyRColorSettingsPage : MLPolyRGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
 			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.function-call"), MLPolyRHighlighter.FUNCTION_CALL),
@@ -128,12 +128,8 @@ class MLPolyRColorSettingsPage : ColorSettingsPage {
 			"Unresolved" to MLPolyRHighlighter.UNRESOLVED)
 	}
 
-	override fun getHighlighter(): SyntaxHighlighter = MLPolyRHighlighter
 	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS
-	override fun getIcon() = TTIcons.MLPOLYR
 	override fun getAttributeDescriptors() = DESCRIPTORS
-	override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
-	override fun getDisplayName() = MLPolyRFileType.name
 	@Language("MLPolyR")
 	override fun getDemoText() = """
 let val <VD>n</VD> = { i := 1919810 }

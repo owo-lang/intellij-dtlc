@@ -17,8 +17,13 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
+import com.intellij.openapi.options.colors.AttributesDescriptor
+import com.intellij.openapi.options.colors.ColorDescriptor
+import com.intellij.openapi.options.colors.ColorSettingsPage
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
+import icons.TTIcons
+import org.ice1000.tt.${languageName}FileType
 import org.ice1000.tt.psi.$nickname.${configName}Lexer
 
 abstract class ${languageName}GeneratedSyntaxHighlighter : SyntaxHighlighter {
@@ -31,6 +36,13 @@ abstract class ${languageName}GeneratedSyntaxHighlighter : SyntaxHighlighter {
 
 class ${languageName}HighlighterFactory : SyntaxHighlighterFactory() {
 	override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = ${languageName}Highlighter
+}
+
+abstract class ${languageName}GeneratedColorSettingsPage : ColorSettingsPage {
+	override fun getHighlighter(): SyntaxHighlighter = ${languageName}Highlighter
+	override fun getIcon() = TTIcons.$constantPrefix
+	override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
+	override fun getDisplayName() = ${languageName}FileType.name
 }
 """
 	outDir.resolve("editing")

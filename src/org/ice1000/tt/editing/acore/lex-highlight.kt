@@ -47,7 +47,7 @@ object ACoreHighlighter : ACoreGeneratedSyntaxHighlighter() {
 	}
 }
 
-class ACoreColorSettingsPage : ColorSettingsPage {
+class ACoreColorSettingsPage : ACoreGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), ACoreHighlighter.KEYWORD),
@@ -66,12 +66,8 @@ class ACoreColorSettingsPage : ColorSettingsPage {
 			"FDl" to ACoreHighlighter.FUNCTION_NAME)
 	}
 
-	override fun getHighlighter(): SyntaxHighlighter = ACoreHighlighter
 	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS
-	override fun getIcon() = TTIcons.AGDA_CORE
 	override fun getAttributeDescriptors() = DESCRIPTORS
-	override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
-	override fun getDisplayName() = ACoreFileType.name
 	@Language("Vanilla Mini-TT")
 	override fun getDemoText() = """
 let <FDl>Bool</FDl>: U = Sum ( true | false );

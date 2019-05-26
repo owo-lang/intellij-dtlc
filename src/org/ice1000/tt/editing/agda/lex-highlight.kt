@@ -81,7 +81,7 @@ object AgdaHighlighter : AgdaGeneratedSyntaxHighlighter() {
 	}
 }
 
-class AgdaColorSettingsPage : ColorSettingsPage {
+class AgdaColorSettingsPage : AgdaGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), AgdaHighlighter.KEYWORD),
@@ -106,12 +106,8 @@ class AgdaColorSettingsPage : ColorSettingsPage {
 			"FD" to AgdaHighlighter.FUNCTION_NAME)
 	}
 
-	override fun getHighlighter(): SyntaxHighlighter = AgdaHighlighter
 	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS
-	override fun getIcon() = TTIcons.AGDA
 	override fun getAttributeDescriptors() = DESCRIPTORS
-	override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
-	override fun getDisplayName() = AgdaFileType.name
 	@Language("Agda")
 	override fun getDemoText() = """
 {-# OPTIONS --without-K #-}

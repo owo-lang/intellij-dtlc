@@ -157,7 +157,7 @@ object RedPrlHighlighter : RedPrlGeneratedSyntaxHighlighter() {
 	}
 }
 
-class RedPrlColorSettingsPage : ColorSettingsPage {
+class RedPrlColorSettingsPage : RedPrlGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
 			AttributesDescriptor(TTBundle.message("redprl.highlighter.settings.meta-decl"), RedPrlHighlighter.META_VAR_DECL),
@@ -190,12 +190,8 @@ class RedPrlColorSettingsPage : ColorSettingsPage {
 			"H" to RedPrlHighlighter.HOLE)
 	}
 
-	override fun getHighlighter(): SyntaxHighlighter = RedPrlHighlighter
 	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS
-	override fun getIcon() = TTIcons.RED_PRL
 	override fun getAttributeDescriptors() = DESCRIPTORS
-	override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
-	override fun getDisplayName() = RedPrlFileType.name
 	@Language("HTML")
 	override fun getDemoText() = """
 // J rule definition

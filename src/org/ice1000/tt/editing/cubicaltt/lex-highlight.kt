@@ -59,7 +59,7 @@ object CubicalTTHighlighter : CubicalTTGeneratedSyntaxHighlighter() {
 	}
 }
 
-class CubicalTTColorSettingsPage : ColorSettingsPage {
+class CubicalTTColorSettingsPage : CubicalTTGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), CubicalTTHighlighter.KEYWORD),
@@ -82,10 +82,6 @@ class CubicalTTColorSettingsPage : ColorSettingsPage {
 			"FD" to CubicalTTHighlighter.FUNCTION_NAME)
 	}
 
-	override fun getDisplayName() = CubicalTTFileType.name
-	override fun getIcon() = TTIcons.CUBICAL_TT
-	override fun getHighlighter() = CubicalTTHighlighter
-	override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 	override fun getAttributeDescriptors() = DESCRIPTORS
 	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS
 	@Language("CubicalTT")
