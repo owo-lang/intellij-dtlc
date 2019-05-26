@@ -1,0 +1,58 @@
+//noinspection BnfResolveForFile
+{
+  generate=[java="8" names="long"]
+
+  parserClass="org.ice1000.tt.psi.voile.VoileParser"
+
+  psiClassPrefix="Voile"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.ice1000.tt.psi.voile"
+  psiImplPackage="org.ice1000.tt.psi.voile.impl"
+
+  elementTypeHolderClass="org.ice1000.tt.psi.voile.VoileTypes"
+  elementTypeClass="org.ice1000.tt.psi.voile.VoileElementType"
+  tokenTypeClass="org.ice1000.tt.psi.voile.VoileTokenType"
+
+  extends(".*Expr")=expr
+}
+
+file ::= declaration*
+
+private declaration ::= implementation | signature
+
+nameDecl ::= IDENTIFIER
+nameUsage ::= IDENTIFIER {
+	extends=expr
+}
+
+expr ::=
+   sigExpr
+ | piExpr
+ | dollarExpr
+ | commaExpr
+ | pipeExpr
+ | sumExpr
+ | appExpr
+ | unit
+
+private unit ::=
+   litExpr
+ | lamExpr
+ | nameUsage
+ | telescopicExpr
+ | parenExpr
+
+piExpr ::= expr ARROW expr
+sigExpr ::= expr SIG expr
+telescopicExpr ::= LPAREN nameDecl+ COLON expr RPAREN { pin=3 }
+dollarExpr ::= expr DOLLAR expr
+pipeExpr ::= expr PIPE expr
+commaExpr ::= expr COMMA expr
+sumExpr ::= expr SUM expr
+lamExpr ::= LAM nameDecl+ DOT expr { pin=1 }
+litExpr ::= META | VARIANT | CONS | BOT | KW_TYPE
+appExpr ::= unit unit+
+parenExpr ::= LPAREN expr RPAREN
+
+signature ::= KW_VAL nameDecl COLON expr SEMI { pin=1 }
+implementation ::= KW_LET nameDecl EQ expr SEMI { pin=1 }

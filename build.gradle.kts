@@ -68,6 +68,7 @@ intellij {
 		.mapNotNull { fromToolbox(root, it) }.firstOrNull()
 	pycharmPath?.absolutePath?.let { alternativeIdePath = it }
 
+	version = "2019.1"
 	if (!isCI) setPlugins("PsiViewer:191.4212")
 }
 
