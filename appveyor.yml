@@ -14,4 +14,6 @@ cache:
 artifacts:
   - path: 'build\distributions\*.zip'
     name: intellij-dtlc
+  - path: '..\..\.gradle\caches\modules-2\files-2.1\com.jetbrains.intellij.idea\ideaIC\LATEST-EAP-SNAPSHOT\**\ideaIC-LATEST-EAP-SNAPSHOT\bin\*.log'
+    name: java-core-dump
 #
