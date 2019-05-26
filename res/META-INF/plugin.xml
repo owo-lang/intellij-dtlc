@@ -45,6 +45,7 @@
 		<lang.braceMatcher language="Voile" implementationClass="org.ice1000.tt.editing.voile.VoileBraceMatcher"/>
 		<lang.refactoringSupport language="Voile" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.voile.VoileColorSettingsPage"/>
+		<annotator language="Voile" implementationClass="org.ice1000.tt.editing.voile.VoileAnnotator"/>
 
 		<!--Agda-->
 		<configurationType implementation="org.ice1000.tt.execution.AgdaRunConfigurationType"/>

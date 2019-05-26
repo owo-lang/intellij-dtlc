@@ -43,8 +43,8 @@ expr ::=
  | telescopicExpr
  | parenExpr
 
-piExpr ::= expr ARROW expr
-sigExpr ::= expr SIG expr
+piExpr ::= expr ARROW expr { mixin='org.ice1000.tt.psi.voile.VoilePiSigMixin '}
+sigExpr ::= expr SIG expr { mixin='org.ice1000.tt.psi.voile.VoilePiSigMixin '}
 telescopicExpr ::= LPAREN nameDecl+ COLON expr RPAREN {
 	pin=3
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
