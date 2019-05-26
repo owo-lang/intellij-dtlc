@@ -1,7 +1,14 @@
 package org.ice1000.tt.editing.voile
 
 import com.intellij.openapi.editor.colors.TextAttributesKey
+import com.intellij.openapi.fileTypes.SyntaxHighlighter
+import com.intellij.openapi.options.colors.AttributesDescriptor
+import com.intellij.openapi.options.colors.ColorDescriptor
+import com.intellij.openapi.options.colors.ColorSettingsPage
 import com.intellij.psi.tree.IElementType
+import icons.TTIcons
+import org.ice1000.tt.TTBundle
+import org.ice1000.tt.VoileFileType
 import org.ice1000.tt.psi.voile.VoileTokenType
 import org.ice1000.tt.psi.voile.VoileTypes
 
@@ -26,4 +33,35 @@ object VoileHighlighter : VoileGeneratedSyntaxHighlighter() {
 		in OPERATORS -> OPERATOR_KEY
 		else -> emptyArray()
 	}
+}
+class VoileColorSettingsPage : ColorSettingsPage {
+	private companion object DescriptorHolder {
+		private val DESCRIPTORS = arrayOf(
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), VoileHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), VoileHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), VoileHighlighter.FUNCTION_NAME),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), VoileHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), VoileHighlighter.COMMA),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), VoileHighlighter.UNRESOLVED),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), VoileHighlighter.OPERATOR),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), VoileHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), VoileHighlighter.LINE_COMMENT))
+
+		private val ADDITIONAL_DESCRIPTORS = mapOf(
+			"FD" to VoileHighlighter.FUNCTION_NAME,
+			"Unresolved" to VoileHighlighter.UNRESOLVED)
+	}
+
+	override fun getHighlighter(): SyntaxHighlighter = VoileHighlighter
+	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS
+	override fun getIcon() = TTIcons.VOILE
+	override fun getAttributeDescriptors() = DESCRIPTORS
+	override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
+	override fun getDisplayName() = VoileFileType.name
+	// @Language("Voile")
+	override fun getDemoText() = """
+val <FD>id</FD>: (A: Type) -> A -> A;
+// Identity function definition
+let <FD>id</FD> = \A a. a;
+"""
 }
