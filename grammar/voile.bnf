@@ -20,7 +20,10 @@ file ::= declaration*
 
 private declaration ::= implementation | signature
 
-nameDecl ::= IDENTIFIER
+nameDecl ::= IDENTIFIER {
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.voile.VoileNameDeclMixin'
+}
 nameUsage ::= IDENTIFIER {
 	extends=expr
 	mixin='org.ice1000.tt.psi.voile.VoileNameUsageMixin'
@@ -42,15 +45,31 @@ expr ::=
 
 piExpr ::= expr ARROW expr
 sigExpr ::= expr SIG expr
-telescopicExpr ::= LPAREN nameDecl+ COLON expr RPAREN { pin=3 }
+telescopicExpr ::= LPAREN nameDecl+ COLON expr RPAREN {
+	pin=3
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.voile.VoileLocalDeclMixin'
+}
 dollarExpr ::= expr DOLLAR expr
 pipeExpr ::= expr PIPE expr
 commaExpr ::= expr COMMA expr
 sumExpr ::= expr SUM expr
-lamExpr ::= LAM nameDecl+ DOT expr { pin=1 }
+lamExpr ::= LAM nameDecl+ DOT expr {
+	pin=1
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.voile.VoileLocalDeclMixin'
+}
 litExpr ::= META | VARIANT | CONS | BOT | KW_TYPE
 appExpr ::= expr expr+
 parenExpr ::= LPAREN expr RPAREN
 
-signature ::= KW_VAL nameDecl COLON expr SEMI { pin=1 }
-implementation ::= KW_LET nameDecl EQ expr SEMI { pin=1 }
+signature ::= KW_VAL nameDecl COLON expr SEMI {
+	pin=1
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.voile.VoileGlobDeclMixin'
+}
+implementation ::= KW_LET nameDecl EQ expr SEMI {
+	pin=1
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.voile.VoileGlobDeclMixin'
+}

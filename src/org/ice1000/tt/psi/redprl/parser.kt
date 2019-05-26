@@ -1,23 +1,10 @@
 package org.ice1000.tt.psi.redprl
 
 import com.intellij.openapi.project.Project
-import com.intellij.psi.FileViewProvider
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
-import com.intellij.psi.ResolveState
-import com.intellij.psi.scope.PsiScopeProcessor
-import com.intellij.psi.stubs.PsiFileStubImpl
 import com.intellij.psi.tree.IElementType
-import com.intellij.psi.tree.IStubFileElementType
 import com.intellij.psi.tree.TokenSet
-import org.ice1000.tt.RedPrlFile
 import org.ice1000.tt.RedPrlLanguage
-import org.ice1000.tt.psi.childrenRevWithLeaves
-
-class RedPrlFileImpl(viewProvider: FileViewProvider) : RedPrlFile(viewProvider) {
-	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		childrenRevWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
-}
 
 class RedPrlTokenType(debugName: String) : IElementType(debugName, RedPrlLanguage.INSTANCE) {
 	@Suppress("MemberVisibilityCanBePrivate")
@@ -48,13 +35,4 @@ class RedPrlTokenType(debugName: String) : IElementType(debugName, RedPrlLanguag
 		fun createVarDecl(text: String, project: Project) = createQueryTac("query $text <-", project)?.varDecl
 		fun createBoundVar(text: String, project: Project) = createTermAndTac("(abs bla [$text] Bla)", project)?.boundVarList?.firstOrNull()
 	}
-}
-
-class RedPrlParserDefinition : RedPrlGeneratedParserDefinition() {
-	private companion object {
-		private val FILE = IStubFileElementType<PsiFileStubImpl<RedPrlFileImpl>>(RedPrlLanguage.INSTANCE)
-	}
-
-	override fun createFile(viewProvider: FileViewProvider) = RedPrlFileImpl(viewProvider)
-	override fun getFileNodeType() = FILE
 }

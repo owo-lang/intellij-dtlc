@@ -9,6 +9,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import org.ice1000.tt.FOLDING_PLACEHOLDER
+import org.ice1000.tt.RedPrlFile
 import org.ice1000.tt.editing.collectFoldRegions
 import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.redprl.*
@@ -26,7 +27,7 @@ class RedPrlFoldingBuilder : FoldingBuilderEx(), DumbAware {
 	override fun isCollapsedByDefault(node: ASTNode) = false
 
 	override fun buildFoldRegions(root: PsiElement, document: Document, quick: Boolean): Array<FoldingDescriptor> {
-		if (root !is RedPrlFileImpl) return emptyArray()
+		if (root !is RedPrlFile) return emptyArray()
 		return collectFoldRegions(root) { FoldingVisitor(it, document) }
 	}
 }

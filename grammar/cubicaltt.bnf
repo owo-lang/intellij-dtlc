@@ -18,7 +18,10 @@
 
 entryPoints ::= module | exp
 
-nameDecl ::= IDENTIFIER { mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTNameDeclMixin' }
+nameDecl ::= IDENTIFIER {
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTNameDeclMixin'
+}
 nameUsage ::= IDENTIFIER {
 	extends=formula
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTNameMixin'

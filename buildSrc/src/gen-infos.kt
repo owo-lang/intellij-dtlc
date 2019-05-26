@@ -32,7 +32,11 @@ package org.ice1000.tt
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.openapi.fileTypes.LanguageFileType
 import com.intellij.psi.FileViewProvider
+import com.intellij.psi.PsiElement
+import com.intellij.psi.ResolveState
+import com.intellij.psi.scope.PsiScopeProcessor
 import icons.TTIcons
+import org.ice1000.tt.psi.childrenRevWithLeaves
 
 object ${languageName}FileType : LanguageFileType(${languageName}Language.INSTANCE) {
 	override fun getDefaultExtension() = ${constantPrefix}_EXTENSION
@@ -43,6 +47,8 @@ object ${languageName}FileType : LanguageFileType(${languageName}Language.INSTAN
 
 open class ${languageName}File(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ${languageName}Language.INSTANCE) {
 	override fun getFileType() = ${languageName}FileType
+	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
+		childrenRevWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 """
 	outDir.resolve("$nickname-generated.kt").writeText(infos)

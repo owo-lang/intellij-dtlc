@@ -7,7 +7,7 @@ import org.ice1000.tt.psi.agda.AgdaParserDefinition
 import org.ice1000.tt.psi.cubicaltt.CubicalTTParserDefinition
 import org.ice1000.tt.psi.minitt.MiniTTGeneratedParserDefinition
 import org.ice1000.tt.psi.mlpolyr.MLPolyRParserDefinition
-import org.ice1000.tt.psi.redprl.RedPrlParserDefinition
+import org.ice1000.tt.psi.redprl.RedPrlGeneratedParserDefinition
 
 abstract class DtlcParsingTestCase(
 	dataPath: String,
@@ -56,7 +56,7 @@ class MLPolyRParsingTest : DtlcParsingTestCase("parse/mlpolyr", "mlpr", MLPolyRP
 	fun `test cps-convert-cc2-wc`() = doTest(true, true)
 }
 
-class RedPrlParsingTest : DtlcParsingTestCase("parse/redprl", "prl", RedPrlParserDefinition()) {
+class RedPrlParsingTest : DtlcParsingTestCase("parse/redprl", "prl", RedPrlGeneratedParserDefinition()) {
 	fun `test category`() = doTest(true, true)
 	fun `test connection`() = doTest(true, true)
 	fun `test groupoid`() = doTest(true, true)
