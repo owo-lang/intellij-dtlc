@@ -22,14 +22,11 @@ abstract class AgdaNameExpMixin(node: ASTNode) : GeneralReference(node), AgdaNam
 			.resolveWithCaching(this, resolver, true, incompleteCode, file)
 	}
 
-	override fun getVariants() = resolveWith(NameIdentifierCompletionProcessor(lookupElement = {
-		LookupElementBuilder.create(it.text).withIcon(it.getIcon(0))
-	}), this)
+	override fun getVariants() = resolveWith(NameIdentifierCompletionProcessor(), this)
 
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<AgdaNameExpMixin> { ref, _ ->
-			val name = ref.canonicalText
-			resolveWith(NameIdentifierResolveProcessor(name), ref)
+			resolveWith(NameIdentifierResolveProcessor(ref.canonicalText), ref)
 		}
 	}
 }

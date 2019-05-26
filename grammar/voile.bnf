@@ -23,6 +23,7 @@ private declaration ::= implementation | signature
 nameDecl ::= IDENTIFIER
 nameUsage ::= IDENTIFIER {
 	extends=expr
+	mixin='org.ice1000.tt.psi.voile.VoileNameUsageMixin'
 }
 
 expr ::=
