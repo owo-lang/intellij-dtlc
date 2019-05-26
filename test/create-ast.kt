@@ -5,6 +5,7 @@ import org.ice1000.tt.psi.agda.AgdaTokenType
 import org.ice1000.tt.psi.cubicaltt.CubicalTTTokenType
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTokenType
 import org.ice1000.tt.psi.redprl.RedPrlTokenType
+import org.ice1000.tt.psi.voile.VoileTokenType
 
 class RedPrlCreateAstTest : LightPlatformTestCase() {
 	fun testCreate() {
@@ -31,6 +32,14 @@ class CubicalTTCreateAstTest : LightPlatformTestCase() {
 		val project = getProject()
 		CubicalTTTokenType.createNameDecl("hulk", project)!!
 		CubicalTTTokenType.createNameExp("thor", project)!!
+	}
+}
+
+class VoileCreateAstTest : LightPlatformTestCase() {
+	fun testCreate() {
+		val project = getProject()
+		VoileTokenType.createNameDecl("hulk", project)!!
+		VoileTokenType.createNameUsage("thor", project)!!
 	}
 }
 

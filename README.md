@@ -10,7 +10,7 @@ languages (which means they're created for PL research instead of everyday
 usages), including:
 
 + ![](./res/icons/voile/voile.svg)
-  [Voile] (WIP)
+  [Voile]
 + ![](./res/icons/minitt/minitt.svg)
   [minitt]
 + ![](./res/icons/mlpr/mlpr_file.svg)
