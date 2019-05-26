@@ -2,10 +2,10 @@ package org.ice1000.tt
 
 import com.intellij.lang.ParserDefinition
 import com.intellij.testFramework.ParsingTestCase
-import org.ice1000.tt.psi.acore.ACoreParserDefinition
+import org.ice1000.tt.psi.acore.ACoreGeneratedParserDefinition
 import org.ice1000.tt.psi.agda.AgdaParserDefinition
 import org.ice1000.tt.psi.cubicaltt.CubicalTTParserDefinition
-import org.ice1000.tt.psi.minitt.MiniTTParserDefinition
+import org.ice1000.tt.psi.minitt.MiniTTGeneratedParserDefinition
 import org.ice1000.tt.psi.mlpolyr.MLPolyRParserDefinition
 import org.ice1000.tt.psi.redprl.RedPrlParserDefinition
 
@@ -19,7 +19,7 @@ abstract class DtlcParsingTestCase(
 		super.getTestName(lowercaseFirstLetter).trim()
 }
 
-class MiniTTParsingTest : DtlcParsingTestCase("parse/minitt", "minitt", MiniTTParserDefinition()) {
+class MiniTTParsingTest : DtlcParsingTestCase("parse/minitt", "minitt", MiniTTGeneratedParserDefinition()) {
 	fun `test parse-only`() = doTest(true, true)
 	fun `test local-binding`() = doTest(true, true)
 	fun `test reference`() = doTest(true, true)
@@ -35,7 +35,7 @@ class MiniTTParsingTest : DtlcParsingTestCase("parse/minitt", "minitt", MiniTTPa
 	fun `test nat`() = doTest(true, true)
 }
 
-class ACoreParsingTest : DtlcParsingTestCase("parse/acore", "mtt", ACoreParserDefinition()) {
+class ACoreParsingTest : DtlcParsingTestCase("parse/acore", "mtt", ACoreGeneratedParserDefinition()) {
 	fun testExample() = doTest(true, true)
 	fun testMaybe() = doTest(true, true)
 	fun testBlockComment() = doTest(true, true)

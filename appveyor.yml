@@ -6,6 +6,7 @@ environment:
 build_script:
   - gradlew isCI displayCommitHash buildPlugin --info
   - gradlew verifyPlugin --info
+  - move C:\Users\appveyor\.gradle\caches\modules-2\files-2.1\com.jetbrains.intellij.idea\ideaIC\LATEST-EAP-SNAPSHOT\ddf5b2bb091da6a974316b36d75db2732a40c1b9\ideaIC-LATEST-EAP-SNAPSHOT\bin\*.log .
 #
 
 cache:
@@ -14,6 +15,6 @@ cache:
 artifacts:
   - path: 'build\distributions\*.zip'
     name: intellij-dtlc
-  - path: '..\..\.gradle\caches\modules-2\files-2.1\com.jetbrains.intellij.idea\ideaIC\LATEST-EAP-SNAPSHOT\**\ideaIC-LATEST-EAP-SNAPSHOT\bin\*.log'
+  - path: '*.log'
     name: java-core-dump
 #
