@@ -1,13 +1,12 @@
 package org.ice1000.tt.editing
 
 import com.intellij.lang.Commenter
+import com.intellij.lang.PairedBraceMatcher
 import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.lang.folding.FoldingDescriptor
 import com.intellij.lang.refactoring.RefactoringSupportProvider
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiElementVisitor
-import com.intellij.psi.PsiNameIdentifierOwner
-import com.intellij.psi.PsiNamedElement
+import com.intellij.psi.*
+import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
 
 abstract class TTFindUsagesProvider : FindUsagesProvider {
@@ -20,6 +19,11 @@ abstract class TTFindUsagesProvider : FindUsagesProvider {
 
 class InplaceRenameRefactoringSupportProvider : RefactoringSupportProvider() {
 	override fun isMemberInplaceRenameAvailable(element: PsiElement, context: PsiElement?) = true
+}
+
+abstract class TTBraceMatcher : PairedBraceMatcher {
+	override fun getCodeConstructStart(file: PsiFile?, openingBraceOffset: Int) = openingBraceOffset
+	override fun isPairedBracesAllowedBeforeType(lbraceType: IElementType, contextType: IElementType?) = true
 }
 
 abstract class TTCommenter : Commenter {

@@ -11,7 +11,6 @@ import org.ice1000.tt.MLPolyRFileType
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTokenType
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTypes
-import org.ice1000.tt.psi.mlpolyr.mlPolyRLexer
 import org.intellij.lang.annotations.Language
 
 object MLPolyRHighlighter : MLPolyRGeneratedSyntaxHighlighter() {

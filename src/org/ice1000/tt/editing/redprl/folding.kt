@@ -8,7 +8,6 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.PsiTreeUtil
 import org.ice1000.tt.FOLDING_PLACEHOLDER
 import org.ice1000.tt.editing.collectFoldRegions
 import org.ice1000.tt.psi.*
