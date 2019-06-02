@@ -19,6 +19,8 @@ class VoileCommenter : TTCommenter() {
 class VoileBraceMatcher : TTBraceMatcher() {
 	private companion object Pairs {
 		private val PAIRS = arrayOf(
+			BracePair(VoileTypes.LBRACE, VoileTypes.RBRACE, false),
+			BracePair(VoileTypes.LBRACE2, VoileTypes.RBRACE2, false),
 			BracePair(VoileTypes.LPAREN, VoileTypes.RPAREN, false))
 	}
 

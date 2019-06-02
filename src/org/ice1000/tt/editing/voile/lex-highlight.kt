@@ -11,6 +11,7 @@ import org.ice1000.tt.TTBundle
 import org.ice1000.tt.VoileFileType
 import org.ice1000.tt.psi.voile.VoileTokenType
 import org.ice1000.tt.psi.voile.VoileTypes
+import org.intellij.lang.annotations.Language
 
 object VoileHighlighter : VoileGeneratedSyntaxHighlighter() {
 	@JvmField val OPERATORS = listOf(
@@ -30,6 +31,8 @@ object VoileHighlighter : VoileGeneratedSyntaxHighlighter() {
 		VoileTokenType.LINE_COMMENT -> LINE_COMMENT_KEY
 		VoileTypes.KW_VAL, VoileTypes.KW_LET, VoileTypes.KW_TYPE -> KEYWORD_KEY
 		VoileTypes.LPAREN, VoileTypes.RPAREN -> PAREN_KEY
+		VoileTypes.LBRACE, VoileTypes.RBRACE -> BRACE_KEY
+		VoileTypes.LBRACE2, VoileTypes.RBRACE2 -> BRACE2_KEY
 		in OPERATORS -> OPERATOR_KEY
 		else -> emptyArray()
 	}
@@ -45,6 +48,8 @@ class VoileColorSettingsPage : VoileGeneratedColorSettingsPage() {
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), VoileHighlighter.UNRESOLVED),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), VoileHighlighter.OPERATOR),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), VoileHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), VoileHighlighter.BRACE),
+			AttributesDescriptor(TTBundle.message("voile.highlighter.settings.brace"), VoileHighlighter.BRACE2),
 			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), VoileHighlighter.LINE_COMMENT))
 
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
@@ -54,10 +59,10 @@ class VoileColorSettingsPage : VoileGeneratedColorSettingsPage() {
 
 	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS
 	override fun getAttributeDescriptors() = DESCRIPTORS
-	// @Language("Voile")
+	@Language("Voile")
 	override fun getDemoText() = """
-val <FD>id</FD>: (A: Type) -> A -> A;
+val <FD>id</FD>: (A: Type) -> A -> {| lab: A |};
 // Identity function definition
-let <FD>id</FD> = \A a. a;
+let <FD>id</FD> = \A a. { lab = a };
 """
 }

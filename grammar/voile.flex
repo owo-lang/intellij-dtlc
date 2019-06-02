@@ -34,23 +34,30 @@ LAMBDA=\\|\u03BB
 
 %%
 
+"|>" { return PIPE; }
+"..." { return REST; }
+"->" { return ARROW; }
+"{|" { return LBRACE2; }
+"|}" { return RBRACE2; }
 = { return EQ; }
 _ { return META; }
 ; { return SEMI; }
 : { return COLON; }
 , { return COMMA; }
+\^ { return UP; }
 \+ { return SUM; }
 \. { return DOT; }
 \! { return BOT; }
 \* { return SIG; }
 \( { return LPAREN; }
 \) { return RPAREN; }
+\{ { return LBRACE; }
+\} { return RBRACE; }
 \$ { return DOLLAR; }
--> { return ARROW; }
-\|> { return PIPE; }
 
 let { return KW_LET; }
 val { return KW_VAL; }
+nocases { return KW_NOCASES; }
 {LAMBDA} { return LAM; }
 {UNIVERSE} { return KW_TYPE; }
 {COMMENTS} { return LINE_COMMENT; }

@@ -28,6 +28,7 @@ nameUsage ::= IDENTIFIER {
 	extends=expr
 	mixin='org.ice1000.tt.psi.voile.VoileNameUsageMixin'
 }
+label ::= IDENTIFIER
 
 expr ::=
    sigExpr
@@ -40,9 +41,28 @@ expr ::=
  | litExpr
  | lamExpr
  | nameUsage
+ | upExpr
+ | recordExpr
+ | projectExpr
+ | prodExpr
  | telescopicExpr
  | parenExpr
 
+/*
+singleCase ::= KW_CASE CONS nameDecl ARROW expr { pin=1 }
+caseExpr ::= singleCase+ defaultMatch? { pin=1 }
+private defaultMatch ::= KW_OTHERWISE expr
+*/
+
+prodExpr ::= LBRACE2 property* defaultFields? RBRACE2 { pin=1 }
+property ::= label COLON expr SEMI { pin=1 }
+
+recordExpr ::= LBRACE field* defaultFields? RBRACE { pin=1 }
+private defaultFields ::= REST EQ expr SEMI { pin=1 }
+field ::= label EQ expr SEMI { pin=1 }
+
+upExpr ::= UP expr { pin=1 }
+projectExpr ::= expr DOT label
 piExpr ::= expr ARROW expr { mixin='org.ice1000.tt.psi.voile.VoilePiSigMixin '}
 sigExpr ::= expr SIG expr { mixin='org.ice1000.tt.psi.voile.VoilePiSigMixin '}
 telescopicExpr ::= LPAREN nameDecl+ COLON expr RPAREN {
@@ -59,7 +79,7 @@ lamExpr ::= LAM nameDecl+ DOT expr {
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.voile.VoileLocalDeclMixin'
 }
-litExpr ::= META | VARIANT | CONS | BOT | KW_TYPE
+litExpr ::= META | VARIANT | CONS | BOT | KW_TYPE | KW_NOCASES
 appExpr ::= expr expr+
 parenExpr ::= LPAREN expr RPAREN
 

@@ -69,7 +69,7 @@ intellij {
 	pycharmPath?.absolutePath?.let { alternativeIdePath = it }
 
 	version = "2019.1"
-	if (!isCI) setPlugins("PsiViewer:191.4212")
+	if (!isCI) setPlugins("PsiViewer:192-SNAPSHOT")
 }
 
 java {
@@ -232,6 +232,8 @@ val genVoileUtility = utilities("genVoileUtility") {
 		"UNRESOLVED" to "IDENTIFIER",
 		"OPERATOR" to "OPERATION_SIGN",
 		"PAREN" to "PARENTHESES",
+		"BRACE" to "BRACES",
+		"BRACE2" to "BRACES",
 		"LINE_COMMENT" to "LINE_COMMENT")
 }
 
