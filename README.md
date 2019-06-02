@@ -17,6 +17,8 @@ usages), including:
   [MLPolyR] ([GitHub source][MLPolyR-gh])
 + ![](./res/icons/ctt/ctt_file.svg)
   [CubicalTT] ([GitHub source][Cubical-gh])
++ ![](./res/icons/ytt/ytt_file.svg)
+  [YaccTT] ([GitHub source][Yacc-gh])
 + ![](./res/icons/mtt/mtt_file.svg)
   [Vanilla Mini-TT][Mini-TT] ([GitHub mirror][acore-mirror])
 + ![](./res/icons/redprl/redprl.svg)
@@ -36,6 +38,8 @@ are welcomed!
  [Mini-TT]: http://www.cse.chalmers.se/research/group/logic/Mini-TT/
  [CubicalTT]: https://arxiv.org/abs/1611.02108
  [Cubical-gh]: https://github.com/mortberg/cubicaltt
+ [YaccTT]: https://arxiv.org/abs/1712.01800
+ [Yacc-gh]: https://github.com/mortberg/yacctt
  [acore-mirror]: https://github.com/owo-lang/Mini-TT
  [Voile]: https://github.com/owo-lang/voile-rs
  [OwO]: https://github.com/owo-lang/OwO

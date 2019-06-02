@@ -237,6 +237,13 @@ val genVoileUtility = utilities("genVoileUtility") {
 		"LINE_COMMENT" to "LINE_COMMENT")
 }
 
+val genYaccTTUtility = utilities("genYaccTTUtility") {
+	languageName = "YaccTT"
+	constantPrefix = "YACC_TT"
+	exeName = "yacctt"
+	trimVersion = "version.trim()"
+}
+
 val genCubicalTTUtility = utilities("genCubicalTTUtility") {
 	languageName = "CubicalTT"
 	constantPrefix = "CUBICAL_TT"

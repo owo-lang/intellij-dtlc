@@ -10,6 +10,7 @@
 		<internalFileTemplate name="Agda File"/>
 		<internalFileTemplate name="ACore File"/>
 		<internalFileTemplate name="CubicalTT File"/>
+		<internalFileTemplate name="YaccTT File"/>
 		<internalFileTemplate name="MiniTT File"/>
 		<internalFileTemplate name="MLPolyR File"/>
 		<internalFileTemplate name="OwO File"/>
@@ -31,6 +32,7 @@
 		<liveTemplateContext implementation="org.ice1000.tt.editing.RedPrlDefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.MLPolyRDefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.CubicalTTDefaultContext"/>
+		<liveTemplateContext implementation="org.ice1000.tt.editing.YaccTTDefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.VoileDefaultContext"/>
 		<liveTemplateContext implementation="org.ice1000.tt.editing.TTParentContext"/>
 
@@ -62,6 +64,10 @@
 			forClass="org.ice1000.tt.psi.agda.AgdaStringMixin"
 			implementationClass="org.ice1000.tt.psi.agda.AgdaStringManipulator"/>
 		<completion.contributor language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaCompletionContributor"/>
+
+		<!--YaccTT-->
+		<configurationType implementation="org.ice1000.tt.execution.YaccTTRunConfigurationType"/>
+		<runConfigurationProducer implementation="org.ice1000.tt.execution.YaccTTRunConfigurationProducer"/>
 
 		<!--CubicalTT-->
 		<configurationType implementation="org.ice1000.tt.execution.CubicalTTRunConfigurationType"/>
@@ -179,6 +185,11 @@
 			instance="org.ice1000.tt.project.CubicalTTProjectConfigurable"/>
 		<projectConfigurable
 			groupId="language"
+			id="TT.YaccTT.Configurable"
+			displayName="Yacc-TT"
+			instance="org.ice1000.tt.project.YaccTTProjectConfigurable"/>
+		<projectConfigurable
+			groupId="language"
 			id="TT.Voile.Configurable"
 			displayName="Voile"
 			instance="org.ice1000.tt.project.VoileProjectConfigurable"/>
@@ -202,6 +213,9 @@
 		</component>
 		<component>
 			<implementation-class>org.ice1000.tt.project.CubicalTTProjectSettingsService</implementation-class>
+		</component>
+		<component>
+			<implementation-class>org.ice1000.tt.project.YaccTTProjectSettingsService</implementation-class>
 		</component>
 		<component>
 			<implementation-class>org.ice1000.tt.project.VoileProjectSettingsService</implementation-class>

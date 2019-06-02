@@ -29,6 +29,10 @@ import org.jetbrains.annotations.NonNls
 @NonNls const val CUBICAL_TT_EXTENSION = "ctt"
 @NonNls const val CUBICAL_TT_LANGUAGE_NAME = "CubicalTT"
 
+@NonNls const val YACC_TT_WEBSITE = "https://arxiv.org/abs/1712.01800"
+@NonNls const val YACC_TT_EXTENSION = "ytt"
+@NonNls const val YACC_TT_LANGUAGE_NAME = "YaccTT"
+
 @NonNls const val RED_PRL_WEBSITE = "http://www.redprl.org/"
 @NonNls const val RED_PRL_EXTENSION = "prl"
 @NonNls const val RED_PRL_LANGUAGE_NAME = "RedPRL"

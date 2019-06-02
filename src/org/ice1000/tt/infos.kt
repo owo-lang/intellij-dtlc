@@ -29,6 +29,7 @@ class TTFileTypeFactory : FileTypeFactory() {
 		consumer.consume(OwOFileType)
 		consumer.consume(AgdaFileType)
 		consumer.consume(CubicalTTFileType)
+		consumer.consume(YaccTTFileType)
 		consumer.consume(VoileFileType)
 		consumer.consume(MLPolyRFileType)
 		consumer.consume(RedPrlFileType)
