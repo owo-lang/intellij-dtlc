@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 import java.util.*
 
+interface TTFile
+
 object OwOFileType : LanguageFileType(OwOLanguage.INSTANCE) {
 	override fun getDefaultExtension() = OWO_EXTENSION
 	override fun getName() = TTBundle.message("owo.name")

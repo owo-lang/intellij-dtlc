@@ -43,7 +43,7 @@ fun fromToolbox(root: String, ide: String) = file(root)
 	.orEmpty()
 	.filterNotNull()
 	.filter { it.isDirectory }
-	.maxBy {
+	.minBy {
 		val (major, minor, patch) = it.name.split('.')
 		String.format("%5s%5s%5s", major, minor, patch)
 	}
@@ -100,12 +100,18 @@ sourceSets {
 	}
 }
 
-repositories { mavenCentral() }
+repositories {
+	mavenCentral()
+	jcenter()
+}
 
 dependencies {
 	compile(kotlin("stdlib-jdk8"))
 	compile("org.eclipse.mylyn.github", "org.eclipse.egit.github.core", "2.1.5") {
 		exclude(module = "gson")
+	}
+	compile("org.jetbrains.kotlinx", "kotlinx-html-jvm", "0.6.12") {
+		exclude(module = "kotlin-stdlib")
 	}
 	testCompile(kotlin("test-junit"))
 	testCompile("junit", "junit", "4.12")

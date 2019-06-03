@@ -226,5 +226,11 @@
 		<action class="org.ice1000.tt.action.NewTTActionGroup" id="TT.NewGroup">
 			<add-to-group group-id="NewGroup" anchor="first"/>
 		</action>
+		<action
+			id="org.ice1000.tt.action.HtmlExportAction" class="org.ice1000.tt.action.HtmlExportAction"
+			text="Export Type Theory File to HTML"
+			description="Export current file supported by Dependently-Typed Lambda Calculus to clickable HTML">
+			<add-to-group group-id="ToolsMenu" anchor="last"/>
+		</action>
 	</actions>
 </idea-plugin>

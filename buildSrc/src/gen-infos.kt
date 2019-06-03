@@ -45,7 +45,7 @@ object ${languageName}FileType : LanguageFileType(${languageName}Language.INSTAN
 	override fun getDescription() = TTBundle.message("$nickname.name.description")
 }
 
-open class ${languageName}File(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ${languageName}Language.INSTANCE) {
+open class ${languageName}File(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ${languageName}Language.INSTANCE), TTFile {
 	override fun getFileType() = ${languageName}FileType
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		childrenRevWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
