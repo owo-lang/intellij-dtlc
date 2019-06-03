@@ -50,14 +50,23 @@ class HtmlExportAction : AnAction() {
 			override fun run(indicator: ProgressIndicator) {
 				val startTime = System.currentTimeMillis()
 				val ioFile = File(out)
+				val ioCssFile = ioFile.parentFile.resolve("${language.displayName}.css")
+				val existingCss = javaClass.getResourceAsStream("/org/ice1000/tt/${language.displayName}.css")
+				if (existingCss != null && !ioCssFile.exists()) ioCssFile.writeBytes(existingCss.readAllBytes())
 				ioFile.writer().use {
-					it.appendHTML().pre {
-						classes = setOf(language.displayName)
-						ReadAction.run<ProcessCanceledException> { traverse(file) }
+					it.appendHTML().html {
+						head { link(rel = "stylesheet", type = "text/css", href = ioCssFile.name) }
+						body {
+							pre {
+								classes = setOf(language.displayName)
+								ReadAction.run<ProcessCanceledException> { traverse(file) }
+							}
+						}
 					}
 					it.flush()
 				}
 				val vFile = VfsUtil.findFileByIoFile(ioFile, true)
+				VfsUtil.findFileByIoFile(ioCssFile, true)
 				val path = vFile?.canonicalPath?.removePrefix(project?.guessProjectDir()?.canonicalPath.orEmpty())
 				val s = "HTML Generated to $path in ${StringUtil.formatDuration(System.currentTimeMillis() - startTime)}"
 				Notifications.Bus.notify(Notification("HTML Export", "", s, NotificationType.INFORMATION))
@@ -76,7 +85,7 @@ class HtmlExportAction : AnAction() {
 		if (info.href == null) info.href = element.reference?.resolve()?.let { resolved ->
 			// Support cross-file reference?
 			if (resolved.containingFile == element.containingFile)
-				".#${resolved.startOffset}"
+				"#${resolved.startOffset}"
 			else null
 		}
 
