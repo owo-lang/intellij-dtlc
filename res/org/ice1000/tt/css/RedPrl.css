@@ -1,0 +1,78 @@
+/* Token types. */
+.RedPrl .RED_PRL_PAREN {
+}
+
+.RedPrl .RED_PRL_BRACK {
+}
+
+.RedPrl .RED_PRL_BRACE {
+}
+
+.RedPrl .RED_PRL_KEYWORD {
+	color: #000080;
+	font-weight: bold;
+}
+
+.RedPrl .RED_PRL_OP_NAME_DECL {
+}
+
+.RedPrl .RED_PRL_OP_NAME_CALL {
+}
+
+.RedPrl .RED_PRL_VAR_NAME_DECL {
+}
+
+.RedPrl .RED_PRL_VAR_NAME_CALL {
+}
+
+.RedPrl .RED_PRL_SEMICOLON {
+}
+
+.RedPrl .RED_PRL_COMMA {
+}
+
+.RedPrl .RED_PRL_DOT {
+}
+
+.RedPrl .RED_PRL_OPERATOR {
+}
+
+.RedPrl .RED_PRL_LINE_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+.RedPrl .RED_PRL_BLOCK_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+.RedPrl .RED_PRL_NUMERAL {
+	color: #0000FF;
+}
+
+.RedPrl .RED_PRL_HASH {
+	color: #808000;
+}
+
+.RedPrl .RED_PRL_META_VAR_DECL {
+	color: #808000;
+}
+
+.RedPrl .RED_PRL_META_VAR_CALL {
+	color: #808000;
+}
+
+.RedPrl .RED_PRL_HOLE {
+}
+
+/* Standard attributes. */
+.RedPrl a {
+	text-decoration: none;
+}
+
+.RedPrl a[href]:hover {
+	color: #0000FF;
+	text-decoration: underline;
+	text-decoration-color: #0000FF;
+}

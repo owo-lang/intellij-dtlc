@@ -11,10 +11,12 @@ import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
 import com.intellij.openapi.progress.*
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
 import gnu.trove.TIntObjectHashMap
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
@@ -32,17 +34,25 @@ private data class Info(
 private val LOG_GROUP = NotificationGroup.logOnlyGroup("Dependently-Typed Lambda Calculus")
 
 class HtmlExportAction : AnAction() {
-	lateinit var highlighter: SyntaxHighlighter
-	private val idMap = TIntObjectHashMap<Info>()
+	private val support = HtmlExportSupport()
 
 	override fun update(e: AnActionEvent) {
 		e.presentation.isEnabledAndVisible = CommonDataKeys.PSI_FILE.getData(e.dataContext) is TTFile
 	}
 
 	override fun actionPerformed(e: AnActionEvent) {
-		idMap.clear()
 		val file = CommonDataKeys.PSI_FILE.getData(e.dataContext)?.takeIf { it is TTFile } ?: return
 		val project = e.project
+		support.forFile(file, project)
+	}
+}
+
+class HtmlExportSupport {
+	private lateinit var highlighter: SyntaxHighlighter
+	private val idMap = TIntObjectHashMap<Info>()
+
+	fun forFile(file: PsiFile, project: Project?) {
+		idMap.clear()
 		val language = file.language
 		highlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(language, project, file.virtualFile)
 		val out = file.virtualFile.canonicalPath?.let { "$it.html" } ?: return
@@ -76,7 +86,7 @@ class HtmlExportAction : AnAction() {
 	}
 
 	// I didn't use `SyntaxTraverser` intentionally
-	private fun PRE.traverse(indicator: ProgressIndicator, element: PsiElement) {
+	fun PRE.traverse(indicator: ProgressIndicator, element: PsiElement) {
 		ProgressIndicatorProvider.checkCanceled()
 		val elementType = element.elementType
 		val tokenHighlights = highlighter.getTokenHighlights(elementType)
@@ -96,9 +106,12 @@ class HtmlExportAction : AnAction() {
 			val infoClasses = info.classes
 			if (infoClasses != null) classes = infoClasses
 			val infoHref = info.href
-			if (infoHref != null) href = infoHref
-			id = "$startOffset"
 			val text = element.text
+			if (infoHref != null) {
+				href = infoHref
+				title = "Goto the declaration of $text"
+			}
+			id = "$startOffset"
 			indicator.text = "Token $text"
 			+text
 		}

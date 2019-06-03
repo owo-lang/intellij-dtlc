@@ -1,0 +1,49 @@
+/* Token types. */
+.ACore .AGDA_CORE_KEYWORD {
+	color: #000080;
+	font-weight: bold;
+}
+
+.ACore .AGDA_CORE_IDENTIFIER {
+	color: #000000;
+}
+
+.ACore .AGDA_CORE_FUNCTION_NAME {
+}
+
+.ACore .AGDA_CORE_SEMICOLON {
+}
+
+.ACore .AGDA_CORE_COMMA {
+}
+
+.ACore .AGDA_CORE_UNRESOLVED {
+	color: #000000;
+}
+
+.ACore .AGDA_CORE_OPERATOR {
+}
+
+.ACore .AGDA_CORE_PAREN {
+}
+
+.ACore .AGDA_CORE_LINE_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+.ACore .AGDA_CORE_BLOCK_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+/* Standard attributes. */
+.ACore a {
+	text-decoration: none;
+}
+
+.ACore a[href]:hover {
+	color: #0000FF;
+	text-decoration: underline;
+	text-decoration-color: #0000FF;
+}

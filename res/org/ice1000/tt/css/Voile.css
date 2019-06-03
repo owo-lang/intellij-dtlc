@@ -45,6 +45,8 @@
 	text-decoration: none
 }
 
-.Voile a[href]:hover {
+.ACore a[href]:hover {
 	color: #0000FF;
+	text-decoration: underline;
+	text-decoration-color: #0000FF;
 }

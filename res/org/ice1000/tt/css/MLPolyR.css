@@ -1,0 +1,94 @@
+/* Token types. */
+.MLPolyR .MLPOLYR_KEYWORD {
+	color: #000080;
+	font-weight: bold;
+}
+
+.MLPolyR .MLPOLYR_IDENTIFIER {
+	color: #000000;
+}
+
+.MLPolyR .MLPOLYR_UNRESOLVED {
+	color: #000000;
+}
+
+.MLPolyR .MLPOLYR_SEMICOLON {
+}
+
+.MLPolyR .MLPOLYR_COMMA {
+}
+
+.MLPolyR .MLPOLYR_OPERATOR {
+}
+
+.MLPolyR .MLPOLYR_PAREN {
+}
+
+.MLPolyR .MLPOLYR_BRACK {
+}
+
+.MLPolyR .MLPOLYR_BRACE {
+}
+
+.MLPolyR .MLPOLYR_BRACE2 {
+}
+
+.MLPolyR .MLPOLYR_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+.MLPolyR .MLPOLYR_DOT {
+}
+
+.MLPolyR .MLPOLYR_INT {
+	color: #0000FF;
+}
+
+.MLPolyR .MLPOLYR_STRING {
+	color: #008000;
+}
+
+.MLPolyR .MLPOLYR_FUNCTION_CALL {
+}
+
+.MLPolyR .MLPOLYR_FUNCTION_DECL {
+}
+
+.MLPolyR .MLPOLYR_VARIABLE_CALL {
+}
+
+.MLPolyR .MLPOLYR_VARIABLE_DECL {
+}
+
+.MLPolyR .MLPOLYR_PATTERN_CALL {
+}
+
+.MLPolyR .MLPOLYR_PATTERN_DECL {
+}
+
+.MLPolyR .MLPOLYR_FIELD_CALL {
+}
+
+.MLPolyR .MLPOLYR_FIELD_DECL {
+}
+
+.MLPolyR .MLPOLYR_PARAMETER_CALL {
+}
+
+.MLPolyR .MLPOLYR_PARAMETER_DECL {
+}
+
+.MLPolyR .MLPOLYR_CONSTRUCTOR {
+}
+
+/* Standard attributes. */
+.MLPolyR a {
+	text-decoration: none;
+}
+
+.MLPolyR a[href]:hover {
+	color: #0000FF;
+	text-decoration: underline;
+	text-decoration-color: #0000FF;
+}

@@ -1,0 +1,63 @@
+/* Token types. */
+.CubicalTT .CUBICAL_TT_KEYWORD {
+	color: #000080;
+	font-weight: bold;
+}
+
+.CubicalTT .CUBICAL_TT_IDENTIFIER {
+	color: #000000;
+}
+
+.CubicalTT .CUBICAL_TT_SEMICOLON {
+}
+
+.CubicalTT .CUBICAL_TT_FUNCTION_NAME {
+}
+
+.CubicalTT .CUBICAL_TT_DATATYPE_NAME {
+}
+
+.CubicalTT .CUBICAL_TT_COMMA {
+}
+
+.CubicalTT .CUBICAL_TT_PAREN {
+}
+
+.CubicalTT .CUBICAL_TT_BRACK {
+}
+
+.CubicalTT .CUBICAL_TT_UNDEFINED {
+	color: #000080;
+	font-weight: bold;
+}
+
+.CubicalTT .CUBICAL_TT_HOLE {
+}
+
+.CubicalTT .CUBICAL_TT_DIMENSION {
+	color: #0000FF;
+}
+
+.CubicalTT .CUBICAL_TT_PROJECTION {
+}
+
+.CubicalTT .CUBICAL_TT_LINE_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+.CubicalTT .CUBICAL_TT_BLOCK_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+/* Standard attributes. */
+.CubicalTT a {
+	text-decoration: none;
+}
+
+.CubicalTT a[href]:hover {
+	color: #0000FF;
+	text-decoration: underline;
+	text-decoration-color: #0000FF;
+}

@@ -1,0 +1,53 @@
+/* Token types. */
+.MiniTT .MINI_TT_KEYWORD {
+	color: #000080;
+	font-weight: bold;
+}
+
+.MiniTT .MINI_TT_IDENTIFIER {
+	color: #000000;
+}
+
+.MiniTT .MINI_TT_FUNCTION_NAME {
+}
+
+.MiniTT .MINI_TT_CONSTRUCTOR_CALL {
+}
+
+.MiniTT .MINI_TT_CONSTRUCTOR_DECL {
+}
+
+.MiniTT .MINI_TT_SEMICOLON {
+}
+
+.MiniTT .MINI_TT_COMMA {
+}
+
+.MiniTT .MINI_TT_UNRESOLVED {
+	color: #000000;
+}
+
+.MiniTT .MINI_TT_OPERATOR {
+}
+
+.MiniTT .MINI_TT_PAREN {
+}
+
+.MiniTT .MINI_TT_BRACE {
+}
+
+.MiniTT .MINI_TT_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+/* Standard attributes. */
+.MiniTT a {
+	text-decoration: none;
+}
+
+.MiniTT a[href]:hover {
+	color: #0000FF;
+	text-decoration: underline;
+	text-decoration-color: #0000FF;
+}

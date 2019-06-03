@@ -39,6 +39,8 @@ fun LanguageUtilityGenerationTask.pluginXml(nickname: String) {
 				"KEYWORD" -> appendln("color: #000080;").appendln("font-weight: bold;")
 				"LINE_COMMENT", "BLOCK_COMMENT" -> appendln("color: #808080;").appendln("font-style: italic;")
 				"IDENTIFIER" -> appendln("color: #000000;")
+				"STRING" -> appendln("color: #008000;")
+				"NUMBER" -> appendln("color: #0000FF;")
 				"METADATA" -> appendln("color: #808000;")
 			}
 			appendln("}")

@@ -1,0 +1,74 @@
+/* Token types. */
+.Agda .AGDA_KEYWORD {
+	color: #000080;
+	font-weight: bold;
+}
+
+.Agda .AGDA_IDENTIFIER {
+	color: #000000;
+}
+
+.Agda .AGDA_FUNCTION_NAME {
+}
+
+.Agda .AGDA_SEMICOLON {
+}
+
+.Agda .AGDA_DOT {
+}
+
+.Agda .AGDA_LINE_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+.Agda .AGDA_BLOCK_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+.Agda .AGDA_NUMBER {
+	color: #0000FF;
+}
+
+.Agda .AGDA_STR_LIT {
+	color: #008000;
+}
+
+.Agda .AGDA_CHR_LIT {
+	color: #008000;
+}
+
+.Agda .AGDA_FLOAT {
+	color: #0000FF;
+}
+
+.Agda .AGDA_ARROW {
+}
+
+.Agda .AGDA_HOLE {
+}
+
+.Agda .AGDA_PAREN {
+}
+
+.Agda .AGDA_BRACK {
+}
+
+.Agda .AGDA_BRACE {
+}
+
+.Agda .AGDA_PRAGMA {
+	color: #808000;
+}
+
+/* Standard attributes. */
+.Agda a {
+	text-decoration: none;
+}
+
+.Agda a[href]:hover {
+	color: #0000FF;
+	text-decoration: underline;
+	text-decoration-color: #0000FF;
+}
