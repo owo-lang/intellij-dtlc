@@ -35,6 +35,7 @@ atom ::=
  | variable
  | split
  | one
+ | lift
  | unit
  | pi_type
  | sigma_type
@@ -48,6 +49,7 @@ pair_type ::= atom MUL expression { extends=expression }
 
 // Higher-level expressions
 first ::= atom DOT_ONE { extends=expression }
+lift ::= UP atom { extends=expression }
 second ::= atom DOT_TWO { extends=expression }
 application ::= atom expression { extends=expression }
 pair ::= atom COMMA expression { pin=2 extends=expression }

@@ -30,6 +30,7 @@ object MiniTTHighlighter : MiniTTGeneratedSyntaxHighlighter() {
 	private val OPERATORS_LIST = listOf(
 		MiniTTTypes.CONCAT,
 		MiniTTTypes.MUL,
+		MiniTTTypes.UP,
 		MiniTTTypes.ARROW,
 		MiniTTTypes.DOUBLE_ARROW,
 		MiniTTTypes.DOT_TWO,

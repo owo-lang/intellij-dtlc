@@ -39,6 +39,7 @@ _ { return META_VAR; }
 ; { return SEMICOLON; }
 1 { return ONE_KEYWORD; }
 0 { return UNIT_KEYWORD; }
+\^ { return UP; }
 \| { return SEP; }
 \( { return LEFT_PAREN; }
 \{ { return LEFT_BRACE; }
