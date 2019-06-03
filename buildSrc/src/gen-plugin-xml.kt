@@ -45,7 +45,7 @@ fun LanguageUtilityGenerationTask.pluginXml(nickname: String) {
 		}
 		appendln()
 		appendln("/* Standard attributes. */")
-		appendln(".$languageName a { text-decoration: none }")
-		appendln(".$languageName a[href]:hover { color: #0000FF; }")
+		appendln(".$languageName a { text-decoration: none; }")
+		appendln(".$languageName a[href]:hover { color: #0000FF; text-decoration: underline; text-decoration-color: #0000FF; }")
 	})
 }

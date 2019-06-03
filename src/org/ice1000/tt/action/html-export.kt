@@ -51,7 +51,7 @@ class HtmlExportAction : AnAction() {
 				val startTime = System.currentTimeMillis()
 				val ioFile = File(out)
 				val ioCssFile = ioFile.parentFile.resolve("${language.displayName}.css")
-				val existingCss = javaClass.getResourceAsStream("/org/ice1000/tt/${language.displayName}.css")
+				val existingCss = javaClass.getResourceAsStream("/org/ice1000/tt/css/${language.displayName}.css")
 				if (existingCss != null && !ioCssFile.exists()) ioCssFile.writeBytes(existingCss.readAllBytes())
 				ioFile.writer().use {
 					it.appendHTML().html {
@@ -59,7 +59,7 @@ class HtmlExportAction : AnAction() {
 						body {
 							pre {
 								classes = setOf(language.displayName)
-								ReadAction.run<ProcessCanceledException> { traverse(file) }
+								ReadAction.run<ProcessCanceledException> { traverse(indicator, file) }
 							}
 						}
 					}
@@ -76,7 +76,7 @@ class HtmlExportAction : AnAction() {
 	}
 
 	// I didn't use `SyntaxTraverser` intentionally
-	private fun PRE.traverse(element: PsiElement) {
+	private fun PRE.traverse(indicator: ProgressIndicator, element: PsiElement) {
 		ProgressIndicatorProvider.checkCanceled()
 		val elementType = element.elementType
 		val tokenHighlights = highlighter.getTokenHighlights(elementType)
@@ -91,14 +91,16 @@ class HtmlExportAction : AnAction() {
 		}
 
 		if (element.firstChild != null)
-			element.childrenWithLeaves.forEach { this@traverse.traverse(it) }
+			element.childrenWithLeaves.forEach { traverse(indicator, it) }
 		else a {
 			val infoClasses = info.classes
 			if (infoClasses != null) classes = infoClasses
 			val infoHref = info.href
 			if (infoHref != null) href = infoHref
 			id = "$startOffset"
-			+element.text
+			val text = element.text
+			indicator.text = "Token $text"
+			+text
 		}
 	}
 }

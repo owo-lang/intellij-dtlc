@@ -1,0 +1,50 @@
+/* Token types. */
+.Voile .VOILE_KEYWORD {
+	color: #000080;
+	font-weight: bold;
+}
+
+.Voile .VOILE_LINE_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+.Voile .VOILE_IDENTIFIER {
+	color: #000000;
+}
+
+.Voile .VOILE_FUNCTION_NAME {
+}
+
+.Voile .VOILE_CONSTRUCTOR {
+}
+
+.Voile .VOILE_VARIANT {
+}
+
+.Voile .VOILE_SEMICOLON {
+}
+
+.Voile .VOILE_COMMA {
+}
+
+.Voile .VOILE_OPERATOR {
+}
+
+.Voile .VOILE_PAREN {
+}
+
+.Voile .VOILE_BRACE {
+}
+
+.Voile .VOILE_BRACE2 {
+}
+
+/* Standard attributes. */
+.Voile a {
+	text-decoration: none
+}
+
+.Voile a[href]:hover {
+	color: #0000FF;
+}
