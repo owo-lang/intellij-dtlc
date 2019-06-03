@@ -75,6 +75,7 @@ class HtmlExportAction : AnAction() {
 		idMap.clear()
 	}
 
+	// I didn't use `SyntaxTraverser` intentionally
 	private fun PRE.traverse(element: PsiElement) {
 		ProgressIndicatorProvider.checkCanceled()
 		val elementType = element.elementType

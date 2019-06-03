@@ -29,4 +29,23 @@ fun LanguageUtilityGenerationTask.pluginXml(nickname: String) {
 </idea-plugin>
 """
 	pluginXml.apply { if (!exists()) createNewFile() }.writeText(pluginXmlContent)
+	val pluginCss = pluginXmlDir.resolve("$languageName-template.css")
+
+	pluginCss.apply { if (!exists()) createNewFile() }.writeText(buildString {
+		appendln("/* Token types. */")
+		highlightTokenPairs.forEach { (name, highlight) ->
+			appendln(".$languageName .${constantPrefix}_$name {")
+			when (highlight) {
+				"KEYWORD" -> appendln("color: #000080;").appendln("font-weight: bold;")
+				"LINE_COMMENT", "BLOCK_COMMENT" -> appendln("color: #808080;").appendln("font-style: italic;")
+				"IDENTIFIER" -> appendln("color: #000000;")
+				"METADATA" -> appendln("color: #808000;")
+			}
+			appendln("}")
+		}
+		appendln()
+		appendln("/* Standard attributes. */")
+		appendln(".$languageName a { text-decoration: none }")
+		appendln(".$languageName a[href]:hover { color: #0000FF; }")
+	})
 }

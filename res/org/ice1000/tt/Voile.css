@@ -1,15 +1,19 @@
 /* Token types. */
 .Voile .VOILE_KEYWORD {
-  color: #000080;
-  font-weight: bold;
+	color: #000080;
+	font-weight: bold;
 }
 
 .Voile .VOILE_LINE_COMMENT {
-  color: #808080;
-  font-style: italics;
+	color: #808080;
+	font-style: italic;
 }
 
 /* Standard attributes. */
-.Voile a { text-decoration: none }
-.Voile a[href]:hover { background-color: #B4EEB4 }
+.Voile a {
+	text-decoration: none
+}
 
+.Voile a[href]:hover {
+	background-color: #B4EEB4
+}
