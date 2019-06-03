@@ -1,18 +1,22 @@
 package org.ice1000.tt.action
 
+import com.intellij.notification.Notification
+import com.intellij.notification.NotificationGroup
+import com.intellij.notification.NotificationType
+import com.intellij.notification.Notifications
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
 import com.intellij.openapi.progress.*
+import com.intellij.openapi.project.guessProjectDir
+import com.intellij.openapi.util.text.StringUtil
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.PsiElement
 import gnu.trove.TIntObjectHashMap
-import kotlinx.html.PRE
-import kotlinx.html.a
-import kotlinx.html.classes
-import kotlinx.html.pre
+import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import org.ice1000.tt.TTFile
 import org.ice1000.tt.psi.childrenWithLeaves
@@ -24,6 +28,8 @@ private data class Info(
 	var classes: Set<String>? = null,
 	var href: String? = null
 )
+
+private val LOG_GROUP = NotificationGroup.logOnlyGroup("Dependently-Typed Lambda Calculus")
 
 class HtmlExportAction : AnAction() {
 	lateinit var highlighter: SyntaxHighlighter
@@ -37,16 +43,24 @@ class HtmlExportAction : AnAction() {
 		idMap.clear()
 		val file = CommonDataKeys.PSI_FILE.getData(e.dataContext)?.takeIf { it is TTFile } ?: return
 		val project = e.project
-		highlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(file.language, project, file.virtualFile)
+		val language = file.language
+		highlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(language, project, file.virtualFile)
 		val out = file.virtualFile.canonicalPath?.let { "$it.html" } ?: return
-		ProgressManager.getInstance().run (object : Task.Backgroundable(project, "HTML Generation", true, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
+		ProgressManager.getInstance().run(object : Task.Backgroundable(project, "HTML Generation", true, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
 			override fun run(indicator: ProgressIndicator) {
+				val startTime = System.currentTimeMillis()
 				val ioFile = File(out)
 				ioFile.writer().use {
-					it.appendHTML().pre { traverse(file) }
+					it.appendHTML().pre {
+						classes = setOf(language.displayName)
+						ReadAction.run<ProcessCanceledException> { traverse(file) }
+					}
 					it.flush()
 				}
-				VfsUtil.findFileByIoFile(ioFile, true)
+				val vFile = VfsUtil.findFileByIoFile(ioFile, true)
+				val path = vFile?.canonicalPath?.removePrefix(project?.guessProjectDir()?.canonicalPath.orEmpty())
+				val s = "HTML Generated to $path in ${StringUtil.formatDuration(System.currentTimeMillis() - startTime)}"
+				Notifications.Bus.notify(Notification("HTML Export", "", s, NotificationType.INFORMATION))
 			}
 		})
 		idMap.clear()
@@ -62,7 +76,7 @@ class HtmlExportAction : AnAction() {
 		if (info.href == null) info.href = element.reference?.resolve()?.let { resolved ->
 			// Support cross-file reference?
 			if (resolved.containingFile == element.containingFile)
-				"#${resolved.startOffset}"
+				".#${resolved.startOffset}"
 			else null
 		}
 
@@ -73,6 +87,7 @@ class HtmlExportAction : AnAction() {
 			if (infoClasses != null) classes = infoClasses
 			val infoHref = info.href
 			if (infoHref != null) href = infoHref
+			id = "$startOffset"
 			+element.text
 		}
 	}
