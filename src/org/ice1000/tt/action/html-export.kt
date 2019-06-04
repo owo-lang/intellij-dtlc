@@ -98,12 +98,8 @@ class HtmlExportSupport {
 		if (info.href == null) info.href = element.reference?.resolve()?.let { resolved ->
 			// Support cross-file reference?
 			val resolvedFile = resolved.containingFile
-			if (resolvedFile == element.containingFile)
-				"#${resolved.startOffset}"
-			else {
-				"${resolvedFile.virtualFile.name}.html#${resolved.startOffset}"
-				null
-			}
+			if (resolvedFile == element.containingFile) "#${resolved.startOffset}"
+			else "${resolvedFile.virtualFile.name}.html#${resolved.startOffset}"
 		}
 
 		if (element.firstChild != null)
