@@ -10,6 +10,7 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.ResolveState
 import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.util.SmartList
 import org.ice1000.tt.orTrue
 
 interface IPattern<Var : PsiElement> : PsiElement {
@@ -30,7 +31,7 @@ class PatternResolveProcessor(
 	private val name: String,
 	private val accessible: (PsiElement) -> Boolean = { it.text == name }
 ) : ResolveProcessor<PsiElementResolveResult>() {
-	override val candidateSet = ArrayList<PsiElementResolveResult>(3)
+	override val candidateSet = SmartList<PsiElementResolveResult>()
 	override fun execute(element: PsiElement, resolveState: ResolveState): Boolean = when {
 		candidateSet.isNotEmpty() -> false
 		element is IPattern<*> -> {
@@ -51,7 +52,7 @@ class NameIdentifierResolveProcessor(
 	private val name: String,
 	private val accessible: (GeneralNameIdentifier) -> Boolean = { it.text == name }
 ) : ResolveProcessor<PsiElementResolveResult>() {
-	override val candidateSet = ArrayList<PsiElementResolveResult>(3)
+	override val candidateSet = SmartList<PsiElementResolveResult>()
 	override fun execute(element: PsiElement, resolveState: ResolveState): Boolean = when {
 		candidateSet.isNotEmpty() -> false
 		element is GeneralNameIdentifier -> {

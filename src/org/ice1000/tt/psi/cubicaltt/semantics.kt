@@ -2,9 +2,7 @@ package org.ice1000.tt.psi.cubicaltt
 
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.ASTNode
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiElementResolveResult
-import com.intellij.psi.ResolveResult
+import com.intellij.psi.*
 import com.intellij.psi.impl.source.resolve.ResolveCache
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
@@ -97,14 +95,20 @@ abstract class CubicalTTNameMixin(node: ASTNode) : GeneralReference(node), Cubic
 
 		private val resolver = ResolveCache.PolyVariantResolver<CubicalTTNameMixin> { ref, _ ->
 			val name = ref.name.orEmpty()
+			val processor = NameIdentifierResolveProcessor(name) {
+				if ((it as? CubicalTTNameDeclMixin)?.kind !in paramFamily) it.text == name
+				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, CubicalTTDecl::class.java), ref, false)
+			}
+			val state = ResolveState.initial()
+			val maxScope = PsiTreeUtil.getParentOfType(ref, PsiFile::class.java, PsiNameIdentifierOwner::class.java)
+			val resolution = treeWalkUp(processor, ref, maxScope, state)
+			if (!resolution) return@PolyVariantResolver processor.candidateSet.toTypedArray()
 			var stubBased: Collection<PsiElement> = CubicalTTDefStubKey[name, ref.project, GlobalSearchScope.allScope(ref.project)]
 			if (stubBased.isEmpty()) stubBased = CubicalTTLabelStubKey[name, ref.project, GlobalSearchScope.allScope(ref.project)]
 			if (stubBased.isEmpty()) stubBased = CubicalTTDataStubKey[name, ref.project, GlobalSearchScope.allScope(ref.project)]
 			if (stubBased.isNotEmpty()) return@PolyVariantResolver stubBased.map(::PsiElementResolveResult).toTypedArray()
-			resolveWith(NameIdentifierResolveProcessor(name) {
-				if ((it as? CubicalTTNameDeclMixin)?.kind !in paramFamily) it.text == name
-				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, CubicalTTDecl::class.java), ref, false)
-			}, ref)
+			treeWalkUp(processor, maxScope ?: ref, ref.containingFile, state)
+			processor.candidateSet.toTypedArray()
 		}
 	}
 }

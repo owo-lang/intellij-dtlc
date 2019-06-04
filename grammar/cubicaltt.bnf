@@ -133,7 +133,7 @@ private atomic ::=
 appExp ::= exp exp+
 funExp ::= exp ARROW exp
 appFormulaExp ::= exp AT formula
-letExp ::= KW_LET LAYOUT_START decls LAYOUT_END KW_IN exp {
+letExp ::= KW_LET LAYOUT_START decls LAYOUT_END? KW_IN exp {
 	mixin='org.ice1000.tt.psi.cubicaltt.CubicalTTDeclListMixin'
 	pin=1
 }

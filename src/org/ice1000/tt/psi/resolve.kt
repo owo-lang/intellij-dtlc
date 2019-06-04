@@ -12,7 +12,7 @@ import com.intellij.util.IncorrectOperationException
 import org.ice1000.tt.orTrue
 
 abstract class ResolveProcessor<ResolveResult> : PsiScopeProcessor {
-	abstract val candidateSet: ArrayList<ResolveResult>
+	abstract val candidateSet: List<ResolveResult>
 	override fun handleEvent(event: PsiScopeProcessor.Event, o: Any?) = Unit
 	override fun <T : Any?> getHint(hintKey: Key<T>): T? = null
 	protected val PsiElement.hasNoError get() = !PsiTreeUtil.hasErrorElements(this)

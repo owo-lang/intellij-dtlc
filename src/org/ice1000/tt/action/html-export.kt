@@ -61,8 +61,10 @@ class HtmlExportSupport {
 				val startTime = System.currentTimeMillis()
 				val ioFile = File(out)
 				val ioCssFile = ioFile.parentFile.resolve("${language.displayName}.css")
-				val existingCss = javaClass.getResourceAsStream("/org/ice1000/tt/css/${language.displayName}.css")
-				if (existingCss != null && !ioCssFile.exists()) ioCssFile.writeBytes(existingCss.readAllBytes())
+				if (!ioCssFile.exists()) {
+					val existingCss = javaClass.getResourceAsStream("/org/ice1000/tt/css/${language.displayName}.css")
+					if (existingCss != null) ioCssFile.writeBytes(existingCss.readAllBytes())
+				}
 				ioFile.writer().use {
 					it.appendHTML().html {
 						head { link(rel = "stylesheet", type = "text/css", href = ioCssFile.name) }
@@ -95,9 +97,13 @@ class HtmlExportSupport {
 		if (tokenHighlights.isNotEmpty() && info.classes == null) info.classes = tokenHighlights.map { it.externalName }.toSet()
 		if (info.href == null) info.href = element.reference?.resolve()?.let { resolved ->
 			// Support cross-file reference?
-			if (resolved.containingFile == element.containingFile)
+			val resolvedFile = resolved.containingFile
+			if (resolvedFile == element.containingFile)
 				"#${resolved.startOffset}"
-			else null
+			else {
+				"${resolvedFile.virtualFile.name}.html#${resolved.startOffset}"
+				null
+			}
 		}
 
 		if (element.firstChild != null)
@@ -110,9 +116,9 @@ class HtmlExportSupport {
 			if (infoHref != null) {
 				href = infoHref
 				title = "Goto the declaration of $text"
+				indicator.text = "Token $text"
 			}
 			id = "$startOffset"
-			indicator.text = "Token $text"
 			+text
 		}
 	}
