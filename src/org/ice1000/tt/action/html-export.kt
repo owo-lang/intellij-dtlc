@@ -7,6 +7,7 @@ import com.intellij.notification.Notifications
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
@@ -17,6 +18,8 @@ import com.intellij.openapi.util.text.StringUtil
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import com.intellij.util.SmartList
+import com.intellij.util.containers.filterSmart
 import gnu.trove.TIntObjectHashMap
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
@@ -25,6 +28,8 @@ import org.ice1000.tt.psi.childrenWithLeaves
 import org.ice1000.tt.psi.elementType
 import org.ice1000.tt.psi.startOffset
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 
 private data class Info(
 	var classes: Set<String>? = null,
@@ -33,23 +38,55 @@ private data class Info(
 
 private val LOG_GROUP = NotificationGroup.logOnlyGroup("Dependently-Typed Lambda Calculus")
 
-class HtmlExportAction : AnAction() {
-	private val support = HtmlExportSupport()
+class HtmlExportAction : DefaultActionGroup(
+	HtmlExportSingleFileAction,
+	HtmlExportAlsoDependentFileAction
+) {
+	init {
+		isPopup = true
+	}
 
 	override fun update(e: AnActionEvent) {
 		e.presentation.isEnabledAndVisible = CommonDataKeys.PSI_FILE.getData(e.dataContext) is TTFile
 	}
+}
 
+object HtmlExportSingleFileAction : AnAction("Single File") {
 	override fun actionPerformed(e: AnActionEvent) {
 		val file = CommonDataKeys.PSI_FILE.getData(e.dataContext)?.takeIf { it is TTFile } ?: return
 		val project = e.project
-		support.forFile(file, project)
+		synchronized(HtmlExportSupport) {
+			HtmlExportSupport.dependentFiles.clear()
+			HtmlExportSupport.forFile(file, project)
+			HtmlExportSupport.dependentFiles.clear()
+		}
 	}
 }
 
-class HtmlExportSupport {
+object HtmlExportAlsoDependentFileAction : AnAction("Along with Dependent Files") {
+	override fun actionPerformed(e: AnActionEvent) {
+		val file = CommonDataKeys.PSI_FILE.getData(e.dataContext)?.takeIf { it is TTFile } ?: return
+		val project = e.project
+		synchronized(HtmlExportSupport) {
+			HtmlExportSupport.dependentFiles.clear()
+			exportFor(file, project)
+			HtmlExportSupport.dependentFiles.clear()
+		}
+	}
+
+	private fun exportFor(file: PsiFile, project: Project?) {
+		HtmlExportSupport.forFile(file, project)
+		HtmlExportSupport.dependentFiles.filterSmart {
+			val htmlPath = it.virtualFile.canonicalPath?.let { "$it.html" } ?: return@filterSmart false
+			!Files.exists(Paths.get(htmlPath))
+		}.forEach { exportFor(it, project) }
+	}
+}
+
+object HtmlExportSupport {
 	private lateinit var highlighter: SyntaxHighlighter
 	private val idMap = TIntObjectHashMap<Info>()
+	internal val dependentFiles = SmartList<PsiFile>()
 
 	fun forFile(file: PsiFile, project: Project?) {
 		idMap.clear()
@@ -98,6 +135,7 @@ class HtmlExportSupport {
 		if (info.href == null) info.href = element.reference?.resolve()?.let { resolved ->
 			// Support cross-file reference?
 			val resolvedFile = resolved.containingFile
+			if (resolvedFile !in dependentFiles) dependentFiles.add(resolvedFile)
 			if (resolvedFile == element.containingFile) "#${resolved.startOffset}"
 			else "${resolvedFile.virtualFile.name}.html#${resolved.startOffset}"
 		}
