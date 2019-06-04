@@ -171,7 +171,7 @@ object HtmlExportSupport {
 			if (infoClasses != null) classes = infoClasses
 			val infoHref = info.href
 			val text = element.text
-			if (intoHref == "??") {
+			if (infoHref == "??") {
 				title = "Failed to find the declaration of $text"
 				indicator.text = "Token $text (Failed)"
 			} else if (infoHref != null) {
