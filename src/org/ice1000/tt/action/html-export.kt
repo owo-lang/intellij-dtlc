@@ -1,5 +1,6 @@
 package org.ice1000.tt.action
 
+import com.intellij.lang.Language
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationGroup
 import com.intellij.notification.NotificationType
@@ -12,14 +13,15 @@ import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
 import com.intellij.openapi.progress.*
+import com.intellij.openapi.project.DumbService
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.openapi.vfs.VfsUtil
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.util.SmartList
-import com.intellij.util.containers.filterSmart
 import gnu.trove.TIntObjectHashMap
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
@@ -28,8 +30,6 @@ import org.ice1000.tt.psi.childrenWithLeaves
 import org.ice1000.tt.psi.elementType
 import org.ice1000.tt.psi.startOffset
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
 
 private data class Info(
 	var classes: Set<String>? = null,
@@ -53,33 +53,69 @@ class HtmlExportAction : DefaultActionGroup(
 
 object HtmlExportSingleFileAction : AnAction("Single File") {
 	override fun actionPerformed(e: AnActionEvent) {
+		val project = e.project ?: return
+		DumbService.getInstance(project).smartInvokeLater { performAction(e, project) }
+	}
+
+	private fun performAction(e: AnActionEvent, project: Project) {
 		val file = CommonDataKeys.PSI_FILE.getData(e.dataContext)?.takeIf { it is TTFile } ?: return
-		val project = e.project
 		synchronized(HtmlExportSupport) {
 			HtmlExportSupport.dependentFiles.clear()
-			HtmlExportSupport.forFile(file, project)
+			HtmlExportSupport.initBefore(file)
+			ProgressManager.getInstance().run(object : Task.Backgroundable(project, "HTML Generation", true, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
+				override fun run(indicator: ProgressIndicator) {
+					val out = file.virtualFile.canonicalPath?.let { "$it.html" } ?: return
+					val startTime = System.currentTimeMillis()
+					val language = file.language
+					val vFile = HtmlExportSupport.work(out, language, indicator, file)
+					val path = vFile?.canonicalPath?.removePrefix(project.guessProjectDir()?.canonicalPath.orEmpty())
+					val s = "HTML Generated to $path in ${StringUtil.formatDuration(System.currentTimeMillis() - startTime)}"
+					Notifications.Bus.notify(Notification("HTML Export", "", s, NotificationType.INFORMATION))
+				}
+			})
+			HtmlExportSupport.after()
 			HtmlExportSupport.dependentFiles.clear()
 		}
 	}
+
 }
 
 object HtmlExportAlsoDependentFileAction : AnAction("Along with Dependent Files") {
+	private val alreadyGeneratedFiles = mutableSetOf<PsiFile>()
+
 	override fun actionPerformed(e: AnActionEvent) {
+		val project = e.project ?: return
+		DumbService.getInstance(project).smartInvokeLater { performAction(e, project) }
+	}
+
+	private fun performAction(e: AnActionEvent, project: Project) {
 		val file = CommonDataKeys.PSI_FILE.getData(e.dataContext)?.takeIf { it is TTFile } ?: return
-		val project = e.project
 		synchronized(HtmlExportSupport) {
+			alreadyGeneratedFiles.clear()
 			HtmlExportSupport.dependentFiles.clear()
-			exportFor(file, project)
+			ProgressManager.getInstance().run(object : Task.Backgroundable(project, "HTML Generation", true, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
+				override fun run(indicator: ProgressIndicator) {
+					val startTime = System.currentTimeMillis()
+					val language = file.language
+					exportFor(indicator, language, file, project)
+					val s = "HTMLs Generated in ${StringUtil.formatDuration(System.currentTimeMillis() - startTime)}"
+					Notifications.Bus.notify(Notification("HTML Export", "", s, NotificationType.INFORMATION))
+				}
+			})
 			HtmlExportSupport.dependentFiles.clear()
+			alreadyGeneratedFiles.clear()
 		}
 	}
 
-	private fun exportFor(file: PsiFile, project: Project?) {
-		HtmlExportSupport.forFile(file, project)
-		HtmlExportSupport.dependentFiles.filterSmart {
-			val htmlPath = it.virtualFile.canonicalPath?.let { "$it.html" } ?: return@filterSmart false
-			!Files.exists(Paths.get(htmlPath))
-		}.forEach { exportFor(it, project) }
+	private fun exportFor(indicator: ProgressIndicator, language: Language, file: PsiFile, project: Project?) {
+		HtmlExportSupport.initBefore(file)
+		val out = file.virtualFile.canonicalPath?.let { "$it.html" } ?: return
+		HtmlExportSupport.work(out, language, indicator, file)
+		HtmlExportSupport.after()
+		(HtmlExportSupport.dependentFiles - alreadyGeneratedFiles).forEach {
+			alreadyGeneratedFiles.add(it)
+			exportFor(indicator, language, it, project)
+		}
 	}
 }
 
@@ -88,40 +124,27 @@ object HtmlExportSupport {
 	private val idMap = TIntObjectHashMap<Info>()
 	internal val dependentFiles = SmartList<PsiFile>()
 
-	fun forFile(file: PsiFile, project: Project?) {
-		idMap.clear()
-		val language = file.language
-		highlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(language, project, file.virtualFile)
-		val out = file.virtualFile.canonicalPath?.let { "$it.html" } ?: return
-		ProgressManager.getInstance().run(object : Task.Backgroundable(project, "HTML Generation", true, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
-			override fun run(indicator: ProgressIndicator) {
-				val startTime = System.currentTimeMillis()
-				val ioFile = File(out)
-				val ioCssFile = ioFile.parentFile.resolve("${language.displayName}.css")
-				if (!ioCssFile.exists()) {
-					val existingCss = javaClass.getResourceAsStream("/org/ice1000/tt/css/${language.displayName}.css")
-					if (existingCss != null) ioCssFile.writeBytes(existingCss.readAllBytes())
-				}
-				ioFile.writer().use {
-					it.appendHTML().html {
-						head { link(rel = "stylesheet", type = "text/css", href = ioCssFile.name) }
-						body {
-							pre {
-								classes = setOf(language.displayName)
-								ReadAction.run<ProcessCanceledException> { traverse(indicator, file) }
-							}
-						}
+	fun work(out: String, language: Language, indicator: ProgressIndicator, file: PsiFile): VirtualFile? {
+		val ioFile = File(out)
+		val ioCssFile = ioFile.parentFile.resolve("${language.displayName}.css")
+		if (!ioCssFile.exists()) {
+			val existingCss = javaClass.getResourceAsStream("/org/ice1000/tt/css/${language.displayName}.css")
+			if (existingCss != null) ioCssFile.writeBytes(existingCss.readBytes())
+		}
+		ioFile.writer().use {
+			it.appendHTML().html {
+				head { link(rel = "stylesheet", type = "text/css", href = ioCssFile.name) }
+				body {
+					pre {
+						classes = setOf(language.displayName)
+						ReadAction.run<ProcessCanceledException> { traverse(indicator, file) }
 					}
-					it.flush()
 				}
-				val vFile = VfsUtil.findFileByIoFile(ioFile, true)
-				VfsUtil.findFileByIoFile(ioCssFile, true)
-				val path = vFile?.canonicalPath?.removePrefix(project?.guessProjectDir()?.canonicalPath.orEmpty())
-				val s = "HTML Generated to $path in ${StringUtil.formatDuration(System.currentTimeMillis() - startTime)}"
-				Notifications.Bus.notify(Notification("HTML Export", "", s, NotificationType.INFORMATION))
 			}
-		})
-		idMap.clear()
+			it.flush()
+		}
+		VfsUtil.findFileByIoFile(ioCssFile, true)
+		return VfsUtil.findFileByIoFile(ioFile, true)
 	}
 
 	// I didn't use `SyntaxTraverser` intentionally
@@ -156,4 +179,12 @@ object HtmlExportSupport {
 			+text
 		}
 	}
+
+	fun initBefore(file: PsiFile) {
+		idMap.clear()
+		val language = file.language
+		highlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(language, file.project, file.virtualFile)
+	}
+
+	fun after() = idMap.clear()
 }
