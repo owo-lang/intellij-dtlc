@@ -71,6 +71,11 @@
 	text-decoration: none;
 }
 
+.RedPrl :target {
+	border: 2px solid #ECFAEB;
+	background-color: #ECFAEB;
+}
+
 .RedPrl a[href]:hover {
 	color: #0000FF;
 	text-decoration: underline;

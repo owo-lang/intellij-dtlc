@@ -56,6 +56,11 @@
 	text-decoration: none;
 }
 
+.CubicalTT :target {
+	border: 2px solid #ECFAEB;
+	background-color: #ECFAEB;
+}
+
 .CubicalTT a[href]:hover {
 	color: #0000FF;
 	text-decoration: underline;

@@ -1,6 +1,6 @@
 language: java
 jdk:
-- oraclejdk8
+- oraclejdk11
 script:
 - bash gradlew displayCommitHash isCI test --no-daemon --info --stacktrace
 cache:

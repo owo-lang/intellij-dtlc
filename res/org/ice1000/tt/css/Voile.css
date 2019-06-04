@@ -45,7 +45,12 @@
 	text-decoration: none
 }
 
-.ACore a[href]:hover {
+.Voile :target {
+	border: 2px solid #ECFAEB;
+	background-color: #ECFAEB;
+}
+
+.Voile a[href]:hover {
 	color: #0000FF;
 	text-decoration: underline;
 	text-decoration-color: #0000FF;

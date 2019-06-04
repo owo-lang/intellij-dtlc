@@ -46,6 +46,11 @@
 	text-decoration: none;
 }
 
+.MiniTT :target {
+	border: 2px solid #ECFAEB;
+	background-color: #ECFAEB;
+}
+
 .MiniTT a[href]:hover {
 	color: #0000FF;
 	text-decoration: underline;

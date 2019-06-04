@@ -90,15 +90,16 @@ object HtmlExportAlsoDependentFileAction : AnAction("Along with Dependent Files"
 
 	private fun performAction(e: AnActionEvent, project: Project) {
 		val file = CommonDataKeys.PSI_FILE.getData(e.dataContext)?.takeIf { it is TTFile } ?: return
+		alreadyGeneratedFiles.clear()
 		synchronized(HtmlExportSupport) {
-			alreadyGeneratedFiles.clear()
+			alreadyGeneratedFiles.add(file)
 			HtmlExportSupport.dependentFiles.clear()
 			ProgressManager.getInstance().run(object : Task.Backgroundable(project, "HTML Generation", true, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
 				override fun run(indicator: ProgressIndicator) {
 					val startTime = System.currentTimeMillis()
 					val language = file.language
 					exportFor(indicator, language, file, project)
-					val s = "HTMLs Generated in ${StringUtil.formatDuration(System.currentTimeMillis() - startTime)}"
+					val s = "${alreadyGeneratedFiles.size} HTML file(s) Generated in ${StringUtil.formatDuration(System.currentTimeMillis() - startTime)}"
 					Notifications.Bus.notify(Notification("HTML Export", "", s, NotificationType.INFORMATION))
 				}
 			})

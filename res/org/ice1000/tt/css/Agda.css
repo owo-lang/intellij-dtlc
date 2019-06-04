@@ -67,6 +67,11 @@
 	text-decoration: none;
 }
 
+.Agda :target {
+	border: 2px solid #ECFAEB;
+	background-color: #ECFAEB;
+}
+
 .Agda a[href]:hover {
 	color: #0000FF;
 	text-decoration: underline;
