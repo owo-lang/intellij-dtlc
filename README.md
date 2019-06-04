@@ -32,6 +32,10 @@ This plugin is created for personal entertainment purpose.
 Don't expect too much, but contributions/discussions/feature requests
 are welcomed!
 
+Screenshots:
+![preview image].
+
+ [preview image]: https://i.imgur.com/QxysJ9X.gif
  [MLPolyR]: https://people.cs.uchicago.edu/~blume/mlpolyr/
  [MLPolyR-gh]: https://github.com/owo-lang/MLPolyR
  [minitt]: https://github.com/owo-lang/minitt-rs
