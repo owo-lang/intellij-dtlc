@@ -31,6 +31,7 @@ abstract class CubicalTTModuleMixin : StubBasedPsiElementBase<CubicalTTModuleStu
 		override fun getIcon(dark: Boolean) = TTIcons.CUBICAL_TT_FILE
 		override fun getPresentableText() = name
 	}
+
 	override fun getIcon(flags: Int) = nameIdentifier?.getIcon(flags)
 	override fun getNameIdentifier() = nameDecl
 	override fun getName() = nameIdentifier?.text
@@ -41,7 +42,8 @@ abstract class CubicalTTModuleMixin : StubBasedPsiElementBase<CubicalTTModuleStu
 	}
 
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		childrenRevWithLeaves.filterNot { it is PsiWhiteSpace }.all { it.processDeclarations(processor, state, lastParent, place) }
+		stub?.childrenStubs?.all { it.psi.processDeclarations(processor, state, lastParent, place) }
+			?: childrenRevWithLeaves.filterNot { it is PsiWhiteSpace }.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
 abstract class CubicalTTDeclListMixin(node: ASTNode) : ASTWrapperPsiElement(node) {
@@ -75,7 +77,10 @@ abstract class CubicalTTLabelMixin : StubBasedPsiElementBase<CubicalTTLabelStub>
 
 	override fun getIcon(flags: Int) = nameIdentifier?.getIcon(flags)
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		childrenRevWithLeaves.filterIsInstance<CubicalTTTele>().all {
+		stub?.childrenStubs?.all {
+			it.psi.processDeclarations(processor, state, lastParent, place)
+		}?.let { it && processor.execute(this, state) }
+			?: childrenRevWithLeaves.filterIsInstance<CubicalTTTele>().all {
 			it.processDeclarations(processor, state, lastParent, place)
 		} && nameIdentifier?.processDeclarations(processor, state, lastParent, place).orTrue()
 }
@@ -101,7 +106,10 @@ abstract class CubicalTTDefMixin : StubBasedPsiElementBase<CubicalTTDefStub>, Cu
 
 	override fun getIcon(flags: Int) = nameIdentifier?.getIcon(flags)
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		childrenRevWithLeaves.filterIsInstance<CubicalTTTele>().all {
+		stub?.childrenStubs?.all {
+			it.psi.processDeclarations(processor, state, lastParent, place)
+		}?.let { it && processor.execute(this, state) }
+			?: childrenRevWithLeaves.filterIsInstance<CubicalTTTele>().all {
 			it.processDeclarations(processor, state, lastParent, place)
 		} && nameIdentifier?.processDeclarations(processor, state, lastParent, place).orTrue()
 }
@@ -127,7 +135,10 @@ abstract class CubicalTTDataMixin : StubBasedPsiElementBase<CubicalTTDataStub>, 
 
 	override fun getIcon(flags: Int) = nameIdentifier?.getIcon(flags)
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		labelList.all { it.processDeclarations(processor, state, lastParent, place) }
+		stub?.childrenStubs?.all {
+			it.psi.processDeclarations(processor, state, lastParent, place)
+		}?.let { it && processor.execute(this, state) }
+			?: labelList.all { it.processDeclarations(processor, state, lastParent, place) }
 			&& nameIdentifier?.processDeclarations(processor, state, lastParent, place).orTrue()
 }
 

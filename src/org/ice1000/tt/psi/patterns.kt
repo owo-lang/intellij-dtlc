@@ -4,10 +4,7 @@ import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiElementResolveResult
-import com.intellij.psi.PsiNameIdentifierOwner
-import com.intellij.psi.ResolveState
+import com.intellij.psi.*
 import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.SmartList
@@ -38,7 +35,8 @@ class PatternResolveProcessor(
 			element.visit { variable ->
 				val access = accessible(variable)
 				if (access) {
-					val declaration = PsiTreeUtil.getParentOfType(variable, PsiNameIdentifierOwner::class.java, false)
+					val declaration = if (variable is StubBasedPsiElement<*>) variable
+					else PsiTreeUtil.getParentOfType(variable, PsiNameIdentifierOwner::class.java, false)
 					if (declaration != null) candidateSet += PsiElementResolveResult(declaration, true)
 				}
 				!access
@@ -67,7 +65,8 @@ class NameIdentifierResolveProcessor(
 class PatternCompletionProcessor(
 	private val accessible: (PsiElement) -> Boolean = { true },
 	private val lookupElement: (PsiElement) -> LookupElement = {
-		val declaration = PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
+		val declaration = if (it is StubBasedPsiElement<*>) null
+		else PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
 		LookupElementBuilder
 			.create(it.text)
 			.withIcon(it.getIcon(0))
@@ -87,7 +86,8 @@ class PatternCompletionProcessor(
 class NameIdentifierCompletionProcessor(
 	private val accessible: (GeneralNameIdentifier) -> Boolean = { true },
 	private val lookupElement: (GeneralNameIdentifier) -> LookupElement = {
-		val declaration = PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
+		val declaration = if (it is StubBasedPsiElement<*>) null
+		else PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
 		LookupElementBuilder
 			.create(it.text)
 			.withIcon(it.getIcon(0))
