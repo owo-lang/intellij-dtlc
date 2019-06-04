@@ -156,8 +156,8 @@ object HtmlExportSupport {
 		val startOffset = element.startOffset
 		val info = idMap[startOffset] ?: Info().also { idMap.put(startOffset, it) }
 		if (tokenHighlights.isNotEmpty() && info.classes == null) info.classes = tokenHighlights.map { it.externalName }.toSet()
-		if (info.href == null) info.href = element.reference?.resolve()?.let { resolved ->
-			// Support cross-file reference?
+		if (info.href == null || info.href == "??") info.href = element.reference?.let { reference ->
+			val resolved = reference.resolve() ?: return@let "??"
 			val resolvedFile = resolved.containingFile
 			if (resolvedFile !in dependentFiles) dependentFiles.add(resolvedFile)
 			if (resolvedFile == element.containingFile) "#${resolved.startOffset}"
@@ -171,7 +171,10 @@ object HtmlExportSupport {
 			if (infoClasses != null) classes = infoClasses
 			val infoHref = info.href
 			val text = element.text
-			if (infoHref != null) {
+			if (intoHref == "??") {
+				title = "Failed to find the declaration of $text"
+				indicator.text = "Token $text (Failed)"
+			} else if (infoHref != null) {
 				href = infoHref
 				title = "Goto the declaration of $text"
 				indicator.text = "Token $text"
