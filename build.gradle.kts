@@ -30,7 +30,7 @@ version = pluginVersion
 
 plugins {
 	java
-	id("org.jetbrains.intellij") version "0.4.8"
+	id("org.jetbrains.intellij") version "0.4.9"
 	id("org.jetbrains.grammarkit") version "2019.2"
 	kotlin("jvm") version "1.3.30"
 }
@@ -69,7 +69,10 @@ intellij {
 	pycharmPath?.absolutePath?.let { alternativeIdePath = it }
 
 	version = "2019.1"
-	if (!isCI) setPlugins("PsiViewer:192-SNAPSHOT")
+	if (!isCI) {
+		setPlugins("PsiViewer:192-SNAPSHOT")
+		tasks["buildSearchableOptions"]?.enabled = false
+	}
 }
 
 java {
@@ -83,6 +86,7 @@ tasks.withType<PatchPluginXmlTask> {
 	version(pluginVersion)
 	pluginId(packageName)
 }
+
 
 sourceSets {
 	main {
