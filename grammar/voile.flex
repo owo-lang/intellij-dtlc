@@ -64,6 +64,7 @@ nocases { return KW_NOCASES; }
 {IDENTIFIER} { return IDENTIFIER; }
 @{IDENTIFIER} { return CONS; }
 '{IDENTIFIER} { return VARIANT; }
+#{IDENTIFIER} { return IMPLICIT_IDENTIFIER; }
 {WHITE_SPACE} { return WHITE_SPACE; }
 
 [^] { return BAD_CHARACTER; }

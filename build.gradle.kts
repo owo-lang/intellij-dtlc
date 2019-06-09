@@ -31,7 +31,7 @@ version = pluginVersion
 plugins {
 	java
 	id("org.jetbrains.intellij") version "0.4.8"
-	id("org.jetbrains.grammarkit") version "2019.1"
+	id("org.jetbrains.grammarkit") version "2019.2"
 	kotlin("jvm") version "1.3.30"
 }
 
@@ -43,7 +43,7 @@ fun fromToolbox(root: String, ide: String) = file(root)
 	.orEmpty()
 	.filterNotNull()
 	.filter { it.isDirectory }
-	.minBy {
+	.maxBy {
 		val (major, minor, patch) = it.name.split('.')
 		String.format("%5s%5s%5s", major, minor, patch)
 	}
