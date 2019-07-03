@@ -55,11 +55,13 @@ caseExpr ::= singleCase+ defaultMatch? { pin=1 }
 private defaultMatch ::= KW_OTHERWISE expr
 */
 
-prodExpr ::= LBRACE2 property* defaultFields? RBRACE2 { pin=1 }
+prodExpr ::= LBRACE2 propertyColon* property? defaultFields? RBRACE2 { pin=1 }
+private propertyColon ::= property SEMI { pin=1 }
 property ::= label COLON expr SEMI { pin=1 }
 
-recordExpr ::= LBRACE field* defaultFields? RBRACE { pin=1 }
-private defaultFields ::= REST EQ expr SEMI { pin=1 }
+recordExpr ::= LBRACE fieldColon* field defaultFields? RBRACE { pin=1 }
+private fieldColon ::= field SEMI { pin=1 }
+private defaultFields ::= REST EQ expr { pin=1 }
 field ::= label EQ expr SEMI { pin=1 }
 
 upExpr ::= UP expr { pin=1 }
