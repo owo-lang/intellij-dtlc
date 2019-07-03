@@ -21,7 +21,7 @@ val commitHash = kotlin.run {
 	output.trim()
 }
 
-val pluginComingVersion = "0.5.4"
+val pluginComingVersion = "0.6.0"
 val pluginVersion = if (isCI) "$pluginComingVersion-$commitHash" else pluginComingVersion
 val packageName = "org.ice1000.tt"
 
@@ -247,27 +247,29 @@ val genVoileUtility = utilities("genVoileUtility") {
 		"LINE_COMMENT" to "LINE_COMMENT")
 }
 
+val cubicalTTTokenPairs = listOf(
+	"KEYWORD" to "KEYWORD",
+	"IDENTIFIER" to "IDENTIFIER",
+	"SEMICOLON" to "SEMICOLON",
+	"FUNCTION_NAME" to "FUNCTION_DECLARATION",
+	"DATATYPE_NAME" to "CLASS_NAME",
+	"COMMA" to "COMMA",
+	"PAREN" to "PARENTHESES",
+	"BRACK" to "BRACKETS",
+	"UNDEFINED" to "KEYWORD",
+	"HOLE" to "LABEL",
+	"DIMENSION" to "NUMBER",
+	"PROJECTION" to "INSTANCE_FIELD",
+	"LINE_COMMENT" to "LINE_COMMENT",
+	"BLOCK_COMMENT" to "BLOCK_COMMENT")
+
 val genYaccTTUtility = utilities("genYaccTTUtility") {
 	languageName = "YaccTT"
 	constantPrefix = "YACC_TT"
 	exeName = "yacctt"
 	trimVersion = "version.trim()"
 	supportsParsing = true
-	highlightTokenPairs = listOf(
-		"KEYWORD" to "KEYWORD",
-		"IDENTIFIER" to "IDENTIFIER",
-		"SEMICOLON" to "SEMICOLON",
-		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
-		"DATATYPE_NAME" to "CLASS_NAME",
-		"COMMA" to "COMMA",
-		"PAREN" to "PARENTHESES",
-		"BRACK" to "BRACKETS",
-		"UNDEFINED" to "KEYWORD",
-		"HOLE" to "LABEL",
-		"DIMENSION" to "NUMBER",
-		"PROJECTION" to "INSTANCE_FIELD",
-		"LINE_COMMENT" to "LINE_COMMENT",
-		"BLOCK_COMMENT" to "BLOCK_COMMENT")
+	highlightTokenPairs = cubicalTTTokenPairs
 }
 
 val genCubicalTTUtility = utilities("genCubicalTTUtility") {
@@ -276,21 +278,7 @@ val genCubicalTTUtility = utilities("genCubicalTTUtility") {
 	exeName = "cubical"
 	trimVersion = "version.trim()"
 	supportsParsing = true
-	highlightTokenPairs = listOf(
-		"KEYWORD" to "KEYWORD",
-		"IDENTIFIER" to "IDENTIFIER",
-		"SEMICOLON" to "SEMICOLON",
-		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
-		"DATATYPE_NAME" to "CLASS_NAME",
-		"COMMA" to "COMMA",
-		"PAREN" to "PARENTHESES",
-		"BRACK" to "BRACKETS",
-		"UNDEFINED" to "KEYWORD",
-		"HOLE" to "LABEL",
-		"DIMENSION" to "NUMBER",
-		"PROJECTION" to "INSTANCE_FIELD",
-		"LINE_COMMENT" to "LINE_COMMENT",
-		"BLOCK_COMMENT" to "BLOCK_COMMENT")
+	highlightTokenPairs = cubicalTTTokenPairs
 }
 
 val genAgdaUtility = utilities("genAgdaUtility") {
