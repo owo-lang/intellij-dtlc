@@ -92,6 +92,29 @@
 		<gotoSymbolContributor implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTLabelNavigationContributor"/>
 		<completion.contributor language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTCompletionContributor"/>
 
+		<!--YaccTT-->
+		<configurationType implementation="org.ice1000.tt.execution.YaccTTRunConfigurationType"/>
+		<runConfigurationProducer implementation="org.ice1000.tt.execution.YaccTTRunConfigurationProducer"/>
+		<lang.parserDefinition language="YaccTT" implementationClass="org.ice1000.tt.psi.yacctt.YaccTTParserDefinition"/>
+		<lang.commenter language="YaccTT" implementationClass="org.ice1000.tt.editing.HaskellCommenter"/>
+		<lang.braceMatcher language="YaccTT" implementationClass="org.ice1000.tt.editing.yacctt.YaccTTBraceMatcher"/>
+		<lang.findUsagesProvider language="YaccTT" implementationClass="org.ice1000.tt.editing.yacctt.YaccTTFindUsagesProvider"/>
+		<lang.syntaxHighlighterFactory language="YaccTT" implementationClass="org.ice1000.tt.editing.yacctt.YaccTTHighlighterFactory"/>
+		<lang.refactoringSupport language="YaccTT" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
+		<lang.foldingBuilder language="YaccTT" implementationClass="org.ice1000.tt.editing.yacctt.YaccTTFoldingBuilder"/>
+		<colorSettingsPage implementation="org.ice1000.tt.editing.yacctt.YaccTTColorSettingsPage"/>
+		<annotator language="YaccTT" implementationClass="org.ice1000.tt.editing.yacctt.YaccTTAnnotator"/>
+		<stubIndex implementation="org.ice1000.tt.psi.yacctt.YaccTTModuleStubKey"/>
+		<stubIndex implementation="org.ice1000.tt.psi.yacctt.YaccTTDefStubKey"/>
+		<stubIndex implementation="org.ice1000.tt.psi.yacctt.YaccTTLabelStubKey"/>
+		<stubIndex implementation="org.ice1000.tt.psi.yacctt.YaccTTDataStubKey"/>
+		<stubElementTypeHolder class="org.ice1000.tt.psi.yacctt.YaccTTTypes"/>
+		<gotoSymbolContributor implementation="org.ice1000.tt.editing.yacctt.YaccTTModuleNavigationContributor"/>
+		<gotoSymbolContributor implementation="org.ice1000.tt.editing.yacctt.YaccTTDeclNavigationContributor"/>
+		<gotoSymbolContributor implementation="org.ice1000.tt.editing.yacctt.YaccTTDataNavigationContributor"/>
+		<gotoSymbolContributor implementation="org.ice1000.tt.editing.yacctt.YaccTTLabelNavigationContributor"/>
+		<completion.contributor language="YaccTT" implementationClass="org.ice1000.tt.editing.yacctt.YaccTTCompletionContributor"/>
+
 		<!--MLPolyR-->
 		<configurationType implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationProducer"/>
