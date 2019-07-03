@@ -14,7 +14,7 @@ import org.ice1000.tt.psi.yacctt.YaccTTImportMixin
 import org.ice1000.tt.psi.yacctt.YaccTTModuleMixin
 
 class YaccTTCompletionContributor : CompletionContributor(), DumbAware {
-	private val keywords = makeKeywordsCompletion(TTIcons.CUBICAL_TT, listOf(
+	private val keywords = makeKeywordsCompletion(TTIcons.YACC_TT, listOf(
 		"transparentAll", "transparent", "undefined", "import", "module",
 		"mutual", "opaque", "split@", "hdata", "PathP", "LineP", "split", "Vproj",
 		"where", "data", "with", "hcom", "Vin", "let", "coe", "com", "box", "cap", "in"

@@ -35,7 +35,7 @@ abstract class YaccTTModuleUsageMixin(node: ASTNode) : GeneralReference(node), Y
 	override fun getVariants() = modules(this)
 		.mapNotNull { it.stub?.moduleName ?: it.nameDecl?.text }
 		.map(LookupElementBuilder::create)
-		.map { it.withIcon(TTIcons.CUBICAL_TT_FILE) }
+		.map { it.withIcon(TTIcons.YACC_TT_FILE) }
 		.toList()
 		.toTypedArray()
 
@@ -87,7 +87,7 @@ abstract class YaccTTNameMixin(node: ASTNode) : GeneralReference(node), YaccTTNa
 		LookupElementBuilder
 			.create(it.text)
 			.withTypeText((it as? YaccTTNameDeclMixin)?.kind?.name ?: "")
-			.withIcon(it.getIcon(0) ?: TTIcons.CUBICAL_TT)
+			.withIcon(it.getIcon(0) ?: TTIcons.YACC_TT)
 	}), this)
 
 	private companion object ResolverHolder {

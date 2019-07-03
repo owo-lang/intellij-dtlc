@@ -1,0 +1,68 @@
+/* Token types. */
+.YaccTT .YACC_TT_KEYWORD {
+	color: #000080;
+	font-weight: bold;
+}
+
+.YaccTT .YACC_TT_IDENTIFIER {
+	color: #000000;
+}
+
+.YaccTT .YACC_TT_SEMICOLON {
+}
+
+.YaccTT .YACC_TT_FUNCTION_NAME {
+}
+
+.YaccTT .YACC_TT_DATATYPE_NAME {
+}
+
+.YaccTT .YACC_TT_COMMA {
+}
+
+.YaccTT .YACC_TT_PAREN {
+}
+
+.YaccTT .YACC_TT_BRACK {
+}
+
+.YaccTT .YACC_TT_UNDEFINED {
+	color: #000080;
+	font-weight: bold;
+}
+
+.YaccTT .YACC_TT_HOLE {
+}
+
+.YaccTT .YACC_TT_DIMENSION {
+	color: #0000FF;
+}
+
+.YaccTT .YACC_TT_PROJECTION {
+}
+
+.YaccTT .YACC_TT_LINE_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+.YaccTT .YACC_TT_BLOCK_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+/* Standard attributes. */
+.YaccTT a {
+	text-decoration: none;
+}
+
+.YaccTT :target {
+	border: 2px solid #ECFAEB;
+	background-color: #ECFAEB;
+}
+
+.YaccTT a[href]:hover {
+	color: #0000FF;
+	text-decoration: underline;
+	text-decoration-color: #0000FF;
+}

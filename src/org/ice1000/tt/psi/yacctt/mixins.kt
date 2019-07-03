@@ -28,7 +28,7 @@ abstract class YaccTTModuleMixin : StubBasedPsiElementBase<YaccTTModuleStub>, Ya
 
 	override fun getPresentation() = object : ItemPresentation {
 		override fun getLocationString() = containingFile.name
-		override fun getIcon(dark: Boolean) = TTIcons.CUBICAL_TT_FILE
+		override fun getIcon(dark: Boolean) = TTIcons.YACC_TT_FILE
 		override fun getPresentableText() = name
 	}
 
@@ -71,7 +71,7 @@ abstract class YaccTTLabelMixin : StubBasedPsiElementBase<YaccTTLabelStub>, Yacc
 
 	override fun getPresentation() = object : ItemPresentation {
 		override fun getLocationString() = containingFile.name
-		override fun getIcon(dark: Boolean) = nameIdentifier?.getIcon(0) ?: TTIcons.CUBICAL_TT_FILE
+		override fun getIcon(dark: Boolean) = nameIdentifier?.getIcon(0) ?: TTIcons.YACC_TT_FILE
 		override fun getPresentableText() = name
 	}
 
@@ -100,7 +100,7 @@ abstract class YaccTTDefMixin : StubBasedPsiElementBase<YaccTTDefStub>, YaccTTDe
 
 	override fun getPresentation() = object : ItemPresentation {
 		override fun getLocationString() = containingFile.name
-		override fun getIcon(dark: Boolean) = nameIdentifier?.getIcon(0) ?: TTIcons.CUBICAL_TT_FILE
+		override fun getIcon(dark: Boolean) = nameIdentifier?.getIcon(0) ?: TTIcons.YACC_TT_FILE
 		override fun getPresentableText() = name
 	}
 
@@ -124,7 +124,7 @@ abstract class YaccTTDataMixin : StubBasedPsiElementBase<YaccTTDataStub>, YaccTT
 	override fun getName() = nameIdentifier?.text
 	override fun getPresentation() = object : ItemPresentation {
 		override fun getLocationString() = containingFile.name
-		override fun getIcon(dark: Boolean) = nameIdentifier?.getIcon(0) ?: TTIcons.CUBICAL_TT_FILE
+		override fun getIcon(dark: Boolean) = nameIdentifier?.getIcon(0) ?: TTIcons.YACC_TT_FILE
 		override fun getPresentableText() = name
 	}
 
