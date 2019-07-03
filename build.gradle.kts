@@ -32,7 +32,7 @@ plugins {
 	java
 	id("org.jetbrains.intellij") version "0.4.9"
 	id("org.jetbrains.grammarkit") version "2019.2"
-	kotlin("jvm") version "1.3.30"
+	kotlin("jvm") version "1.3.40"
 }
 
 fun fromToolbox(root: String, ide: String) = file(root)
@@ -68,9 +68,8 @@ intellij {
 		.mapNotNull { fromToolbox(root, it) }.firstOrNull()
 	pycharmPath?.absolutePath?.let { alternativeIdePath = it }
 
-	version = "2019.1"
 	if (!isCI) {
-		setPlugins("PsiViewer:192-SNAPSHOT")
+		setPlugins("PsiViewer:192-SNAPSHOT", "java")
 		tasks["buildSearchableOptions"]?.enabled = false
 	}
 }
@@ -174,6 +173,7 @@ val (genMLPolyRParser, genMLPolyRLexer) = grammar("MLPolyR")
 val (genRedPrlParser, genRedPrlLexer) = grammar("RedPrl")
 val (genAgdaParser, genAgdaLexer) = grammar("Agda")
 val (genCubicalTTParser, genCubicalTTLexer) = grammar("CubicalTT")
+val (genYaccTTParser, genYaccTTLexer) = grammar("YaccTT")
 val (genVoileParser, genVoileLexer) = grammar("Voile")
 
 fun utilities(name: String, job: LanguageUtilityGenerationTask.() -> Unit) = task<LanguageUtilityGenerationTask>(name) {
@@ -252,6 +252,22 @@ val genYaccTTUtility = utilities("genYaccTTUtility") {
 	constantPrefix = "YACC_TT"
 	exeName = "yacctt"
 	trimVersion = "version.trim()"
+	supportsParsing = true
+	highlightTokenPairs = listOf(
+		"KEYWORD" to "KEYWORD",
+		"IDENTIFIER" to "IDENTIFIER",
+		"SEMICOLON" to "SEMICOLON",
+		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
+		"DATATYPE_NAME" to "CLASS_NAME",
+		"COMMA" to "COMMA",
+		"PAREN" to "PARENTHESES",
+		"BRACK" to "BRACKETS",
+		"UNDEFINED" to "KEYWORD",
+		"HOLE" to "LABEL",
+		"DIMENSION" to "NUMBER",
+		"PROJECTION" to "INSTANCE_FIELD",
+		"LINE_COMMENT" to "LINE_COMMENT",
+		"BLOCK_COMMENT" to "BLOCK_COMMENT")
 }
 
 val genCubicalTTUtility = utilities("genCubicalTTUtility") {

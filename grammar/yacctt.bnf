@@ -1,0 +1,188 @@
+//noinspection BnfResolveForFile
+{
+  generate=[java="8" names="long"]
+
+  parserClass="org.ice1000.tt.psi.yacctt.YaccTTParser"
+
+  psiClassPrefix="YaccTT"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.ice1000.tt.psi.yacctt"
+  psiImplPackage="org.ice1000.tt.psi.yacctt.impl"
+
+  elementTypeHolderClass="org.ice1000.tt.psi.yacctt.YaccTTTypes"
+  elementTypeClass="org.ice1000.tt.psi.yacctt.YaccTTElementType"
+  tokenTypeClass="org.ice1000.tt.psi.yacctt.YaccTTTokenType"
+
+  extends(".*Exp")=exp
+}
+
+entryPoints ::= module | exp
+
+nameDecl ::= IDENTIFIER {
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.yacctt.YaccTTNameDeclMixin'
+}
+nameUsage ::= IDENTIFIER {
+	extends=ii
+	mixin='org.ice1000.tt.psi.yacctt.YaccTTNameMixin'
+}
+moduleUsage ::= IDENTIFIER { mixin='org.ice1000.tt.psi.yacctt.YaccTTModuleUsageMixin' }
+// Have to make a wrapper due to a (seem-to-be) bug of Grammar-Kit.
+nameExp ::= IDENTIFIER {
+	extends=exp
+	mixin='org.ice1000.tt.psi.yacctt.YaccTTNameMixin'
+}
+module ::= KW_MODULE nameDecl KW_WHERE
+ LAYOUT_START
+  imports
+  decls
+ LAYOUT_END? {
+	pin=1
+	mixin='org.ice1000.tt.psi.yacctt.YaccTTModuleMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'com.intellij.navigation.NavigationItem']
+	stubClass='org.ice1000.tt.psi.yacctt.YaccTTModuleStub'
+	elementTypeFactory='org.ice1000.tt.psi.yacctt.StubsKt.factory'
+}
+
+private imports ::= (import LAYOUT_SEP)*
+import ::= KW_IMPORT moduleUsage {
+	pin=1
+	mixin='org.ice1000.tt.psi.yacctt.YaccTTImportMixin'
+}
+
+private decls ::= (decl LAYOUT_SEP?)*
+private decl ::=
+   def
+ | data
+ | mutual
+ | opaque
+ | transparent
+ | transparentAll
+
+def ::= nameDecl teles COLON exp EQ defBody {
+	mixin='org.ice1000.tt.psi.yacctt.YaccTTDefMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.yacctt.YaccTTDecl']
+	stubClass='org.ice1000.tt.psi.yacctt.YaccTTDefStub'
+	elementTypeFactory='org.ice1000.tt.psi.yacctt.StubsKt.factory'
+}
+data ::= (KW_DATA | KW_HDATA) nameDecl teles EQ labels {
+	pin=1
+	mixin='org.ice1000.tt.psi.yacctt.YaccTTDataMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.yacctt.YaccTTDecl']
+	stubClass='org.ice1000.tt.psi.yacctt.YaccTTDataStub'
+	elementTypeFactory='org.ice1000.tt.psi.yacctt.StubsKt.factory'
+}
+private defBody ::= expWhere | splitBody | KW_UNDEFINED
+mutual ::= KW_MUTUAL LAYOUT_START decls LAYOUT_END {
+	pin=1
+	mixin='org.ice1000.tt.psi.yacctt.YaccTTDeclListMixin'
+}
+opaque ::= KW_OPAQUE nameUsage { pin=1 }
+transparent ::= KW_TRANSPARENT nameUsage { pin=1 }
+transparentAll ::= KW_TRANSPARENT_ALL
+
+expWhere ::= exp (KW_WHERE LAYOUT_START decls LAYOUT_END?)? { pin=1 }
+splitBody ::= KW_SPLIT LAYOUT_START branches LAYOUT_END? { pin=1 }
+
+// Telescopes
+private teles ::= tele*
+// Nonempty telescopes with exp:s, this is hack to avoid ambiguities
+// in the grammar when parsing Pi
+// In Grammar-Kit we don't need this shit
+private pteles ::= tele+
+tele ::= LPAREN nameDecl+ COLON exp RPAREN {
+	pin=3
+	mixin='org.ice1000.tt.psi.yacctt.YaccTTDeclListMixin'
+}
+
+// Labelled sum alternatives
+private labels ::= (label BAR?)*
+label ::= nameDecl teles (LT nameDecl* GT system)? {
+	pin=1
+	mixin='org.ice1000.tt.psi.yacctt.YaccTTLabelMixin'
+	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.yacctt.YaccTTDecl']
+	stubClass='org.ice1000.tt.psi.yacctt.YaccTTLabelStub'
+	elementTypeFactory='org.ice1000.tt.psi.yacctt.StubsKt.factory'
+}
+
+exp ::=
+   pConExp
+ | vProjExp
+ | expExpExp
+ | expExp
+ | sysExp
+ | comExp
+ | pLamExp
+ | linePExp
+ | lamExp
+ | appIIExp
+ | appExp
+ | funExp
+ | letExp
+ | splitExp
+ | dtExp
+ | atomic
+
+private atomic ::=
+   projectionExp
+ | pairExp
+ | typeExp
+ | holeExp
+ | nameExp
+ | parenExp
+
+appExp ::= exp exp+
+funExp ::= exp ARROW exp
+appIIExp ::= exp AT ii
+letExp ::= KW_LET LAYOUT_START decls LAYOUT_END? KW_IN exp {
+	mixin='org.ice1000.tt.psi.yacctt.YaccTTDeclListMixin'
+	pin=1
+}
+lamExp ::= LAMBDA pteles ARROW exp {
+	mixin='org.ice1000.tt.psi.yacctt.YaccTTDeclListMixin'
+	pin=1
+}
+pLamExp ::= LT nameDecl+ GT exp {
+	pin=1
+	mixin='org.ice1000.tt.psi.yacctt.YaccTTDeclListMixin'
+}
+splitExp ::= KW_SPLIT_AT exp KW_WITH LAYOUT_START branches LAYOUT_END { pin=1 }
+dtExp ::= pteles (ARROW | TIMES) exp {
+	pin=2
+	mixin='org.ice1000.tt.psi.yacctt.YaccTTDeclListMixin'
+}
+linePExp ::= KW_LINE_P exp { pin=1 }
+expExp ::= (kwVIn | KW_TRANSPORT | kwCoe) atomic atomic { pin=1 }
+private kwCoe ::= KW_COE ii ARROW ii { pin=1 }
+private kwVIn ::= KW_V_IN ii { pin=1 }
+sysExp ::= sysExpKeywords ii system atomic { pin=1 }
+private sysExpKeywords ::= kwBox | kwCap
+private kwBox ::= KW_BOX ii ARROW   { pin=1 }
+private kwCap ::= KW_CAP ii ARROW_L { pin=1 }
+comExp ::= (KW_COM | KW_HCOM) ii ARROW ii exp system exp { pin=1 }
+expExpExp ::= expExpExpKeywords atomic atomic atomic { pin=1 }
+private expExpExpKeywords ::= KW_PATH_P | KW_V ii
+vProjExp ::= KW_V_PROJ ii atomic atomic atomic atomic { pin=1 }
+projectionExp ::= exp (DOT_ONE | DOT_TWO)
+pairExp ::= LPAREN exp pairInner+ RPAREN { pin=3 }
+private pairInner ::= COMMA exp { pin=1 }
+pConExp ::= nameUsage LAYOUT_START exp LAYOUT_END { pin=2 } // c{T A B} x1 x2 @ phi
+typeExp ::= KW_U
+holeExp ::= HOLE
+parenExp ::= LPAREN exp RPAREN
+
+dim ::= ONE | ZERO { extends=ii }
+system ::= LBRACK sides RBRACK { pin=1 }
+
+private sides ::= (side COMMA?)*
+side ::= face ARROW exp { pin=2 }
+face ::= LPAREN ii EQ ii RPAREN { pin=1 }
+
+ii ::= nameUsage | dim
+
+// Branches
+private branches ::= (branch LAYOUT_SEP?)*
+// TODO: better have ... @ i @ j @ k -> ... ?
+branch ::= nameUsage nameDecl* (AT nameUsage*)? ARROW expWhere {
+	mixin='org.ice1000.tt.psi.yacctt.YaccTTDeclListMixin'
+}
