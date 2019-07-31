@@ -10,7 +10,6 @@ val service = """
 package $basePackage.project
 
 import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.openapi.project.Project
@@ -54,7 +53,7 @@ val Project.${configName}Settings: ${languageName}ProjectSettingsService
  * may return null.
  */
 val Project.${configName}SettingsNullable: ${languageName}ProjectSettingsService?
-	get() = ServiceManager.getService(this, ${languageName}ProjectSettingsService::class.java)
+	get() = getComponent(${languageName}ProjectSettingsService::class.java)
 
 internal fun CommonConfigurable.configure$languageName(project: Project) {
 	initWebsiteLabel()
