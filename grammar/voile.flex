@@ -53,11 +53,17 @@ _ { return META; }
 \) { return RPAREN; }
 \{ { return LBRACE; }
 \} { return RBRACE; }
+\[ { return LBRACK; }
+\] { return RBRACK; }
 \$ { return DOLLAR; }
 
+or { return KW_OR; }
 let { return KW_LET; }
 val { return KW_VAL; }
-nocases { return KW_NOCASES; }
+Sum { return KW_SUM; }
+Rec { return KW_REC; }
+case { return KW_CASE; }
+whatever { return KW_NOCASES; }
 {LAMBDA} { return LAM; }
 {UNIVERSE} { return KW_TYPE; }
 {COMMENTS} { return LINE_COMMENT; }
