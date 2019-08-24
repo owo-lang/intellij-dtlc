@@ -1,13 +1,8 @@
 package org.ice1000.tt.editing.mlpolyr
 
 import com.intellij.openapi.editor.colors.TextAttributesKey
-import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.options.colors.AttributesDescriptor
-import com.intellij.openapi.options.colors.ColorDescriptor
-import com.intellij.openapi.options.colors.ColorSettingsPage
 import com.intellij.psi.tree.IElementType
-import icons.TTIcons
-import org.ice1000.tt.MLPolyRFileType
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTokenType
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTypes

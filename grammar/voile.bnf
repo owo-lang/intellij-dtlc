@@ -37,7 +37,6 @@ expr ::=
  | dollarExpr
  | commaExpr
  | pipeExpr
- | sumExpr
  | appExpr
  | litExpr
  | lamExpr
@@ -50,12 +49,6 @@ expr ::=
  | rowKindExpr
  | telescopicExpr
  | parenExpr
-
-/*
-singleCase ::= KW_CASE CONS nameDecl ARROW expr { pin=1 }
-caseExpr ::= singleCase+ defaultMatch? { pin=1 }
-private defaultMatch ::= KW_OTHERWISE expr
-*/
 
 row ::= KW_SUM | KW_REC
 rowPolymorpicExpr ::= row LBRACE property* defaultFields? RBRACE { pin=2 }
@@ -84,7 +77,6 @@ telescopicExpr ::= LPAREN nameDecl+ COLON expr RPAREN {
 dollarExpr ::= expr DOLLAR expr
 pipeExpr ::= expr PIPE expr
 commaExpr ::= expr COMMA expr
-sumExpr ::= expr SUM expr
 lamExpr ::= LAM nameDecl+ DOT expr {
 	pin=1
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']

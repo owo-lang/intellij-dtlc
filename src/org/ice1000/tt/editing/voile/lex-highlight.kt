@@ -1,23 +1,27 @@
 package org.ice1000.tt.editing.voile
 
 import com.intellij.openapi.editor.colors.TextAttributesKey
-import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.options.colors.AttributesDescriptor
-import com.intellij.openapi.options.colors.ColorDescriptor
-import com.intellij.openapi.options.colors.ColorSettingsPage
 import com.intellij.psi.tree.IElementType
-import icons.TTIcons
 import org.ice1000.tt.TTBundle
-import org.ice1000.tt.VoileFileType
 import org.ice1000.tt.psi.voile.VoileTokenType
 import org.ice1000.tt.psi.voile.VoileTypes
 import org.intellij.lang.annotations.Language
 
 object VoileHighlighter : VoileGeneratedSyntaxHighlighter() {
+	@JvmField val KEYWORDS = listOf(
+		VoileTypes.KW_VAL,
+		VoileTypes.KW_LET,
+		VoileTypes.KW_CASE,
+		VoileTypes.KW_OR,
+		VoileTypes.KW_NOCASES,
+		VoileTypes.KW_SUM,
+		VoileTypes.KW_REC,
+		VoileTypes.KW_TYPE
+	)
 	@JvmField val OPERATORS = listOf(
 		VoileTypes.DOLLAR,
 		VoileTypes.ARROW,
-		VoileTypes.SUM,
 		VoileTypes.DOT,
 		VoileTypes.SIG
 	)
@@ -29,11 +33,11 @@ object VoileHighlighter : VoileGeneratedSyntaxHighlighter() {
 		VoileTypes.COMMA -> COMMA_KEY
 		VoileTypes.IDENTIFIER -> IDENTIFIER_KEY
 		VoileTokenType.LINE_COMMENT -> LINE_COMMENT_KEY
-		VoileTypes.KW_VAL, VoileTypes.KW_LET, VoileTypes.KW_TYPE -> KEYWORD_KEY
 		VoileTypes.LPAREN, VoileTypes.RPAREN -> PAREN_KEY
 		VoileTypes.LBRACE, VoileTypes.RBRACE -> BRACE_KEY
 		VoileTypes.LBRACE2, VoileTypes.RBRACE2 -> BRACE2_KEY
 		in OPERATORS -> OPERATOR_KEY
+		in KEYWORDS -> KEYWORD_KEY
 		else -> emptyArray()
 	}
 }
@@ -61,8 +65,8 @@ class VoileColorSettingsPage : VoileGeneratedColorSettingsPage() {
 	override fun getAttributeDescriptors() = DESCRIPTORS
 	@Language("Voile")
 	override fun getDemoText() = """
-val <FD>id</FD>: (A: Type) -> A -> {| lab: A |};
+val <FD>id</FD>: (A: Type) -> A -> Rec { lab: A; };
 // Identity function definition
-let <FD>id</FD> = \A a. { lab = a };
+let <FD>id</FD> = \A a. {| lab = a; |};
 """
 }

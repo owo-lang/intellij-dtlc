@@ -2,11 +2,7 @@ package org.ice1000.tt.editing.yacctt
 
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.options.colors.AttributesDescriptor
-import com.intellij.openapi.options.colors.ColorDescriptor
-import com.intellij.openapi.options.colors.ColorSettingsPage
 import com.intellij.psi.tree.IElementType
-import icons.TTIcons
-import org.ice1000.tt.YaccTTFileType
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.psi.yacctt.YaccTTTokenType
 import org.ice1000.tt.psi.yacctt.YaccTTTypes

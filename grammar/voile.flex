@@ -45,7 +45,6 @@ _ { return META; }
 : { return COLON; }
 , { return COMMA; }
 \^ { return UP; }
-\+ { return SUM; }
 \. { return DOT; }
 \! { return BOT; }
 \* { return SIG; }
