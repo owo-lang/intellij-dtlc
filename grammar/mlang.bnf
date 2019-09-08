@@ -1,0 +1,39 @@
+//noinspection BnfResolveForFile
+{
+  generate=[java="8" names="long"]
+
+  parserClass="org.ice1000.tt.psi.mlang.MlangParser"
+
+  psiClassPrefix="Mlang"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.ice1000.tt.psi.mlang"
+  psiImplPackage="org.ice1000.tt.psi.mlang.impl"
+
+  elementTypeHolderClass="org.ice1000.tt.psi.mlang.MlangTypes"
+  elementTypeClass="org.ice1000.tt.psi.mlang.MlangElementType"
+  tokenTypeClass="org.ice1000.tt.psi.mlang.MlangTokenType"
+
+  extends(".*Expr")=term
+}
+
+file ::= declaration*
+
+declaration ::= parameters | declare | define
+
+defineModifiers ::= KW_INDUCTIVELY | KW_WITH_CONSTRUCTOR | KW_DEBUG
+ident ::= IDENTIFIER
+
+private typeAnnotation ::= COLON term
+
+paramIdent ::= HASH? IDENTIFIER
+param ::= paramIdent typeAnnotation { pin=2 }
+private paramRest ::= COMMA param { pin=1 }
+tele ::= LPAREN param paramRest* RPAREN { pin=1 }
+
+define ::= KW_DEFINE defineModifiers ident tele? typeAnnotation? EQ term { pin=1 }
+declare ::= KW_DECLARE defineModifiers ident tele? typeAnnotation? { pin=1 }
+parameters ::= KW_PARAMETERS tele LBRACE declaration* RBRACE { pin=1 }
+
+metaExpr ::= META_VAR
+refExpr ::= IDENTIFIER
+term ::= metaExpr | refExpr // TODO

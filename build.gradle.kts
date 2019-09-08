@@ -175,6 +175,7 @@ val (genAgdaParser, genAgdaLexer) = grammar("Agda")
 val (genCubicalTTParser, genCubicalTTLexer) = grammar("CubicalTT")
 val (genYaccTTParser, genYaccTTLexer) = grammar("YaccTT")
 val (genVoileParser, genVoileLexer) = grammar("Voile")
+val (genMlangParser, genMlangLexer) = grammar("Mlang")
 
 fun utilities(name: String, job: LanguageUtilityGenerationTask.() -> Unit) = task<LanguageUtilityGenerationTask>(name) {
 	this.job()
@@ -184,6 +185,12 @@ fun utilities(name: String, job: LanguageUtilityGenerationTask.() -> Unit) = tas
 // Useful regexs:
 // \@JvmField val ([A-Z_]+) = TextAttributesKey.createTextAttributesKey\("[^\"]+", DefaultLanguageHighlighterColors.([A-Z_]+)\)
 
+val keyword = "KEYWORD" to "KEYWORD"
+val identifier = "IDENTIFIER" to "IDENTIFIER"
+val comma = "COMMA" to "COMMA"
+val paren = "PAREN" to "PARENTHESES"
+val semi = "SEMICOLON" to "SEMICOLON"
+
 val genMiniTTUtility = utilities("genMiniTTUtility") {
 	languageName = "MiniTT"
 	constantPrefix = "MINI_TT"
@@ -192,16 +199,12 @@ val genMiniTTUtility = utilities("genMiniTTUtility") {
 	trimVersion = """version.removePrefix("minittc").trim()"""
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		"KEYWORD" to "KEYWORD",
-		"IDENTIFIER" to "IDENTIFIER",
+		keyword, identifier, comma, paren, semi,
 		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
 		"CONSTRUCTOR_CALL" to "FUNCTION_CALL",
 		"CONSTRUCTOR_DECL" to "FUNCTION_DECLARATION",
-		"SEMICOLON" to "SEMICOLON",
-		"COMMA" to "COMMA",
 		"UNRESOLVED" to "IDENTIFIER",
 		"OPERATOR" to "OPERATION_SIGN",
-		"PAREN" to "PARENTHESES",
 		"BRACE" to "BRACES",
 		"COMMENT" to "LINE_COMMENT")
 }
@@ -213,14 +216,10 @@ val genACoreUtility = utilities("genACoreUtility") {
 	hasVersion = false
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		"KEYWORD" to "KEYWORD",
-		"IDENTIFIER" to "IDENTIFIER",
+		keyword, identifier, comma, paren, semi,
 		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
-		"SEMICOLON" to "SEMICOLON",
-		"COMMA" to "COMMA",
 		"UNRESOLVED" to "IDENTIFIER",
 		"OPERATOR" to "OPERATION_SIGN",
-		"PAREN" to "PARENTHESES",
 		"LINE_COMMENT" to "LINE_COMMENT",
 		"BLOCK_COMMENT" to "BLOCK_COMMENT")
 }
@@ -232,29 +231,21 @@ val genVoileUtility = utilities("genVoileUtility") {
 	trimVersion = """version.removePrefix("voilec").trim()"""
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		"KEYWORD" to "KEYWORD",
-		"IDENTIFIER" to "IDENTIFIER",
+		keyword, identifier, comma, paren, semi,
 		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
 		"CONSTRUCTOR" to "FUNCTION_DECLARATION",
 		"VARIANT" to "FUNCTION_DECLARATION",
-		"SEMICOLON" to "SEMICOLON",
-		"COMMA" to "COMMA",
 		"UNRESOLVED" to "IDENTIFIER",
 		"OPERATOR" to "OPERATION_SIGN",
-		"PAREN" to "PARENTHESES",
 		"BRACE" to "BRACES",
 		"BRACE2" to "BRACES",
 		"LINE_COMMENT" to "LINE_COMMENT")
 }
 
 val cubicalTTTokenPairs = listOf(
-	"KEYWORD" to "KEYWORD",
-	"IDENTIFIER" to "IDENTIFIER",
-	"SEMICOLON" to "SEMICOLON",
+	keyword, identifier, comma, paren, semi,
 	"FUNCTION_NAME" to "FUNCTION_DECLARATION",
 	"DATATYPE_NAME" to "CLASS_NAME",
-	"COMMA" to "COMMA",
-	"PAREN" to "PARENTHESES",
 	"BRACK" to "BRACKETS",
 	"UNDEFINED" to "KEYWORD",
 	"HOLE" to "LABEL",
@@ -286,6 +277,10 @@ val genMlangTTUtility = utilities("genMlangUtility") {
 	constantPrefix = "M_LANG"
 	exeName = "mlang.jar"
 	generateCliState = false
+	supportsParsing = true
+	highlightTokenPairs = listOf(
+		keyword, identifier, comma, paren
+	)
 }
 
 val genAgdaUtility = utilities("genAgdaUtility") {

@@ -25,6 +25,7 @@ usages), including:
   [RedPRL] ([GitHub source][RedPRL-gh])
 + ![](./res/icons/agda/agda.svg)
   [Agda]
++ [mlang] (WIP)
 + ![](./res/icons/owo_file.png)
   [OwO] (WIP)
 
@@ -50,6 +51,7 @@ Screenshots:
  [Agda]: https://wiki.portal.chalmers.se/agda/pmwiki.php
  [RedPRL]: http://www.redprl.org
  [RedPRL-gh]: https://github.com/RedPRL/sml-redprl
+ [mlang]: https://github.com/molikto/mlang
  [d-svg]: https://img.shields.io/jetbrains/plugin/d/12176.svg
  [v-svg]: https://img.shields.io/jetbrains/plugin/v/12176.svg
  [jb-url]: https://plugins.jetbrains.com/plugin/12176
