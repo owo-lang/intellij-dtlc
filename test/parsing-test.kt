@@ -6,6 +6,7 @@ import org.ice1000.tt.psi.acore.ACoreGeneratedParserDefinition
 import org.ice1000.tt.psi.agda.AgdaParserDefinition
 import org.ice1000.tt.psi.cubicaltt.CubicalTTParserDefinition
 import org.ice1000.tt.psi.minitt.MiniTTGeneratedParserDefinition
+import org.ice1000.tt.psi.mlang.MlangGeneratedParserDefinition
 import org.ice1000.tt.psi.mlpolyr.MLPolyRParserDefinition
 import org.ice1000.tt.psi.redprl.RedPrlGeneratedParserDefinition
 
@@ -85,4 +86,9 @@ class CubicalTTParsingTest : DtlcParsingTestCase("parse/cubicaltt", "ctt", Cubic
 	fun `test propTrunc`() = doTest(true, true)
 	fun `test hnat`() = doTest(true, true)
 	fun `test hz`() = doTest(true, true)
+}
+
+class MlangParsingTest : DtlcParsingTestCase("parse/mlang-poor", "poor", MlangGeneratedParserDefinition()) {
+	fun `test path_infer`() = doTest(true, true)
+	fun `test old_basic_tests`() = doTest(true, true)
 }

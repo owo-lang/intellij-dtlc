@@ -30,27 +30,41 @@ param ::= paramIdent+ typeAnnotation
 private paramRest ::= COMMA param { pin=1 }
 tele ::= LPAREN param paramRest* RPAREN { pin=1 }
 
+private appliedTerm ::= AT? term { pin=1 }
+private appliedTermRest ::= COMMA appliedTerm { pin=1 }
+
 define ::= KW_DEFINE defineModifiers* ident tele? typeAnnotation? EQ term { pin=1 }
 declare ::= KW_DECLARE defineModifiers* ident tele? typeAnnotation? { pin=1 }
 parameters ::= KW_PARAMETERS tele LBRACE declaration* RBRACE { pin=1 }
 
 private andOr ::= AND | OR
+heterogeneous ::= LBRACK term RBRACK { pin=1 }
 
 keywordExpr ::= KW_TYPE | KW_INTERVAL | KW_MAKE | META_VAR
-  | KW_UNDEFINED
+  | KW_UNDEFINED | DIM
 refExpr ::= IDENTIFIER
 upExpr ::= LIFT+ term
 letExpr ::= KW_RUN LBRACE declaration* term RBRACE { pin=1 }
 andOrExpr ::= term andOr term
+negExpr ::= NEG term { pin=1 }
+pathExpr ::= term TRIPLE_EQ heterogeneous? term
+ascriptionExpr ::= LPAREN term KW_AS term RPAREN { pin=3 }
 parenExpr ::= LPAREN term RPAREN { pin=1 }
+appExpr ::= term LPAREN (appliedTerm appliedTermRest*)? RPAREN
+lambdaExpr ::= paramIdent ARROW term { pin=2 }
 piExpr ::= tele DARROW term
 piSimpleExpr ::= term DARROW term
 term ::=
    upExpr
  | andOrExpr
  | letExpr
+ | lambdaExpr
  | keywordExpr
  | refExpr
  | piExpr
+ | appExpr
+ | negExpr
+ | ascriptionExpr
+ | pathExpr
  | piSimpleExpr
  | parenExpr
