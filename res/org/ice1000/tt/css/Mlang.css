@@ -1,0 +1,29 @@
+/* Token types. */
+.Mlang .M_LANG_KEYWORD {
+	color: #000080;
+	font-weight: bold;
+}
+
+.Mlang .M_LANG_LINE_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+.Mlang .M_LANG_IDENTIFIER {
+	color: #000000;
+}
+.Mlang .M_LANG_BLOCK_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+.Mlang .M_LANG_COMMA {
+}
+.Mlang .M_LANG_PAREN {
+}
+.Mlang .M_LANG_BRACE {
+}
+
+/* Standard attributes. */
+.Mlang a { text-decoration: none; }
+.Mlang :target { border: 2px solid #ECFAEB; background-color: #ECFAEB; }
+.Mlang a[href]:hover { color: #0000FF; text-decoration: underline; text-decoration-color: #0000FF; }

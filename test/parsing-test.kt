@@ -94,4 +94,7 @@ class MlangParsingTest : DtlcParsingTestCase("parse/mlang-poor", "poor", MlangGe
 	fun `test old_basic_tests`() = doTest(true, true)
 	fun `test structural_record_sum`() = doTest(true, true)
 	fun `test basic_record`() = doTest(true, true)
+	fun `test implicits`() = doTest(true, true)
+	fun `test pattern_matching_syntax`() = doTest(true, true)
+	fun `test formula`() = doTest(true, true)
 }

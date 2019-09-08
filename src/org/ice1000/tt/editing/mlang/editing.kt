@@ -23,9 +23,10 @@ class MlangBraceMatcher : TTBraceMatcher() {
 }
 
 class MlangCompletionContributor : CompletionContributor(), DumbAware {
-	private val keywords = makeKeywordsCompletion(TTIcons.VOILE, listOf(
+	private val keywords = makeKeywordsCompletion(TTIcons.M_LANG, listOf(
 		"as", "run", "sum", "case", "type", "make", "field", "define", "record",
 		"transp", "unglue", "__debug", "declare", "parameters", "inductively",
+		"glue", "glue_type", "hfill", "hcomp", "fill", "comp",
 		"with_constructor"
 	))
 
