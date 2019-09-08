@@ -67,6 +67,7 @@ IDENTIFIER=[a-zA-Z][a-zA-Z_0-9]*
 → { return ARROW; }
 ⇒ { return DARROW; }
 [01] { return DIM; }
+─ { return IGNORED; }
 \{ { return LBRACE; }
 \( { return LPAREN; }
 \} { return RBRACE; }

@@ -90,5 +90,6 @@ class CubicalTTParsingTest : DtlcParsingTestCase("parse/cubicaltt", "ctt", Cubic
 
 class MlangParsingTest : DtlcParsingTestCase("parse/mlang-poor", "poor", MlangGeneratedParserDefinition()) {
 	fun `test path_infer`() = doTest(true, true)
+	fun `test let_order`() = doTest(true, true)
 	fun `test old_basic_tests`() = doTest(true, true)
 }

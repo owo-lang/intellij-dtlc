@@ -25,7 +25,7 @@ ident ::= IDENTIFIER
 
 private typeAnnotation ::= COLON term { pin=1 }
 
-paramIdent ::= HASH? IDENTIFIER
+paramIdent ::= HASH? (IDENTIFIER | IGNORED)
 param ::= paramIdent+ typeAnnotation
 private paramRest ::= COMMA param { pin=1 }
 tele ::= LPAREN param paramRest* RPAREN { pin=1 }
