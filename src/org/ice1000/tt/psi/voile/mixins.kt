@@ -6,12 +6,13 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.ResolveState
 import com.intellij.psi.TokenType
 import com.intellij.psi.scope.PsiScopeProcessor
+import icons.SemanticIcons
 import icons.TTIcons
 import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.*
 
 abstract class VoileNameDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), VoileNameDecl {
-	override fun getIcon(flags: Int) = TTIcons.VOILE
+	override fun getIcon(flags: Int) = SemanticIcons.BLUE_HOLE
 	override fun setName(newName: String): PsiElement = replace(
 		VoileTokenType.createNameDecl(text, project) ?: invalidName(newName))
 }
@@ -29,6 +30,7 @@ abstract class VoileGlobDeclMixin(node: ASTNode) : GeneralDeclaration(node) {
 abstract class VoileLocalDeclMixin(node: ASTNode) : VoileGlobDeclMixin(node) {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		childrenRevWithLeaves.filterIsInstance<VoileNameDeclMixin>().all { it.processDeclarations(processor, state, lastParent, place) }
+	override fun getIcon(flags: Int) = SemanticIcons.PURPLE_P
 	override fun setName(newName: String): PsiElement = invalidName(newName)
 }
 

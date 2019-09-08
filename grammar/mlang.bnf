@@ -14,6 +14,7 @@
   tokenTypeClass="org.ice1000.tt.psi.mlang.MlangTokenType"
 
   extends(".*Expr")=term
+  mixin("declare|define")='org.ice1000.tt.psi.mlang.MlangGeneralDeclaration'
 }
 
 file ::= declaration*
@@ -21,7 +22,10 @@ file ::= declaration*
 private declaration ::= parameters | declare | define
 
 defineModifiers ::= KW_INDUCTIVELY | KW_WITH_CONSTRUCTOR | KW_DEBUG
-ident ::= IDENTIFIER
+ident ::= IDENTIFIER {
+	implements=['org.ice1000.tt.psi.IPattern<MlangIdent>' 'com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.mlang.MlangIdentMixin'
+}
 
 private typeAnnotation ::= COLON term { pin=1 }
 
@@ -70,7 +74,7 @@ patternMultipleEnd ::= MATRIX_END pattern patternContinue { pin=1 }
 
 keywordExpr ::= KW_TYPE | KW_INTERVAL | KW_MAKE | META_VAR
   | KW_UNDEFINED | DIM | KW_TRANSP | KW_UNGLUE
-refExpr ::= IDENTIFIER
+refExpr ::= IDENTIFIER { mixin='org.ice1000.tt.psi.mlang.MlangRefExprMixin' }
 upExpr ::= LIFT+ term
 letExpr ::= KW_RUN LBRACE declaration* term RBRACE { pin=1 }
 andOrExpr ::= term andOr term

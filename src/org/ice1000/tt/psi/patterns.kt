@@ -64,14 +64,7 @@ class NameIdentifierResolveProcessor(
 
 class PatternCompletionProcessor(
 	private val accessible: (PsiElement) -> Boolean = { true },
-	private val lookupElement: (PsiElement) -> LookupElement = {
-		val declaration = if (it is StubBasedPsiElement<*>) null
-		else PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
-		LookupElementBuilder
-			.create(it.text)
-			.withIcon(it.getIcon(0))
-			.withTypeText(declaration?.type?.bodyText(40) ?: "Unknown", true)
-	}) : ResolveProcessor<LookupElement>() {
+	private val lookupElement: (PsiElement) -> LookupElement = ::defaultLookup) : ResolveProcessor<LookupElement>() {
 	override val candidateSet = ArrayList<LookupElement>(10)
 	override fun execute(element: PsiElement, resolveState: ResolveState): Boolean {
 		if (element !is IPattern<*>) return true
@@ -85,14 +78,7 @@ class PatternCompletionProcessor(
 
 class NameIdentifierCompletionProcessor(
 	private val accessible: (GeneralNameIdentifier) -> Boolean = { true },
-	private val lookupElement: (GeneralNameIdentifier) -> LookupElement = {
-		val declaration = if (it is StubBasedPsiElement<*>) null
-		else PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
-		LookupElementBuilder
-			.create(it.text)
-			.withIcon(it.getIcon(0))
-			.withTypeText(declaration?.type?.bodyText(40) ?: "Unknown", true)
-	}) : ResolveProcessor<LookupElement>() {
+	private val lookupElement: (GeneralNameIdentifier) -> LookupElement = ::defaultLookup) : ResolveProcessor<LookupElement>() {
 	override val candidateSet = ArrayList<LookupElement>(10)
 	override fun execute(element: PsiElement, resolveState: ResolveState): Boolean {
 		if (element !is GeneralNameIdentifier) return true
@@ -100,4 +86,13 @@ class NameIdentifierCompletionProcessor(
 		candidateSet += lookupElement(element)
 		return true
 	}
+}
+
+fun defaultLookup(it: PsiElement): LookupElementBuilder {
+	val declaration = if (it is StubBasedPsiElement<*>) null
+	else PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java)
+	return LookupElementBuilder
+		.create(it.text)
+		.withIcon(it.getIcon(0))
+		.withTypeText(declaration?.type?.bodyText(40) ?: "Unknown", true)
 }
