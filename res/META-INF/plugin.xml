@@ -48,6 +48,7 @@
 		<lang.refactoringSupport language="Voile" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.voile.VoileColorSettingsPage"/>
 		<annotator language="Voile" implementationClass="org.ice1000.tt.editing.voile.VoileAnnotator"/>
+		<completion.contributor language="Voile" implementationClass="org.ice1000.tt.editing.voile.VoileCompletionContributor"/>
 
 		<!--Agda-->
 		<configurationType implementation="org.ice1000.tt.execution.AgdaRunConfigurationType"/>
@@ -64,10 +65,6 @@
 			forClass="org.ice1000.tt.psi.agda.AgdaStringMixin"
 			implementationClass="org.ice1000.tt.psi.agda.AgdaStringManipulator"/>
 		<completion.contributor language="Agda" implementationClass="org.ice1000.tt.editing.agda.AgdaCompletionContributor"/>
-
-		<!--YaccTT-->
-		<configurationType implementation="org.ice1000.tt.execution.YaccTTRunConfigurationType"/>
-		<runConfigurationProducer implementation="org.ice1000.tt.execution.YaccTTRunConfigurationProducer"/>
 
 		<!--CubicalTT-->
 		<configurationType implementation="org.ice1000.tt.execution.CubicalTTRunConfigurationType"/>
@@ -184,6 +181,7 @@
 		<lang.refactoringSupport language="Mlang" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<lang.syntaxHighlighterFactory language="Mlang" implementationClass="org.ice1000.tt.editing.mlang.MlangHighlighterFactory"/>
 		<lang.commenter language="Mlang" implementationClass="org.ice1000.tt.editing.CxxCommenter"/>
+		<completion.contributor language="Mlang" implementationClass="org.ice1000.tt.editing.mlang.MlangCompletionContributor"/>
 
 		<projectConfigurable
 			groupId="language"
@@ -225,6 +223,11 @@
 			id="TT.Voile.Configurable"
 			displayName="Voile"
 			instance="org.ice1000.tt.project.VoileProjectConfigurable"/>
+		<projectConfigurable
+			groupId="language"
+			id="TT.Mlang.Configurable"
+			displayName="Mlang"
+			instance="org.ice1000.tt.project.MlangProjectConfigurable"/>
 	</extensions>
 
 	<project-components>
@@ -251,6 +254,9 @@
 		</component>
 		<component>
 			<implementation-class>org.ice1000.tt.project.VoileProjectSettingsService</implementation-class>
+		</component>
+		<component>
+			<implementation-class>org.ice1000.tt.project.MlangProjectSettingsService</implementation-class>
 		</component>
 	</project-components>
 

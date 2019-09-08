@@ -96,6 +96,6 @@ inductively { return KW_INDUCTIVELY; }
 with_constructor { return KW_WITH_CONSTRUCTOR; }
 {IDENTIFIER} { return IDENTIFIER; }
 
-{WHITE_SPACE}   { return WHITE_SPACE; }
+{WHITE_SPACE} { return WHITE_SPACE; }
 
 [^] { return BAD_CHARACTER; }
