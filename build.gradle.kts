@@ -189,7 +189,10 @@ val keyword = "KEYWORD" to "KEYWORD"
 val identifier = "IDENTIFIER" to "IDENTIFIER"
 val comma = "COMMA" to "COMMA"
 val paren = "PAREN" to "PARENTHESES"
+val brace = "BRACE" to "BRACES"
 val semi = "SEMICOLON" to "SEMICOLON"
+val lc = "LINE_COMMENT" to "LINE_COMMENT"
+val bc = "BLOCK_COMMENT" to "BLOCK_COMMENT"
 
 val genMiniTTUtility = utilities("genMiniTTUtility") {
 	languageName = "MiniTT"
@@ -199,13 +202,12 @@ val genMiniTTUtility = utilities("genMiniTTUtility") {
 	trimVersion = """version.removePrefix("minittc").trim()"""
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		keyword, identifier, comma, paren, semi,
+		keyword, identifier, comma, paren, semi, brace,
 		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
 		"CONSTRUCTOR_CALL" to "FUNCTION_CALL",
 		"CONSTRUCTOR_DECL" to "FUNCTION_DECLARATION",
 		"UNRESOLVED" to "IDENTIFIER",
 		"OPERATOR" to "OPERATION_SIGN",
-		"BRACE" to "BRACES",
 		"COMMENT" to "LINE_COMMENT")
 }
 
@@ -216,12 +218,10 @@ val genACoreUtility = utilities("genACoreUtility") {
 	hasVersion = false
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		keyword, identifier, comma, paren, semi,
+		keyword, identifier, comma, paren, semi, lc, bc,
 		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
 		"UNRESOLVED" to "IDENTIFIER",
-		"OPERATOR" to "OPERATION_SIGN",
-		"LINE_COMMENT" to "LINE_COMMENT",
-		"BLOCK_COMMENT" to "BLOCK_COMMENT")
+		"OPERATOR" to "OPERATION_SIGN")
 }
 
 val genVoileUtility = utilities("genVoileUtility") {
@@ -231,28 +231,24 @@ val genVoileUtility = utilities("genVoileUtility") {
 	trimVersion = """version.removePrefix("voilec").trim()"""
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		keyword, identifier, comma, paren, semi,
+		keyword, identifier, comma, paren, semi, brace, lc,
 		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
 		"CONSTRUCTOR" to "FUNCTION_DECLARATION",
 		"VARIANT" to "FUNCTION_DECLARATION",
 		"UNRESOLVED" to "IDENTIFIER",
 		"OPERATOR" to "OPERATION_SIGN",
-		"BRACE" to "BRACES",
-		"BRACE2" to "BRACES",
-		"LINE_COMMENT" to "LINE_COMMENT")
+		"BRACE2" to "BRACES")
 }
 
 val cubicalTTTokenPairs = listOf(
-	keyword, identifier, comma, paren, semi,
+	keyword, identifier, comma, paren, semi, lc, bc,
 	"FUNCTION_NAME" to "FUNCTION_DECLARATION",
 	"DATATYPE_NAME" to "CLASS_NAME",
 	"BRACK" to "BRACKETS",
 	"UNDEFINED" to "KEYWORD",
 	"HOLE" to "LABEL",
 	"DIMENSION" to "NUMBER",
-	"PROJECTION" to "INSTANCE_FIELD",
-	"LINE_COMMENT" to "LINE_COMMENT",
-	"BLOCK_COMMENT" to "BLOCK_COMMENT")
+	"PROJECTION" to "INSTANCE_FIELD")
 
 val genYaccTTUtility = utilities("genYaccTTUtility") {
 	languageName = "YaccTT"
@@ -279,7 +275,7 @@ val genMlangTTUtility = utilities("genMlangUtility") {
 	generateCliState = false
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		keyword, identifier, comma, paren
+		keyword, identifier, comma, paren, brace, lc, bc
 	)
 }
 
@@ -290,22 +286,16 @@ val genAgdaUtility = utilities("genAgdaUtility") {
 	trimVersion = """version.removePrefix("Agda version").trim()"""
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		"KEYWORD" to "KEYWORD",
-		"IDENTIFIER" to "IDENTIFIER",
+		keyword, identifier, comma, paren, brace, semi, lc, bc,
 		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
-		"SEMICOLON" to "SEMICOLON",
 		"DOT" to "DOT",
-		"LINE_COMMENT" to "LINE_COMMENT",
-		"BLOCK_COMMENT" to "BLOCK_COMMENT",
 		"NUMBER" to "NUMBER",
 		"STR_LIT" to "STRING",
 		"CHR_LIT" to "STRING",
 		"FLOAT" to "NUMBER",
 		"ARROW" to "OPERATION_SIGN",
 		"HOLE" to "LABEL",
-		"PAREN" to "PARENTHESES",
 		"BRACK" to "BRACKETS",
-		"BRACE" to "BRACES",
 		"PRAGMA" to "METADATA")
 }
 
@@ -317,15 +307,10 @@ val genMLPolyRUtility = utilities("genMLPolyRUtility") {
 	hasVersion = false
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		"KEYWORD" to "KEYWORD",
-		"IDENTIFIER" to "IDENTIFIER",
+		keyword, identifier, comma, paren, brace, semi,
 		"UNRESOLVED" to "IDENTIFIER",
-		"SEMICOLON" to "SEMICOLON",
-		"COMMA" to "COMMA",
 		"OPERATOR" to "OPERATION_SIGN",
-		"PAREN" to "PARENTHESES",
 		"BRACK" to "BRACKETS",
-		"BRACE" to "BRACES",
 		"BRACE2" to "BRACES",
 		"COMMENT" to "BLOCK_COMMENT",
 		"DOT" to "DOT",
@@ -352,20 +337,14 @@ val genRedPrlUtility = utilities("genRedPrlUtility") {
 	hasVersion = false
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		"PAREN" to "PARENTHESES",
+		keyword, comma, paren, brace, semi, lc, bc,
 		"BRACK" to "BRACKETS",
-		"BRACE" to "BRACES",
-		"KEYWORD" to "KEYWORD",
 		"OP_NAME_DECL" to "GLOBAL_VARIABLE",
 		"OP_NAME_CALL" to "GLOBAL_VARIABLE",
 		"VAR_NAME_DECL" to "LOCAL_VARIABLE",
 		"VAR_NAME_CALL" to "LOCAL_VARIABLE",
-		"SEMICOLON" to "SEMICOLON",
-		"COMMA" to "COMMA",
 		"DOT" to "DOT",
 		"OPERATOR" to "OPERATION_SIGN",
-		"LINE_COMMENT" to "LINE_COMMENT",
-		"BLOCK_COMMENT" to "BLOCK_COMMENT",
 		"NUMERAL" to "NUMBER",
 		"HASH" to "METADATA",
 		"META_VAR_DECL" to "METADATA",

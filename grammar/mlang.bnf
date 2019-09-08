@@ -23,17 +23,34 @@ declaration ::= parameters | declare | define
 defineModifiers ::= KW_INDUCTIVELY | KW_WITH_CONSTRUCTOR | KW_DEBUG
 ident ::= IDENTIFIER
 
-private typeAnnotation ::= COLON term
+private typeAnnotation ::= COLON term { pin=1 }
 
 paramIdent ::= HASH? IDENTIFIER
-param ::= paramIdent typeAnnotation { pin=2 }
+param ::= paramIdent+ typeAnnotation
 private paramRest ::= COMMA param { pin=1 }
 tele ::= LPAREN param paramRest* RPAREN { pin=1 }
 
-define ::= KW_DEFINE defineModifiers ident tele? typeAnnotation? EQ term { pin=1 }
-declare ::= KW_DECLARE defineModifiers ident tele? typeAnnotation? { pin=1 }
+define ::= KW_DEFINE defineModifiers* ident tele? typeAnnotation? EQ term { pin=1 }
+declare ::= KW_DECLARE defineModifiers* ident tele? typeAnnotation? { pin=1 }
 parameters ::= KW_PARAMETERS tele LBRACE declaration* RBRACE { pin=1 }
 
-metaExpr ::= META_VAR
+private andOr ::= AND | OR
+
+keywordExpr ::= KW_TYPE | KW_INTERVAL | KW_MAKE | META_VAR
+  | KW_UNDEFINED
 refExpr ::= IDENTIFIER
-term ::= metaExpr | refExpr // TODO
+upExpr ::= LIFT+ term
+letExpr ::= KW_RUN LBRACE declaration* term RBRACE { pin=1 }
+andOrExpr ::= term andOr term
+parenExpr ::= LPAREN term RPAREN { pin=1 }
+piExpr ::= tele DARROW term
+piSimpleExpr ::= term DARROW term
+term ::=
+   upExpr
+ | andOrExpr
+ | letExpr
+ | keywordExpr
+ | refExpr
+ | piExpr
+ | piSimpleExpr
+ | parenExpr
