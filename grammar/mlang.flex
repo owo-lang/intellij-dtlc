@@ -28,7 +28,7 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 
 %state INSIDE_COMMENT
 
-WHITE_SPACE=[\ \t\f\r\n\|]+
+WHITE_SPACE=[\ \t\f\r\n│]+
 IDENTIFIER=[a-zA-Z][a-zA-Z_0-9]*
 
 %%
@@ -82,6 +82,8 @@ type { return KW_TYPE; }
 make { return KW_MAKE; }
 I { return KW_INTERVAL; }
 define { return KW_DEFINE; }
+transp { return KW_TRANSP; }
+unglue { return KW_UNGLUE; }
 __debug { return KW_DEBUG; }
 "???" { return KW_UNDEFINED; }
 declare { return KW_DECLARE; }

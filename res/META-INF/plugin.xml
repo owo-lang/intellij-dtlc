@@ -179,6 +179,7 @@
 		<!--Mlang-->
 		<configurationType implementation="org.ice1000.tt.execution.MlangRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.MlangRunConfigurationProducer"/>
+		<lang.braceMatcher language="Mlang" implementationClass="org.ice1000.tt.editing.mlang.MlangBraceMatcher"/>
 		<lang.parserDefinition language="Mlang" implementationClass="org.ice1000.tt.psi.mlang.MlangGeneratedParserDefinition"/>
 		<lang.refactoringSupport language="Mlang" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<lang.syntaxHighlighterFactory language="Mlang" implementationClass="org.ice1000.tt.editing.mlang.MlangHighlighterFactory"/>

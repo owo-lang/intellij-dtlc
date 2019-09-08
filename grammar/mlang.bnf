@@ -41,7 +41,7 @@ private andOr ::= AND | OR
 heterogeneous ::= LBRACK term RBRACK { pin=1 }
 
 keywordExpr ::= KW_TYPE | KW_INTERVAL | KW_MAKE | META_VAR
-  | KW_UNDEFINED | DIM
+  | KW_UNDEFINED | DIM | KW_TRANSP | KW_UNGLUE
 refExpr ::= IDENTIFIER
 upExpr ::= LIFT+ term
 letExpr ::= KW_RUN LBRACE declaration* term RBRACE { pin=1 }
