@@ -78,10 +78,14 @@ _ { return META_VAR; }
 ≡ { return TRIPLE_EQ; }
 as { return KW_AS; }
 run { return KW_RUN; }
+sum { return KW_SUM; }
+case { return KW_CASE; }
 type { return KW_TYPE; }
 make { return KW_MAKE; }
 I { return KW_INTERVAL; }
+field { return KW_FIELD; }
 define { return KW_DEFINE; }
+record { return KW_RECORD; }
 transp { return KW_TRANSP; }
 unglue { return KW_UNGLUE; }
 __debug { return KW_DEBUG; }

@@ -26,7 +26,7 @@ ident ::= IDENTIFIER
 private typeAnnotation ::= COLON term { pin=1 }
 
 paramIdent ::= HASH? (IDENTIFIER | IGNORED)
-param ::= paramIdent+ typeAnnotation
+param ::= paramIdent* typeAnnotation
 private paramRest ::= COMMA param { pin=1 }
 tele ::= LPAREN param paramRest* RPAREN { pin=1 }
 
@@ -39,6 +39,10 @@ parameters ::= KW_PARAMETERS tele LBRACE declaration* RBRACE { pin=1 }
 
 private andOr ::= AND | OR
 heterogeneous ::= LBRACK term RBRACK { pin=1 }
+
+field ::= KW_FIELD param { pin=1 }
+case ::= KW_CASE paramIdent caseImpl { pin=1 }
+private caseImpl ::= tele | paramIdent*
 
 keywordExpr ::= KW_TYPE | KW_INTERVAL | KW_MAKE | META_VAR
   | KW_UNDEFINED | DIM | KW_TRANSP | KW_UNGLUE
@@ -54,6 +58,8 @@ appExpr ::= term LPAREN (appliedTerm appliedTermRest*)? RPAREN
 lambdaExpr ::= paramIdent ARROW term { pin=2 }
 piExpr ::= tele DARROW term
 piSimpleExpr ::= term DARROW term
+recordExpr ::= KW_RECORD LBRACE field* RBRACE { pin=1 }
+sumExpr ::= KW_SUM LBRACE case* RBRACE { pin=1 }
 term ::=
    upExpr
  | andOrExpr
@@ -64,6 +70,8 @@ term ::=
  | piExpr
  | appExpr
  | negExpr
+ | recordExpr
+ | sumExpr
  | ascriptionExpr
  | pathExpr
  | piSimpleExpr
