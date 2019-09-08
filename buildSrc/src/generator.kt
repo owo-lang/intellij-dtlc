@@ -36,7 +36,7 @@ open class LanguageUtilityGenerationTask : DefaultTask() {
 		}
 		outDir.mkdirs()
 		if (languageName.isBlank()) throw GradleException("Language name of $name must not be empty.")
-		if (exeName.isBlank()) throw GradleException("Executable name for $name must not be empty.")
+		if (generateSettings && exeName.isBlank()) throw GradleException("Executable name for $name must not be empty.")
 		infos(nickname)
 		service(configName, nickname)
 		fileCreation(nickname)

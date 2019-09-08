@@ -21,7 +21,7 @@ val commitHash = kotlin.run {
 	output.trim()
 }
 
-val pluginComingVersion = "0.6.3"
+val pluginComingVersion = "0.7.0"
 val pluginVersion = if (isCI) "$pluginComingVersion-$commitHash" else pluginComingVersion
 val packageName = "org.ice1000.tt"
 
@@ -31,7 +31,7 @@ version = pluginVersion
 plugins {
 	java
 	id("org.jetbrains.intellij") version "0.4.10"
-	id("org.jetbrains.grammarkit") version "2019.2"
+	id("org.jetbrains.grammarkit") version "2019.2.1"
 	kotlin("jvm") version "1.3.50"
 }
 
@@ -279,6 +279,13 @@ val genCubicalTTUtility = utilities("genCubicalTTUtility") {
 	trimVersion = "version.trim()"
 	supportsParsing = true
 	highlightTokenPairs = cubicalTTTokenPairs
+}
+
+val genMlangTTUtility = utilities("genMlangUtility") {
+	languageName = "Mlang"
+	constantPrefix = "M_LANG"
+	exeName = "mlang.jar"
+	generateCliState = false
 }
 
 val genAgdaUtility = utilities("genAgdaUtility") {

@@ -34,6 +34,7 @@ class TTFileTypeFactory : FileTypeFactory() {
 		consumer.consume(YaccTTFileType)
 		consumer.consume(VoileFileType)
 		consumer.consume(MLPolyRFileType)
+		consumer.consume(MlangFileType)
 		consumer.consume(RedPrlFileType)
 	}
 }

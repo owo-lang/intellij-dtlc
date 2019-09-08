@@ -36,8 +36,6 @@ private data class Info(
 	var href: String? = null
 )
 
-private val LOG_GROUP = NotificationGroup.logOnlyGroup("Dependently-Typed Lambda Calculus")
-
 class HtmlExportAction : DefaultActionGroup(
 	HtmlExportSingleFileAction,
 	HtmlExportAlsoDependentFileAction

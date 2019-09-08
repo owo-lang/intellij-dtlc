@@ -48,6 +48,7 @@ expr ::=
  | caseOfExpr
  | rowKindExpr
  | telescopicExpr
+ | telescopic2Expr
  | parenExpr
 
 row ::= KW_SUM | KW_REC
@@ -69,6 +70,11 @@ upExpr ::= UP expr { pin=1 }
 projectExpr ::= expr DOT label
 piExpr ::= expr ARROW expr { mixin='org.ice1000.tt.psi.voile.VoilePiSigMixin '}
 sigExpr ::= expr SIG expr { mixin='org.ice1000.tt.psi.voile.VoilePiSigMixin '}
+telescopic2Expr ::= LBRACE nameDecl+ COLON expr RBRACE {
+	pin=1
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.voile.VoileLocalDeclMixin'
+}
 telescopicExpr ::= LPAREN nameDecl+ COLON expr RPAREN {
 	pin=3
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']

@@ -41,6 +41,10 @@ import org.jetbrains.annotations.NonNls
 @NonNls const val VOILE_EXTENSION = "voile"
 @NonNls const val VOILE_LANGUAGE_NAME = "Voile"
 
+@NonNls const val M_LANG_WEBSITE = "https://github.com/molikto/mlang/blob/master/README.md#roadmap"
+@NonNls const val M_LANG_EXTENSION = "poor"
+@NonNls const val M_LANG_LANGUAGE_NAME = "Mlang"
+
 @NonNls const val OWO_CONTEXT_ID = "OWO_CONTEXT"
 @NonNls const val OWO_LANGUAGE_NAME = "OwO"
 @NonNls const val OWO_EXTENSION = "owo"
