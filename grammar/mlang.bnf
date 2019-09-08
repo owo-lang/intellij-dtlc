@@ -18,7 +18,7 @@
 
 file ::= declaration*
 
-declaration ::= parameters | declare | define
+private declaration ::= parameters | declare | define
 
 defineModifiers ::= KW_INDUCTIVELY | KW_WITH_CONSTRUCTOR | KW_DEBUG
 ident ::= IDENTIFIER

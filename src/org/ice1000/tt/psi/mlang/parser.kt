@@ -14,5 +14,9 @@ class MlangTokenType(debugName: String) : IElementType(debugName, MlangLanguage.
 		@JvmField val IDENTIFIERS = TokenSet.create(MlangTypes.IDENTIFIER)
 
 		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(MlangLanguage.INSTANCE, text).firstChild
+		fun createDefine(text: String, project: Project) = fromText(text, project) as? MlangDefine
+		fun createTerm(text: String, project: Project) = createDefine("define a = $text", project)?.lastChild as? MlangTerm
+		fun createIdent(text: String, project: Project) = createDefine("define $text = 0", project)?.ident
+		fun createRefExpr(text: String, project: Project) = createTerm(text, project) as? MlangRefExpr
 	}
 }

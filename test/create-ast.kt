@@ -3,6 +3,7 @@ package org.ice1000.tt
 import com.intellij.testFramework.LightPlatformTestCase
 import org.ice1000.tt.psi.agda.AgdaTokenType
 import org.ice1000.tt.psi.cubicaltt.CubicalTTTokenType
+import org.ice1000.tt.psi.mlang.MlangTokenType
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTokenType
 import org.ice1000.tt.psi.redprl.RedPrlTokenType
 import org.ice1000.tt.psi.voile.VoileTokenType
@@ -49,5 +50,13 @@ class MLPolyRCreateAstTest : LightPlatformTestCase() {
 		MLPolyRTokenType.createLabel("Van", project)!!
 		MLPolyRTokenType.createCon("`Van", project)!!
 		MLPolyRTokenType.createStr("\"What's the matter with your head\"", project)!!
+	}
+}
+
+class MlangCreateAstTest : LightPlatformTestCase() {
+	fun testCreate() {
+		val project = getProject()
+		MlangTokenType.createIdent("sticky", project)!!
+		MlangTokenType.createRefExpr("fingers", project)!!
 	}
 }
