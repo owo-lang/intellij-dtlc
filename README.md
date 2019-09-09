@@ -25,7 +25,7 @@ usages), including:
   [RedPRL] ([GitHub source][RedPRL-gh])
 + ![](./res/icons/agda/agda.svg)
   [Agda]
-+ [mlang] (WIP)
++ Molikto's [mlang]
 + ![](./res/icons/owo_file.png)
   [OwO] (WIP)
 
