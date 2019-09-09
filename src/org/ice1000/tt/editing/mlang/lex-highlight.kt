@@ -33,6 +33,7 @@ object MlangHighlighter : MlangGeneratedSyntaxHighlighter() {
 	override fun getTokenHighlights(type: IElementType?): Array<TextAttributesKey> = when (type) {
 		in KEYWORDS -> KEYWORD_KEY
 		MlangTypes.IDENTIFIER -> IDENTIFIER_KEY
+		MlangTypes.DIM -> DIMENSION_KEY
 		MlangTokenType.LINE_COMMENT -> LINE_COMMENT_KEY
 		MlangTokenType.BLOCK_COMMENT -> BLOCK_COMMENT_KEY
 		MlangTypes.LPAREN, MlangTypes.RPAREN -> PAREN_KEY

@@ -17,8 +17,10 @@
   mixin("declare|define")='org.ice1000.tt.psi.mlang.MlangGeneralDeclaration'
   mixin('parameters')='org.ice1000.tt.psi.mlang.MlangParametersMixin'
   implements("parameters|declare|define")='org.ice1000.tt.psi.mlang.DeclarationMarker'
-  mixin("patternMultiple.+")="org.ice1000.tt.psi.mlang.MlangPatternOwnerMixin"
+  mixin("patternMultiple.+|recordExpr|sumExpr")="org.ice1000.tt.psi.mlang.MlangPatternOwnerMixin"
   mixin("letExpr")='org.ice1000.tt.psi.mlang.MlangLetMixin'
+  implements('lambdaExpr')='org.ice1000.tt.psi.IPattern<MlangParamIdentExplicit>'
+  mixin('lambdaExpr')='org.ice1000.tt.psi.mlang.MlangLambdaMixin'
 }
 
 file ::= declaration*

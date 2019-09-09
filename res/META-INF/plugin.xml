@@ -184,6 +184,7 @@
 		<lang.commenter language="Mlang" implementationClass="org.ice1000.tt.editing.CxxCommenter"/>
 		<completion.contributor language="Mlang" implementationClass="org.ice1000.tt.editing.mlang.MlangCompletionContributor"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.mlang.MlangColorSettingsPage"/>
+		<lang.foldingBuilder language="Mlang" implementationClass="org.ice1000.tt.editing.mlang.MlangFoldingBuilder"/>
 
 		<projectConfigurable
 			groupId="language"

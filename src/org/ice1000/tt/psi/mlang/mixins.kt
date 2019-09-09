@@ -43,6 +43,11 @@ abstract class MlangPatternOwnerMixin(node: ASTNode) : GeneralNameIdentifier(nod
 	override fun setName(newName: String): PsiElement = invalidName(newName)
 }
 
+abstract class MlangLambdaMixin(node: ASTNode) : GeneralNameIdentifier(node), MlangLambdaExpr {
+	override fun visit(visitor: (MlangParamIdentExplicit) -> Boolean) = paramIdent.visit(visitor)
+	override fun setName(newName: String): PsiElement = invalidName(newName)
+}
+
 abstract class MlangParamMixin(node: ASTNode) : GeneralDeclaration(node), MlangParam {
 	override fun getNameIdentifier(): PsiElement? = firstChild
 	override fun visit(visitor: (MlangParamIdentExplicit) -> Boolean) = paramIdentList.all { it.visit(visitor) }
