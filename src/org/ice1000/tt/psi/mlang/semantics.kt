@@ -18,15 +18,22 @@ abstract class MlangRefExprMixin(node: ASTNode) : GeneralReference(node), MlangR
 			.resolveWithCaching(this, resolver, true, incompleteCode, file)
 	}
 
-	// TODO: symbol kind?
-	override fun getVariants() = resolveWith(PatternCompletionProcessor(lookupElement = {
+	override fun getVariants() = resolveWith(PatternCompletionProcessor(lookupElement = lookup@ {
+		if (it !is MlangIdentMixin) return@lookup defaultLookup(it)
 		val decl = PsiTreeUtil.getParentOfType(it, MlangGeneralDeclaration::class.java)
 		defaultLookup(it).withTailText(decl?.parameters?.bodyText(80).orEmpty(), true)
+	}, accessible = {
+		if (it is MlangIdentMixin) true
+		else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, DeclarationMarker::class.java), this, false)
 	}), this)
 
 	companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<MlangRefExprMixin> { ref, _ ->
-			resolveWith(PatternResolveProcessor(ref.canonicalText), ref)
+			val name = ref.name.orEmpty()
+			resolveWith(PatternResolveProcessor(ref.canonicalText) {
+				if (it is MlangIdentMixin) it.text == name
+				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, DeclarationMarker::class.java), ref, false)
+			}, ref)
 		}
 	}
 }

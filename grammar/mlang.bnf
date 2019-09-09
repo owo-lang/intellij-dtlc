@@ -15,6 +15,10 @@
 
   extends(".*Expr")=term
   mixin("declare|define")='org.ice1000.tt.psi.mlang.MlangGeneralDeclaration'
+  mixin('parameters')='org.ice1000.tt.psi.mlang.MlangParametersMixin'
+  implements("parameters|declare|define")='org.ice1000.tt.psi.mlang.DeclarationMarker'
+  mixin("patternMultiple.+")="org.ice1000.tt.psi.mlang.MlangPatternOwnerMixin"
+  mixin("letExpr")='org.ice1000.tt.psi.mlang.MlangLetMixin'
 }
 
 file ::= declaration*
@@ -29,11 +33,26 @@ ident ::= IDENTIFIER {
 
 private typeAnnotation ::= COLON term { pin=1 }
 
-paramIdent ::= HASH? (IDENTIFIER | IGNORED)
-param ::= paramIdent* typeAnnotation
+paramIdent ::= HASH? paramIdentExplicit {
+	implements=['org.ice1000.tt.psi.IPattern<MlangParamIdentExplicit>' 'com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.mlang.MlangParamIdentMixin'
+}
+paramIdentExplicit ::= (IDENTIFIER | IGNORED) {
+	implements=['org.ice1000.tt.psi.IPattern<MlangParamIdentExplicit>' 'com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.mlang.MlangParamIdentExplicitMixin'
+}
+
+param ::= paramIdent* typeAnnotation {
+	implements=['org.ice1000.tt.psi.IPattern<MlangParamIdentExplicit>' 'com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.mlang.MlangParamMixin'
+}
 private paramRest ::= COMMA param { pin=1 }
 private paramIdentRest ::= COMMA paramIdent { pin=1 }
-tele ::= LPAREN param paramRest* RPAREN { pin=1 }
+tele ::= LPAREN param paramRest* RPAREN {
+	pin=1
+	implements=['org.ice1000.tt.psi.IPattern<MlangParamIdentExplicit>' 'com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.mlang.MlangManyParamsMixin'
+}
 
 private appliedTerm ::= AT? term { pin=1 }
 private appliedTermRest ::= COMMA appliedTerm { pin=1 }
@@ -47,12 +66,26 @@ private glueKeywords ::= KW_GLUE | KW_GLUE_TYPE | KW_HCOMP | KW_HFILL
 private fillKeywords ::= KW_FILL | KW_COMP
 heterogeneous ::= LBRACK term RBRACK { pin=1 }
 
-field ::= KW_FIELD param { pin=1 }
-case ::= KW_CASE paramIdent caseImpl { pin=1 }
+field ::= KW_FIELD param {
+	pin=1
+	implements=['org.ice1000.tt.psi.IPattern<MlangParamIdentExplicit>' 'com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.mlang.MlangFieldMixin'
+}
+
+case ::= KW_CASE paramIdent caseImpl {
+	pin=1
+	implements=['org.ice1000.tt.psi.IPattern<MlangParamIdentExplicit>' 'com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.mlang.MlangCaseMixin'
+}
 private caseImpl ::= tele | paramIdent*
 
 face ::= BAR term typeAnnotation { pin=1 }
-namedPattern ::= refExpr LPAREN paramIdent paramIdentRest* RPAREN { pin=2 }
+namedPattern ::= refExpr LPAREN paramIdent paramIdentRest* RPAREN {
+	pin=2
+	implements=['org.ice1000.tt.psi.IPattern<MlangParamIdentExplicit>' 'com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.mlang.MlangManyParamsMixin'
+}
+
 private pattern ::= namedPattern | paramIdent
 
 patternContinue ::= ARROW term | patternExpr
@@ -62,6 +95,8 @@ patternCaseEmpty ::= TOP {
 	extends=patternCases
 }
 patternCaseSingle ::= MATRIX_SING pattern patternContinue {
+	implements=['org.ice1000.tt.psi.IPattern<MlangParamIdentExplicit>' 'com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.mlang.MlangPatternOwnerMixin'
 	extends=patternCases
 }
 patternMultiple ::= patternMultipleStart patternMultipleCont* patternMultipleEnd {

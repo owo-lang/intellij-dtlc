@@ -71,4 +71,4 @@ fun PsiElement.bodyText(maxSizeExpected: Int) = buildString {
 
 @Throws(IncorrectOperationException::class)
 fun invalidName(newName: String) : Nothing
-	= invalidName(newName)
+	= throw IncorrectOperationException("Invalid name: $newName")

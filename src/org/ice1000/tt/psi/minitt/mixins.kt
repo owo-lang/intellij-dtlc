@@ -64,11 +64,12 @@ abstract class MiniTTTypedAbstractionMixin(node: ASTNode) : MiniTTExpressionImpl
 abstract class MiniTTDeclarationMixin(node: ASTNode) : MiniTTGeneralDeclaration(node), MiniTTDeclaration {
 	override fun getNameIdentifier(): PsiElement? = pattern
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		prefixParameterList.asReversed().all { it.typedPattern.processDeclarations(processor, state, lastParent, place) }
-			&& super.processDeclarations(processor, state, lastParent, place)
+		childrenRevWithLeaves.filterIsInstance<MiniTTPrefixParameter>().all {
+			it.typedPattern.processDeclarations(processor, state, lastParent, place)
+		} && super.processDeclarations(processor, state, lastParent, place)
 
 	override val type: MiniTTExpression?
-		get() = expressionList.firstOrNull {
+		get() = childrenWithLeaves.filterIsInstance<MiniTTExpression>().firstOrNull {
 			it.prevSiblingIgnoring<PsiElement>(TokenType.WHITE_SPACE)?.elementType == MiniTTTypes.COLON
 		}
 }
