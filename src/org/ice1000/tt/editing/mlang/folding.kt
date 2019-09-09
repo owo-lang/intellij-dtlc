@@ -16,7 +16,7 @@ import org.ice1000.tt.psi.mlang.*
 
 class MlangFoldingBuilder : FoldingBuilderEx(), DumbAware {
 	override fun getPlaceholderText(node: ASTNode) = when (node.elementType) {
-		MlangTypes.LET_EXPR -> "{$FOLDING_PLACEHOLDER}"
+		MlangTypes.LET_EXPR, MlangTypes.RECORD_EXPR, MlangTypes.SUM_EXPR, MlangTypes.PARAMETERS -> "{$FOLDING_PLACEHOLDER}"
 		MlangTokenType.LINE_COMMENT -> "//..."
 		MlangTokenType.BLOCK_COMMENT -> "/***/"
 		else -> FOLDING_PLACEHOLDER
