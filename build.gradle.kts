@@ -185,14 +185,16 @@ fun utilities(name: String, job: LanguageUtilityGenerationTask.() -> Unit) = tas
 // Useful regexs:
 // \@JvmField val ([A-Z_]+) = TextAttributesKey.createTextAttributesKey\("[^\"]+", DefaultLanguageHighlighterColors.([A-Z_]+)\)
 
-val keyword = "KEYWORD" to "KEYWORD"
-val identifier = "IDENTIFIER" to "IDENTIFIER"
+val kw = "KEYWORD" to "KEYWORD"
+val id = "IDENTIFIER" to "IDENTIFIER"
 val comma = "COMMA" to "COMMA"
 val paren = "PAREN" to "PARENTHESES"
 val brace = "BRACE" to "BRACES"
+val bracket = "BRACK" to "BRACKETS"
 val semi = "SEMICOLON" to "SEMICOLON"
 val lc = "LINE_COMMENT" to "LINE_COMMENT"
 val bc = "BLOCK_COMMENT" to "BLOCK_COMMENT"
+val fn = "FUNCTION_NAME" to "FUNCTION_DECLARATION"
 
 val genMiniTTUtility = utilities("genMiniTTUtility") {
 	languageName = "MiniTT"
@@ -202,8 +204,7 @@ val genMiniTTUtility = utilities("genMiniTTUtility") {
 	trimVersion = """version.removePrefix("minittc").trim()"""
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		keyword, identifier, comma, paren, semi, brace,
-		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
+		kw, id, comma, paren, semi, brace, fn,
 		"CONSTRUCTOR_CALL" to "FUNCTION_CALL",
 		"CONSTRUCTOR_DECL" to "FUNCTION_DECLARATION",
 		"UNRESOLVED" to "IDENTIFIER",
@@ -218,8 +219,7 @@ val genACoreUtility = utilities("genACoreUtility") {
 	hasVersion = false
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		keyword, identifier, comma, paren, semi, lc, bc,
-		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
+		kw, id, comma, paren, semi, lc, bc, fn,
 		"UNRESOLVED" to "IDENTIFIER",
 		"OPERATOR" to "OPERATION_SIGN")
 }
@@ -231,8 +231,7 @@ val genVoileUtility = utilities("genVoileUtility") {
 	trimVersion = """version.removePrefix("voilec").trim()"""
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		keyword, identifier, comma, paren, semi, brace, lc,
-		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
+		kw, id, comma, paren, semi, brace, lc, fn,
 		"CONSTRUCTOR" to "FUNCTION_DECLARATION",
 		"VARIANT" to "FUNCTION_DECLARATION",
 		"UNRESOLVED" to "IDENTIFIER",
@@ -241,10 +240,8 @@ val genVoileUtility = utilities("genVoileUtility") {
 }
 
 val cubicalTTTokenPairs = listOf(
-	keyword, identifier, comma, paren, semi, lc, bc,
-	"FUNCTION_NAME" to "FUNCTION_DECLARATION",
+	kw, id, comma, paren, bracket, semi, lc, bc, fn,
 	"DATATYPE_NAME" to "CLASS_NAME",
-	"BRACK" to "BRACKETS",
 	"UNDEFINED" to "KEYWORD",
 	"HOLE" to "LABEL",
 	"DIMENSION" to "NUMBER",
@@ -275,7 +272,8 @@ val genMlangTTUtility = utilities("genMlangUtility") {
 	generateCliState = false
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		keyword, identifier, comma, paren, brace, lc, bc
+		kw, id, comma, paren, brace, bracket, lc, bc, fn,
+		"DIMENSION" to "NUMBER"
 	)
 }
 
@@ -286,8 +284,7 @@ val genAgdaUtility = utilities("genAgdaUtility") {
 	trimVersion = """version.removePrefix("Agda version").trim()"""
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		keyword, identifier, comma, paren, brace, semi, lc, bc,
-		"FUNCTION_NAME" to "FUNCTION_DECLARATION",
+		kw, id, comma, paren, brace, bracket, semi, lc, bc, fn,
 		"DOT" to "DOT",
 		"NUMBER" to "NUMBER",
 		"STR_LIT" to "STRING",
@@ -295,7 +292,6 @@ val genAgdaUtility = utilities("genAgdaUtility") {
 		"FLOAT" to "NUMBER",
 		"ARROW" to "OPERATION_SIGN",
 		"HOLE" to "LABEL",
-		"BRACK" to "BRACKETS",
 		"PRAGMA" to "METADATA")
 }
 
@@ -307,10 +303,9 @@ val genMLPolyRUtility = utilities("genMLPolyRUtility") {
 	hasVersion = false
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		keyword, identifier, comma, paren, brace, semi,
+		kw, id, comma, paren, brace, bracket, semi,
 		"UNRESOLVED" to "IDENTIFIER",
 		"OPERATOR" to "OPERATION_SIGN",
-		"BRACK" to "BRACKETS",
 		"BRACE2" to "BRACES",
 		"COMMENT" to "BLOCK_COMMENT",
 		"DOT" to "DOT",
@@ -337,8 +332,7 @@ val genRedPrlUtility = utilities("genRedPrlUtility") {
 	hasVersion = false
 	supportsParsing = true
 	highlightTokenPairs = listOf(
-		keyword, comma, paren, brace, semi, lc, bc,
-		"BRACK" to "BRACKETS",
+		kw, comma, paren, brace, bracket, semi, lc, bc,
 		"OP_NAME_DECL" to "GLOBAL_VARIABLE",
 		"OP_NAME_CALL" to "GLOBAL_VARIABLE",
 		"VAR_NAME_DECL" to "LOCAL_VARIABLE",
