@@ -9,7 +9,7 @@ import org.ice1000.tt.psi.*
 
 abstract class MlangRefExprMixin(node: ASTNode) : GeneralReference(node), MlangRefExpr {
 	override fun handleElementRename(newName: String): PsiElement = replace(
-		MlangTokenType.createRefExpr(text, project) ?: invalidName(newName))
+		MlangTokenType.createRefExpr(newName, project) ?: invalidName(newName))
 
 	override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> {
 		val file = containingFile ?: return emptyArray()

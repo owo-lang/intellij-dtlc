@@ -14,7 +14,7 @@ import org.ice1000.tt.psi.*
 abstract class VoileNameDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), VoileNameDecl {
 	override fun getIcon(flags: Int) = SemanticIcons.BLUE_HOLE
 	override fun setName(newName: String): PsiElement = replace(
-		VoileTokenType.createNameDecl(text, project) ?: invalidName(newName))
+		VoileTokenType.createNameDecl(newName, project) ?: invalidName(newName))
 }
 
 abstract class VoileGlobDeclMixin(node: ASTNode) : GeneralDeclaration(node) {
@@ -22,7 +22,7 @@ abstract class VoileGlobDeclMixin(node: ASTNode) : GeneralDeclaration(node) {
 	override fun getNameIdentifier(): PsiElement? = findChildByClass(VoileNameDeclMixin::class.java)
 	override fun setName(newName: String): PsiElement {
 		nameIdentifier?.replace(
-			VoileTokenType.createNameDecl(text, project) ?: invalidName(newName))
+			VoileTokenType.createNameDecl(newName, project) ?: invalidName(newName))
 		return this
 	}
 }

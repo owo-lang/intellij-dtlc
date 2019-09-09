@@ -8,7 +8,7 @@ import org.ice1000.tt.psi.*
 
 abstract class VoileNameUsageMixin(node: ASTNode) : GeneralReference(node), VoileNameUsage {
 	override fun handleElementRename(newName: String): PsiElement = replace(
-		VoileTokenType.createNameUsage(text, project) ?: invalidName(newName))
+		VoileTokenType.createNameUsage(newName, project) ?: invalidName(newName))
 
 	override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> {
 		val file = containingFile ?: return emptyArray()

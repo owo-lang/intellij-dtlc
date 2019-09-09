@@ -18,7 +18,7 @@ interface DeclarationMarker : PsiElement
 abstract class MlangParamIdentMixin(node: ASTNode) : GeneralNameIdentifier(node), MlangParamIdent {
 	override fun visit(visitor: (MlangParamIdentExplicit) -> Boolean) = paramIdentExplicit.visit(visitor)
 	override fun setName(newName: String): PsiElement = replace(
-		MlangTokenType.createParamIdent(text, project) ?: invalidName(newName))
+		MlangTokenType.createParamIdent(newName, project) ?: invalidName(newName))
 }
 
 abstract class MlangLetMixin(node: ASTNode) : ASTWrapperPsiElement(node), MlangLetExpr {
@@ -69,14 +69,14 @@ abstract class MlangParamIdentExplicitMixin(node: ASTNode) : GeneralNameIdentifi
 	override fun visit(visitor: (MlangParamIdentExplicit) -> Boolean) = visitor(this)
 	override fun getIcon(flags: Int) = SemanticIcons.PURPLE_P
 	override fun setName(newName: String): PsiElement = replace(
-		MlangTokenType.createParamIdentExpl(text, project) ?: invalidName(newName))
+		MlangTokenType.createParamIdentExpl(newName, project) ?: invalidName(newName))
 }
 
 abstract class MlangIdentMixin(node: ASTNode) : GeneralNameIdentifier(node), MlangIdent {
 	override fun visit(visitor: (MlangIdent) -> Boolean) = visitor(this)
 	override fun getIcon(flags: Int) = SemanticIcons.BLUE_HOLE
 	override fun setName(newName: String): PsiElement = replace(
-		MlangTokenType.createIdent(text, project) ?: invalidName(newName))
+		MlangTokenType.createIdent(newName, project) ?: invalidName(newName))
 }
 
 abstract class MlangGeneralDeclaration(node: ASTNode) : GeneralDeclaration(node) {
