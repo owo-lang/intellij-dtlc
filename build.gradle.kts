@@ -41,9 +41,11 @@ fun fromToolbox(root: String, ide: String) = file(root)
 	?.resolve("ch-0")
 	?.listFiles()
 	.orEmpty()
+	.asSequence()
 	.filterNotNull()
 	.filter { it.isDirectory }
-	.maxBy {
+	.filterNot { it.name.endsWith(".plugins") }
+	.minBy {
 		val (major, minor, patch) = it.name.split('.')
 		String.format("%5s%5s%5s", major, minor, patch)
 	}
