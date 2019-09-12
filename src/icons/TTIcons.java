@@ -26,4 +26,6 @@ public interface TTIcons {
 	@NotNull Icon RED_PRL = IconLoader.getIcon("/icons/redprl/redprl.png");
 	@NotNull Icon VOILE_FILE = IconLoader.getIcon("/icons/voile/voile_file.png");
 	@NotNull Icon VOILE = IconLoader.getIcon("/icons/voile/voile.png");
+	@NotNull Icon NARC = IconLoader.getIcon("/icons/narc/narc.png");
+	@NotNull Icon NARC_FILE = IconLoader.getIcon("/icons/narc/narc_file.png");
 }
