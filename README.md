@@ -11,6 +11,8 @@ usages), including:
 
 + ![](./res/icons/voile/voile.svg)
   [Voile]
++ ![](./res/icons/narc/narc.svg)
+  [Narc] (WIP)
 + ![](./res/icons/minitt/minitt.svg)
   [minitt]
 + ![](./res/icons/mlpr/mlpr_file.svg)
@@ -47,6 +49,7 @@ Screenshots:
  [Yacc-gh]: https://github.com/mortberg/yacctt
  [acore-mirror]: https://github.com/owo-lang/Mini-TT
  [Voile]: https://github.com/owo-lang/voile-rs
+ [Narc]: https://github.com/owo-lang/narc-rs
  [OwO]: https://github.com/owo-lang/OwO
  [Agda]: https://wiki.portal.chalmers.se/agda/pmwiki.php
  [RedPRL]: http://www.redprl.org
