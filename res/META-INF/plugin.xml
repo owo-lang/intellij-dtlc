@@ -15,6 +15,8 @@
 		<internalFileTemplate name="MLPolyR File"/>
 		<internalFileTemplate name="OwO File"/>
 		<internalFileTemplate name="RedPrl File"/>
+		<internalFileTemplate name="Mlang File"/>
+		<internalFileTemplate name="Narc File"/>
 		<internalFileTemplate name="Voile File"/>
 
 		<!--Common-->
@@ -186,6 +188,10 @@
 		<colorSettingsPage implementation="org.ice1000.tt.editing.mlang.MlangColorSettingsPage"/>
 		<lang.foldingBuilder language="Mlang" implementationClass="org.ice1000.tt.editing.mlang.MlangFoldingBuilder"/>
 
+		<!--Narc-->
+		<configurationType implementation="org.ice1000.tt.execution.NarcRunConfigurationType"/>
+		<runConfigurationProducer implementation="org.ice1000.tt.execution.NarcRunConfigurationProducer"/>
+
 		<projectConfigurable
 			groupId="language"
 			id="TT.MiniTT.Configurable"
@@ -231,6 +237,11 @@
 			id="TT.Mlang.Configurable"
 			displayName="Mlang"
 			instance="org.ice1000.tt.project.MlangProjectConfigurable"/>
+		<projectConfigurable
+			groupId="language"
+			id="TT.Narc.Configurable"
+			displayName="Narc"
+			instance="org.ice1000.tt.project.NarcProjectConfigurable"/>
 	</extensions>
 
 	<project-components>
@@ -260,6 +271,9 @@
 		</component>
 		<component>
 			<implementation-class>org.ice1000.tt.project.MlangProjectSettingsService</implementation-class>
+		</component>
+		<component>
+			<implementation-class>org.ice1000.tt.project.NarcProjectSettingsService</implementation-class>
 		</component>
 	</project-components>
 

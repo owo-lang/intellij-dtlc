@@ -63,6 +63,7 @@ class NewTTActionGroup : DefaultActionGroup(
 	NewCubicalTTFile,
 	NewYaccTTFile,
 	NewMlangFile,
+	NewNarcFile,
 	NewMLPolyRFile
 ), DumbAware {
 	init {

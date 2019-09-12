@@ -230,7 +230,6 @@ utilities("genNarcUtility") {
 	languageName = "Narc"
 	exeName = "narc"
 	trimVersion = """version.removePrefix("narc").trim()"""
-	hasVersion = true
 }
 
 utilities("genVoileUtility") {
