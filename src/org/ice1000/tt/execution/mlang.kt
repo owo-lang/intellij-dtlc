@@ -7,6 +7,6 @@ class MlangCommandLineState(
 	env: ExecutionEnvironment
 ) : InterpretedCliState<MlangRunConfiguration>(configuration, env) {
 	override fun MlangRunConfiguration.pre(params: MutableList<String>) {
-		params += listOf("java", "-jar")
+		params += listOf("java", "-jar", mlangExecutable)
 	}
 }

@@ -198,7 +198,7 @@ val lc = "LINE_COMMENT" to "LINE_COMMENT"
 val bc = "BLOCK_COMMENT" to "BLOCK_COMMENT"
 val fn = "FUNCTION_NAME" to "FUNCTION_DECLARATION"
 
-val genMiniTTUtility = utilities("genMiniTTUtility") {
+utilities("genMiniTTUtility") {
 	languageName = "MiniTT"
 	constantPrefix = "MINI_TT"
 	exeName = "minittc"
@@ -214,7 +214,7 @@ val genMiniTTUtility = utilities("genMiniTTUtility") {
 		"COMMENT" to "LINE_COMMENT")
 }
 
-val genACoreUtility = utilities("genACoreUtility") {
+utilities("genACoreUtility") {
 	languageName = "ACore"
 	constantPrefix = "AGDA_CORE"
 	exeName = "agdacore"
@@ -226,9 +226,15 @@ val genACoreUtility = utilities("genACoreUtility") {
 		"OPERATOR" to "OPERATION_SIGN")
 }
 
-val genVoileUtility = utilities("genVoileUtility") {
+utilities("genNarcUtility") {
+	languageName = "Narc"
+	exeName = "narc"
+	trimVersion = """version.removePrefix("narc").trim()"""
+	hasVersion = true
+}
+
+utilities("genVoileUtility") {
 	languageName = "Voile"
-	constantPrefix = "VOILE"
 	exeName = "voilec"
 	trimVersion = """version.removePrefix("voilec").trim()"""
 	supportsParsing = true
@@ -249,7 +255,7 @@ val cubicalTTTokenPairs = listOf(
 	"DIMENSION" to "NUMBER",
 	"PROJECTION" to "INSTANCE_FIELD")
 
-val genYaccTTUtility = utilities("genYaccTTUtility") {
+utilities("genYaccTTUtility") {
 	languageName = "YaccTT"
 	constantPrefix = "YACC_TT"
 	exeName = "yacctt"
@@ -258,7 +264,7 @@ val genYaccTTUtility = utilities("genYaccTTUtility") {
 	highlightTokenPairs = cubicalTTTokenPairs
 }
 
-val genCubicalTTUtility = utilities("genCubicalTTUtility") {
+utilities("genCubicalTTUtility") {
 	languageName = "CubicalTT"
 	constantPrefix = "CUBICAL_TT"
 	exeName = "cubical"
@@ -267,7 +273,7 @@ val genCubicalTTUtility = utilities("genCubicalTTUtility") {
 	highlightTokenPairs = cubicalTTTokenPairs
 }
 
-val genMlangTTUtility = utilities("genMlangUtility") {
+utilities("genMlangUtility") {
 	languageName = "Mlang"
 	constantPrefix = "M_LANG"
 	exeName = "mlang.jar"
@@ -279,9 +285,8 @@ val genMlangTTUtility = utilities("genMlangUtility") {
 	)
 }
 
-val genAgdaUtility = utilities("genAgdaUtility") {
+utilities("genAgdaUtility") {
 	languageName = "Agda"
-	constantPrefix = "AGDA"
 	exeName = "agda"
 	trimVersion = """version.removePrefix("Agda version").trim()"""
 	supportsParsing = true
@@ -297,9 +302,8 @@ val genAgdaUtility = utilities("genAgdaUtility") {
 		"PRAGMA" to "METADATA")
 }
 
-val genMLPolyRUtility = utilities("genMLPolyRUtility") {
+utilities("genMLPolyRUtility") {
 	languageName = "MLPolyR"
-	constantPrefix = "MLPOLYR"
 	exeName = "mlpolyrc"
 	runConfigInit = """additionalOptions = "-t""""
 	hasVersion = false
@@ -327,7 +331,7 @@ val genMLPolyRUtility = utilities("genMLPolyRUtility") {
 		"CONSTRUCTOR" to "LABEL")
 }
 
-val genRedPrlUtility = utilities("genRedPrlUtility") {
+utilities("genRedPrlUtility") {
 	languageName = "RedPrl"
 	constantPrefix = "RED_PRL"
 	exeName = "redprl"

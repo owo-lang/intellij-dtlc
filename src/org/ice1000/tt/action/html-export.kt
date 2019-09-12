@@ -46,6 +46,7 @@ class HtmlExportAction : DefaultActionGroup(
 
 	override fun update(e: AnActionEvent) {
 		e.presentation.isVisible = CommonDataKeys.PSI_FILE.getData(e.dataContext) is TTFile
+		e.presentation.isEnabled = true
 	}
 }
 
