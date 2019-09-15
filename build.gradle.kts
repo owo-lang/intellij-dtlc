@@ -35,6 +35,10 @@ plugins {
 	kotlin("jvm") version "1.3.50"
 }
 
+grammarKit {
+	grammarKitRelease = "07f30a1e7666f36ae780f614b6bbc89690ba36c3"
+}
+
 fun fromToolbox(root: String, ide: String) = file(root)
 	.resolve(ide)
 	.takeIf { it.exists() }
@@ -45,7 +49,7 @@ fun fromToolbox(root: String, ide: String) = file(root)
 	.filterNotNull()
 	.filter { it.isDirectory }
 	.filterNot { it.name.endsWith(".plugins") }
-	.minBy {
+	.maxBy {
 		val (major, minor, patch) = it.name.split('.')
 		String.format("%5s%5s%5s", major, minor, patch)
 	}
@@ -71,7 +75,7 @@ intellij {
 	pycharmPath?.absolutePath?.let { alternativeIdePath = it }
 
 	if (!isCI) {
-		setPlugins("PsiViewer:192-SNAPSHOT", "java")
+		setPlugins("PsiViewer:193-SNAPSHOT", "java")
 		tasks["buildSearchableOptions"]?.enabled = false
 	} else setPlugins("java")
 }
