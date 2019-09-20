@@ -29,7 +29,7 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 %state INSIDE_COMMENT
 
 WHITE_SPACE=[\ \t\f\r\n│]+
-IDENTIFIER=[a-zA-Z][a-zA-Z_0-9]*
+IDENTIFIER=[a-zA-Z_][a-zA-Z_0-9]*
 
 %%
 
@@ -63,6 +63,7 @@ IDENTIFIER=[a-zA-Z][a-zA-Z_0-9]*
 # { return HASH; }
 \~ { return NEG; }
 \. { return DOT; }
+\| { return BAR; }
 ⊏ { return MATRIX_SING; }
 ┌ { return MATRIX_START; }
 ├ { return MATRIX_CONT; }

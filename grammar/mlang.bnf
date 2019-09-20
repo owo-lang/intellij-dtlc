@@ -50,7 +50,8 @@ param ::= paramIdent* typeAnnotation {
 }
 private paramRest ::= COMMA param { pin=1 }
 private paramIdentRest ::= COMMA paramIdent { pin=1 }
-tele ::= LPAREN param paramRest* RPAREN {
+private teleParen ::= LPAREN tele RPAREN
+tele ::= param paramRest* {
 	pin=1
 	implements=['org.ice1000.tt.psi.IPattern<MlangParamIdentExplicit>' 'com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.mlang.MlangManyParamsMixin'
@@ -59,9 +60,9 @@ tele ::= LPAREN param paramRest* RPAREN {
 private appliedTerm ::= AT? term { pin=1 }
 private appliedTermRest ::= COMMA appliedTerm { pin=1 }
 
-define ::= KW_DEFINE defineModifiers* ident tele? typeAnnotation? EQ term { pin=1 }
-declare ::= KW_DECLARE defineModifiers* ident tele? typeAnnotation? { pin=1 }
-parameters ::= KW_PARAMETERS tele LBRACE declaration* RBRACE { pin=1 }
+define ::= KW_DEFINE defineModifiers* ident teleParen? typeAnnotation? EQ term { pin=1 }
+declare ::= KW_DECLARE defineModifiers* ident teleParen? typeAnnotation? { pin=1 }
+parameters ::= KW_PARAMETERS teleParen LBRACE declaration* RBRACE { pin=1 }
 
 private andOr ::= AND | OR
 private glueKeywords ::= KW_GLUE | KW_GLUE_TYPE | KW_HCOMP | KW_HFILL
@@ -74,12 +75,13 @@ field ::= KW_FIELD param {
 	mixin='org.ice1000.tt.psi.mlang.MlangFieldMixin'
 }
 
-case ::= KW_CASE paramIdent caseImpl {
+case ::= KW_CASE (case1 | case2) {
 	pin=1
 	implements=['org.ice1000.tt.psi.IPattern<MlangParamIdentExplicit>' 'com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.mlang.MlangCaseMixin'
 }
-private caseImpl ::= tele | paramIdent*
+private case1 ::= paramIdent LPAREN tele face* RPAREN { pin=2 }
+private case2 ::= paramIdent+
 
 face ::= BAR term typeAnnotation { pin=1 }
 namedPattern ::= refExpr LPAREN paramIdent paramIdentRest* RPAREN {
@@ -121,7 +123,7 @@ ascriptionExpr ::= LPAREN term KW_AS term RPAREN { pin=3 }
 parenExpr ::= LPAREN term RPAREN { pin=1 }
 appExpr ::= term LPAREN (appliedTerm appliedTermRest*)? RPAREN
 lambdaExpr ::= paramIdent ARROW term { pin=2 }
-piExpr ::= tele DARROW term
+piExpr ::= teleParen DARROW term
 piSimpleExpr ::= term DARROW term
 recordExpr ::= KW_RECORD LBRACE field* RBRACE { pin=1 }
 sumExpr ::= KW_SUM LBRACE case* RBRACE { pin=1 }
