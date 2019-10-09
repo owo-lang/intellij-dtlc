@@ -33,14 +33,17 @@ abstract class TTCommenter : Commenter {
 	override fun getBlockCommentSuffix(): String? = null
 }
 
+open class CxxLineCommenter : TTCommenter() {
+	override fun getLineCommentPrefix() = "// "
+}
+
 class HaskellCommenter : TTCommenter() {
 	override fun getBlockCommentPrefix() = "{-"
 	override fun getBlockCommentSuffix() = "-}"
 	override fun getLineCommentPrefix() = "--"
 }
 
-class CxxCommenter : TTCommenter() {
-	override fun getLineCommentPrefix() = "// "
+class CxxCommenter : CxxLineCommenter() {
 	override fun getBlockCommentPrefix() = "/*"
 	override fun getBlockCommentSuffix() = "*/"
 }

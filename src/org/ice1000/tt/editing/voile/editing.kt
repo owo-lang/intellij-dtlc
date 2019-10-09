@@ -11,13 +11,12 @@ import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.TokenSet
 import icons.TTIcons
-import org.ice1000.tt.editing.*
+import org.ice1000.tt.editing.SimpleProvider
+import org.ice1000.tt.editing.TTBraceMatcher
+import org.ice1000.tt.editing.TTFindUsagesProvider
+import org.ice1000.tt.editing.makeKeywordsCompletion
 import org.ice1000.tt.psi.redprl.redPrlLexer
 import org.ice1000.tt.psi.voile.*
-
-class VoileCommenter : TTCommenter() {
-	override fun getLineCommentPrefix() = "// "
-}
 
 class VoileBraceMatcher : TTBraceMatcher() {
 	private companion object Pairs {

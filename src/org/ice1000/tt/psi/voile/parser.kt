@@ -19,4 +19,3 @@ class VoileTokenType(debugName: String) : IElementType(debugName, VoileLanguage.
 		fun createNameUsage(text: String, project: Project) = createExpr(text, project) as? VoileNameUsage
 	}
 }
-

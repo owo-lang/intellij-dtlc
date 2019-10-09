@@ -21,7 +21,7 @@ val commitHash = kotlin.run {
 	output.trim()
 }
 
-val pluginComingVersion = "0.7.3"
+val pluginComingVersion = "0.8.0"
 val pluginVersion = if (isCI) "$pluginComingVersion-$commitHash" else pluginComingVersion
 val packageName = "org.ice1000.tt"
 
@@ -36,7 +36,7 @@ plugins {
 }
 
 grammarKit {
-	grammarKitRelease = "1206783ca03dc80ce7806504e056f37378c331d3"
+	grammarKitRelease = "d0dbcb89a2e5cd90b9bdd517b2a69ab131f5fbf7"
 }
 
 fun fromToolbox(root: String, ide: String) = file(root)
@@ -60,6 +60,7 @@ allprojects { apply { plugin("org.jetbrains.grammarkit") } }
 intellij {
 	updateSinceUntilBuild = false
 	instrumentCode = true
+	// downloadSources = true
 	val user = System.getProperty("user.name")
 	val os = System.getProperty("os.name")
 	val root = when {
@@ -173,15 +174,16 @@ fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
 	}
 }
 
-val (genMiniTTParser, genMiniTTLexer) = grammar("MiniTT")
-val (genACoreParser, genACoreLexer) = grammar("ACore")
-val (genMLPolyRParser, genMLPolyRLexer) = grammar("MLPolyR")
-val (genRedPrlParser, genRedPrlLexer) = grammar("RedPrl")
-val (genAgdaParser, genAgdaLexer) = grammar("Agda")
-val (genCubicalTTParser, genCubicalTTLexer) = grammar("CubicalTT")
-val (genYaccTTParser, genYaccTTLexer) = grammar("YaccTT")
-val (genVoileParser, genVoileLexer) = grammar("Voile")
-val (genMlangParser, genMlangLexer) = grammar("Mlang")
+grammar("MiniTT")
+grammar("ACore")
+grammar("MLPolyR")
+grammar("RedPrl")
+grammar("Agda")
+grammar("CubicalTT")
+grammar("YaccTT")
+grammar("Voile")
+grammar("Narc")
+grammar("Mlang")
 
 fun utilities(name: String, job: LanguageUtilityGenerationTask.() -> Unit) = task<LanguageUtilityGenerationTask>(name) {
 	this.job()
@@ -234,6 +236,12 @@ utilities("genNarcUtility") {
 	languageName = "Narc"
 	exeName = "narc"
 	trimVersion = """version.removePrefix("narc").trim()"""
+	supportsParsing = true
+	highlightTokenPairs = listOf(
+		kw, id, paren, semi, brace, lc, fn,
+		"UNRESOLVED" to "IDENTIFIER",
+		"OPERATOR" to "OPERATION_SIGN",
+		"INACCESS" to "BRACES")
 }
 
 utilities("genVoileUtility") {
@@ -244,7 +252,6 @@ utilities("genVoileUtility") {
 	highlightTokenPairs = listOf(
 		kw, id, comma, paren, semi, brace, lc, fn,
 		"CONSTRUCTOR" to "FUNCTION_DECLARATION",
-		"VARIANT" to "FUNCTION_DECLARATION",
 		"UNRESOLVED" to "IDENTIFIER",
 		"OPERATOR" to "OPERATION_SIGN",
 		"BRACE2" to "BRACES")

@@ -23,12 +23,9 @@ private declaration ::= clause | definition | data | codata
 
 private identifier ::= IDENTIFIER
 nameDecl ::= identifier {
-	implements=['com.intellij.psi.PsiNameIdentifierOwner']
-	mixin='org.ice1000.tt.psi.narc.NarcNameDeclMixin'
 }
 nameUsage ::= identifier {
 	extends=expr
-	mixin='org.ice1000.tt.psi.narc.NarcNameUsageMixin'
 }
 
 expr ::=
@@ -54,7 +51,7 @@ telescopicExpr ::= LPAREN nameDecl+ COLON expr RPAREN {
 	pin=3
 }
 dollarExpr ::= expr DOLLAR expr
-litExpr ::= META | KW_TYPE
+litExpr ::= META IDENTIFIER | KW_TYPE
 appExpr ::= expr expr+
 parenExpr ::= LPAREN expr RPAREN
 

@@ -28,7 +28,6 @@ object VoileHighlighter : VoileGeneratedSyntaxHighlighter() {
 
 	override fun getTokenHighlights(type: IElementType?): Array<TextAttributesKey> = when (type) {
 		VoileTypes.CONS -> CONSTRUCTOR_KEY
-		VoileTypes.VARIANT -> VARIANT_KEY
 		VoileTypes.SEMI -> SEMICOLON_KEY
 		VoileTypes.COMMA -> COMMA_KEY
 		VoileTypes.IDENTIFIER -> IDENTIFIER_KEY
@@ -41,6 +40,7 @@ object VoileHighlighter : VoileGeneratedSyntaxHighlighter() {
 		else -> emptyArray()
 	}
 }
+
 class VoileColorSettingsPage : VoileGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(

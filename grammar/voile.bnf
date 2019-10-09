@@ -88,7 +88,7 @@ lamExpr ::= LAM nameDecl+ DOT expr {
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.voile.VoileLocalDeclMixin'
 }
-litExpr ::= META | VARIANT | CONS | BOT | KW_TYPE | KW_NOCASES
+litExpr ::= META | CONS | KW_TYPE | KW_NOCASES
 appExpr ::= expr expr+
 parenExpr ::= LPAREN expr RPAREN
 
