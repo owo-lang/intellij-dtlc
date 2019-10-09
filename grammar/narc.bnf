@@ -1,0 +1,86 @@
+//noinspection BnfResolveForFile
+{
+  generate=[java="8" names="long"]
+
+  parserClass="org.ice1000.tt.psi.narc.NarcParser"
+
+  psiClassPrefix="Narc"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.ice1000.tt.psi.narc"
+  psiImplPackage="org.ice1000.tt.psi.narc.impl"
+
+  elementTypeHolderClass="org.ice1000.tt.psi.narc.NarcTypes"
+  elementTypeClass="org.ice1000.tt.psi.narc.NarcElementType"
+  tokenTypeClass="org.ice1000.tt.psi.narc.NarcTokenType"
+
+  extends(".*Expr")=expr
+  extends(".*Pattern")=pattern
+}
+
+file ::= declaration*
+
+private declaration ::= clause | definition | data | codata
+
+private identifier ::= IDENTIFIER
+nameDecl ::= identifier {
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.narc.NarcNameDeclMixin'
+}
+nameUsage ::= identifier {
+	extends=expr
+	mixin='org.ice1000.tt.psi.narc.NarcNameUsageMixin'
+}
+
+expr ::=
+   piExpr
+ | dollarExpr
+ | appExpr
+ | litExpr
+ | nameUsage
+ | projectExpr
+ | telescopic
+ | parenExpr
+
+private telescopic ::= telescopicExpr | telescopic2Expr
+
+project ::= DOT nameUsage { pin=1 }
+
+projectExpr ::= expr project
+piExpr ::= expr ARROW expr
+telescopic2Expr ::= LBRACE nameDecl+ COLON expr RBRACE {
+	pin=1
+}
+telescopicExpr ::= LPAREN nameDecl+ COLON expr RPAREN {
+	pin=3
+}
+dollarExpr ::= expr DOLLAR expr
+litExpr ::= META | KW_TYPE
+appExpr ::= expr expr+
+parenExpr ::= LPAREN expr RPAREN
+
+definition ::= KW_DEFINITION nameDecl COLON expr SEMI {
+	pin=1
+}
+clause ::= KW_CLAUSE nameUsage copattern* EQ expr SEMI {
+	pin=1
+}
+data ::= KW_DATA nameDecl telescopic* LBRACE constructor* RBRACE SEMI {
+	pin=1
+}
+codata ::= KW_CODATA nameDecl telescopic* LBRACE projection* RBRACE SEMI {
+	pin=1
+}
+
+private sig ::= COLON telescopic+
+projection ::= KW_PROJECTION nameDecl sig SEMI {
+	pin=1
+}
+constructor ::= KW_CONSTRUCTOR nameDecl sig? SEMI {
+	pin=1
+}
+
+copattern ::= project | pattern
+pattern ::= nameDecl | inaccessiblePattern | consPattern
+
+inaccessiblePattern ::= LINACCESS expr RINACCESS { pin=1 }
+consPattern ::= LPAREN nameUsage pattern* RPAREN { pin=1 }

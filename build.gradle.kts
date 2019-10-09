@@ -36,7 +36,7 @@ plugins {
 }
 
 grammarKit {
-	grammarKitRelease = "07f30a1e7666f36ae780f614b6bbc89690ba36c3"
+	grammarKitRelease = "1206783ca03dc80ce7806504e056f37378c331d3"
 }
 
 fun fromToolbox(root: String, ide: String) = file(root)
