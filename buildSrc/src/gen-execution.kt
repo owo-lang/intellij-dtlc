@@ -53,13 +53,11 @@ fun LanguageUtilityGenerationTask.execution(nickname: String, configName: String
 		override fun getState(executor: Executor, environment: ExecutionEnvironment) = ${languageName}CommandLineState(this, environment)
 		override fun getConfigurationEditor() = ${languageName}RunConfigurationEditor(this, project)
 
-		@Suppress("DEPRECATION")
 		override fun readExternal(element: Element) {
 			super.readExternal(element)
 			JDOMExternalizerUtil.readField(element, "${configName}Executable").orEmpty().let { ${configName}Executable = it }
 		}
 
-		@Suppress("DEPRECATION")
 		override fun writeExternal(element: Element) {
 			super.writeExternal(element)
 			JDOMExternalizerUtil.writeField(element, "${configName}Executable", ${configName}Executable)

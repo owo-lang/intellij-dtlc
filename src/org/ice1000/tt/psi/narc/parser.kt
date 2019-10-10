@@ -14,6 +14,7 @@ class NarcTokenType(debugName: String) : IElementType(debugName, NarcLanguage.IN
 
 		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(NarcLanguage.INSTANCE, text).firstChild
 		fun createDef(text: String, project: Project) = fromText(text, project) as? NarcDefinition
+		fun createNameDecl(text: String, project: Project) = createDef("definition $text = a;", project)?.nameDecl
+		fun createExpr(text: String, project: Project) = createDef("definition text = $text;", project)?.expr
 	}
 }
-
