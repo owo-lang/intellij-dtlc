@@ -1,9 +1,12 @@
 package org.ice1000.tt.editing.narc
 
 import com.intellij.openapi.editor.colors.TextAttributesKey
+import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.psi.tree.IElementType
+import org.ice1000.tt.TTBundle
 import org.ice1000.tt.psi.narc.NarcTokenType
 import org.ice1000.tt.psi.narc.NarcTypes
+import org.intellij.lang.annotations.Language
 
 object NarcHighlighter : NarcGeneratedSyntaxHighlighter() {
 	@JvmField
@@ -34,4 +37,33 @@ object NarcHighlighter : NarcGeneratedSyntaxHighlighter() {
 		in KEYWORDS -> KEYWORD_KEY
 		else -> emptyArray()
 	}
+}
+
+class NarcColorSettingsPage : NarcGeneratedColorSettingsPage() {
+	private companion object DescriptorHolder {
+		private val DESCRIPTORS = arrayOf(
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), NarcHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), NarcHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), NarcHighlighter.FUNCTION_NAME),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), NarcHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), NarcHighlighter.UNRESOLVED),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), NarcHighlighter.OPERATOR),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), NarcHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), NarcHighlighter.BRACE),
+			AttributesDescriptor(TTBundle.message("narc.highlighter.settings.inaccess"), NarcHighlighter.INACCESS),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), NarcHighlighter.LINE_COMMENT))
+
+		private val ADDITIONAL_DESCRIPTORS = mapOf(
+			"FD" to NarcHighlighter.FUNCTION_NAME,
+			"Unresolved" to NarcHighlighter.UNRESOLVED)
+	}
+
+	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS
+	override fun getAttributeDescriptors() = DESCRIPTORS
+	@Language("Narc")
+	override fun getDemoText() = """
+definition <FD>id</FD> : {A : Type} -> A -> A;
+// Identity function definition
+clause id a = a;
+"""
 }

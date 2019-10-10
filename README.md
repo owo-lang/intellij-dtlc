@@ -12,7 +12,7 @@ usages), including:
 + ![](./res/icons/voile/voile.svg)
   [Voile]
 + ![](./res/icons/narc/narc.svg)
-  [Narc] (WIP)
+  [Narc]
 + ![](./res/icons/minitt/minitt.svg)
   [minitt]
 + ![](./res/icons/mlpr/mlpr_file.svg)

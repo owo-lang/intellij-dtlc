@@ -195,6 +195,7 @@
 		<lang.braceMatcher language="Narc" implementationClass="org.ice1000.tt.editing.narc.NarcBraceMatcher"/>
 		<lang.syntaxHighlighterFactory language="Narc" implementationClass="org.ice1000.tt.editing.narc.NarcHighlighterFactory"/>
 		<lang.parserDefinition language="Narc" implementationClass="org.ice1000.tt.psi.narc.NarcGeneratedParserDefinition"/>
+		<colorSettingsPage implementation="org.ice1000.tt.editing.narc.NarcColorSettingsPage"/>
 
 		<projectConfigurable
 			groupId="language"
