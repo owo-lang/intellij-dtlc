@@ -4,4 +4,5 @@
 // Author: ${USER}
 //
 
-// TODO: there's no syntax designed yet
+definition ${NAME_CAMEL} : Type;
+clause ${NAME_CAMEL} : _;

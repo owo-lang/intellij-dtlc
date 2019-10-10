@@ -40,12 +40,12 @@ expr ::=
 
 private telescopic ::= telescopicExpr | telescopic2Expr
 
-project ::= DOT nameUsage { pin=1 }
+projectOp ::= DOT nameUsage { pin=1 }
 
-projectExpr ::= expr project
+projectExpr ::= expr projectOp
 piExpr ::= expr ARROW expr
 telescopic2Expr ::= LBRACE nameDecl+ COLON expr RBRACE {
-	pin=1
+	pin=3
 }
 telescopicExpr ::= LPAREN nameDecl+ COLON expr RPAREN {
 	pin=3
@@ -76,7 +76,7 @@ constructor ::= KW_CONSTRUCTOR nameDecl sig? SEMI {
 	pin=1
 }
 
-copattern ::= project | pattern
+copattern ::= projectOp | pattern
 pattern ::= nameDecl | inaccessiblePattern | consPattern
 
 inaccessiblePattern ::= LINACCESS expr RINACCESS { pin=1 }
