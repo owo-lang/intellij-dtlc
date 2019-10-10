@@ -6,7 +6,6 @@ import com.intellij.execution.ExecutionResult
 import com.intellij.execution.Executor
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.execution.configurations.RunProfileState
-import com.intellij.execution.configurations.SearchScopeProvider
 import com.intellij.execution.filters.TextConsoleBuilderFactory
 import com.intellij.execution.process.OSProcessHandler
 import com.intellij.execution.process.ProcessHandler
@@ -19,6 +18,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.ToggleAction
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.DumbAware
+import com.intellij.psi.search.GlobalSearchScopes
 
 abstract class InterpretedCliState<T : InterpretedRunConfiguration<out InterpretedCliState<T>>>(
 	protected val configuration: T, env: ExecutionEnvironment
@@ -45,8 +45,7 @@ abstract class InterpretedCliState<T : InterpretedRunConfiguration<out Interpret
 
 	private val consoleBuilder = TextConsoleBuilderFactory
 		.getInstance()
-		.createBuilder(env.project,
-			SearchScopeProvider.createSearchScope(env.project, env.runProfile))
+		.createBuilder(env.project, GlobalSearchScopes.executionScope(env.project, env.runProfile))
 }
 
 class PauseOutputAction(private val console: ConsoleView, private val handler: ProcessHandler) :

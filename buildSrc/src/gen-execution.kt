@@ -9,6 +9,7 @@ fun LanguageUtilityGenerationTask.execution(nickname: String, configName: String
 
 	import com.intellij.execution.Executor
 	import com.intellij.execution.actions.ConfigurationContext
+	import com.intellij.execution.actions.LazyRunConfigurationProducer
 	import com.intellij.execution.actions.RunConfigurationProducer
 	import com.intellij.execution.configurations.ConfigurationFactory
 	import com.intellij.execution.configurations.ConfigurationType
@@ -33,7 +34,8 @@ fun LanguageUtilityGenerationTask.execution(nickname: String, configName: String
 	}
 
 	object ${languageName}RunConfigurationType : ConfigurationType {
-		private val factories = arrayOf(${languageName}RunConfigurationFactory(this))
+		internal val factory = ${languageName}RunConfigurationFactory(this)
+		private val factories = arrayOf(factory)
 		override fun getIcon() = TTIcons.$constantPrefix
 		override fun getConfigurationTypeDescription() = TTBundle.message("$nickname.run-config.description")
 		override fun getId() = "${constantPrefix}_RUN_CONFIG_ID"
@@ -91,8 +93,8 @@ fun LanguageUtilityGenerationTask.execution(nickname: String, configName: String
 		}
 	}
 
-	@Suppress("DEPRECATION")
-	class ${languageName}RunConfigurationProducer : RunConfigurationProducer<${languageName}RunConfiguration>(${languageName}RunConfigurationType) {
+	class ${languageName}RunConfigurationProducer : LazyRunConfigurationProducer<${languageName}RunConfiguration>() {
+		override fun getConfigurationFactory() = ${languageName}RunConfigurationType.factory
 		override fun isConfigurationFromContext(
 			configuration: ${languageName}RunConfiguration, context: ConfigurationContext) =
 			configuration.targetFile == context.dataContext.getData(CommonDataKeys.VIRTUAL_FILE)?.path

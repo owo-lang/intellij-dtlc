@@ -1,7 +1,7 @@
 <idea-plugin>
 	<name>Dependently-Typed Lambda Calculus</name>
 	<vendor email="ice1000kotlin@foxmail.com" url="https://ice1000.org">ice1000</vendor>
-	<idea-version since-build="173.0"/>
+	<idea-version since-build="191.7000"/>
 
 	<depends>com.intellij.modules.lang</depends>
 	<resource-bundle>org.ice1000.tt.tt-bundle</resource-bundle>
