@@ -5,12 +5,13 @@ import org.ice1000.tt.psi.agda.AgdaTokenType
 import org.ice1000.tt.psi.cubicaltt.CubicalTTTokenType
 import org.ice1000.tt.psi.mlang.MlangTokenType
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTokenType
+import org.ice1000.tt.psi.narc.NarcTokenType
 import org.ice1000.tt.psi.redprl.RedPrlTokenType
 import org.ice1000.tt.psi.voile.VoileTokenType
 
 class RedPrlCreateAstTest : LightPlatformTestCase() {
 	fun testCreate() {
-		val project = getProject()
+		val project = project
 		RedPrlTokenType.createOpDecl("Marisa", project)!!
 		RedPrlTokenType.createOpUsage("Alice", project)!!
 		RedPrlTokenType.createVarDecl("reimu", project)!!
@@ -23,14 +24,14 @@ class RedPrlCreateAstTest : LightPlatformTestCase() {
 
 class AgdaCreateAstTest : LightPlatformTestCase() {
 	fun testCreate() {
-		val project = getProject()
+		val project = project
 		AgdaTokenType.createStr("\"Come and get your love!\"", project)!!
 	}
 }
 
 class CubicalTTCreateAstTest : LightPlatformTestCase() {
 	fun testCreate() {
-		val project = getProject()
+		val project = project
 		CubicalTTTokenType.createNameDecl("hulk", project)!!
 		CubicalTTTokenType.createNameExp("thor", project)!!
 	}
@@ -38,7 +39,7 @@ class CubicalTTCreateAstTest : LightPlatformTestCase() {
 
 class VoileCreateAstTest : LightPlatformTestCase() {
 	fun testCreate() {
-		val project = getProject()
+		val project = project
 		VoileTokenType.createNameDecl("hulk", project)!!
 		VoileTokenType.createNameUsage("thor", project)!!
 	}
@@ -46,7 +47,7 @@ class VoileCreateAstTest : LightPlatformTestCase() {
 
 class MLPolyRCreateAstTest : LightPlatformTestCase() {
 	fun testCreate() {
-		val project = getProject()
+		val project = project
 		MLPolyRTokenType.createLabel("Van", project)!!
 		MLPolyRTokenType.createCon("`Van", project)!!
 		MLPolyRTokenType.createStr("\"What's the matter with your head\"", project)!!
@@ -55,8 +56,16 @@ class MLPolyRCreateAstTest : LightPlatformTestCase() {
 
 class MlangCreateAstTest : LightPlatformTestCase() {
 	fun testCreate() {
-		val project = getProject()
+		val project = project
 		MlangTokenType.createIdent("sticky", project)!!
 		MlangTokenType.createRefExpr("fingers", project)!!
+	}
+}
+
+class NarcCreateAstTest : LightPlatformTestCase() {
+	fun testCreate() {
+		val project = project
+		NarcTokenType.createNameDecl("gold", project)!!
+		NarcTokenType.createNameUsage("experience", project)!!
 	}
 }
