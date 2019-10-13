@@ -72,7 +72,7 @@ private sig ::= COLON telescopic+
 projection ::= KW_PROJECTION nameDecl sig SEMI {
 	pin=1
 }
-constructor ::= KW_CONSTRUCTOR nameDecl sig? SEMI {
+constructor ::= KW_CONSTRUCTOR nameDecl COLON expr SEMI {
 	pin=1
 }
 
