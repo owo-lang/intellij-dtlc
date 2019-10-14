@@ -42,7 +42,7 @@ class MlangCompletionContributor : CompletionContributor(), DumbAware {
 class MlangAnnotator : Annotator, DumbAware {
 	override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 		if (element is MlangIdentMixin) {
-			holder.createInfoAnnotation(element, null).textAttributes = MlangHighlighter.FUNCTION_NAME
+			holder.createInfoAnnotation(element, null).textAttributes = MlangGeneratedHighlighter.FUNCTION_NAME
 		}
 	}
 }

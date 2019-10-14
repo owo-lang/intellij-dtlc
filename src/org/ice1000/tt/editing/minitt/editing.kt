@@ -46,7 +46,7 @@ class MiniTTAnnotator : Annotator {
 	private fun variable(element: MiniTTVariable, holder: AnnotationHolder) {
 		val resolution = element.reference?.resolve()
 		if (resolution == null) holder.createErrorAnnotation(element, TTBundle.message("tt.lint.unresolved")).apply {
-			textAttributes = MiniTTHighlighter.UNRESOLVED
+			textAttributes = MiniTTGeneratedHighlighter.UNRESOLVED
 			highlightType = ProblemHighlightType.LIKE_UNKNOWN_SYMBOL
 		}
 	}
@@ -58,7 +58,7 @@ class MiniTTAnnotator : Annotator {
 	private fun pattern(pattern: MiniTTPattern, holder: AnnotationHolder) {
 		when (pattern) {
 			is MiniTTAtomPattern -> holder.createInfoAnnotation(pattern, null)
-				.textAttributes = MiniTTHighlighter.FUNCTION_NAME
+				.textAttributes = MiniTTGeneratedHighlighter.FUNCTION_NAME
 			is MiniTTPairPattern -> pattern.patternList.forEach { pattern(it, holder) }
 		}
 	}
@@ -70,13 +70,13 @@ class MiniTTAnnotator : Annotator {
 	private fun constructor(element: MiniTTConstructor, holder: AnnotationHolder) {
 		if (element.parent is MiniTTBranches)
 			holder.createInfoAnnotation(element.firstChild, null)
-				.textAttributes = MiniTTHighlighter.CONSTRUCTOR_DECL
+				.textAttributes = MiniTTGeneratedHighlighter.CONSTRUCTOR_DECL
 		else holder.createInfoAnnotation(element.firstChild, null)
-			.textAttributes = MiniTTHighlighter.CONSTRUCTOR_CALL
+			.textAttributes = MiniTTGeneratedHighlighter.CONSTRUCTOR_CALL
 	}
 
 	private fun patternMatch(element: MiniTTPatternMatch, holder: AnnotationHolder) {
 		holder.createInfoAnnotation(element.firstChild, null)
-			.textAttributes = MiniTTHighlighter.CONSTRUCTOR_DECL
+			.textAttributes = MiniTTGeneratedHighlighter.CONSTRUCTOR_DECL
 	}
 }

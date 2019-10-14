@@ -8,7 +8,7 @@ import org.ice1000.tt.psi.narc.NarcTokenType
 import org.ice1000.tt.psi.narc.NarcTypes
 import org.intellij.lang.annotations.Language
 
-object NarcHighlighter : NarcGeneratedSyntaxHighlighter() {
+object NarcHighlighter : NarcGeneratedHighlighter() {
 	@JvmField
 	val KEYWORDS = listOf(
 		NarcTypes.KW_CLAUSE,
@@ -42,20 +42,20 @@ object NarcHighlighter : NarcGeneratedSyntaxHighlighter() {
 class NarcColorSettingsPage : NarcGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), NarcHighlighter.KEYWORD),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), NarcHighlighter.IDENTIFIER),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), NarcHighlighter.FUNCTION_NAME),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), NarcHighlighter.SEMICOLON),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), NarcHighlighter.UNRESOLVED),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), NarcHighlighter.OPERATOR),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), NarcHighlighter.PAREN),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), NarcHighlighter.BRACE),
-			AttributesDescriptor(TTBundle.message("narc.highlighter.settings.inaccess"), NarcHighlighter.INACCESS),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), NarcHighlighter.LINE_COMMENT))
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), NarcGeneratedHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), NarcGeneratedHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), NarcGeneratedHighlighter.FUNCTION_NAME),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), NarcGeneratedHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), NarcGeneratedHighlighter.UNRESOLVED),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), NarcGeneratedHighlighter.OPERATOR),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), NarcGeneratedHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), NarcGeneratedHighlighter.BRACE),
+			AttributesDescriptor(TTBundle.message("narc.highlighter.settings.inaccess"), NarcGeneratedHighlighter.INACCESS),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), NarcGeneratedHighlighter.LINE_COMMENT))
 
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
-			"FD" to NarcHighlighter.FUNCTION_NAME,
-			"Unresolved" to NarcHighlighter.UNRESOLVED)
+			"FD" to NarcGeneratedHighlighter.FUNCTION_NAME,
+			"Unresolved" to NarcGeneratedHighlighter.UNRESOLVED)
 	}
 
 	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS

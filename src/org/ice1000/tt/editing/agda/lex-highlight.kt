@@ -8,7 +8,7 @@ import org.ice1000.tt.psi.agda.AgdaTokenType
 import org.ice1000.tt.psi.agda.AgdaTypes
 import org.intellij.lang.annotations.Language
 
-object AgdaHighlighter : AgdaGeneratedSyntaxHighlighter() {
+object AgdaHighlighter : AgdaGeneratedHighlighter() {
 	@JvmField val KEYWORDS = listOf(
 		AgdaTypes.KW_NO_ETA_EQUALITY,
 		AgdaTypes.KW_ETA_EQUALITY,
@@ -80,26 +80,26 @@ object AgdaHighlighter : AgdaGeneratedSyntaxHighlighter() {
 class AgdaColorSettingsPage : AgdaGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), AgdaHighlighter.KEYWORD),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.string"), AgdaHighlighter.STR_LIT),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.char"), AgdaHighlighter.CHR_LIT),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.number"), AgdaHighlighter.NUMBER),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.float"), AgdaHighlighter.FLOAT),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), AgdaHighlighter.IDENTIFIER),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), AgdaHighlighter.FUNCTION_NAME),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), AgdaHighlighter.SEMICOLON),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.dot"), AgdaHighlighter.DOT),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.hole"), AgdaHighlighter.HOLE),
-			AttributesDescriptor(TTBundle.message("agda.highlighter.settings.pragma"), AgdaHighlighter.PRAGMA),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.arrow"), AgdaHighlighter.ARROW),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), AgdaHighlighter.PAREN),
-			AttributesDescriptor(TTBundle.message("agda.highlighter.settings.idiom"), AgdaHighlighter.BRACK),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), AgdaHighlighter.BRACE),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.block-comment"), AgdaHighlighter.BLOCK_COMMENT),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), AgdaHighlighter.LINE_COMMENT))
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), AgdaGeneratedHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.string"), AgdaGeneratedHighlighter.STR_LIT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.char"), AgdaGeneratedHighlighter.CHR_LIT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.number"), AgdaGeneratedHighlighter.NUMBER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.float"), AgdaGeneratedHighlighter.FLOAT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), AgdaGeneratedHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), AgdaGeneratedHighlighter.FUNCTION_NAME),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), AgdaGeneratedHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.dot"), AgdaGeneratedHighlighter.DOT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.hole"), AgdaGeneratedHighlighter.HOLE),
+			AttributesDescriptor(TTBundle.message("agda.highlighter.settings.pragma"), AgdaGeneratedHighlighter.PRAGMA),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.arrow"), AgdaGeneratedHighlighter.ARROW),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), AgdaGeneratedHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("agda.highlighter.settings.idiom"), AgdaGeneratedHighlighter.BRACK),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), AgdaGeneratedHighlighter.BRACE),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.block-comment"), AgdaGeneratedHighlighter.BLOCK_COMMENT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), AgdaGeneratedHighlighter.LINE_COMMENT))
 
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
-			"FD" to AgdaHighlighter.FUNCTION_NAME)
+			"FD" to AgdaGeneratedHighlighter.FUNCTION_NAME)
 	}
 
 	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS

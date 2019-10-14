@@ -43,7 +43,7 @@ class VoileAnnotator : Annotator {
 	private fun nameDeclMixin(element: VoileNameDeclMixin, holder: AnnotationHolder) {
 		val parent = element.parent ?: return
 		if (parent is VoileImplementation || parent is VoileSignature) {
-			holder.createInfoAnnotation(element, null).textAttributes = VoileHighlighter.FUNCTION_NAME
+			holder.createInfoAnnotation(element, null).textAttributes = VoileGeneratedHighlighter.FUNCTION_NAME
 		}
 	}
 }

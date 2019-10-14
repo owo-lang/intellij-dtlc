@@ -20,32 +20,32 @@ class RedPrlAnnotator : Annotator {
 	}
 
 	private fun varUsage(element: RedPrlVarUsage, holder: AnnotationHolder) {
-		holder.createInfoAnnotation(element, null).textAttributes = RedPrlHighlighter.VAR_NAME_CALL
+		holder.createInfoAnnotation(element, null).textAttributes = RedPrlGeneratedHighlighter.VAR_NAME_CALL
 	}
 
 	private fun varDecl(element: RedPrlVarDecl, holder: AnnotationHolder) {
-		holder.createInfoAnnotation(element, null).textAttributes = RedPrlHighlighter.VAR_NAME_DECL
+		holder.createInfoAnnotation(element, null).textAttributes = RedPrlGeneratedHighlighter.VAR_NAME_DECL
 	}
 
 	private fun opUsage(element: RedPrlOpUsage, holder: AnnotationHolder) {
-		holder.createInfoAnnotation(element, null).textAttributes = RedPrlHighlighter.OP_NAME_CALL
+		holder.createInfoAnnotation(element, null).textAttributes = RedPrlGeneratedHighlighter.OP_NAME_CALL
 	}
 
 	private fun opDecl(element: RedPrlOpDecl, holder: AnnotationHolder) {
-		holder.createInfoAnnotation(element, null).textAttributes = RedPrlHighlighter.OP_NAME_DECL
+		holder.createInfoAnnotation(element, null).textAttributes = RedPrlGeneratedHighlighter.OP_NAME_DECL
 	}
 
 	private fun hole(element: RedPrlHole, holder: AnnotationHolder) {
 		holder.createWeakWarningAnnotation(element, TTBundle.message("redprl.linter.unsolved-hole", element.text)).apply {
-			textAttributes = RedPrlHighlighter.HOLE
+			textAttributes = RedPrlGeneratedHighlighter.HOLE
 		}
 	}
 
 	private fun metaDecl(element: RedPrlMetaDecl, holder: AnnotationHolder) {
-		holder.createInfoAnnotation(element, null).textAttributes = RedPrlHighlighter.META_VAR_DECL
+		holder.createInfoAnnotation(element, null).textAttributes = RedPrlGeneratedHighlighter.META_VAR_DECL
 	}
 
 	private fun metaCall(element: RedPrlMetaUsage, holder: AnnotationHolder) {
-		holder.createInfoAnnotation(element, null).textAttributes = RedPrlHighlighter.META_VAR_CALL
+		holder.createInfoAnnotation(element, null).textAttributes = RedPrlGeneratedHighlighter.META_VAR_CALL
 	}
 }

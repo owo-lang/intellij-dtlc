@@ -37,14 +37,14 @@ class AgdaAnnotator : Annotator {
 
 	private fun renamingPair(element: AgdaRenamePair, holder: AnnotationHolder) {
 		val to = element.childrenWithLeaves.firstOrNull { it.text == "to" } ?: return
-		holder.createInfoAnnotation(to, null).textAttributes = AgdaHighlighter.KEYWORD
+		holder.createInfoAnnotation(to, null).textAttributes = AgdaGeneratedHighlighter.KEYWORD
 	}
 
 	private fun signature(element: AgdaSignature, holder: AnnotationHolder) {
 		if (element.parent !is AgdaLayout) return
 		element.nameDeclList.forEach {
 			holder.createInfoAnnotation(it, null)
-				.textAttributes = AgdaHighlighter.FUNCTION_NAME
+				.textAttributes = AgdaGeneratedHighlighter.FUNCTION_NAME
 		}
 	}
 }
@@ -57,7 +57,8 @@ class AgdaCompletionContributor : CompletionContributor(), DumbAware {
 		"variable", "abstract", "instance", "rewrite", "private", "overlap",
 		"unquote", "pattern", "import", "module", "codata", "record", "infixl",
 		"infixr", "mutual", "forall", "tactic", "syntax", "where", "field",
-		"infix", "macro", "quote", "with", "open", "data", "let", "in", "do", "hiding", "renaming", "using"
+		"infix", "macro", "quote", "with", "open", "data", "let", "in", "do",
+		"hiding", "renaming", "using"
 	))
 
 	init {

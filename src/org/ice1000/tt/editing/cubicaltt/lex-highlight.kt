@@ -8,7 +8,7 @@ import org.ice1000.tt.psi.cubicaltt.CubicalTTTokenType
 import org.ice1000.tt.psi.cubicaltt.CubicalTTTypes
 import org.intellij.lang.annotations.Language
 
-object CubicalTTHighlighter : CubicalTTGeneratedSyntaxHighlighter() {
+object CubicalTTHighlighter : CubicalTTGeneratedHighlighter() {
 	private val KEYWORDS = listOf(
 		CubicalTTTypes.KW_TRANSPARENT_ALL,
 		CubicalTTTypes.KW_TRANSPARENT,
@@ -58,24 +58,24 @@ object CubicalTTHighlighter : CubicalTTGeneratedSyntaxHighlighter() {
 class CubicalTTColorSettingsPage : CubicalTTGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), CubicalTTHighlighter.KEYWORD),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), CubicalTTHighlighter.IDENTIFIER),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), CubicalTTHighlighter.FUNCTION_NAME),
-			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.datatype-decl"), CubicalTTHighlighter.DATATYPE_NAME),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), CubicalTTHighlighter.SEMICOLON),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), CubicalTTHighlighter.COMMA),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), CubicalTTHighlighter.PAREN),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.bracket"), CubicalTTHighlighter.BRACK),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.hole"), CubicalTTHighlighter.HOLE),
-			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.undefined"), CubicalTTHighlighter.UNDEFINED),
-			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.dim"), CubicalTTHighlighter.DIMENSION),
-			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.projection"), CubicalTTHighlighter.PROJECTION),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), CubicalTTHighlighter.LINE_COMMENT),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.block-comment"), CubicalTTHighlighter.BLOCK_COMMENT))
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), CubicalTTGeneratedHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), CubicalTTGeneratedHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), CubicalTTGeneratedHighlighter.FUNCTION_NAME),
+			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.datatype-decl"), CubicalTTGeneratedHighlighter.DATATYPE_NAME),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), CubicalTTGeneratedHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), CubicalTTGeneratedHighlighter.COMMA),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), CubicalTTGeneratedHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.bracket"), CubicalTTGeneratedHighlighter.BRACK),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.hole"), CubicalTTGeneratedHighlighter.HOLE),
+			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.undefined"), CubicalTTGeneratedHighlighter.UNDEFINED),
+			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.dim"), CubicalTTGeneratedHighlighter.DIMENSION),
+			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.projection"), CubicalTTGeneratedHighlighter.PROJECTION),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), CubicalTTGeneratedHighlighter.LINE_COMMENT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.block-comment"), CubicalTTGeneratedHighlighter.BLOCK_COMMENT))
 
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
-			"DD" to CubicalTTHighlighter.DATATYPE_NAME,
-			"FD" to CubicalTTHighlighter.FUNCTION_NAME)
+			"DD" to CubicalTTGeneratedHighlighter.DATATYPE_NAME,
+			"FD" to CubicalTTGeneratedHighlighter.FUNCTION_NAME)
 	}
 
 	override fun getAttributeDescriptors() = DESCRIPTORS

@@ -36,7 +36,7 @@ class ACoreAnnotator : Annotator {
 	private fun variable(element: ACoreVariable, holder: AnnotationHolder) {
 		val resolution = element.reference?.resolve()
 		if (resolution == null) holder.createErrorAnnotation(element, TTBundle.message("tt.lint.unresolved")).apply {
-			textAttributes = ACoreHighlighter.UNRESOLVED
+			textAttributes = ACoreGeneratedHighlighter.UNRESOLVED
 			highlightType = ProblemHighlightType.LIKE_UNKNOWN_SYMBOL
 		}
 	}
@@ -44,7 +44,7 @@ class ACoreAnnotator : Annotator {
 	private fun pattern(pattern: ACorePattern, holder: AnnotationHolder) {
 		when (pattern) {
 			is ACoreAtomPattern -> holder.createInfoAnnotation(pattern, null)
-				.textAttributes = ACoreHighlighter.FUNCTION_NAME
+				.textAttributes = ACoreGeneratedHighlighter.FUNCTION_NAME
 			is ACorePairPattern -> pattern.patternList.forEach { pattern(it, holder) }
 		}
 	}

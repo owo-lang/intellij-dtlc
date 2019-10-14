@@ -8,7 +8,7 @@ import org.ice1000.tt.psi.mlpolyr.MLPolyRTokenType
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTypes
 import org.intellij.lang.annotations.Language
 
-object MLPolyRHighlighter : MLPolyRGeneratedSyntaxHighlighter() {
+object MLPolyRHighlighter : MLPolyRGeneratedHighlighter() {
 	private val KEYWORDS_LIST = listOf(
 		MLPolyRTypes.KW_REHANDLING,
 		MLPolyRTypes.KW_HANDLING,
@@ -82,45 +82,45 @@ object MLPolyRHighlighter : MLPolyRGeneratedSyntaxHighlighter() {
 class MLPolyRColorSettingsPage : MLPolyRGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
-			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.function-call"), MLPolyRHighlighter.FUNCTION_CALL),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), MLPolyRHighlighter.FUNCTION_DECL),
-			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.parameter-call"), MLPolyRHighlighter.PARAMETER_CALL),
-			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.parameter-decl"), MLPolyRHighlighter.PARAMETER_DECL),
-			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.pattern-call"), MLPolyRHighlighter.PATTERN_CALL),
-			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.pattern-decl"), MLPolyRHighlighter.PATTERN_DECL),
-			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.variable-call"), MLPolyRHighlighter.VARIABLE_CALL),
-			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.variable-decl"), MLPolyRHighlighter.VARIABLE_DECL),
-			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.field-call"), MLPolyRHighlighter.FIELD_CALL),
-			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.field-decl"), MLPolyRHighlighter.FIELD_DECL),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), MLPolyRHighlighter.KEYWORD),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.string"), MLPolyRHighlighter.STRING),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.number"), MLPolyRHighlighter.INT),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), MLPolyRHighlighter.IDENTIFIER),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), MLPolyRHighlighter.SEMICOLON),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), MLPolyRHighlighter.COMMA),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.dot"), MLPolyRHighlighter.DOT),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), MLPolyRHighlighter.UNRESOLVED),
-			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.constructor"), MLPolyRHighlighter.CONSTRUCTOR),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), MLPolyRHighlighter.OPERATOR),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), MLPolyRHighlighter.PAREN),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.bracket"), MLPolyRHighlighter.BRACK),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), MLPolyRHighlighter.BRACE),
-			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.brace"), MLPolyRHighlighter.BRACE2),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comment"), MLPolyRHighlighter.COMMENT))
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.function-call"), MLPolyRGeneratedHighlighter.FUNCTION_CALL),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), MLPolyRGeneratedHighlighter.FUNCTION_DECL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.parameter-call"), MLPolyRGeneratedHighlighter.PARAMETER_CALL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.parameter-decl"), MLPolyRGeneratedHighlighter.PARAMETER_DECL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.pattern-call"), MLPolyRGeneratedHighlighter.PATTERN_CALL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.pattern-decl"), MLPolyRGeneratedHighlighter.PATTERN_DECL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.variable-call"), MLPolyRGeneratedHighlighter.VARIABLE_CALL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.variable-decl"), MLPolyRGeneratedHighlighter.VARIABLE_DECL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.field-call"), MLPolyRGeneratedHighlighter.FIELD_CALL),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.field-decl"), MLPolyRGeneratedHighlighter.FIELD_DECL),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), MLPolyRGeneratedHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.string"), MLPolyRGeneratedHighlighter.STRING),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.number"), MLPolyRGeneratedHighlighter.INT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), MLPolyRGeneratedHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), MLPolyRGeneratedHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), MLPolyRGeneratedHighlighter.COMMA),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.dot"), MLPolyRGeneratedHighlighter.DOT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), MLPolyRGeneratedHighlighter.UNRESOLVED),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.constructor"), MLPolyRGeneratedHighlighter.CONSTRUCTOR),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), MLPolyRGeneratedHighlighter.OPERATOR),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), MLPolyRGeneratedHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.bracket"), MLPolyRGeneratedHighlighter.BRACK),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), MLPolyRGeneratedHighlighter.BRACE),
+			AttributesDescriptor(TTBundle.message("mlpolyr.highlighter.settings.brace"), MLPolyRGeneratedHighlighter.BRACE2),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comment"), MLPolyRGeneratedHighlighter.COMMENT))
 
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
-			"FC" to MLPolyRHighlighter.FUNCTION_CALL,
-			"FD" to MLPolyRHighlighter.FUNCTION_DECL,
-			"VC" to MLPolyRHighlighter.VARIABLE_CALL,
-			"VD" to MLPolyRHighlighter.VARIABLE_DECL,
-			"PC" to MLPolyRHighlighter.PARAMETER_CALL,
-			"PD" to MLPolyRHighlighter.PARAMETER_DECL,
-			"AC" to MLPolyRHighlighter.PATTERN_CALL,
-			"AD" to MLPolyRHighlighter.PATTERN_DECL,
-			"EC" to MLPolyRHighlighter.FIELD_CALL,
-			"ED" to MLPolyRHighlighter.FIELD_DECL,
-			"C" to MLPolyRHighlighter.CONSTRUCTOR,
-			"Unresolved" to MLPolyRHighlighter.UNRESOLVED)
+			"FC" to MLPolyRGeneratedHighlighter.FUNCTION_CALL,
+			"FD" to MLPolyRGeneratedHighlighter.FUNCTION_DECL,
+			"VC" to MLPolyRGeneratedHighlighter.VARIABLE_CALL,
+			"VD" to MLPolyRGeneratedHighlighter.VARIABLE_DECL,
+			"PC" to MLPolyRGeneratedHighlighter.PARAMETER_CALL,
+			"PD" to MLPolyRGeneratedHighlighter.PARAMETER_DECL,
+			"AC" to MLPolyRGeneratedHighlighter.PATTERN_CALL,
+			"AD" to MLPolyRGeneratedHighlighter.PATTERN_DECL,
+			"EC" to MLPolyRGeneratedHighlighter.FIELD_CALL,
+			"ED" to MLPolyRGeneratedHighlighter.FIELD_DECL,
+			"C" to MLPolyRGeneratedHighlighter.CONSTRUCTOR,
+			"Unresolved" to MLPolyRGeneratedHighlighter.UNRESOLVED)
 	}
 
 	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS

@@ -8,7 +8,7 @@ import org.ice1000.tt.psi.minitt.MiniTTTokenType
 import org.ice1000.tt.psi.minitt.MiniTTTypes
 import org.intellij.lang.annotations.Language
 
-object MiniTTHighlighter : MiniTTGeneratedSyntaxHighlighter() {
+object MiniTTHighlighter : MiniTTGeneratedHighlighter() {
 	private val KEYWORDS_LIST = listOf(
 		MiniTTTypes.LAMBDA,
 		MiniTTTypes.PI,
@@ -48,24 +48,24 @@ object MiniTTHighlighter : MiniTTGeneratedSyntaxHighlighter() {
 class MiniTTColorSettingsPage : MiniTTGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), MiniTTHighlighter.KEYWORD),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), MiniTTHighlighter.IDENTIFIER),
-			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.constructor-call"), MiniTTHighlighter.CONSTRUCTOR_CALL),
-			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.constructor-decl"), MiniTTHighlighter.CONSTRUCTOR_DECL),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), MiniTTHighlighter.FUNCTION_NAME),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), MiniTTHighlighter.SEMICOLON),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), MiniTTHighlighter.COMMA),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), MiniTTHighlighter.UNRESOLVED),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), MiniTTHighlighter.OPERATOR),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), MiniTTHighlighter.PAREN),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), MiniTTHighlighter.BRACE),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comment"), MiniTTHighlighter.COMMENT))
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), MiniTTGeneratedHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), MiniTTGeneratedHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.constructor-call"), MiniTTGeneratedHighlighter.CONSTRUCTOR_CALL),
+			AttributesDescriptor(TTBundle.message("minitt.highlighter.settings.constructor-decl"), MiniTTGeneratedHighlighter.CONSTRUCTOR_DECL),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), MiniTTGeneratedHighlighter.FUNCTION_NAME),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), MiniTTGeneratedHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), MiniTTGeneratedHighlighter.COMMA),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), MiniTTGeneratedHighlighter.UNRESOLVED),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), MiniTTGeneratedHighlighter.OPERATOR),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), MiniTTGeneratedHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), MiniTTGeneratedHighlighter.BRACE),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comment"), MiniTTGeneratedHighlighter.COMMENT))
 
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
-			"Unresolved" to MiniTTHighlighter.UNRESOLVED,
-			"CCl" to MiniTTHighlighter.CONSTRUCTOR_CALL,
-			"FDl" to MiniTTHighlighter.FUNCTION_NAME,
-			"CDl" to MiniTTHighlighter.CONSTRUCTOR_DECL)
+			"Unresolved" to MiniTTGeneratedHighlighter.UNRESOLVED,
+			"CCl" to MiniTTGeneratedHighlighter.CONSTRUCTOR_CALL,
+			"FDl" to MiniTTGeneratedHighlighter.FUNCTION_NAME,
+			"CDl" to MiniTTGeneratedHighlighter.CONSTRUCTOR_DECL)
 	}
 
 	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS

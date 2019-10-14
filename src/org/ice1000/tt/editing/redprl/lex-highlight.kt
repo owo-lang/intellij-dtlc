@@ -8,7 +8,7 @@ import org.ice1000.tt.psi.redprl.RedPrlTokenType
 import org.ice1000.tt.psi.redprl.RedPrlTypes
 import org.intellij.lang.annotations.Language
 
-object RedPrlHighlighter : RedPrlGeneratedSyntaxHighlighter() {
+object RedPrlHighlighter : RedPrlGeneratedHighlighter() {
 	@JvmField val OPERATORS = listOf(
 		RedPrlTypes.RANGLE,
 		RedPrlTypes.DOT,
@@ -155,34 +155,34 @@ object RedPrlHighlighter : RedPrlGeneratedSyntaxHighlighter() {
 class RedPrlColorSettingsPage : RedPrlGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
-			AttributesDescriptor(TTBundle.message("redprl.highlighter.settings.meta-decl"), RedPrlHighlighter.META_VAR_DECL),
-			AttributesDescriptor(TTBundle.message("redprl.highlighter.settings.meta-call"), RedPrlHighlighter.META_VAR_CALL),
-			AttributesDescriptor(TTBundle.message("redprl.highlighter.settings.var-decl"), RedPrlHighlighter.VAR_NAME_DECL),
-			AttributesDescriptor(TTBundle.message("redprl.highlighter.settings.var-call"), RedPrlHighlighter.VAR_NAME_CALL),
-			AttributesDescriptor(TTBundle.message("redprl.highlighter.settings.op-decl"), RedPrlHighlighter.OP_NAME_DECL),
-			AttributesDescriptor(TTBundle.message("redprl.highlighter.settings.op-call"), RedPrlHighlighter.OP_NAME_CALL),
-			AttributesDescriptor(TTBundle.message("redprl.highlighter.settings.hash"), RedPrlHighlighter.HASH),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), RedPrlHighlighter.KEYWORD),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.number"), RedPrlHighlighter.NUMERAL),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.hole"), RedPrlHighlighter.HOLE),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), RedPrlHighlighter.SEMICOLON),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), RedPrlHighlighter.COMMA),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.dot"), RedPrlHighlighter.DOT),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), RedPrlHighlighter.OPERATOR),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), RedPrlHighlighter.PAREN),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.bracket"), RedPrlHighlighter.BRACK),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), RedPrlHighlighter.BRACE),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), RedPrlHighlighter.LINE_COMMENT),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.block-comment"), RedPrlHighlighter.BLOCK_COMMENT))
+			AttributesDescriptor(TTBundle.message("redprl.highlighter.settings.meta-decl"), RedPrlGeneratedHighlighter.META_VAR_DECL),
+			AttributesDescriptor(TTBundle.message("redprl.highlighter.settings.meta-call"), RedPrlGeneratedHighlighter.META_VAR_CALL),
+			AttributesDescriptor(TTBundle.message("redprl.highlighter.settings.var-decl"), RedPrlGeneratedHighlighter.VAR_NAME_DECL),
+			AttributesDescriptor(TTBundle.message("redprl.highlighter.settings.var-call"), RedPrlGeneratedHighlighter.VAR_NAME_CALL),
+			AttributesDescriptor(TTBundle.message("redprl.highlighter.settings.op-decl"), RedPrlGeneratedHighlighter.OP_NAME_DECL),
+			AttributesDescriptor(TTBundle.message("redprl.highlighter.settings.op-call"), RedPrlGeneratedHighlighter.OP_NAME_CALL),
+			AttributesDescriptor(TTBundle.message("redprl.highlighter.settings.hash"), RedPrlGeneratedHighlighter.HASH),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), RedPrlGeneratedHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.number"), RedPrlGeneratedHighlighter.NUMERAL),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.hole"), RedPrlGeneratedHighlighter.HOLE),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), RedPrlGeneratedHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), RedPrlGeneratedHighlighter.COMMA),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.dot"), RedPrlGeneratedHighlighter.DOT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), RedPrlGeneratedHighlighter.OPERATOR),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), RedPrlGeneratedHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.bracket"), RedPrlGeneratedHighlighter.BRACK),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), RedPrlGeneratedHighlighter.BRACE),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), RedPrlGeneratedHighlighter.LINE_COMMENT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.block-comment"), RedPrlGeneratedHighlighter.BLOCK_COMMENT))
 
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
-			"MD" to RedPrlHighlighter.META_VAR_DECL,
-			"MC" to RedPrlHighlighter.META_VAR_CALL,
-			"VD" to RedPrlHighlighter.VAR_NAME_DECL,
-			"VC" to RedPrlHighlighter.VAR_NAME_CALL,
-			"OD" to RedPrlHighlighter.OP_NAME_DECL,
-			"OC" to RedPrlHighlighter.OP_NAME_CALL,
-			"H" to RedPrlHighlighter.HOLE)
+			"MD" to RedPrlGeneratedHighlighter.META_VAR_DECL,
+			"MC" to RedPrlGeneratedHighlighter.META_VAR_CALL,
+			"VD" to RedPrlGeneratedHighlighter.VAR_NAME_DECL,
+			"VC" to RedPrlGeneratedHighlighter.VAR_NAME_CALL,
+			"OD" to RedPrlGeneratedHighlighter.OP_NAME_DECL,
+			"OC" to RedPrlGeneratedHighlighter.OP_NAME_CALL,
+			"H" to RedPrlGeneratedHighlighter.HOLE)
 	}
 
 	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS

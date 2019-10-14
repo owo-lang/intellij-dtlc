@@ -38,11 +38,11 @@ class CubicalTTAnnotator : Annotator {
 
 	private fun data(element: CubicalTTData, holder: AnnotationHolder) {
 		val name = element.nameDecl ?: return
-		holder.createInfoAnnotation(name, null).textAttributes = CubicalTTHighlighter.FUNCTION_NAME
+		holder.createInfoAnnotation(name, null).textAttributes = CubicalTTGeneratedHighlighter.FUNCTION_NAME
 	}
 
 	private fun decl(element: CubicalTTDecl, holder: AnnotationHolder) {
 		val name = element.firstChild as? CubicalTTNameDecl ?: return
-		holder.createInfoAnnotation(name, null).textAttributes = CubicalTTHighlighter.FUNCTION_NAME
+		holder.createInfoAnnotation(name, null).textAttributes = CubicalTTGeneratedHighlighter.FUNCTION_NAME
 	}
 }

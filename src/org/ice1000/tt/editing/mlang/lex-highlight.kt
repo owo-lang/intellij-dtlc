@@ -8,7 +8,7 @@ import org.ice1000.tt.psi.mlang.MlangTokenType
 import org.ice1000.tt.psi.mlang.MlangTypes
 import org.intellij.lang.annotations.Language
 
-object MlangHighlighter : MlangGeneratedSyntaxHighlighter() {
+object MlangHighlighter : MlangGeneratedHighlighter() {
 	@JvmField val KEYWORDS = listOf(
 		MlangTypes.KW_DECLARE,
 		MlangTypes.KW_DEFINE,
@@ -49,17 +49,17 @@ object MlangHighlighter : MlangGeneratedSyntaxHighlighter() {
 class MlangColorSettingsPage : MlangGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), MlangHighlighter.KEYWORD),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), MlangHighlighter.IDENTIFIER),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), MlangHighlighter.FUNCTION_NAME),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), MlangHighlighter.COMMA),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), MlangHighlighter.PAREN),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), MlangHighlighter.BRACE),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.bracket"), MlangHighlighter.BRACK),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), MlangHighlighter.LINE_COMMENT))
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), MlangGeneratedHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), MlangGeneratedHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), MlangGeneratedHighlighter.FUNCTION_NAME),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), MlangGeneratedHighlighter.COMMA),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), MlangGeneratedHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), MlangGeneratedHighlighter.BRACE),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.bracket"), MlangGeneratedHighlighter.BRACK),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), MlangGeneratedHighlighter.LINE_COMMENT))
 
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
-			"FD" to MlangHighlighter.FUNCTION_NAME)
+			"FD" to MlangGeneratedHighlighter.FUNCTION_NAME)
 	}
 
 	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS

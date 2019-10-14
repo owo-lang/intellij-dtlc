@@ -8,7 +8,7 @@ import org.ice1000.tt.psi.voile.VoileTokenType
 import org.ice1000.tt.psi.voile.VoileTypes
 import org.intellij.lang.annotations.Language
 
-object VoileHighlighter : VoileGeneratedSyntaxHighlighter() {
+object VoileHighlighter : VoileGeneratedHighlighter() {
 	@JvmField val KEYWORDS = listOf(
 		VoileTypes.KW_VAL,
 		VoileTypes.KW_LET,
@@ -44,21 +44,21 @@ object VoileHighlighter : VoileGeneratedSyntaxHighlighter() {
 class VoileColorSettingsPage : VoileGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), VoileHighlighter.KEYWORD),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), VoileHighlighter.IDENTIFIER),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), VoileHighlighter.FUNCTION_NAME),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), VoileHighlighter.SEMICOLON),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), VoileHighlighter.COMMA),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), VoileHighlighter.UNRESOLVED),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), VoileHighlighter.OPERATOR),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), VoileHighlighter.PAREN),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), VoileHighlighter.BRACE),
-			AttributesDescriptor(TTBundle.message("voile.highlighter.settings.brace"), VoileHighlighter.BRACE2),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), VoileHighlighter.LINE_COMMENT))
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), VoileGeneratedHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), VoileGeneratedHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), VoileGeneratedHighlighter.FUNCTION_NAME),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), VoileGeneratedHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), VoileGeneratedHighlighter.COMMA),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), VoileGeneratedHighlighter.UNRESOLVED),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), VoileGeneratedHighlighter.OPERATOR),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), VoileGeneratedHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.brace"), VoileGeneratedHighlighter.BRACE),
+			AttributesDescriptor(TTBundle.message("voile.highlighter.settings.brace"), VoileGeneratedHighlighter.BRACE2),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), VoileGeneratedHighlighter.LINE_COMMENT))
 
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
-			"FD" to VoileHighlighter.FUNCTION_NAME,
-			"Unresolved" to VoileHighlighter.UNRESOLVED)
+			"FD" to VoileGeneratedHighlighter.FUNCTION_NAME,
+			"Unresolved" to VoileGeneratedHighlighter.UNRESOLVED)
 	}
 
 	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS

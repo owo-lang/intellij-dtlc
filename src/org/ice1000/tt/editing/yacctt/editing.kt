@@ -38,11 +38,11 @@ class YaccTTAnnotator : Annotator {
 
 	private fun data(element: YaccTTData, holder: AnnotationHolder) {
 		val name = element.nameDecl ?: return
-		holder.createInfoAnnotation(name, null).textAttributes = YaccTTHighlighter.FUNCTION_NAME
+		holder.createInfoAnnotation(name, null).textAttributes = YaccTTGeneratedHighlighter.FUNCTION_NAME
 	}
 
 	private fun decl(element: YaccTTDecl, holder: AnnotationHolder) {
 		val name = element.firstChild as? YaccTTNameDecl ?: return
-		holder.createInfoAnnotation(name, null).textAttributes = YaccTTHighlighter.FUNCTION_NAME
+		holder.createInfoAnnotation(name, null).textAttributes = YaccTTGeneratedHighlighter.FUNCTION_NAME
 	}
 }

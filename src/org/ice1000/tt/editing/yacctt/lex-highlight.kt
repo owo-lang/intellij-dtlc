@@ -8,7 +8,7 @@ import org.ice1000.tt.psi.yacctt.YaccTTTokenType
 import org.ice1000.tt.psi.yacctt.YaccTTTypes
 import org.intellij.lang.annotations.Language
 
-object YaccTTHighlighter : YaccTTGeneratedSyntaxHighlighter() {
+object YaccTTHighlighter : YaccTTGeneratedHighlighter() {
 	private val KEYWORDS = listOf(
 		YaccTTTypes.KW_TRANSPARENT_ALL,
 		YaccTTTypes.KW_TRANSPARENT,
@@ -57,24 +57,24 @@ object YaccTTHighlighter : YaccTTGeneratedSyntaxHighlighter() {
 class YaccTTColorSettingsPage : YaccTTGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), YaccTTHighlighter.KEYWORD),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), YaccTTHighlighter.IDENTIFIER),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), YaccTTHighlighter.FUNCTION_NAME),
-			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.datatype-decl"), YaccTTHighlighter.DATATYPE_NAME),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), YaccTTHighlighter.SEMICOLON),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), YaccTTHighlighter.COMMA),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), YaccTTHighlighter.PAREN),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.bracket"), YaccTTHighlighter.BRACK),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.hole"), YaccTTHighlighter.HOLE),
-			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.undefined"), YaccTTHighlighter.UNDEFINED),
-			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.dim"), YaccTTHighlighter.DIMENSION),
-			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.projection"), YaccTTHighlighter.PROJECTION),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), YaccTTHighlighter.LINE_COMMENT),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.block-comment"), YaccTTHighlighter.BLOCK_COMMENT))
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), YaccTTGeneratedHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), YaccTTGeneratedHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), YaccTTGeneratedHighlighter.FUNCTION_NAME),
+			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.datatype-decl"), YaccTTGeneratedHighlighter.DATATYPE_NAME),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), YaccTTGeneratedHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), YaccTTGeneratedHighlighter.COMMA),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), YaccTTGeneratedHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.bracket"), YaccTTGeneratedHighlighter.BRACK),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.hole"), YaccTTGeneratedHighlighter.HOLE),
+			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.undefined"), YaccTTGeneratedHighlighter.UNDEFINED),
+			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.dim"), YaccTTGeneratedHighlighter.DIMENSION),
+			AttributesDescriptor(TTBundle.message("cubicaltt.highlighter.settings.projection"), YaccTTGeneratedHighlighter.PROJECTION),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), YaccTTGeneratedHighlighter.LINE_COMMENT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.block-comment"), YaccTTGeneratedHighlighter.BLOCK_COMMENT))
 
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
-			"DD" to YaccTTHighlighter.DATATYPE_NAME,
-			"FD" to YaccTTHighlighter.FUNCTION_NAME)
+			"DD" to YaccTTGeneratedHighlighter.DATATYPE_NAME,
+			"FD" to YaccTTGeneratedHighlighter.FUNCTION_NAME)
 	}
 
 	override fun getAttributeDescriptors() = DESCRIPTORS

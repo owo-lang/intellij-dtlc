@@ -34,32 +34,32 @@ class MLPolyRAnnotator : Annotator {
 	private fun identifier(element: MLPolyRIdentifierMixin, holder: AnnotationHolder) = when ((element.resolve() as? MLPolyRGeneralPat)?.kind) {
 		null -> holder.createInfoAnnotation(element, TTBundle.message("tt.lint.unresolved")).run {
 			highlightType = ProblemHighlightType.LIKE_UNKNOWN_SYMBOL
-			textAttributes = MLPolyRHighlighter.UNRESOLVED
+			textAttributes = MLPolyRGeneratedHighlighter.UNRESOLVED
 		}
 		MLPolyRSymbolKind.Function, MLPolyRSymbolKind.RcFunction -> holder.createInfoAnnotation(element, null)
-			.textAttributes = MLPolyRHighlighter.FUNCTION_CALL
+			.textAttributes = MLPolyRGeneratedHighlighter.FUNCTION_CALL
 		MLPolyRSymbolKind.Parameter -> holder.createInfoAnnotation(element, null)
-			.textAttributes = MLPolyRHighlighter.PARAMETER_CALL
+			.textAttributes = MLPolyRGeneratedHighlighter.PARAMETER_CALL
 		MLPolyRSymbolKind.Variable -> holder.createInfoAnnotation(element, null)
-			.textAttributes = MLPolyRHighlighter.VARIABLE_CALL
+			.textAttributes = MLPolyRGeneratedHighlighter.VARIABLE_CALL
 		MLPolyRSymbolKind.Pattern -> holder.createInfoAnnotation(element, null)
-			.textAttributes = MLPolyRHighlighter.PATTERN_CALL
+			.textAttributes = MLPolyRGeneratedHighlighter.PATTERN_CALL
 		MLPolyRSymbolKind.Field -> holder.createInfoAnnotation(element, null)
-			.textAttributes = MLPolyRHighlighter.FIELD_CALL
+			.textAttributes = MLPolyRGeneratedHighlighter.FIELD_CALL
 		MLPolyRSymbolKind.Unknown -> Unit
 	}
 
 	private fun generalPat(element: MLPolyRGeneralPat, holder: AnnotationHolder) = when (element.kind) {
 		MLPolyRSymbolKind.Function, MLPolyRSymbolKind.RcFunction -> holder.createInfoAnnotation(element, null)
-			.textAttributes = MLPolyRHighlighter.FUNCTION_DECL
+			.textAttributes = MLPolyRGeneratedHighlighter.FUNCTION_DECL
 		MLPolyRSymbolKind.Parameter -> holder.createInfoAnnotation(element, null)
-			.textAttributes = MLPolyRHighlighter.PARAMETER_DECL
+			.textAttributes = MLPolyRGeneratedHighlighter.PARAMETER_DECL
 		MLPolyRSymbolKind.Variable -> holder.createInfoAnnotation(element, null)
-			.textAttributes = MLPolyRHighlighter.VARIABLE_DECL
+			.textAttributes = MLPolyRGeneratedHighlighter.VARIABLE_DECL
 		MLPolyRSymbolKind.Pattern -> holder.createInfoAnnotation(element, null)
-			.textAttributes = MLPolyRHighlighter.PATTERN_DECL
+			.textAttributes = MLPolyRGeneratedHighlighter.PATTERN_DECL
 		MLPolyRSymbolKind.Field -> holder.createInfoAnnotation(element, null)
-			.textAttributes = MLPolyRHighlighter.FIELD_DECL
+			.textAttributes = MLPolyRGeneratedHighlighter.FIELD_DECL
 		MLPolyRSymbolKind.Unknown -> Unit
 	}
 
@@ -67,7 +67,7 @@ class MLPolyRAnnotator : Annotator {
 		val fst = element.firstChild?.startOffset ?: return
 		val snd = element.children.getOrNull(0)?.endOffset ?: return
 		holder.createInfoAnnotation(TextRange(fst, snd), null)
-			.textAttributes = MLPolyRHighlighter.CONSTRUCTOR
+			.textAttributes = MLPolyRGeneratedHighlighter.CONSTRUCTOR
 	}
 }
 

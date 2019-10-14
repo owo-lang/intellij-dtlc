@@ -8,7 +8,7 @@ import org.ice1000.tt.psi.acore.ACoreTokenType
 import org.ice1000.tt.psi.acore.ACoreTypes
 import org.intellij.lang.annotations.Language
 
-object ACoreHighlighter : ACoreGeneratedSyntaxHighlighter() {
+object ACoreHighlighter : ACoreGeneratedHighlighter() {
 	private val KEYWORDS_LIST = listOf(
 		ACoreTypes.LAMBDA,
 		ACoreTypes.PI,
@@ -45,20 +45,20 @@ object ACoreHighlighter : ACoreGeneratedSyntaxHighlighter() {
 class ACoreColorSettingsPage : ACoreGeneratedColorSettingsPage() {
 	private companion object DescriptorHolder {
 		private val DESCRIPTORS = arrayOf(
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), ACoreHighlighter.KEYWORD),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), ACoreHighlighter.IDENTIFIER),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), ACoreHighlighter.FUNCTION_NAME),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), ACoreHighlighter.SEMICOLON),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), ACoreHighlighter.COMMA),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), ACoreHighlighter.UNRESOLVED),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), ACoreHighlighter.OPERATOR),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), ACoreHighlighter.PAREN),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), ACoreHighlighter.LINE_COMMENT),
-			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.block-comment"), ACoreHighlighter.BLOCK_COMMENT))
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.keyword"), ACoreGeneratedHighlighter.KEYWORD),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.identifier"), ACoreGeneratedHighlighter.IDENTIFIER),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.function-decl"), ACoreGeneratedHighlighter.FUNCTION_NAME),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.semicolon"), ACoreGeneratedHighlighter.SEMICOLON),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.comma"), ACoreGeneratedHighlighter.COMMA),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.unresolved"), ACoreGeneratedHighlighter.UNRESOLVED),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.operator"), ACoreGeneratedHighlighter.OPERATOR),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.paren"), ACoreGeneratedHighlighter.PAREN),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.line-comment"), ACoreGeneratedHighlighter.LINE_COMMENT),
+			AttributesDescriptor(TTBundle.message("tt.highlighter.settings.block-comment"), ACoreGeneratedHighlighter.BLOCK_COMMENT))
 
 		private val ADDITIONAL_DESCRIPTORS = mapOf(
-			"Unresolved" to ACoreHighlighter.UNRESOLVED,
-			"FDl" to ACoreHighlighter.FUNCTION_NAME)
+			"Unresolved" to ACoreGeneratedHighlighter.UNRESOLVED,
+			"FDl" to ACoreGeneratedHighlighter.FUNCTION_NAME)
 	}
 
 	override fun getAdditionalHighlightingTagToDescriptorMap() = ADDITIONAL_DESCRIPTORS
