@@ -6,32 +6,42 @@ fun LanguageUtilityGenerationTask.lexHighlight(configName: String, nickname: Str
 	val outEditingDir = outDir.resolve("editing").resolve(nickname)
 	outEditingDir.mkdirs()
 
+	val colorSettingsClassName = "${languageName}GeneratedColorSettingsPage"
+	@Language("JAVA")
+	val colorSettingsClassContent = """
+package $basePackage.editing.$nickname;
+
+import com.intellij.openapi.options.colors.ColorDescriptor;
+import com.intellij.openapi.options.colors.ColorSettingsPage;
+import icons.TTIcons;
+import $basePackage.${languageName}FileType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.Icon;
+
+public abstract class $colorSettingsClassName implements ColorSettingsPage {
+	public @NotNull @Override ${languageName}GeneratedHighlighter getHighlighter() {
+		return ${languageName}Highlighter.INSTANCE;
+	}
+
+	public @Nullable @Override Icon getIcon() { return TTIcons.$constantPrefix; }
+	public @NotNull @Override ColorDescriptor[] getColorDescriptors() {
+		return ColorDescriptor.EMPTY_ARRAY;
+	}
+
+	public @NotNull @Override String getDisplayName() {
+		return ${languageName}FileType.INSTANCE.getName();
+	}
+}"""
+	outEditingDir.resolve("$colorSettingsClassName.java").writeText(colorSettingsClassContent)
+
 	val textAttributes = highlightTokenPairs.joinToString("\n\t") { (l, r) ->
 		"public static @NotNull TextAttributesKey $l = TextAttributesKey.createTextAttributesKey(\"${constantPrefix}_$l\", DefaultLanguageHighlighterColors.$r);"
 	}
 	val textAttributeKeys = highlightTokenPairs.joinToString("\n\t") { (l, _) ->
 		"public static @NotNull TextAttributesKey[] ${l}_KEY = new TextAttributesKey[]{$l};"
 	}
-	@Language("kotlin")
-	val parser = """
-package $basePackage.editing.$nickname;
-
-import com.intellij.openapi.editor.colors.TextAttributesKey
-import com.intellij.openapi.options.colors.AttributesDescriptor
-import com.intellij.openapi.options.colors.ColorDescriptor
-import com.intellij.openapi.options.colors.ColorSettingsPage
-import icons.TTIcons
-import org.ice1000.tt.${languageName}FileType
-import org.ice1000.tt.psi.$nickname.${languageName}ElementType.${configName}Lexer
-
-abstract class ${languageName}GeneratedColorSettingsPage : ColorSettingsPage {
-	override fun getHighlighter() = ${languageName}Highlighter
-	override fun getIcon() = TTIcons.$constantPrefix
-	override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
-	override fun getDisplayName() = ${languageName}FileType.name
-}
-"""
-	outEditingDir.resolve("generated.kt").writeText(parser)
 
 	val highlighterClassName = "${languageName}GeneratedHighlighter"
 	@Language("JAVA")
@@ -42,7 +52,7 @@ import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
-import org.ice1000.tt.psi.$nickname.${languageName}ElementType;
+import $basePackage.psi.$nickname.${languageName}ElementType;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class $highlighterClassName implements SyntaxHighlighter {

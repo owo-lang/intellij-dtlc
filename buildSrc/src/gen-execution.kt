@@ -22,11 +22,11 @@ fun LanguageUtilityGenerationTask.execution(nickname: String, configName: String
 	import com.intellij.openapi.util.io.FileUtilRt
 	import com.intellij.psi.PsiElement
 	import icons.TTIcons
-	import org.ice1000.tt.${languageName}FileType
-	import org.ice1000.tt.TTBundle
-	import org.ice1000.tt.execution.ui.InterpretedRunConfigurationEditorImpl
-	import org.ice1000.tt.project.*
-	import org.ice1000.tt.validateExe
+	import $basePackage.${languageName}FileType
+	import $basePackage.TTBundle
+	import $basePackage.execution.ui.InterpretedRunConfigurationEditorImpl
+	import $basePackage.project.*
+	import $basePackage.validateExe
 	import org.jdom.Element
 
 	class ${languageName}RunConfigurationFactory(type: ${languageName}RunConfigurationType) : ConfigurationFactory(type) {

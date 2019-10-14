@@ -11,7 +11,7 @@ import com.intellij.ide.actions.CreateFileFromTemplateDialog
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDirectory
 import icons.TTIcons
-import org.ice1000.tt.TTBundle
+import $basePackage.TTBundle
 
 object New${languageName}File : NewTTFile(
 	TTBundle.message("$nickname.actions.new-file.name"),

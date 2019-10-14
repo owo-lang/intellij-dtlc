@@ -16,10 +16,10 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.util.xmlb.XmlSerializerUtil
 import icons.TTIcons
-import org.ice1000.tt.${constantPrefix}_WEBSITE
-import org.ice1000.tt.TTBundle
-import org.ice1000.tt.project.ui.CommonConfigurable
-import org.ice1000.tt.project.ui.initWebsiteLabel
+import $basePackage.${constantPrefix}_WEBSITE
+import $basePackage.TTBundle
+import $basePackage.project.ui.CommonConfigurable
+import $basePackage.project.ui.initWebsiteLabel
 
 ${if (generateSettings) if (hasVersion) """
 data class ${languageName}Settings(
@@ -49,7 +49,7 @@ val Project.${configName}SettingsNullable: ${languageName}ProjectSettingsService
 	val serviceClassName = "${languageName}ProjectSettingsService"
 	@Language("JAVA")
 	val serviceClassContent = """
-package org.ice1000.tt.project;
+package $basePackage.project;
 
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
@@ -100,13 +100,13 @@ package $basePackage.project;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
 import icons.TTIcons;
-import org.ice1000.tt.TTBundle;
-import org.ice1000.tt.project.ui.VersionedExecutableProjectConfigurableImpl;
+import $basePackage.TTBundle;
+import $basePackage.project.ui.VersionedExecutableProjectConfigurableImpl;
 import org.jetbrains.annotations.NotNull;
 
-import static org.ice1000.tt.ConstantsKt.${constantPrefix}_WEBSITE;
-import static org.ice1000.tt.project.ProjectGenerated.*;
-import static org.ice1000.tt.project.ui.Ui_implKt.initWebsiteLabel;
+import static $basePackage.ConstantsKt.${constantPrefix}_WEBSITE;
+import static $basePackage.project.ProjectGenerated.*;
+import static $basePackage.project.ui.Ui_implKt.initWebsiteLabel;
 
 public final class $settingsClassName extends VersionedExecutableProjectConfigurableImpl {
 	private ${languageName}Settings settings;
@@ -134,14 +134,14 @@ package $basePackage.project;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
 import icons.TTIcons;
-import org.ice1000.tt.TTBundle;
-import org.ice1000.tt.project.ui.OnlyExecutableProjectConfigurable;
+import $basePackage.TTBundle;
+import $basePackage.project.ui.OnlyExecutableProjectConfigurable;
 
 import java.util.Objects;
 
-import static org.ice1000.tt.ConstantsKt.${constantPrefix}_WEBSITE;
-import static org.ice1000.tt.project.ProjectGenerated.*;
-import static org.ice1000.tt.project.ui.Ui_implKt.initWebsiteLabel;
+import static $basePackage.ConstantsKt.${constantPrefix}_WEBSITE;
+import static $basePackage.project.ProjectGenerated.*;
+import static $basePackage.project.ui.Ui_implKt.initWebsiteLabel;
 
 public final class $settingsClassName extends OnlyExecutableProjectConfigurable {
 	private ${languageName}Settings settings;

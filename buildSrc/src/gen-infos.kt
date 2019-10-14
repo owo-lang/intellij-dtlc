@@ -10,7 +10,7 @@ package $basePackage;
 import com.intellij.lang.Language;
 import org.jetbrains.annotations.NotNull;
 
-import static org.ice1000.tt.ConstantsKt.${constantPrefix}_LANGUAGE_NAME;
+import static $basePackage.ConstantsKt.${constantPrefix}_LANGUAGE_NAME;
 
 /**
  * @author ice1000
@@ -27,7 +27,7 @@ public final class ${languageName}Language extends Language {
 	outDir.resolve("${languageName}Language.java").writeText(language)
 	@Language("kotlin")
 	val infos = """
-package org.ice1000.tt
+package $basePackage
 
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.openapi.fileTypes.LanguageFileType
@@ -36,7 +36,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.ResolveState
 import com.intellij.psi.scope.PsiScopeProcessor
 import icons.TTIcons
-import org.ice1000.tt.psi.childrenRevWithLeaves
+import $basePackage.psi.childrenRevWithLeaves
 
 object ${languageName}FileType : LanguageFileType(${languageName}Language.INSTANCE) {
 	override fun getDefaultExtension() = ${constantPrefix}_EXTENSION

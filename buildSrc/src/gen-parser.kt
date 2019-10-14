@@ -9,11 +9,11 @@ fun LanguageUtilityGenerationTask.parser(configName: String, nickname: String) {
 	val elementTypeClassName = "${languageName}ElementType"
 	@Language("JAVA")
 	val elementTypeClassContent = """
-package org.ice1000.tt.psi.$nickname;
+package $basePackage.psi.$nickname;
 
 import com.intellij.lexer.FlexAdapter;
 import com.intellij.psi.tree.IElementType;
-import org.ice1000.tt.${languageName}Language;
+import $basePackage.${languageName}Language;
 import org.jetbrains.annotations.NotNull;
 
 public class $elementTypeClassName extends IElementType {
@@ -30,7 +30,7 @@ public class $elementTypeClassName extends IElementType {
 	val parserDefClassName = "${languageName}GeneratedParserDefinition"
 	@Language("JAVA")
 	val parserDefClassContent = """
-package org.ice1000.tt.psi.$nickname;
+package $basePackage.psi.$nickname;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
@@ -44,8 +44,8 @@ import com.intellij.psi.stubs.PsiFileStubImpl;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.IStubFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import org.ice1000.tt.${languageName}File;
-import org.ice1000.tt.${languageName}Language;
+import $basePackage.${languageName}File;
+import $basePackage.${languageName}Language;
 import org.jetbrains.annotations.NotNull;
 
 public class $parserDefClassName implements ParserDefinition {

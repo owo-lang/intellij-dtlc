@@ -10,10 +10,10 @@ package $basePackage.editing;
 
 import com.intellij.codeInsight.template.TemplateContextType;
 import com.intellij.psi.PsiFile;
-import org.ice1000.tt.*;
+import $basePackage.*;
 import org.jetbrains.annotations.NotNull;
 
-import static org.ice1000.tt.ConstantsKt.${constantPrefix}_LANGUAGE_NAME;
+import static $basePackage.ConstantsKt.${constantPrefix}_LANGUAGE_NAME;
 
 public class $className extends TemplateContextType {
 	public $className() {
