@@ -61,7 +61,7 @@ import org.jetbrains.annotations.Nullable;
 @State(
 	name = "${languageName}ProjectSettings",
 	storages = @Storage("${languageName.decapitalize()}Config.xml"))
-public final class ${serviceClassName} implements PersistentStateComponent<${languageName}Settings> {
+public final class $serviceClassName implements PersistentStateComponent<${languageName}Settings> {
 	private @NotNull ${languageName}Settings settings = new ${languageName}Settings();
 	@NotNull public ${languageName}Settings getSettings() { return settings; }
 
@@ -119,7 +119,7 @@ public final class $settingsClassName extends VersionedExecutableProjectConfigur
 	@NotNull @Override
 	protected String trimVersion(@NotNull String version) { return $trimVersion; }
 
-	public ${languageName}ProjectConfigurable(Project project) {
+	public $settingsClassName(Project project) {
 		settings = get${capitalizedConfigName}Settings(project).getSettings();
 		init();
 		$configureSettings
@@ -146,7 +146,7 @@ import static org.ice1000.tt.project.ui.Ui_implKt.initWebsiteLabel;
 public final class $settingsClassName extends OnlyExecutableProjectConfigurable {
 	private ${languageName}Settings settings;
 
-	public ${languageName}ProjectConfigurable(Project project) {
+	public $settingsClassName(Project project) {
 		settings = get${capitalizedConfigName}Settings(project).getSettings();
 		getExePathField().setText(settings.getExePath());
 		$configureSettings

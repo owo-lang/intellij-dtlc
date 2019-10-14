@@ -4,21 +4,31 @@ import org.intellij.lang.annotations.Language
 
 fun LanguageUtilityGenerationTask.parser(configName: String, nickname: String) {
 	@Language("kotlin")
-	val lexerAndElementType = """
+	val lexer = """
 package $basePackage.psi.$nickname
 
 import com.intellij.lexer.FlexAdapter
-import com.intellij.psi.tree.IElementType
-import org.ice1000.tt.${languageName}Language
-
 fun ${configName}Lexer() = FlexAdapter(${languageName}Lexer())
-
-class ${languageName}ElementType(debugName: String)
- : IElementType(debugName, ${languageName}Language.INSTANCE)
 """
 	val outPsiDir = outDir.resolve("psi").resolve(nickname)
 	outPsiDir.mkdirs()
-	outPsiDir.resolve("generated.kt").writeText(lexerAndElementType)
+	outPsiDir.resolve("generated.kt").writeText(lexer)
+
+	val elementTypeClassName = "${languageName}ElementType"
+	@Language("JAVA")
+	val elementTypeClassContent = """
+package org.ice1000.tt.psi.$nickname;
+
+import com.intellij.psi.tree.IElementType;
+import org.ice1000.tt.${languageName}Language;
+import org.jetbrains.annotations.NotNull;
+
+public class $elementTypeClassName extends IElementType {
+	public $elementTypeClassName(@NotNull String debugName) {
+		super(debugName, ${languageName}Language.INSTANCE);
+	}
+}"""
+	outPsiDir.resolve("$elementTypeClassName.java").writeText(elementTypeClassContent)
 
 	val parserDefClassName = "${languageName}GeneratedParserDefinition"
 	@Language("JAVA")
