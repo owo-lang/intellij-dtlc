@@ -13,6 +13,7 @@ import org.ice1000.tt.CubicalTTLanguage
 import org.ice1000.tt.psi.LayoutLexer
 import org.ice1000.tt.psi.LetIn
 import org.ice1000.tt.psi.childrenWithLeaves
+import org.ice1000.tt.psi.cubicaltt.CubicalTTElementType.cubicalTTLexer
 
 class CubicalTTFileImpl(viewProvider: FileViewProvider) : CubicalTTFile(viewProvider), PsiNameIdentifierOwner {
 	val module: CubicalTTModule? = childrenWithLeaves.filterIsInstance<CubicalTTModule>().firstOrNull()

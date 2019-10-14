@@ -15,8 +15,8 @@ import org.ice1000.tt.editing.SimpleProvider
 import org.ice1000.tt.editing.TTBraceMatcher
 import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.editing.makeKeywordsCompletion
-import org.ice1000.tt.psi.redprl.redPrlLexer
 import org.ice1000.tt.psi.voile.*
+import org.ice1000.tt.psi.voile.VoileElementType.voileLexer
 
 class VoileBraceMatcher : TTBraceMatcher() {
 	private companion object Pairs {
@@ -30,7 +30,7 @@ class VoileBraceMatcher : TTBraceMatcher() {
 }
 
 class VoileFindUsagesProvider : TTFindUsagesProvider() {
-	override fun getWordsScanner() = DefaultWordsScanner(redPrlLexer(), VoileTokenType.IDENTIFIERS, VoileTokenType.COMMENTS, TokenSet.EMPTY)
+	override fun getWordsScanner() = DefaultWordsScanner(voileLexer(), VoileTokenType.IDENTIFIERS, VoileTokenType.COMMENTS, TokenSet.EMPTY)
 }
 
 class VoileAnnotator : Annotator {

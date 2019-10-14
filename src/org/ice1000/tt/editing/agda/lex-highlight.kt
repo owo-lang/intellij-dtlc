@@ -6,7 +6,6 @@ import com.intellij.psi.tree.IElementType
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.psi.agda.AgdaTokenType
 import org.ice1000.tt.psi.agda.AgdaTypes
-import org.ice1000.tt.psi.agda.agdaLexer
 import org.intellij.lang.annotations.Language
 
 object AgdaHighlighter : AgdaGeneratedSyntaxHighlighter() {
@@ -57,7 +56,6 @@ object AgdaHighlighter : AgdaGeneratedSyntaxHighlighter() {
 		AgdaTypes.KW_USING
 	)
 
-	override fun getHighlightingLexer() = agdaLexer()
 	override fun getTokenHighlights(type: IElementType?): Array<TextAttributesKey> = when (type) {
 		AgdaTypes.IDENTIFIER -> IDENTIFIER_KEY
 		AgdaTypes.SEMI -> SEMICOLON_KEY

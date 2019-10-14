@@ -9,6 +9,7 @@ import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.editing.TTBraceMatcher
 import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.psi.cubicaltt.*
+import org.ice1000.tt.psi.cubicaltt.CubicalTTElementType.cubicalTTLexer
 
 class CubicalTTBraceMatcher : TTBraceMatcher() {
 	private companion object Pairs {

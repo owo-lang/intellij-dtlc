@@ -13,6 +13,7 @@ import org.ice1000.tt.AgdaLanguage
 import org.ice1000.tt.psi.LayoutLexer
 import org.ice1000.tt.psi.LetIn
 import org.ice1000.tt.psi.State
+import org.ice1000.tt.psi.agda.AgdaElementType.agdaLexer
 
 class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.INSTANCE) {
 	@Suppress("MemberVisibilityCanBePrivate")

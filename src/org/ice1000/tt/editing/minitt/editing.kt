@@ -12,6 +12,7 @@ import org.ice1000.tt.editing.TTBraceMatcher
 import org.ice1000.tt.editing.TTCommenter
 import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.psi.minitt.*
+import org.ice1000.tt.psi.minitt.MiniTTElementType.miniTTLexer
 
 class MiniTTCommenter : TTCommenter() {
 	override fun getLineCommentPrefix() = "-- "

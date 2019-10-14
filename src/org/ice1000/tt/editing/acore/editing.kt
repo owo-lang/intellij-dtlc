@@ -11,6 +11,7 @@ import org.ice1000.tt.TTBundle
 import org.ice1000.tt.editing.TTBraceMatcher
 import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.psi.acore.*
+import org.ice1000.tt.psi.acore.ACoreElementType.acoreLexer
 
 class ACoreBraceMatcher : TTBraceMatcher() {
 	private companion object Pairs {

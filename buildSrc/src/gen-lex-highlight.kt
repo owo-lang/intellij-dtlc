@@ -24,7 +24,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import icons.TTIcons
 import org.ice1000.tt.${languageName}FileType
-import org.ice1000.tt.psi.$nickname.${configName}Lexer
+import org.ice1000.tt.psi.$nickname.${languageName}ElementType.${configName}Lexer
 
 abstract class ${languageName}GeneratedSyntaxHighlighter : SyntaxHighlighter {
 	$textAttributes

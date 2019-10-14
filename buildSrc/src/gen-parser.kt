@@ -3,22 +3,15 @@ package org.ice1000.tt.gradle
 import org.intellij.lang.annotations.Language
 
 fun LanguageUtilityGenerationTask.parser(configName: String, nickname: String) {
-	@Language("kotlin")
-	val lexer = """
-package $basePackage.psi.$nickname
-
-import com.intellij.lexer.FlexAdapter
-fun ${configName}Lexer() = FlexAdapter(${languageName}Lexer())
-"""
 	val outPsiDir = outDir.resolve("psi").resolve(nickname)
 	outPsiDir.mkdirs()
-	outPsiDir.resolve("generated.kt").writeText(lexer)
 
 	val elementTypeClassName = "${languageName}ElementType"
 	@Language("JAVA")
 	val elementTypeClassContent = """
 package org.ice1000.tt.psi.$nickname;
 
+import com.intellij.lexer.FlexAdapter;
 import com.intellij.psi.tree.IElementType;
 import org.ice1000.tt.${languageName}Language;
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +19,10 @@ import org.jetbrains.annotations.NotNull;
 public class $elementTypeClassName extends IElementType {
 	public $elementTypeClassName(@NotNull String debugName) {
 		super(debugName, ${languageName}Language.INSTANCE);
+	}
+
+	public static @NotNull FlexAdapter ${configName}Lexer() {
+		return new FlexAdapter(new ${languageName}Lexer());
 	}
 }"""
 	outPsiDir.resolve("$elementTypeClassName.java").writeText(elementTypeClassContent)
@@ -51,12 +48,10 @@ import org.ice1000.tt.${languageName}File;
 import org.ice1000.tt.${languageName}Language;
 import org.jetbrains.annotations.NotNull;
 
-import static org.ice1000.tt.psi.$nickname.GeneratedKt.${configName}Lexer;
-
 public class $parserDefClassName implements ParserDefinition {
 	private static @NotNull IStubFileElementType<PsiFileStubImpl<${languageName}File>> FILE = new IStubFileElementType<>(${languageName}Language.INSTANCE);
 
-	public @NotNull @Override Lexer createLexer(Project project) { return ${configName}Lexer(); }
+	public @NotNull @Override Lexer createLexer(Project project) { return $elementTypeClassName.${configName}Lexer(); }
 	public @Override PsiParser createParser(Project project) { return new ${languageName}Parser(); }
 	public @Override IFileElementType getFileNodeType() { return FILE; }
 	public @NotNull @Override TokenSet getCommentTokens() { return ${languageName}TokenType.COMMENTS; }

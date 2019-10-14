@@ -17,6 +17,7 @@ import org.ice1000.tt.TTBundle
 import org.ice1000.tt.editing.*
 import org.ice1000.tt.psi.endOffset
 import org.ice1000.tt.psi.mlpolyr.*
+import org.ice1000.tt.psi.mlpolyr.MLPolyRElementType.mlPolyRLexer
 import org.ice1000.tt.psi.startOffset
 
 class MLPolyRAnnotator : Annotator {

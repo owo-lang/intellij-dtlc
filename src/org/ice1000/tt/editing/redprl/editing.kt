@@ -12,9 +12,9 @@ import org.ice1000.tt.editing.SimpleProvider
 import org.ice1000.tt.editing.TTBraceMatcher
 import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.editing.makeKeywordsCompletion
+import org.ice1000.tt.psi.redprl.RedPrlElementType.redPrlLexer
 import org.ice1000.tt.psi.redprl.RedPrlTokenType
 import org.ice1000.tt.psi.redprl.RedPrlTypes
-import org.ice1000.tt.psi.redprl.redPrlLexer
 
 class RedPrlBraceMatcher : TTBraceMatcher() {
 	private companion object Pairs {

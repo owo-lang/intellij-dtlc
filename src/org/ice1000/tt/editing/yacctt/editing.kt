@@ -9,6 +9,7 @@ import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.editing.TTBraceMatcher
 import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.psi.yacctt.*
+import org.ice1000.tt.psi.yacctt.YaccTTElementType.yaccTTLexer
 
 class YaccTTBraceMatcher : TTBraceMatcher() {
 	private companion object Pairs {
