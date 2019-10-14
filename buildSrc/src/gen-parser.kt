@@ -41,8 +41,7 @@ open class ${languageName}GeneratedParserDefinition : ParserDefinition {
 	override fun getWhitespaceTokens() = WHITE_SPACE
 	override fun getCommentTokens() = ${languageName}TokenType.COMMENTS
 	override fun getFileNodeType(): IFileElementType = FILE
-	// TODO: replace after dropping support for 183
-	override fun spaceExistanceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
+	override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
 }
 
 """

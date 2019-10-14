@@ -209,7 +209,7 @@ utilities("genMiniTTUtility") {
 	constantPrefix = "MINI_TT"
 	exeName = "minittc"
 	runConfigInit = """additionalOptions = "--repl-plain""""
-	trimVersion = """version.removePrefix("minittc").trim()"""
+	trimVersion = """version.substring("minittc".length()).trim()"""
 	supportsParsing = true
 	highlightTokenPairs = listOf(
 		kw, id, comma, paren, semi, brace, fn,
@@ -235,7 +235,7 @@ utilities("genACoreUtility") {
 utilities("genNarcUtility") {
 	languageName = "Narc"
 	exeName = "narc"
-	trimVersion = """version.removePrefix("narc").trim()"""
+	trimVersion = """version.substring("narc".length()).trim()"""
 	supportsParsing = true
 	highlightTokenPairs = listOf(
 		kw, id, paren, semi, brace, lc, fn,
@@ -247,7 +247,7 @@ utilities("genNarcUtility") {
 utilities("genVoileUtility") {
 	languageName = "Voile"
 	exeName = "voilec"
-	trimVersion = """version.removePrefix("voilec").trim()"""
+	trimVersion = """version.substring("voilec".length()).trim()"""
 	supportsParsing = true
 	highlightTokenPairs = listOf(
 		kw, id, comma, paren, semi, brace, lc, fn,
@@ -298,7 +298,7 @@ utilities("genMlangUtility") {
 utilities("genAgdaUtility") {
 	languageName = "Agda"
 	exeName = "agda"
-	trimVersion = """version.removePrefix("Agda version").trim()"""
+	trimVersion = """version.substring("Agda version".length()).trim()"""
 	supportsParsing = true
 	highlightTokenPairs = listOf(
 		kw, id, comma, paren, brace, bracket, semi, lc, bc, fn,

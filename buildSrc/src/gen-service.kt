@@ -20,8 +20,6 @@ import org.ice1000.tt.${constantPrefix}_WEBSITE
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.project.ui.CommonConfigurable
 import org.ice1000.tt.project.ui.initWebsiteLabel
-import org.ice1000.tt.project.ui.OnlyExecutableProjectConfigurable
-import org.ice1000.tt.project.ui.VersionedExecutableProjectConfigurableImpl
 
 ${if (generateSettings) if (hasVersion) """
 data class ${languageName}Settings(
@@ -67,38 +65,84 @@ internal fun CommonConfigurable.configure$languageName(project: Project) {
 		${configName}Path?.let { exePathField.text = it }
 	}
 }
+"""
+	val outProjectDir = outDir.resolve("project")
+	outProjectDir.mkdirs()
+	outProjectDir.resolve("$nickname-generated.kt").writeText(service)
 
-${if (generateSettings) if (hasVersion) """
-class ${languageName}ProjectConfigurable(project: Project) : VersionedExecutableProjectConfigurableImpl() {
-	override val settings: ${languageName}Settings = project.${configName}Settings.settings
+	if (generateSettings) {
+		val settingsClassName = "${languageName}ProjectConfigurable"
+		@Language("JAVA")
+		val settingsClassContent = if (hasVersion) """
+package $basePackage.project;
 
-	init {
-		init()
-		configure$languageName(project)
+import com.intellij.openapi.project.Project;
+import org.ice1000.tt.TTBundle;
+import org.ice1000.tt.project.ui.VersionedExecutableProjectConfigurableImpl;
+import org.jetbrains.annotations.NotNull;
+
+import static org.ice1000.tt.project.ProjectGenerated.*;
+
+class $settingsClassName extends VersionedExecutableProjectConfigurableImpl {
+	private ${languageName}Settings settings;
+
+	@NotNull @Override
+	protected VersionedExecutableSettings getSettings() {
+		return settings;
 	}
 
-	override fun trimVersion(version: String) = $trimVersion
-	override fun getDisplayName() = TTBundle.message("$nickname.name")
+	@NotNull @Override
+	protected String trimVersion(@NotNull String version) {
+		return $trimVersion;
+	}
+
+	public ${languageName}ProjectConfigurable(Project project) {
+		settings = get${configName.capitalize()}Settings(project).getSettings();
+		init();
+		configure$languageName(this, project);
+	}
+
+	@Override
+	public String getDisplayName() {
+		return TTBundle.message("$nickname.name");
+	}
 }
 """ else """
-class ${languageName}ProjectConfigurable(project: Project) : OnlyExecutableProjectConfigurable() {
-	val settings: ${languageName}Settings = project.${configName}Settings.settings
+package $basePackage.project;
 
-	init {
-		exePathField.text = settings.exePath
-		configure$languageName(project)
+import com.intellij.openapi.project.Project;
+import org.ice1000.tt.TTBundle;
+import org.ice1000.tt.project.ui.OnlyExecutableProjectConfigurable;
+
+import java.util.Objects;
+
+import static org.ice1000.tt.project.ProjectGenerated.*;
+
+class $settingsClassName extends OnlyExecutableProjectConfigurable {
+	private ${languageName}Settings settings;
+
+	public ${languageName}ProjectConfigurable(Project project) {
+		settings = get${configName.capitalize()}Settings(project).getSettings();
+		getExePathField().setText(settings.getExePath());
+		configure$languageName(this, project);
 	}
 
-	override fun isModified() = exePathField.text != settings.exePath
-	override fun getDisplayName() = TTBundle.message("$nickname.name")
+	@Override
+	public boolean isModified() {
+		return Objects.equals(getExePathField().getText(), settings.getExePath());
+	}
 
-	override fun apply() {
-		settings.exePath = exePathField.text
+	@Override
+	public String getDisplayName() {
+		return TTBundle.message("$nickname.name");
+	}
+
+	@Override
+	public void apply() {
+		settings.setExePath(getExePathField().getText());
 	}
 }
-""" else ""}
 """
-	outDir.resolve("project")
-		.apply { mkdirs() }
-		.resolve("$nickname-generated.kt").writeText(service)
+		outProjectDir.resolve("$settingsClassName.java").writeText(settingsClassContent)
+	}
 }
