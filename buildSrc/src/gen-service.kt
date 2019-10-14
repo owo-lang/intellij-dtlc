@@ -31,17 +31,6 @@ data class ${languageName}Settings(var exePath: String = "$exeName")
 """ else ""}
 val ${configName}Path by lazyExePath("$exeName")
 
-@State(
-	name = "${languageName}ProjectSettings",
-	storages = [Storage(file = "${languageName.decapitalize()}Config.xml")])
-class ${languageName}ProjectSettingsService : PersistentStateComponent<${languageName}Settings> {
-	val settings: ${languageName}Settings = ${languageName}Settings()
-	override fun getState(): ${languageName}Settings? = XmlSerializerUtil.createCopy(settings)
-	override fun loadState(state: ${languageName}Settings) {
-		XmlSerializerUtil.copyBean(state, settings)
-	}
-}
-
 val Project.${configName}Settings: ${languageName}ProjectSettingsService
 	get() = ${configName}SettingsNullable ?: ${languageName}ProjectSettingsService()
 
@@ -56,6 +45,35 @@ val Project.${configName}SettingsNullable: ${languageName}ProjectSettingsService
 	val outProjectDir = outDir.resolve("project")
 	outProjectDir.mkdirs()
 	outProjectDir.resolve("$nickname-generated.kt").writeText(service)
+
+	val serviceClassName = "${languageName}ProjectSettingsService"
+	@Language("JAVA")
+	val serviceClassContent = """
+package org.ice1000.tt.project;
+
+import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.State;
+import com.intellij.openapi.components.Storage;
+import com.intellij.util.xmlb.XmlSerializerUtil;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+@State(
+	name = "${languageName}ProjectSettings",
+	storages = @Storage("${languageName.decapitalize()}Config.xml"))
+public class ${serviceClassName} implements PersistentStateComponent<${languageName}Settings> {
+	private @NotNull ${languageName}Settings settings = new ${languageName}Settings();
+	@NotNull public ${languageName}Settings getSettings() { return settings; }
+
+	@Nullable @Override
+	public ${languageName}Settings getState() { return XmlSerializerUtil.createCopy(settings); }
+
+	@Override
+	public void loadState(@NotNull ${languageName}Settings state) {
+		XmlSerializerUtil.copyBean(state, settings);
+	}
+}"""
+	outProjectDir.resolve("$serviceClassName.java").writeText(serviceClassContent)
 
 	if (generateSettings) {
 		val settingsClassName = "${languageName}ProjectConfigurable"
