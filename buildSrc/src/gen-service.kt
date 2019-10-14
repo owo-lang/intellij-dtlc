@@ -9,17 +9,7 @@ val service = """
 @file:JvmName("ProjectGenerated")
 package $basePackage.project
 
-import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.components.State
-import com.intellij.openapi.components.Storage
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
-import com.intellij.util.xmlb.XmlSerializerUtil
-import icons.TTIcons
-import $basePackage.${constantPrefix}_WEBSITE
-import $basePackage.TTBundle
-import $basePackage.project.ui.CommonConfigurable
-import $basePackage.project.ui.initWebsiteLabel
 
 ${if (generateSettings) if (hasVersion) """
 data class ${languageName}Settings(
