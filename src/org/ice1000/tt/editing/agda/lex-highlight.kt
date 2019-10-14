@@ -51,7 +51,10 @@ object AgdaHighlighter : AgdaGeneratedSyntaxHighlighter() {
 		AgdaTypes.KW_DATA,
 		AgdaTypes.KW_LET,
 		AgdaTypes.KW_IN,
-		AgdaTypes.KW_DO
+		AgdaTypes.KW_DO,
+		AgdaTypes.KW_HIDING,
+		AgdaTypes.KW_RENAMING,
+		AgdaTypes.KW_USING
 	)
 
 	override fun getHighlightingLexer() = agdaLexer()
@@ -108,7 +111,7 @@ class AgdaColorSettingsPage : AgdaGeneratedColorSettingsPage() {
 {-# OPTIONS --without-K #-}
 module Example where
 {- Import IO module -}
-import IO
+import IO using (refl; _==_) renaming (sym to asym)
 import Function
 
 -- Testing function

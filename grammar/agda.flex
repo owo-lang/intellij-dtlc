@@ -133,6 +133,9 @@ data { return KW_DATA; }
 let { return KW_LET; }
 in { return KW_IN; }
 do { return KW_DO; }
+hiding { return KW_HIDING; }
+renaming { return KW_RENAMING; }
+using { return KW_USING; }
 
 Set{NUMBER}* { return UNIVERSE; }
 Prop{NUMBER}* { return UNIVERSE; }

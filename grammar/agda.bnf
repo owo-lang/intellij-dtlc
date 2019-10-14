@@ -76,11 +76,11 @@ importPackage ::= KW_OPEN? KW_IMPORT nameExp importModification* {
 	extends=declaration
 }
 private importModification ::= visibility | renaming
-visibilityKeywords ::= "using" | "hiding"
+visibilityKeywords ::= KW_USING | KW_HIDING
 visibility ::= visibilityKeywords OPEN_PAREN (nameExp nameExpRest*)? CLOSE_PAREN { pin=1 }
 private nameExpRest ::= SEMI nameExp { pin=1 }
 
-renaming ::= "renaming" OPEN_PAREN (renamePair renamePairRest*)? CLOSE_PAREN { pin=1 }
+renaming ::= KW_RENAMING OPEN_PAREN (renamePair renamePairRest*)? CLOSE_PAREN { pin=1 }
 renamePair ::= nameExp "to" nameDecl { pin=2 }
 private renamePairRest ::= SEMI renamePair { pin=1 }
 

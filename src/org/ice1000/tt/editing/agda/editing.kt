@@ -31,7 +31,6 @@ class AgdaAnnotator : Annotator {
 	override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 		when (element) {
 			is AgdaSignature -> signature(element, holder)
-			is AgdaVisibility, is AgdaRenaming -> rename(element, holder)
 			is AgdaRenamePair -> renamingPair(element, holder)
 		}
 	}
@@ -39,10 +38,6 @@ class AgdaAnnotator : Annotator {
 	private fun renamingPair(element: AgdaRenamePair, holder: AnnotationHolder) {
 		val to = element.childrenWithLeaves.firstOrNull { it.text == "to" } ?: return
 		holder.createInfoAnnotation(to, null).textAttributes = AgdaHighlighter.KEYWORD
-	}
-
-	private fun rename(element: PsiElement, holder: AnnotationHolder) {
-		holder.createInfoAnnotation(element.firstChild, null).textAttributes = AgdaHighlighter.KEYWORD
 	}
 
 	private fun signature(element: AgdaSignature, holder: AnnotationHolder) {
@@ -62,7 +57,7 @@ class AgdaCompletionContributor : CompletionContributor(), DumbAware {
 		"variable", "abstract", "instance", "rewrite", "private", "overlap",
 		"unquote", "pattern", "import", "module", "codata", "record", "infixl",
 		"infixr", "mutual", "forall", "tactic", "syntax", "where", "field",
-		"infix", "macro", "quote", "with", "open", "data", "let", "in", "do"
+		"infix", "macro", "quote", "with", "open", "data", "let", "in", "do", "hiding", "renaming", "using"
 	))
 
 	init {
