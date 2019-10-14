@@ -55,6 +55,7 @@ unquote ::= unquoteKeywords exp {
 	extends=declaration
 }
 open ::= KW_OPEN exp { extends=declaration }
+openModified ::= KW_OPEN atomic importModification* { extends=declaration }
 private aliasKeywords ::=
    KW_PATTERN
  | KW_SYNTAX
@@ -137,6 +138,7 @@ declaration ::=
  | data
  | record
  | alias
+ | openModified
  | open
  | infix
  | importPackage
