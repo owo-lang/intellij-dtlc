@@ -52,19 +52,6 @@ val Project.${configName}Settings: ${languageName}ProjectSettingsService
  */
 val Project.${configName}SettingsNullable: ${languageName}ProjectSettingsService?
 	get() = getComponent(${languageName}ProjectSettingsService::class.java)
-
-internal fun CommonConfigurable.configure$languageName(project: Project) {
-	initWebsiteLabel()
-	websiteLabel.text = ${constantPrefix}_WEBSITE
-	websiteLabel.icon = TTIcons.$constantPrefix
-	exePathField.addBrowseFolderListener(TTBundle.message("$nickname.ui.project.select-compiler"),
-		TTBundle.message("$nickname.ui.project.select-compiler.description"),
-		project,
-		FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor())
-	guessExeButton.addActionListener {
-		${configName}Path?.let { exePathField.text = it }
-	}
-}
 """
 	val outProjectDir = outDir.resolve("project")
 	outProjectDir.mkdirs()
@@ -72,16 +59,36 @@ internal fun CommonConfigurable.configure$languageName(project: Project) {
 
 	if (generateSettings) {
 		val settingsClassName = "${languageName}ProjectConfigurable"
+		val capitalizedConfigName = configName.capitalize()
+
+		val configureSettings = """
+initWebsiteLabel(this);
+getWebsiteLabel().setText(${constantPrefix}_WEBSITE);
+getWebsiteLabel().setIcon(TTIcons.$constantPrefix);
+getExePathField().addBrowseFolderListener(TTBundle.message("$nickname.ui.project.select-compiler"),
+	TTBundle.message("$nickname.ui.project.select-compiler.description"),
+	project,
+	FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor());
+getGuessExeButton().addActionListener(e -> {
+	String path = get${capitalizedConfigName}Path();
+	if (path != null) getExePathField().setText(path);
+});
+"""
+
 		@Language("JAVA")
 		val settingsClassContent = if (hasVersion) """
 package $basePackage.project;
 
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
+import icons.TTIcons;
 import org.ice1000.tt.TTBundle;
 import org.ice1000.tt.project.ui.VersionedExecutableProjectConfigurableImpl;
 import org.jetbrains.annotations.NotNull;
 
+import static org.ice1000.tt.ConstantsKt.${constantPrefix}_WEBSITE;
 import static org.ice1000.tt.project.ProjectGenerated.*;
+import static org.ice1000.tt.project.ui.Ui_implKt.initWebsiteLabel;
 
 class $settingsClassName extends VersionedExecutableProjectConfigurableImpl {
 	private ${languageName}Settings settings;
@@ -92,39 +99,39 @@ class $settingsClassName extends VersionedExecutableProjectConfigurableImpl {
 	}
 
 	@NotNull @Override
-	protected String trimVersion(@NotNull String version) {
-		return $trimVersion;
-	}
+	protected String trimVersion(@NotNull String version) { return $trimVersion; }
 
 	public ${languageName}ProjectConfigurable(Project project) {
-		settings = get${configName.capitalize()}Settings(project).getSettings();
+		settings = get${capitalizedConfigName}Settings(project).getSettings();
 		init();
-		configure$languageName(this, project);
+		$configureSettings
 	}
 
 	@Override
-	public String getDisplayName() {
-		return TTBundle.message("$nickname.name");
-	}
+	public String getDisplayName() { return TTBundle.message("$nickname.name"); }
 }
 """ else """
 package $basePackage.project;
 
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
+import icons.TTIcons;
 import org.ice1000.tt.TTBundle;
 import org.ice1000.tt.project.ui.OnlyExecutableProjectConfigurable;
 
 import java.util.Objects;
 
+import static org.ice1000.tt.ConstantsKt.${constantPrefix}_WEBSITE;
 import static org.ice1000.tt.project.ProjectGenerated.*;
+import static org.ice1000.tt.project.ui.Ui_implKt.initWebsiteLabel;
 
 class $settingsClassName extends OnlyExecutableProjectConfigurable {
 	private ${languageName}Settings settings;
 
 	public ${languageName}ProjectConfigurable(Project project) {
-		settings = get${configName.capitalize()}Settings(project).getSettings();
+		settings = get${capitalizedConfigName}Settings(project).getSettings();
 		getExePathField().setText(settings.getExePath());
-		configure$languageName(this, project);
+		$configureSettings
 	}
 
 	@Override
@@ -133,14 +140,10 @@ class $settingsClassName extends OnlyExecutableProjectConfigurable {
 	}
 
 	@Override
-	public String getDisplayName() {
-		return TTBundle.message("$nickname.name");
-	}
+	public String getDisplayName() { return TTBundle.message("$nickname.name"); }
 
 	@Override
-	public void apply() {
-		settings.setExePath(getExePathField().getText());
-	}
+	public void apply() { settings.setExePath(getExePathField().getText()); }
 }
 """
 		outProjectDir.resolve("$settingsClassName.java").writeText(settingsClassContent)
