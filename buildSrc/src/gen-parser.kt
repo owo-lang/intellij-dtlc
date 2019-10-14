@@ -4,51 +4,58 @@ import org.intellij.lang.annotations.Language
 
 fun LanguageUtilityGenerationTask.parser(configName: String, nickname: String) {
 	@Language("kotlin")
-	val parser = """
+	val lexerAndElementType = """
 package $basePackage.psi.$nickname
 
-import com.intellij.lang.ASTNode
-import com.intellij.lang.ParserDefinition
 import com.intellij.lexer.FlexAdapter
-import com.intellij.lexer.Lexer
-import com.intellij.openapi.project.Project
-import com.intellij.psi.FileViewProvider
-import com.intellij.psi.PsiElement
-import com.intellij.psi.stubs.PsiFileStubImpl
 import com.intellij.psi.tree.IElementType
-import com.intellij.psi.tree.IFileElementType
-import com.intellij.psi.tree.IStubFileElementType
-import com.intellij.psi.tree.TokenSet
-import org.ice1000.tt.${languageName}File
 import org.ice1000.tt.${languageName}Language
-import org.ice1000.tt.psi.WHITE_SPACE
 
 fun ${configName}Lexer() = FlexAdapter(${languageName}Lexer())
 
 class ${languageName}ElementType(debugName: String)
  : IElementType(debugName, ${languageName}Language.INSTANCE)
-
-open class ${languageName}GeneratedParserDefinition : ParserDefinition {
-	private companion object {
-		private val FILE = IStubFileElementType<PsiFileStubImpl<${languageName}File>>(${languageName}Language.INSTANCE)
-	}
-
-	override fun createParser(project: Project?) = ${languageName}Parser()
-	override fun createLexer(project: Project?): Lexer = ${configName}Lexer()
-	override fun createElement(node: ASTNode?): PsiElement = ${languageName}Types.Factory.createElement(node)
-	override fun createFile(viewProvider: FileViewProvider) = ${languageName}File(viewProvider)
-	override fun getStringLiteralElements() = TokenSet.EMPTY
-	override fun getWhitespaceTokens() = WHITE_SPACE
-	override fun getCommentTokens() = ${languageName}TokenType.COMMENTS
-	override fun getFileNodeType(): IFileElementType = FILE
-	override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
-}
-
 """
-	outDir.resolve("psi")
-		.resolve(nickname)
-		.apply { mkdirs() }
-		.resolve("generated.kt")
-		.apply { if (!exists()) createNewFile() }
-		.apply { writeText(parser) }
+	val outPsiDir = outDir.resolve("psi").resolve(nickname)
+	outPsiDir.mkdirs()
+	outPsiDir.resolve("generated.kt").writeText(lexerAndElementType)
+
+	val parserDefClassName = "${languageName}GeneratedParserDefinition"
+	@Language("JAVA")
+	val parserDefClassContent = """
+package org.ice1000.tt.psi.$nickname;
+
+import com.intellij.lang.ASTNode;
+import com.intellij.lang.ParserDefinition;
+import com.intellij.lang.PsiParser;
+import com.intellij.lexer.Lexer;
+import com.intellij.openapi.project.Project;
+import com.intellij.psi.FileViewProvider;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.stubs.PsiFileStubImpl;
+import com.intellij.psi.tree.IFileElementType;
+import com.intellij.psi.tree.IStubFileElementType;
+import com.intellij.psi.tree.TokenSet;
+import org.ice1000.tt.${languageName}File;
+import org.ice1000.tt.${languageName}Language;
+import org.jetbrains.annotations.NotNull;
+
+import static org.ice1000.tt.psi.$nickname.GeneratedKt.${configName}Lexer;
+
+public class $parserDefClassName implements ParserDefinition {
+	private static @NotNull IStubFileElementType<PsiFileStubImpl<${languageName}File>> FILE = new IStubFileElementType<>(${languageName}Language.INSTANCE);
+
+	public @NotNull @Override Lexer createLexer(Project project) { return ${configName}Lexer(); }
+	public @Override PsiParser createParser(Project project) { return new ${languageName}Parser(); }
+	public @Override IFileElementType getFileNodeType() { return FILE; }
+	public @NotNull @Override TokenSet getCommentTokens() { return ${languageName}TokenType.COMMENTS; }
+	public @NotNull @Override TokenSet getStringLiteralElements() { return TokenSet.EMPTY; }
+	public @NotNull @Override PsiElement createElement(ASTNode astNode) { return ${languageName}Types.Factory.createElement(astNode); }
+	public @Override PsiFile createFile(FileViewProvider fileViewProvider) { return new ${languageName}File(fileViewProvider); }
+	public @Override SpaceRequirements spaceExistenceTypeBetweenTokens(ASTNode left, ASTNode right) {
+		return SpaceRequirements.MAY;
+	}
+}"""
+	outPsiDir.resolve("$parserDefClassName.java").writeText(parserDefClassContent)
 }

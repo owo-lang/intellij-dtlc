@@ -61,7 +61,7 @@ import org.jetbrains.annotations.Nullable;
 @State(
 	name = "${languageName}ProjectSettings",
 	storages = @Storage("${languageName.decapitalize()}Config.xml"))
-public class ${serviceClassName} implements PersistentStateComponent<${languageName}Settings> {
+public final class ${serviceClassName} implements PersistentStateComponent<${languageName}Settings> {
 	private @NotNull ${languageName}Settings settings = new ${languageName}Settings();
 	@NotNull public ${languageName}Settings getSettings() { return settings; }
 
@@ -108,7 +108,7 @@ import static org.ice1000.tt.ConstantsKt.${constantPrefix}_WEBSITE;
 import static org.ice1000.tt.project.ProjectGenerated.*;
 import static org.ice1000.tt.project.ui.Ui_implKt.initWebsiteLabel;
 
-class $settingsClassName extends VersionedExecutableProjectConfigurableImpl {
+public final class $settingsClassName extends VersionedExecutableProjectConfigurableImpl {
 	private ${languageName}Settings settings;
 
 	@NotNull @Override
@@ -143,7 +143,7 @@ import static org.ice1000.tt.ConstantsKt.${constantPrefix}_WEBSITE;
 import static org.ice1000.tt.project.ProjectGenerated.*;
 import static org.ice1000.tt.project.ui.Ui_implKt.initWebsiteLabel;
 
-class $settingsClassName extends OnlyExecutableProjectConfigurable {
+public final class $settingsClassName extends OnlyExecutableProjectConfigurable {
 	private ${languageName}Settings settings;
 
 	public ${languageName}ProjectConfigurable(Project project) {

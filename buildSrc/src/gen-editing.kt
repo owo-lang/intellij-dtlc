@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static org.ice1000.tt.ConstantsKt.${constantPrefix}_LANGUAGE_NAME;
 
-class $className extends TemplateContextType {
+public class $className extends TemplateContextType {
 	public $className() {
 		super("${constantPrefix}_DEFAULT_CONTEXT_ID", ${constantPrefix}_LANGUAGE_NAME, TTParentContext.class);
 	}
