@@ -3,7 +3,6 @@ package org.ice1000.tt.editing.mlpolyr
 import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.codeInspection.ProblemHighlightType
-import com.intellij.lang.BracePair
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.cacheBuilder.DefaultWordsScanner
@@ -13,7 +12,6 @@ import com.intellij.psi.PsiElement
 import icons.TTIcons
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.editing.SimpleProvider
-import org.ice1000.tt.editing.TTBraceMatcher
 import org.ice1000.tt.editing.TTCommenter
 import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.psi.endOffset
@@ -76,18 +74,6 @@ class MLPolyRCommenter : TTCommenter() {
 	override fun getBlockCommentPrefix() = "(*"
 	override fun getBlockCommentSuffix() = "*)"
 	override fun getLineCommentPrefix(): String? = null
-}
-
-class MLPolyRBraceMatcher : TTBraceMatcher() {
-	private companion object Pairs {
-		private val PAIRS = arrayOf(
-			BracePair(MLPolyRTypes.LP, MLPolyRTypes.RP, false),
-			BracePair(MLPolyRTypes.LSB, MLPolyRTypes.RSB, false),
-			BracePair(MLPolyRTypes.LCBB, MLPolyRTypes.RCBB, false),
-			BracePair(MLPolyRTypes.LCB, MLPolyRTypes.RCB, false))
-	}
-
-	override fun getPairs() = PAIRS
 }
 
 class MLPolyRFindUsagesProvider : TTFindUsagesProvider() {

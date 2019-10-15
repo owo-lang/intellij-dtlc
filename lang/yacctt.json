@@ -26,5 +26,12 @@
 		"opaque", "split@", "hdata", "PathP", "LineP", "split", "Vproj", "where",
 		"data", "with", "hcom", "Vin", "let", "coe", "com", "box", "cap",
 		"in"
-	]
+	],
+	"braceTokenPairs": {
+		"LPAREN": "RPAREN",
+		"LT": "GT",
+		"KW_LET": "KW_IN",
+		"LBRACK": "RBRACK",
+		"LAYOUT_START": "LAYOUT_END"
+	}
 }

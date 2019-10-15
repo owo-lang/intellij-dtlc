@@ -37,5 +37,10 @@
 		"cap", "Vin", "abs", "com", "coe", "let", "use", "dim", "lvl", "knd", "exp",
 		"tac", "jdg", "val", "kan", "pre", "ax", "tt", "ff", "if", "ni", "of", "by",
 		"in", "fn", "id", "at"
-	]
+	],
+	"braceTokenPairs": {
+		"LPAREN": "RPAREN",
+		"LSQUARE": "RSQUARE",
+		"LBRACKET": "RBRACKET"
+	}
 }

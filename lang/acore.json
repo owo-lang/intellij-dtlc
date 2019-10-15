@@ -16,5 +16,8 @@
 		"UNRESOLVED": "IDENTIFIER",
 		"OPERATOR": "OPERATION_SIGN"
 	},
-	"keywordList": ["letrec", "Void", "let", "Sig", "fun", "Sum", "Pi"]
+	"keywordList": ["letrec", "Void", "let", "Sig", "fun", "Sum", "Pi"],
+	"braceTokenPairs": {
+		"LEFT_PAREN": "RIGHT_PAREN"
+	}
 }

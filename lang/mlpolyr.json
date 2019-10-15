@@ -37,5 +37,11 @@
 		"match", "cases", "where", "raise", "then", "else", "true", "with", "case",
 		"let", "end", "fun", "and", "val", "try", "not", "if", "fn", "as", "of",
 		"in"
-	]
+	],
+	"braceTokenPairs": {
+		"LP": "RP",
+		"LSB": "RSB",
+		"LCBB": "RCBB",
+		"LCB": "RCB"
+	}
 }

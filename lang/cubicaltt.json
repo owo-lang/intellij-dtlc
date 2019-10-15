@@ -26,5 +26,12 @@
 		"mutual", "opaque", "split@", "unglue", "hComp", "hdata", "PathP", "split",
 		"where", "comp", "data", "fill", "glue", "Glue", "with", "idJ", "id", "idC",
 		"let", "Id", "in"
-	]
+	],
+	"braceTokenPairs": {
+		"LPAREN": "RPAREN",
+		"LT": "GT",
+		"KW_LET": "KW_IN",
+		"LBRACK": "RBRACK",
+		"LAYOUT_START": "LAYOUT_END"
+	}
 }

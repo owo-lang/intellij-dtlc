@@ -33,5 +33,11 @@
 		"mutual", "forall", "tactic", "syntax", "where", "field", "infix", "macro",
 		"quote", "with", "open", "data", "let", "in", "do", "hiding", "renaming",
 		"using"
-	]
+	],
+	"braceTokenPairs": {
+		"OPEN_BRACE": "CLOSE_BRACE",
+		"OPEN_IDIOM_BRACKET": "CLOSE_IDIOM_BRACKET",
+		"KW_LET": "KW_IN",
+		"OPEN_PAREN": "CLOSE_PAREN"
+	}
 }

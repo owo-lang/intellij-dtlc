@@ -1,28 +1,16 @@
 package org.ice1000.tt.editing.cubicaltt
 
-import com.intellij.lang.BracePair
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.cacheBuilder.DefaultWordsScanner
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.TokenSet
-import org.ice1000.tt.editing.TTBraceMatcher
 import org.ice1000.tt.editing.TTFindUsagesProvider
-import org.ice1000.tt.psi.cubicaltt.*
+import org.ice1000.tt.psi.cubicaltt.CubicalTTData
+import org.ice1000.tt.psi.cubicaltt.CubicalTTDecl
 import org.ice1000.tt.psi.cubicaltt.CubicalTTElementType.cubicalttLexer
-
-class CubicalTTBraceMatcher : TTBraceMatcher() {
-	private companion object Pairs {
-		private val PAIRS = arrayOf(
-			BracePair(CubicalTTTypes.LPAREN, CubicalTTTypes.RPAREN, false),
-			BracePair(CubicalTTTypes.LT, CubicalTTTypes.GT, false),
-			BracePair(CubicalTTTypes.KW_LET, CubicalTTTypes.KW_IN, false),
-			BracePair(CubicalTTTypes.LBRACK, CubicalTTTypes.RBRACK, false),
-			BracePair(CubicalTTTypes.LAYOUT_START, CubicalTTTypes.LAYOUT_END, false))
-	}
-
-	override fun getPairs() = PAIRS
-}
+import org.ice1000.tt.psi.cubicaltt.CubicalTTNameDecl
+import org.ice1000.tt.psi.cubicaltt.CubicalTTTokenType
 
 class CubicalTTFindUsagesProvider : TTFindUsagesProvider() {
 	override fun getWordsScanner() = DefaultWordsScanner(cubicalttLexer(), CubicalTTTokenType.IDENTIFIERS, CubicalTTTokenType.COMMENTS, TokenSet.EMPTY)

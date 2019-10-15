@@ -1,25 +1,15 @@
 package org.ice1000.tt.editing.acore
 
 import com.intellij.codeInspection.ProblemHighlightType
-import com.intellij.lang.BracePair
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.cacheBuilder.DefaultWordsScanner
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.TTBundle
-import org.ice1000.tt.editing.TTBraceMatcher
 import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.psi.acore.*
 import org.ice1000.tt.psi.acore.ACoreElementType.acoreLexer
-
-class ACoreBraceMatcher : TTBraceMatcher() {
-	private companion object Pairs {
-		private val PAIRS = arrayOf(BracePair(ACoreTypes.LEFT_PAREN, ACoreTypes.RIGHT_PAREN, false))
-	}
-
-	override fun getPairs() = PAIRS
-}
 
 class ACoreFindUsagesProvider : TTFindUsagesProvider() {
 	override fun getWordsScanner() = DefaultWordsScanner(acoreLexer(), ACoreTokenType.IDENTIFIERS, ACoreTokenType.COMMENTS, TokenSet.EMPTY)
