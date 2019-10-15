@@ -3,9 +3,7 @@ package org.ice1000.tt.gradle
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
-import org.gradle.api.GradleException
 import java.io.File
-import kotlin.reflect.KMutableProperty
 
 private val sharedJson = Json(JsonConfiguration.Stable)
 
@@ -13,11 +11,11 @@ const val DEFAULT_PKG = "org.ice1000.tt"
 
 @Serializable
 class LangData(
-	var languageName: String = "",
-	var constantPrefix: String = "",
-	var exeName: String = "",
+	var languageName: String,
+	var constantPrefix: String,
+	var exeName: String,
 	var runConfigInit: String = "",
-	var trimVersion: String = "",
+	var trimVersion: String = "version",
 	var generateCliState: Boolean = true,
 	var hasVersion: Boolean = true,
 	var generateSettings: Boolean = true,

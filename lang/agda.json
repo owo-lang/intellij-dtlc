@@ -4,9 +4,6 @@
 	"exeName": "agda",
 	"runConfigInit": "",
 	"trimVersion": "version.substring(\"Agda version\".length()).trim()",
-	"generateCliState": true,
-	"hasVersion": true,
-	"generateSettings": true,
 	"supportsParsing": true,
 	"highlightTokenPairs": {
 		"KEYWORD": "KEYWORD",

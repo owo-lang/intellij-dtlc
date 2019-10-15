@@ -4,9 +4,6 @@
 	"exeName": "narc",
 	"runConfigInit": "",
 	"trimVersion": "version.substring(\"narc\".length()).trim()",
-	"generateCliState": true,
-	"hasVersion": true,
-	"generateSettings": true,
 	"supportsParsing": true,
 	"highlightTokenPairs": {
 		"KEYWORD": "KEYWORD",

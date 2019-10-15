@@ -3,10 +3,7 @@
 	"constantPrefix": "MLPOLYR",
 	"exeName": "mlpolyrc",
 	"runConfigInit": "additionalOptions = \"-t\"",
-	"trimVersion": "version",
-	"generateCliState": true,
 	"hasVersion": false,
-	"generateSettings": true,
 	"supportsParsing": true,
 	"highlightTokenPairs": {
 		"KEYWORD": "KEYWORD",

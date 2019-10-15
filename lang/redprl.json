@@ -2,11 +2,7 @@
 	"languageName": "RedPrl",
 	"constantPrefix": "RED_PRL",
 	"exeName": "redprl",
-	"runConfigInit": "",
-	"trimVersion": "version",
-	"generateCliState": true,
 	"hasVersion": false,
-	"generateSettings": true,
 	"supportsParsing": true,
 	"highlightTokenPairs": {
 		"KEYWORD": "KEYWORD",

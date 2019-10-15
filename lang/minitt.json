@@ -4,9 +4,6 @@
 	"exeName": "minittc",
 	"runConfigInit": "additionalOptions = \"--repl-plain\"",
 	"trimVersion": "version.substring(\"minittc\".length()).trim()",
-	"generateCliState": true,
-	"hasVersion": true,
-	"generateSettings": true,
 	"supportsParsing": true,
 	"highlightTokenPairs": {
 		"KEYWORD": "KEYWORD",

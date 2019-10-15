@@ -2,11 +2,7 @@
 	"languageName": "ACore",
 	"constantPrefix": "AGDA_CORE",
 	"exeName": "agdacore",
-	"runConfigInit": "",
-	"trimVersion": "version",
-	"generateCliState": true,
 	"hasVersion": false,
-	"generateSettings": true,
 	"supportsParsing": true,
 	"highlightTokenPairs": {
 		"KEYWORD": "KEYWORD",
