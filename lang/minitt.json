@@ -22,5 +22,9 @@
 	"keywordList": [
 		"\\\\lambda", "\\\\times", "\\\\Sigma", "\\\\Pi",
 		"split", "const", "Type", "let", "rec", "Sum"
-	]
+	],
+	"braceTokenPairs": {
+		"LEFT_PAREN": "RIGHT_PAREN",
+		"LEFT_BRACE": "RIGHT_BRACE"
+	}
 }

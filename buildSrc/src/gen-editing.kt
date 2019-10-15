@@ -11,7 +11,7 @@ package $basePackage.editing.$nickname;
 
 import com.intellij.lang.BracePair;
 import $basePackage.editing.TTBraceMatcher;
-import $basePackage.psi.narc.${languageName}Types;
+import $basePackage.psi.$nickname.${languageName}Types;
 import org.jetbrains.annotations.NotNull;
 
 public final class $className extends TTBraceMatcher {

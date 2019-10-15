@@ -1,0 +1,42 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"languageName": {
+			"type": "string"
+		},
+		"constantPrefix": {
+			"type": "string"
+		},
+		"exeName": {
+			"type": "string"
+		},
+		"runConfigInit": {
+			"type": "string"
+		},
+		"trimVersion": {
+			"type": "string"
+		},
+		"supportsParsing": {
+			"type": "boolean"
+		},
+		"generateCliState": {
+			"type": "boolean"
+		},
+		"hasVersion": {
+			"type": "boolean"
+		},
+		"highlightTokenPairs": {
+			"type": "object"
+		},
+		"keywordList": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			}
+		},
+		"braceTokenPairs": {
+			"type": "object"
+		}
+	}
+}
