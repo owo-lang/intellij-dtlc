@@ -5,7 +5,6 @@ import org.gradle.api.GradleException
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
-import org.intellij.lang.annotations.Language
 
 open class LangUtilGenTask : DefaultTask() {
 	@field:Input var basePackage: String = "org.ice1000.tt"
@@ -13,7 +12,7 @@ open class LangUtilGenTask : DefaultTask() {
 	@field:Input var constantPrefix: String = ""
 	@field:Input var exeName: String = ""
 	@field:Input var runConfigInit: String = ""
-	@field:Input @Language("JAVA") var trimVersion: String = "version"
+	@field:Input var trimVersion: String = "version"
 	@field:Input var generateCliState: Boolean = true
 	@field:Input var hasVersion: Boolean = true
 	@field:Input var generateSettings: Boolean = true
@@ -42,7 +41,7 @@ open class LangUtilGenTask : DefaultTask() {
 		infos(nickname)
 		service(configName, nickname)
 		fileCreation(nickname)
-		editing(nickname)
+		editing()
 		execution(nickname, configName)
 		pluginXml(nickname)
 		if (supportsParsing) {
