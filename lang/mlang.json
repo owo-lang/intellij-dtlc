@@ -17,27 +17,8 @@
 		"DIMENSION": "NUMBER"
 	},
 	"keywordList": [
-		"as",
-		"run",
-		"sum",
-		"case",
-		"type",
-		"make",
-		"field",
-		"define",
-		"record",
-		"transp",
-		"unglue",
-		"__debug",
-		"declare",
-		"parameters",
-		"inductively",
-		"glue",
-		"glue_type",
-		"hfill",
-		"hcomp",
-		"fill",
-		"comp",
-		"with_constructor"
+		"as", "run", "sum", "case", "type", "make", "field", "define", "record", "transp",
+		"unglue", "__debug", "declare", "parameters", "inductively", "glue", "glue_type",
+		"hfill", "hcomp", "fill", "comp", "with_constructor"
 	]
 }

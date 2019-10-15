@@ -20,15 +20,7 @@
 		"COMMENT": "LINE_COMMENT"
 	},
 	"keywordList": [
-		"\\\\lambda",
-		"\\\\times",
-		"\\\\Sigma",
-		"\\\\Pi",
-		"split",
-		"const",
-		"Type",
-		"let",
-		"rec",
-		"Sum"
+		"\\\\lambda", "\\\\times", "\\\\Sigma", "\\\\Pi",
+		"split", "const", "Type", "let", "rec", "Sum"
 	]
 }

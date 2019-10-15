@@ -22,29 +22,9 @@
 		"PROJECTION": "INSTANCE_FIELD"
 	},
 	"keywordList": [
-		"transparentAll",
-		"transparent",
-		"undefined",
-		"import",
-		"module",
-		"mutual",
-		"opaque",
-		"split@",
-		"hdata",
-		"PathP",
-		"LineP",
-		"split",
-		"Vproj",
-		"where",
-		"data",
-		"with",
-		"hcom",
-		"Vin",
-		"let",
-		"coe",
-		"com",
-		"box",
-		"cap",
+		"transparentAll", "transparent", "undefined", "import", "module", "mutual",
+		"opaque", "split@", "hdata", "PathP", "LineP", "split", "Vproj", "where",
+		"data", "with", "hcom", "Vin", "let", "coe", "com", "box", "cap",
 		"in"
 	]
 }

@@ -22,31 +22,9 @@
 		"PROJECTION": "INSTANCE_FIELD"
 	},
 	"keywordList": [
-		"transparentAll",
-		"transparent",
-		"transport",
-		"undefined",
-		"import",
-		"module",
-		"mutual",
-		"opaque",
-		"split@",
-		"unglue",
-		"hComp",
-		"hdata",
-		"PathP",
-		"split",
-		"where",
-		"comp",
-		"data",
-		"fill",
-		"glue",
-		"Glue",
-		"with",
-		"id",
-		"id",
-		"let",
-		"Id",
-		"in"
+		"transparentAll", "transparent", "transport", "undefined", "import", "module",
+		"mutual", "opaque", "split@", "unglue", "hComp", "hdata", "PathP", "split",
+		"where", "comp", "data", "fill", "glue", "Glue", "with", "idJ", "id", "idC",
+		"let", "Id", "in"
 	]
 }

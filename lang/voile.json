@@ -19,14 +19,5 @@
 		"OPERATOR": "OPERATION_SIGN",
 		"BRACE2": "BRACES"
 	},
-	"keywordList": [
-		"Sum",
-		"Rec",
-		"Type",
-		"let",
-		"val",
-		"case",
-		"or",
-		"whatever"
-	]
+	"keywordList": ["Sum", "Rec", "Type", "let", "val", "case", "or", "whatever"]
 }
