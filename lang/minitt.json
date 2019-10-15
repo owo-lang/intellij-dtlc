@@ -2,7 +2,7 @@
 	"languageName": "MiniTT",
 	"constantPrefix": "MINI_TT",
 	"exeName": "minittc",
-	"runConfigInit": "additionalOptions = \"--repl-plain\"",
+	"runConfigInit": "setAdditionalOptions(\"--repl-plain\");",
 	"trimVersion": "version.substring(\"minittc\".length()).trim()",
 	"supportsParsing": true,
 	"highlightTokenPairs": {

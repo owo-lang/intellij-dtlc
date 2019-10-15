@@ -88,6 +88,68 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 		
 	""".trimIndent()
 
+	@Language("java")
+	val runConfigJava = """
+	package $basePackage.execution;
+	
+	import com.intellij.execution.ExecutionException;
+	import com.intellij.execution.Executor;
+	import com.intellij.execution.configurations.ConfigurationFactory;
+	import com.intellij.execution.configurations.RunConfiguration;
+	import com.intellij.execution.configurations.RunProfileState;
+	import com.intellij.execution.runners.ExecutionEnvironment;
+	import com.intellij.openapi.options.SettingsEditor;
+	import com.intellij.openapi.project.Project;
+	import com.intellij.openapi.util.JDOMExternalizerUtil;
+	import org.ice1000.tt.TTBundle;
+	import org.ice1000.tt.execution.${languageName}CommandLineState;
+	import org.ice1000.tt.execution.${languageName}RunConfigurationEditor;
+	import org.ice1000.tt.execution.InterpretedRunConfiguration;
+	import org.jdom.Element;
+	import org.jetbrains.annotations.NotNull;
+	import org.jetbrains.annotations.Nullable;
+
+	public class ${languageName}RunConfiguration extends InterpretedRunConfiguration<${languageName}CommandLineState> {
+		public String ${configName}Executable;
+		private Project project;
+		private ConfigurationFactory factory;
+		public ${languageName}RunConfiguration(@NotNull Project project, @NotNull ConfigurationFactory factory) {
+			super(project, factory, TTBundle.message("$nickname.name"));
+			this.project = project;
+			this.factory = factory;
+			${runConfigInit};
+		}
+
+		@NotNull
+		@Override
+		public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
+			return new ${languageName}RunConfigurationEditor(this, project);
+		}
+
+		@Nullable
+		@Override
+		public RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment environment) {
+			return new ${languageName}CommandLineState(this, environment);
+		}
+
+		@Override
+		public void readExternal(@NotNull Element element) {
+			super.readExternal(element);
+			String field = JDOMExternalizerUtil.readField(element, "${configName}Executable");
+			if (field == null) {
+				field = "";
+			}
+			${configName}Executable = field;
+		}
+
+		@Override
+		public void writeExternal(@NotNull Element element) {
+			super.writeExternal(element);
+			JDOMExternalizerUtil.writeField(element, "${configName}Executable", ${configName}Executable);
+		}
+	}
+	""".trimIndent()
+
 	@Language("kotlin")
 	val runConfig = """
 	package $basePackage.execution
@@ -113,28 +175,6 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	import $basePackage.project.*
 	import $basePackage.validateExe
 	import org.jdom.Element
-
-
-	class ${languageName}RunConfiguration(
-		project: Project,
-		factory: ConfigurationFactory
-	) : InterpretedRunConfiguration<${languageName}CommandLineState>(project, factory, TTBundle.message("$nickname.name")) {
-		var ${configName}Executable = project.${configName}Settings.settings.exePath
-		init { $runConfigInit }
-
-		override fun getState(executor: Executor, environment: ExecutionEnvironment) = ${languageName}CommandLineState(this, environment)
-		override fun getConfigurationEditor() = ${languageName}RunConfigurationEditor(this, project)
-
-		override fun readExternal(element: Element) {
-			super.readExternal(element)
-			JDOMExternalizerUtil.readField(element, "${configName}Executable").orEmpty().let { ${configName}Executable = it }
-		}
-
-		override fun writeExternal(element: Element) {
-			super.writeExternal(element)
-			JDOMExternalizerUtil.writeField(element, "${configName}Executable", ${configName}Executable)
-		}
-	}
 
 	class ${languageName}RunConfigurationEditor(
 		configuration: ${languageName}RunConfiguration,
@@ -207,5 +247,6 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	exe.resolve("$nickname-generated.kt").writeText(runConfig)
 	exe.resolve("${languageName}RunConfigurationFactory.java").writeText((runConfigFactoryJava))
 	exe.resolve("${languageName}RunConfigurationType.java").writeText((runConfigTypeJava))
+	exe.resolve("${languageName}RunConfiguration.java").writeText((runConfigJava))
 	if (generateCliState) exe.resolve("$nickname-cli-state.kt").writeText(cliState)
 }
