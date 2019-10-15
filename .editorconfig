@@ -6,6 +6,10 @@ indent_style = tab
 indent_size = tab
 tab_width = 2
 
+[*.json]
+ij_json_wrap_long_lines = true
+ij_json_keep_line_breaks = true
+
 [gradle.properties]
 indent_size = 0
 

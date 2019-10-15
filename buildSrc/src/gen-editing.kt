@@ -3,6 +3,33 @@ package org.ice1000.tt.gradle
 import org.intellij.lang.annotations.Language
 import java.io.File
 
+fun LangData.braceMatcher(nickname: String, outDir: File) {
+	val className = "${languageName}BraceMatcher"
+	@Language("JAVA")
+	val classContent = """
+package $basePackage.editing.$nickname;
+
+import com.intellij.lang.BracePair;
+import $basePackage.editing.TTBraceMatcher;
+import $basePackage.psi.narc.${languageName}Types;
+import org.jetbrains.annotations.NotNull;
+
+public final class $className extends TTBraceMatcher {
+	private static BracePair[] PAIRS = new BracePair[]{
+		${braceTokenPairs.entries.joinToString { (k, v) ->
+		"new BracePair(${languageName}Types.$k, ${languageName}Types.$v, false)"
+	}}
+	};
+
+	@Override public @NotNull BracePair[] getPairs() { return PAIRS; }
+}
+"""
+	outDir.resolve("editing")
+		.resolve(nickname)
+		.apply { mkdirs() }
+		.resolve("$className.java").writeText(classContent)
+}
+
 fun LangData.editing(outDir: File) {
 	val className = "${languageName}DefaultContext"
 	@Language("JAVA")

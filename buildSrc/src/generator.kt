@@ -48,5 +48,6 @@ open class LangUtilGenTask : DefaultTask() {
 		if (keywordList.isNotEmpty()) {
 			completionContributor(nickname, outDir)
 		}
+		if (braceTokenPairs.isNotEmpty()) braceMatcher(nickname, outDir)
 	}
 }

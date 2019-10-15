@@ -22,6 +22,7 @@ class LangData(
 	var supportsParsing: Boolean = false,
 	var keywordList: List<String> = emptyList(),
 	var highlightTokenPairs: Map<String, String> = emptyMap(),
+	var braceTokenPairs: Map<String, String> = emptyMap(),
 	var basePackage: String = DEFAULT_PKG
 ) {
 	fun toJson() = sharedJson.stringify(serializer(), this)

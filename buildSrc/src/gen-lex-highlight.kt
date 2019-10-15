@@ -37,7 +37,7 @@ public abstract class $colorSettingsClassName implements ColorSettingsPage {
 }"""
 	outEditingDir.resolve("$colorSettingsClassName.java").writeText(colorSettingsClassContent)
 
-	val tokenPairs = highlightTokenPairs.toList()
+	val tokenPairs = highlightTokenPairs.entries
 	val textAttributes = tokenPairs.joinToString("\n\t") { (l, r) ->
 		"public static @NotNull TextAttributesKey $l = TextAttributesKey.createTextAttributesKey(\"${constantPrefix}_$l\", DefaultLanguageHighlighterColors.$r);"
 	}

@@ -16,5 +16,10 @@
 		"UNRESOLVED": "IDENTIFIER",
 		"OPERATOR": "OPERATION_SIGN",
 		"INACCESS": "BRACES"
+	},
+	"braceTokenPairs": {
+		"LBRACE": "RBRACE",
+		"LINACCESS": "RINACCESS",
+		"LPAREN": "RPAREN"
 	}
 }
