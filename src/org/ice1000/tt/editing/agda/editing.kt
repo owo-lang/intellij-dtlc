@@ -48,20 +48,3 @@ class AgdaAnnotator : Annotator {
 		}
 	}
 }
-
-class AgdaCompletionContributor : CompletionContributor(), DumbAware {
-	private val keywords = makeKeywordsCompletion(TTIcons.AGDA, listOf(
-		"no-eta-equality", "eta-equality",
-		"quoteContext", "constructor", "coinductive", "unquoteDecl", "unquoteDef",
-		"postulate", "primitive", "inductive", "quoteGoal", "quoteTerm",
-		"variable", "abstract", "instance", "rewrite", "private", "overlap",
-		"unquote", "pattern", "import", "module", "codata", "record", "infixl",
-		"infixr", "mutual", "forall", "tactic", "syntax", "where", "field",
-		"infix", "macro", "quote", "with", "open", "data", "let", "in", "do",
-		"hiding", "renaming", "using"
-	))
-
-	init {
-		extend(CompletionType.BASIC, PlatformPatterns.psiElement(), SimpleProvider(keywords))
-	}
-}

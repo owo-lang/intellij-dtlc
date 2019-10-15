@@ -15,5 +15,29 @@
 		"BLOCK_COMMENT": "BLOCK_COMMENT",
 		"FUNCTION_NAME": "FUNCTION_DECLARATION",
 		"DIMENSION": "NUMBER"
-	}
+	},
+	"keywordList": [
+		"as",
+		"run",
+		"sum",
+		"case",
+		"type",
+		"make",
+		"field",
+		"define",
+		"record",
+		"transp",
+		"unglue",
+		"__debug",
+		"declare",
+		"parameters",
+		"inductively",
+		"glue",
+		"glue_type",
+		"hfill",
+		"hcomp",
+		"fill",
+		"comp",
+		"with_constructor"
+	]
 }
