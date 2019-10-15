@@ -55,16 +55,16 @@ private object NewOwOFile : NewTTFile(
 
 class NewTTActionGroup : DefaultActionGroup(
 	NewOwOFile,
-	NewVoileFile,
-	NewACoreFile,
-	NewMiniTTFile,
-	NewAgdaFile,
-	NewRedPrlFile,
-	NewCubicalTTFile,
-	NewYaccTTFile,
-	NewMlangFile,
-	NewNarcFile,
-	NewMLPolyRFile
+	NewVoileFile(),
+	NewACoreFile(),
+	NewMiniTTFile(),
+	NewAgdaFile(),
+	NewRedPrlFile(),
+	NewCubicalTTFile(),
+	NewYaccTTFile(),
+	NewMlangFile(),
+	NewNarcFile(),
+	NewMLPolyRFile()
 ), DumbAware {
 	init {
 		isPopup = true

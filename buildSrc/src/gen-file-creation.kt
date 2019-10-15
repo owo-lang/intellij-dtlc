@@ -4,28 +4,41 @@ import org.intellij.lang.annotations.Language
 import java.io.File
 
 fun LangData.fileCreation(nickname: String, outDir: File) {
-	@Language("kotlin")
-	val fileCreation = """
-package $basePackage.action
+	val outActionDir = outDir.resolve("action")
+	outActionDir.mkdirs()
 
-import com.intellij.ide.actions.CreateFileFromTemplateDialog
-import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiDirectory
-import icons.TTIcons
-import $basePackage.TTBundle
+	val fileCreationClassName = "New${languageName}File"
+	@Language("JAVA")
+	val fileCreationClassContent = """
+package $basePackage.action;
 
-object New${languageName}File : NewTTFile(
-	TTBundle.message("$nickname.actions.new-file.name"),
-	TTBundle.message("$nickname.actions.new-file.description"),
-	TTIcons.${constantPrefix}_FILE) {
-	override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
+import com.intellij.ide.actions.CreateFileFromTemplateDialog;
+import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiDirectory;
+import icons.TTIcons;
+import $basePackage.TTBundle;
+import org.jetbrains.annotations.NotNull;
+
+public class $fileCreationClassName extends NewTTFile {
+	public $fileCreationClassName() {
+		super(
+			TTBundle.message("$nickname.actions.new-file.name"), 
+			TTBundle.message("$nickname.actions.new-file.description"),
+			TTIcons.${constantPrefix}_FILE
+		);
+	}
+
+	@Override
+	public void buildDialog(
+		@NotNull Project project,
+		@NotNull PsiDirectory directory,
+		@NotNull CreateFileFromTemplateDialog.Builder builder
+	) {
 		builder
 			.setTitle(TTBundle.message("$nickname.actions.new-file.title"))
-			.addKind("File", TTIcons.${constantPrefix}_FILE, "$languageName File")
+			.addKind("File", TTIcons.${constantPrefix}_FILE, "$languageName File");
 	}
 }
 """
-	outDir.resolve("action")
-		.apply { mkdirs() }
-		.resolve("$nickname-generated.kt").writeText(fileCreation)
+	outActionDir.resolve("$fileCreationClassName.java").writeText(fileCreationClassContent)
 }
