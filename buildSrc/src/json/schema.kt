@@ -51,7 +51,7 @@ fun schema(descriptor: SerialDescriptor): JsonObject {
 		objectData += "enum" to JsonArray(allElementNames.map(::JsonLiteral))
 	}
 	when (jsonType) {
-		"object" -> {
+		"object" -> if (requiredProperties != setOf("0", "1")) {
 			objectData["properties"] = JsonObject(properties)
 			objectData["required"] = JsonArray(requiredProperties.map { JsonLiteral(it) })
 		}

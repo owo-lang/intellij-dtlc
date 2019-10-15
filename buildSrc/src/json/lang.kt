@@ -11,21 +11,28 @@ private val sharedJson = Json(JsonConfiguration.Stable)
 
 const val DEFAULT_PKG = "org.ice1000.tt"
 
+enum class FindUsagesProviderOpt {
+	WithString,
+	WithoutString,
+	DontGenerate
+}
+
 @Serializable
-class LangData(
-	var languageName: String,
+class LangData constructor(
+	val languageName: String,
 	var constantPrefix: String,
-	var exeName: String,
-	var runConfigInit: String = "",
-	var trimVersion: String = "version",
-	var generateCliState: Boolean = true,
-	var hasVersion: Boolean = true,
-	var generateSettings: Boolean = true,
-	var supportsParsing: Boolean = false,
-	var keywordList: List<String> = emptyList(),
-	var highlightTokenPairs: Map<String, String> = emptyMap(),
-	var braceTokenPairs: Map<String, String> = emptyMap(),
-	var basePackage: String = DEFAULT_PKG
+	val exeName: String,
+	val runConfigInit: String = "",
+	val trimVersion: String = "version",
+	val findUsagesProvider: FindUsagesProviderOpt = FindUsagesProviderOpt.DontGenerate,
+	val generateCliState: Boolean = true,
+	val hasVersion: Boolean = true,
+	val generateSettings: Boolean = true,
+	val supportsParsing: Boolean = false,
+	val keywordList: List<String> = emptyList(),
+	val highlightTokenPairs: Map<String, String> = emptyMap(),
+	val braceTokenPairs: Map<String, String> = emptyMap(),
+	val basePackage: String = DEFAULT_PKG
 ) {
 	fun toJson() = sharedJson.stringify(serializer(), this)
 
