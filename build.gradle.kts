@@ -148,8 +148,8 @@ fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
 	val parserRoot = Paths.get("org", "ice1000", "tt", "psi", lowerCaseName)
 	val lexerRoot = Paths.get("build", "gen", "org", "ice1000", "tt", "psi", lowerCaseName)
 	fun path(more: Iterable<*>) = more.joinToString(File.separator)
-	fun bnf(name: String) = Paths.get("grammar", "$name.bnf").toString()
-	fun flex(name: String) = Paths.get("grammar", "$name.flex").toString()
+	fun bnf(name: String) = Paths.get("lang", "$name.bnf").toString()
+	fun flex(name: String) = Paths.get("lang", "$name.flex").toString()
 
 	val genParser = task<GenerateParser>("gen${name}Parser") {
 		generateCode.dependsOn(this)
