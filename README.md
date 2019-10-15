@@ -14,7 +14,7 @@ usages), including:
 + ![](./res/icons/narc/narc.svg)
   [Narc]
 + ![](./res/icons/minitt/minitt.svg)
-  [minitt]
+  [Mini-TT][minitt]
 + ![](./res/icons/mlpr/mlpr_file.svg)
   [MLPolyR] ([GitHub source][MLPolyR-gh])
 + ![](./res/icons/ctt/ctt_file.svg)
