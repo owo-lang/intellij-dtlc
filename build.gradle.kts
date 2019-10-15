@@ -1,5 +1,4 @@
 import org.ice1000.tt.gradle.LangUtilGenTask
-import org.ice1000.tt.gradle.langGenJson
 import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
 import org.jetbrains.intellij.tasks.PatchPluginXmlTask

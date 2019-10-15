@@ -15,7 +15,7 @@ open class LangUtilGenTask : DefaultTask() {
 	@field:OutputDirectory
 	val outDir = DEFAULT_PKG.split('.').fold(project.buildDir.resolve("gen")) { dir, p -> dir.resolve(p) }
 	@field:OutputDirectory
-	val pluginXmlDir = project.buildDir.resolve("genRes").resolve("META-INF")
+	val fyiDir = project.buildDir.resolve("fyi")
 
 	init {
 		group = "code generation"
@@ -43,7 +43,7 @@ open class LangUtilGenTask : DefaultTask() {
 		fileCreation(nickname, outDir)
 		editing(outDir)
 		execution(nickname, configName, outDir)
-		pluginXml(nickname, pluginXmlDir)
+		pluginXml(nickname, fyiDir)
 		if (supportsParsing) {
 			parser(nickname, outDir)
 			lexHighlight(nickname, outDir)

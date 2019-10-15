@@ -4,8 +4,10 @@ import org.ice1000.tt.gradle.json.LangData
 import org.intellij.lang.annotations.Language
 import java.io.File
 
-fun LangData.pluginXml(nickname: String, pluginXmlDir: File) {
+fun LangData.pluginXml(nickname: String, fyiDir: File) {
+	val pluginXmlDir = fyiDir.resolve("META-INF")
 	pluginXmlDir.mkdirs()
+
 	val pluginXml = pluginXmlDir.resolve("plugin-$nickname-generated.xml")
 	@Language("XML")
 	val pluginXmlContent = """
@@ -30,10 +32,12 @@ fun LangData.pluginXml(nickname: String, pluginXmlDir: File) {
 	</project-components>
 </idea-plugin>
 """
-	pluginXml.apply { if (!exists()) createNewFile() }.writeText(pluginXmlContent)
-	val pluginCss = pluginXmlDir.resolve("$languageName-template.css")
+	pluginXml.writeText(pluginXmlContent)
 
-	pluginCss.apply { if (!exists()) createNewFile() }.writeText(buildString {
+	val cssDir = fyiDir.resolve("css")
+	cssDir.mkdirs()
+	val pluginCss = cssDir.resolve("$languageName-template.css")
+	pluginCss.writeText(buildString {
 		appendln("/* Token types. */")
 		highlightTokenPairs.forEach { (name, highlight) ->
 			appendln(".$languageName .${constantPrefix}_$name {")

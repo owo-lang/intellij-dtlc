@@ -1,8 +1,10 @@
 package org.ice1000.tt.gradle.json
 
+import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
+import kotlinx.serialization.stringify
 import java.io.File
 
 private val sharedJson = Json(JsonConfiguration.Stable)
@@ -26,6 +28,14 @@ class LangData(
 	var basePackage: String = DEFAULT_PKG
 ) {
 	fun toJson() = sharedJson.stringify(serializer(), this)
+
+	@UseExperimental(ImplicitReflectionSerializer::class)
+	companion object SchemaWriter {
+		init {
+			val map = schema(serializer().descriptor)
+			File("build/fyi/schema.json").writeText(sharedJson.stringify(map))
+		}
+	}
 }
 
 fun langGenJson(json: File) = langGenJson(json.readText())
