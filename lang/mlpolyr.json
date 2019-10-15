@@ -2,7 +2,7 @@
 	"languageName": "MLPolyR",
 	"constantPrefix": "MLPOLYR",
 	"exeName": "mlpolyrc",
-	"runConfigInit": "additionalOptions = \"-t\"",
+	"runConfigInit": "setAdditionalOptions(\"-t\");",
 	"hasVersion": false,
 	"supportsParsing": true,
 	"highlightTokenPairs": {
