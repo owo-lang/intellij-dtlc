@@ -52,5 +52,6 @@ open class LangUtilGenTask : DefaultTask() {
 			completionContributor(nickname, outDir)
 		}
 		if (braceTokenPairs.isNotEmpty()) braceMatcher(nickname, outDir)
+		findUsages(nickname, outDir)
 	}
 }

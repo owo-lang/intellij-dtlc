@@ -42,5 +42,6 @@
 		"LPAREN": "RPAREN",
 		"LSQUARE": "RSQUARE",
 		"LBRACKET": "RBRACKET"
-	}
+	},
+	"findUsagesProvider": "WithoutString"
 }

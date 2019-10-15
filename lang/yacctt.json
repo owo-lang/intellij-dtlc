@@ -33,5 +33,6 @@
 		"KW_LET": "KW_IN",
 		"LBRACK": "RBRACK",
 		"LAYOUT_START": "LAYOUT_END"
-	}
+	},
+	"findUsagesProvider": "WithoutString"
 }
