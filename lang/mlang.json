@@ -1,0 +1,23 @@
+{
+	"languageName": "Mlang",
+	"constantPrefix": "M_LANG",
+	"exeName": "mlang.jar",
+	"runConfigInit": "",
+	"trimVersion": "version",
+	"generateCliState": false,
+	"hasVersion": true,
+	"generateSettings": true,
+	"supportsParsing": true,
+	"highlightTokenPairs": {
+		"KEYWORD": "KEYWORD",
+		"IDENTIFIER": "IDENTIFIER",
+		"COMMA": "COMMA",
+		"PAREN": "PARENTHESES",
+		"BRACE": "BRACES",
+		"BRACK": "BRACKETS",
+		"LINE_COMMENT": "LINE_COMMENT",
+		"BLOCK_COMMENT": "BLOCK_COMMENT",
+		"FUNCTION_NAME": "FUNCTION_DECLARATION",
+		"DIMENSION": "NUMBER"
+	}
+}

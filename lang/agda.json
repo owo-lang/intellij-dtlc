@@ -1,0 +1,31 @@
+{
+	"languageName": "Agda",
+	"constantPrefix": "AGDA",
+	"exeName": "agda",
+	"runConfigInit": "",
+	"trimVersion": "version.substring(\"Agda version\".length()).trim()",
+	"generateCliState": true,
+	"hasVersion": true,
+	"generateSettings": true,
+	"supportsParsing": true,
+	"highlightTokenPairs": {
+		"KEYWORD": "KEYWORD",
+		"IDENTIFIER": "IDENTIFIER",
+		"COMMA": "COMMA",
+		"PAREN": "PARENTHESES",
+		"BRACE": "BRACES",
+		"BRACK": "BRACKETS",
+		"SEMICOLON": "SEMICOLON",
+		"LINE_COMMENT": "LINE_COMMENT",
+		"BLOCK_COMMENT": "BLOCK_COMMENT",
+		"FUNCTION_NAME": "FUNCTION_DECLARATION",
+		"DOT": "DOT",
+		"NUMBER": "NUMBER",
+		"STR_LIT": "STRING",
+		"CHR_LIT": "STRING",
+		"FLOAT": "NUMBER",
+		"ARROW": "OPERATION_SIGN",
+		"HOLE": "LABEL",
+		"PRAGMA": "METADATA"
+	}
+}

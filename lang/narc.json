@@ -1,0 +1,23 @@
+{
+	"languageName": "Narc",
+	"constantPrefix": "NARC",
+	"exeName": "narc",
+	"runConfigInit": "",
+	"trimVersion": "version.substring(\"narc\".length()).trim()",
+	"generateCliState": true,
+	"hasVersion": true,
+	"generateSettings": true,
+	"supportsParsing": true,
+	"highlightTokenPairs": {
+		"KEYWORD": "KEYWORD",
+		"IDENTIFIER": "IDENTIFIER",
+		"PAREN": "PARENTHESES",
+		"SEMICOLON": "SEMICOLON",
+		"BRACE": "BRACES",
+		"LINE_COMMENT": "LINE_COMMENT",
+		"FUNCTION_NAME": "FUNCTION_DECLARATION",
+		"UNRESOLVED": "IDENTIFIER",
+		"OPERATOR": "OPERATION_SIGN",
+		"INACCESS": "BRACES"
+	}
+}

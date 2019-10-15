@@ -53,4 +53,5 @@ class LangData(
 fun LangUtilGenTask.langGenJson(json: File) = langGenJson(json.readText())
 
 fun LangUtilGenTask.langGenJson(json: String) {
+	sharedJson.parse(LangData.serializer(), json).toTask(this)
 }

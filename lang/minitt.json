@@ -1,0 +1,25 @@
+{
+	"languageName": "MiniTT",
+	"constantPrefix": "MINI_TT",
+	"exeName": "minittc",
+	"runConfigInit": "additionalOptions = \"--repl-plain\"",
+	"trimVersion": "version.substring(\"minittc\".length()).trim()",
+	"generateCliState": true,
+	"hasVersion": true,
+	"generateSettings": true,
+	"supportsParsing": true,
+	"highlightTokenPairs": {
+		"KEYWORD": "KEYWORD",
+		"IDENTIFIER": "IDENTIFIER",
+		"COMMA": "COMMA",
+		"PAREN": "PARENTHESES",
+		"SEMICOLON": "SEMICOLON",
+		"BRACE": "BRACES",
+		"FUNCTION_NAME": "FUNCTION_DECLARATION",
+		"CONSTRUCTOR_CALL": "FUNCTION_CALL",
+		"CONSTRUCTOR_DECL": "FUNCTION_DECLARATION",
+		"UNRESOLVED": "IDENTIFIER",
+		"OPERATOR": "OPERATION_SIGN",
+		"COMMENT": "LINE_COMMENT"
+	}
+}

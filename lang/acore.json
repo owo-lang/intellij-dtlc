@@ -1,0 +1,23 @@
+{
+	"languageName": "ACore",
+	"constantPrefix": "AGDA_CORE",
+	"exeName": "agdacore",
+	"runConfigInit": "",
+	"trimVersion": "version",
+	"generateCliState": true,
+	"hasVersion": false,
+	"generateSettings": true,
+	"supportsParsing": true,
+	"highlightTokenPairs": {
+		"KEYWORD": "KEYWORD",
+		"IDENTIFIER": "IDENTIFIER",
+		"COMMA": "COMMA",
+		"PAREN": "PARENTHESES",
+		"SEMICOLON": "SEMICOLON",
+		"LINE_COMMENT": "LINE_COMMENT",
+		"BLOCK_COMMENT": "BLOCK_COMMENT",
+		"FUNCTION_NAME": "FUNCTION_DECLARATION",
+		"UNRESOLVED": "IDENTIFIER",
+		"OPERATOR": "OPERATION_SIGN"
+	}
+}

@@ -1,0 +1,32 @@
+{
+	"languageName": "RedPrl",
+	"constantPrefix": "RED_PRL",
+	"exeName": "redprl",
+	"runConfigInit": "",
+	"trimVersion": "version",
+	"generateCliState": true,
+	"hasVersion": false,
+	"generateSettings": true,
+	"supportsParsing": true,
+	"highlightTokenPairs": {
+		"KEYWORD": "KEYWORD",
+		"COMMA": "COMMA",
+		"PAREN": "PARENTHESES",
+		"BRACE": "BRACES",
+		"BRACK": "BRACKETS",
+		"SEMICOLON": "SEMICOLON",
+		"LINE_COMMENT": "LINE_COMMENT",
+		"BLOCK_COMMENT": "BLOCK_COMMENT",
+		"OP_NAME_DECL": "GLOBAL_VARIABLE",
+		"OP_NAME_CALL": "GLOBAL_VARIABLE",
+		"VAR_NAME_DECL": "LOCAL_VARIABLE",
+		"VAR_NAME_CALL": "LOCAL_VARIABLE",
+		"DOT": "DOT",
+		"OPERATOR": "OPERATION_SIGN",
+		"NUMERAL": "NUMBER",
+		"HASH": "METADATA",
+		"META_VAR_DECL": "METADATA",
+		"META_VAR_CALL": "METADATA",
+		"HOLE": "LABEL"
+	}
+}
