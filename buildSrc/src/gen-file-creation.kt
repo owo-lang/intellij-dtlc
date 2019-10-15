@@ -1,8 +1,9 @@
 package org.ice1000.tt.gradle
 
 import org.intellij.lang.annotations.Language
+import java.io.File
 
-fun LangUtilGenTask.fileCreation(nickname: String) {
+fun LangData.fileCreation(nickname: String, outDir: File) {
 	@Language("kotlin")
 	val fileCreation = """
 package $basePackage.action

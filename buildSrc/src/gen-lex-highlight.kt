@@ -1,8 +1,9 @@
 package org.ice1000.tt.gradle
 
 import org.intellij.lang.annotations.Language
+import java.io.File
 
-fun LangUtilGenTask.lexHighlight(configName: String, nickname: String) {
+fun LangData.lexHighlight(configName: String, nickname: String, outDir: File) {
 	val outEditingDir = outDir.resolve("editing").resolve(nickname)
 	outEditingDir.mkdirs()
 
@@ -36,10 +37,11 @@ public abstract class $colorSettingsClassName implements ColorSettingsPage {
 }"""
 	outEditingDir.resolve("$colorSettingsClassName.java").writeText(colorSettingsClassContent)
 
-	val textAttributes = highlightTokenPairs.joinToString("\n\t") { (l, r) ->
+	val tokenPairs = highlightTokenPairs.toList()
+	val textAttributes = tokenPairs.joinToString("\n\t") { (l, r) ->
 		"public static @NotNull TextAttributesKey $l = TextAttributesKey.createTextAttributesKey(\"${constantPrefix}_$l\", DefaultLanguageHighlighterColors.$r);"
 	}
-	val textAttributeKeys = highlightTokenPairs.joinToString("\n\t") { (l, _) ->
+	val textAttributeKeys = tokenPairs.joinToString("\n\t") { (l, _) ->
 		"public static @NotNull TextAttributesKey[] ${l}_KEY = new TextAttributesKey[]{$l};"
 	}
 

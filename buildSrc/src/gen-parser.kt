@@ -1,8 +1,9 @@
 package org.ice1000.tt.gradle
 
 import org.intellij.lang.annotations.Language
+import java.io.File
 
-fun LangUtilGenTask.parser(configName: String, nickname: String) {
+fun LangData.parser(configName: String, nickname: String, outDir: File) {
 	val outPsiDir = outDir.resolve("psi").resolve(nickname)
 	outPsiDir.mkdirs()
 

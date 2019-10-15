@@ -1,8 +1,9 @@
 package org.ice1000.tt.gradle
 
 import org.intellij.lang.annotations.Language
+import java.io.File
 
-fun LangUtilGenTask.execution(nickname: String, configName: String) {
+fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	@Language("kotlin")
 	val runConfig = """
 	package $basePackage.execution

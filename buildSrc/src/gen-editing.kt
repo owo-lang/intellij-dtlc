@@ -1,8 +1,9 @@
 package org.ice1000.tt.gradle
 
 import org.intellij.lang.annotations.Language
+import java.io.File
 
-fun LangUtilGenTask.editing() {
+fun LangData.editing(outDir: File) {
 	val className = "${languageName}DefaultContext"
 	@Language("JAVA")
 	val editing = """

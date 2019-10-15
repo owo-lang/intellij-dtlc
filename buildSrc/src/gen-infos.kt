@@ -1,8 +1,9 @@
 package org.ice1000.tt.gradle
 
 import org.intellij.lang.annotations.Language
+import java.io.File
 
-fun LangUtilGenTask.infos(nickname: String) {
+fun LangData.infos(nickname: String, outDir: File) {
 	@Language("Java")
 	val language = """
 package $basePackage;

@@ -1,8 +1,9 @@
 package org.ice1000.tt.gradle
 
 import org.intellij.lang.annotations.Language
+import java.io.File
 
-fun LangUtilGenTask.pluginXml(nickname: String) {
+fun LangData.pluginXml(nickname: String, pluginXmlDir: File) {
 	pluginXmlDir.mkdirs()
 	val pluginXml = pluginXmlDir.resolve("plugin-$nickname-generated.xml")
 	@Language("XML")

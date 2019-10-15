@@ -2,24 +2,15 @@ package org.ice1000.tt.gradle
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
-import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
+import java.io.File
 
 open class LangUtilGenTask : DefaultTask() {
-	@field:Input var basePackage: String = "org.ice1000.tt"
-	@field:Input var languageName: String = ""
-	@field:Input var constantPrefix: String = ""
-	@field:Input var exeName: String = ""
-	@field:Input var runConfigInit: String = ""
-	@field:Input var trimVersion: String = "version"
-	@field:Input var generateCliState: Boolean = true
-	@field:Input var hasVersion: Boolean = true
-	@field:Input var generateSettings: Boolean = true
-	@field:Input var supportsParsing: Boolean = false
-	@field:Input var highlightTokenPairs: List<Pair<String, String>> = emptyList()
+	@field:InputFile var langDataPath: String = ""
 	@field:OutputDirectory
-	val outDir = basePackage.split('.').fold(project.buildDir.resolve("gen")) { dir, p -> dir.resolve(p) }
+	val outDir = DEFAULT_PKG.split('.').fold(project.buildDir.resolve("gen")) { dir, p -> dir.resolve(p) }
 	@field:OutputDirectory
 	val pluginXmlDir = project.buildDir.resolve("genRes").resolve("META-INF")
 
@@ -29,6 +20,12 @@ open class LangUtilGenTask : DefaultTask() {
 
 	@TaskAction
 	fun gen() {
+		val langDataFile = File(langDataPath)
+		if (!langDataFile.exists()) throw GradleException("File $langDataFile does not exists!")
+		langGenJson(langDataFile).doGen()
+	}
+
+	fun LangData.doGen() {
 		val nickname = languageName.toLowerCase()
 		val configName = when (languageName.length) {
 			0, 1 -> nickname
@@ -38,15 +35,15 @@ open class LangUtilGenTask : DefaultTask() {
 		if (languageName.isBlank()) throw GradleException("Language name of $name must not be empty.")
 		if (generateSettings && exeName.isBlank()) throw GradleException("Executable name for $name must not be empty.")
 		if (constantPrefix.isEmpty()) constantPrefix = languageName.toUpperCase()
-		infos(nickname)
-		service(configName, nickname)
-		fileCreation(nickname)
-		editing()
-		execution(nickname, configName)
-		pluginXml(nickname)
+		infos(nickname, outDir)
+		service(configName, nickname, outDir)
+		fileCreation(nickname, outDir)
+		editing(outDir)
+		execution(nickname, configName, outDir)
+		pluginXml(nickname, pluginXmlDir)
 		if (supportsParsing) {
-			parser(configName, nickname)
-			lexHighlight(configName, nickname)
+			parser(configName, nickname, outDir)
+			lexHighlight(configName, nickname, outDir)
 		}
 	}
 }
