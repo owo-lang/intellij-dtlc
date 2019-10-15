@@ -33,7 +33,7 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	import com.intellij.execution.configurations.ConfigurationFactory;
 	import com.intellij.execution.configurations.ConfigurationType;
 	import icons.TTIcons;
-	import org.ice1000.tt.TTBundle;
+	import ${basePackage}.TTBundle;
 	import org.jetbrains.annotations.Nls;
 	import org.jetbrains.annotations.NotNull;
 
@@ -101,10 +101,10 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	import com.intellij.openapi.options.SettingsEditor;
 	import com.intellij.openapi.project.Project;
 	import com.intellij.openapi.util.JDOMExternalizerUtil;
-	import org.ice1000.tt.TTBundle;
-	import org.ice1000.tt.execution.${languageName}CommandLineState;
-	import org.ice1000.tt.execution.${languageName}RunConfigurationEditor;
-	import org.ice1000.tt.execution.InterpretedRunConfiguration;
+	import ${basePackage}.TTBundle;
+	import ${basePackage}.execution.${languageName}CommandLineState;
+	import ${basePackage}.execution.${languageName}RunConfigurationEditor;
+	import ${basePackage}.execution.InterpretedRunConfiguration;
 	import org.jdom.Element;
 	import org.jetbrains.annotations.NotNull;
 	import org.jetbrains.annotations.Nullable;
@@ -150,6 +150,60 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	}
 	""".trimIndent()
 
+	@Language("java")
+	val runConfigEditorJava = """
+	package $basePackage.execution;
+	
+	import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
+	import com.intellij.openapi.project.Project;
+	import ${basePackage}.TTBundle;
+	import ${basePackage}.execution.${languageName}RunConfiguration;
+	import ${basePackage}.execution.ui.InterpretedRunConfigurationEditorImpl;
+	import $basePackage.${languageName}FileType;
+	import org.jetbrains.annotations.NotNull;
+
+	import javax.naming.ConfigurationException;
+	import java.lang.reflect.Executable;
+
+	public class ${languageName}RunConfigurationEditor extends InterpretedRunConfigurationEditorImpl<${languageName}RunConfiguration> {
+
+		private ${languageName}RunConfiguration configuration;
+		private Project project;
+
+		public ${languageName}RunConfigurationEditor(${languageName}RunConfiguration configuration, Project project) {
+			super(project);
+			this.configuration = configuration;
+			this.project = project;
+			targetFileField.addBrowseFolderListener(TTBundle.message("$nickname.ui.run-config.select-$nickname-file"),
+				TTBundle.message("$nickname.ui.run-config.select-$nickname-file.description"),
+				project,
+				FileChooserDescriptorFactory.createSingleFileDescriptor(${languageName}FileType.INSTANCE));
+			exePathField.addBrowseFolderListener(TTBundle.message("$nickname.ui.project.select-compiler"),
+				TTBundle.message("$nickname.ui.project.select-compiler.description"),
+				project,
+				FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor());
+			resetEditorFrom(configuration);
+		}
+
+		@Override
+		protected void resetEditorFrom(@NotNull ${languageName}RunConfiguration s) {
+			super.resetEditorFrom(s);
+			exePathField.setText(s.${configName}Executable);
+		}
+
+		@Override
+		protected void applyEditorTo(@NotNull ${languageName}RunConfiguration s) {
+			try {
+				super.applyEditorTo(s);
+			} catch (ConfigurationException e) {
+				e.printStackTrace();
+			}
+			s.${configName}Executable = exePathField.getText();
+
+		}
+	}
+	""".trimIndent()
+
 	@Language("kotlin")
 	val runConfig = """
 	package $basePackage.execution
@@ -175,33 +229,6 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	import $basePackage.project.*
 	import $basePackage.validateExe
 	import org.jdom.Element
-
-	class ${languageName}RunConfigurationEditor(
-		configuration: ${languageName}RunConfiguration,
-		project: Project
-	) : InterpretedRunConfigurationEditorImpl<${languageName}RunConfiguration>(project) {
-		init {
-			targetFileField.addBrowseFolderListener(TTBundle.message("$nickname.ui.run-config.select-$nickname-file"),
-				TTBundle.message("$nickname.ui.run-config.select-$nickname-file.description"),
-				project,
-				FileChooserDescriptorFactory.createSingleFileDescriptor(${languageName}FileType))
-			exePathField.addBrowseFolderListener(TTBundle.message("$nickname.ui.project.select-compiler"),
-				TTBundle.message("$nickname.ui.project.select-compiler.description"),
-				project,
-				FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor())
-			resetEditorFrom(configuration)
-		}
-
-		override fun resetEditorFrom(s: ${languageName}RunConfiguration) {
-			super.resetEditorFrom(s)
-			exePathField.text = s.${configName}Executable
-		}
-
-		override fun applyEditorTo(s: ${languageName}RunConfiguration) {
-			super.applyEditorTo(s)
-			s.${configName}Executable = exePathField.text
-		}
-	}
 
 	class ${languageName}RunConfigurationProducer : LazyRunConfigurationProducer<${languageName}RunConfiguration>() {
 		override fun getConfigurationFactory() = ${languageName}RunConfigurationType.getInstance().factory
@@ -248,5 +275,6 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	exe.resolve("${languageName}RunConfigurationFactory.java").writeText((runConfigFactoryJava))
 	exe.resolve("${languageName}RunConfigurationType.java").writeText((runConfigTypeJava))
 	exe.resolve("${languageName}RunConfiguration.java").writeText((runConfigJava))
+	exe.resolve("${languageName}RunConfigurationEditor.java").writeText((runConfigEditorJava))
 	if (generateCliState) exe.resolve("$nickname-cli-state.kt").writeText(cliState)
 }
