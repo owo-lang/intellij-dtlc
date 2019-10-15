@@ -9,11 +9,8 @@ val isCI = !System.getenv("CI").isNullOrBlank()
 val commitHash = kotlin.run {
 	val process: Process = Runtime.getRuntime().exec("git rev-parse --short HEAD")
 	process.waitFor()
-	@Suppress("RemoveExplicitTypeArguments")
 	val output = process.inputStream.use {
-		process.inputStream.use {
-			it.readBytes().let<ByteArray, String>(::String)
-		}
+		process.inputStream.use { it.readBytes().let(::String) }
 	}
 	process.destroy()
 	output.trim()
@@ -29,12 +26,12 @@ version = pluginVersion
 plugins {
 	java
 	id("org.jetbrains.intellij") version "0.4.10"
-	id("org.jetbrains.grammarkit") version "2019.2.1"
+	id("org.jetbrains.grammarkit") version "2019.3"
 	kotlin("jvm") version "1.3.50"
 }
 
 grammarKit {
-	grammarKitRelease = "d0dbcb89a2e5cd90b9bdd517b2a69ab131f5fbf7"
+	grammarKitRelease = "7aecfcd72619e9c241866578e8312f339b4ddbd8"
 }
 
 fun fromToolbox(root: String, ide: String) = file(root)
