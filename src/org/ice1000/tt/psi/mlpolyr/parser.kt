@@ -3,9 +3,7 @@ package org.ice1000.tt.psi.mlpolyr
 import com.intellij.openapi.project.Project
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiFileFactory
-import com.intellij.psi.stubs.PsiFileStubImpl
 import com.intellij.psi.tree.IElementType
-import com.intellij.psi.tree.IStubFileElementType
 import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.MLPolyRFile
 import org.ice1000.tt.MLPolyRLanguage
@@ -40,10 +38,5 @@ class MLPolyRTokenType(debugName: String) : IElementType(debugName, MLPolyRLangu
 }
 
 class MLPolyRParserDefinition : MLPolyRGeneratedParserDefinition() {
-	private companion object {
-		private val FILE = IStubFileElementType<PsiFileStubImpl<MLPolyRFileImpl>>(MLPolyRLanguage.INSTANCE)
-	}
-
 	override fun createFile(viewProvider: FileViewProvider) = MLPolyRFileImpl(viewProvider)
-	override fun getFileNodeType() = FILE
 }
