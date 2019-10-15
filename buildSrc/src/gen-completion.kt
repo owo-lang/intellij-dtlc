@@ -24,7 +24,7 @@ import java.util.List;
 
 import static org.ice1000.tt.editing.CompletionKt.makeKeywordsCompletion;
 
-public final class $completionClassName extends CompletionContributor implements DumbAware {
+public class $completionClassName extends CompletionContributor implements DumbAware {
 	public $completionClassName() {
 		List<LookupElementBuilder> keywords = makeKeywordsCompletion(TTIcons.${constantPrefix},
 			${keywordList.joinToString { "\"$it\"" }}

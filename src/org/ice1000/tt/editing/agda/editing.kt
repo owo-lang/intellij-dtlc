@@ -1,18 +1,14 @@
 package org.ice1000.tt.editing.agda
 
-import com.intellij.codeInsight.completion.CompletionContributor
-import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.lang.BracePair
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
-import com.intellij.openapi.project.DumbAware
-import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.PsiElement
-import icons.TTIcons
-import org.ice1000.tt.editing.SimpleProvider
 import org.ice1000.tt.editing.TTBraceMatcher
-import org.ice1000.tt.editing.makeKeywordsCompletion
-import org.ice1000.tt.psi.agda.*
+import org.ice1000.tt.psi.agda.AgdaLayout
+import org.ice1000.tt.psi.agda.AgdaRenamePair
+import org.ice1000.tt.psi.agda.AgdaSignature
+import org.ice1000.tt.psi.agda.AgdaTypes
 import org.ice1000.tt.psi.childrenWithLeaves
 
 class AgdaBraceMatcher : TTBraceMatcher() {

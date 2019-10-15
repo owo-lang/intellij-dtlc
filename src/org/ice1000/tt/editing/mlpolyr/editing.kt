@@ -1,6 +1,5 @@
 package org.ice1000.tt.editing.mlpolyr
 
-import com.intellij.codeInsight.completion.CompletionContributor
 import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.codeInspection.ProblemHighlightType
@@ -8,13 +7,15 @@ import com.intellij.lang.BracePair
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.cacheBuilder.DefaultWordsScanner
-import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.util.TextRange
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.PsiElement
 import icons.TTIcons
 import org.ice1000.tt.TTBundle
-import org.ice1000.tt.editing.*
+import org.ice1000.tt.editing.SimpleProvider
+import org.ice1000.tt.editing.TTBraceMatcher
+import org.ice1000.tt.editing.TTCommenter
+import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.psi.endOffset
 import org.ice1000.tt.psi.mlpolyr.*
 import org.ice1000.tt.psi.mlpolyr.MLPolyRElementType.mlpolyrLexer
@@ -93,14 +94,7 @@ class MLPolyRFindUsagesProvider : TTFindUsagesProvider() {
 	override fun getWordsScanner() = DefaultWordsScanner(mlpolyrLexer(), MLPolyRTokenType.IDENTIFIERS, MLPolyRTokenType.COMMENTS, MLPolyRTokenType.STRINGS)
 }
 
-class MLPolyRCompletionContributor : CompletionContributor(), DumbAware {
-	private val keywords = makeKeywordsCompletion(TTIcons.MLPOLYR, listOf(
-		"rehandling",
-		"handling", "default", "nocases", "orelse", "isnull", "false", "match",
-		"cases", "where", "raise", "then", "else", "true", "with", "case", "let",
-		"end", "fun", "and", "val", "try", "not", "if", "fn", "as", "of", "in"
-	))
-
+class MLPolyRSmartCompletionContributor : MLPolyRCompletionContributor() {
 	private val builtins = listOf(
 		Triple("String.toInt", "string", "int"),
 		Triple("String.fromInt", "int", "string"),
@@ -119,9 +113,7 @@ class MLPolyRCompletionContributor : CompletionContributor(), DumbAware {
 			.withIcon(TTIcons.MLPOLYR)
 	}
 
-	private val all = keywords + builtins
-
 	init {
-		extend(CompletionType.BASIC, PlatformPatterns.psiElement(), SimpleProvider(all))
+		extend(CompletionType.BASIC, PlatformPatterns.psiElement(), SimpleProvider(builtins))
 	}
 }

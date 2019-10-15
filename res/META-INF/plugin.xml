@@ -89,7 +89,7 @@
 		<gotoSymbolContributor implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTDeclNavigationContributor"/>
 		<gotoSymbolContributor implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTDataNavigationContributor"/>
 		<gotoSymbolContributor implementation="org.ice1000.tt.editing.cubicaltt.CubicalTTLabelNavigationContributor"/>
-		<completion.contributor language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTCompletionContributor"/>
+		<completion.contributor language="CubicalTT" implementationClass="org.ice1000.tt.editing.cubicaltt.CubicalTTSmartCompletionContributor"/>
 
 		<!--YaccTT-->
 		<configurationType implementation="org.ice1000.tt.execution.YaccTTRunConfigurationType"/>
@@ -112,7 +112,7 @@
 		<gotoSymbolContributor implementation="org.ice1000.tt.editing.yacctt.YaccTTDeclNavigationContributor"/>
 		<gotoSymbolContributor implementation="org.ice1000.tt.editing.yacctt.YaccTTDataNavigationContributor"/>
 		<gotoSymbolContributor implementation="org.ice1000.tt.editing.yacctt.YaccTTLabelNavigationContributor"/>
-		<completion.contributor language="YaccTT" implementationClass="org.ice1000.tt.editing.yacctt.YaccTTCompletionContributor"/>
+		<completion.contributor language="YaccTT" implementationClass="org.ice1000.tt.editing.yacctt.YaccTTSmartCompletionContributor"/>
 
 		<!--MLPolyR-->
 		<configurationType implementation="org.ice1000.tt.execution.MLPolyRRunConfigurationType"/>
@@ -126,7 +126,7 @@
 		<colorSettingsPage implementation="org.ice1000.tt.editing.mlpolyr.MLPolyRColorSettingsPage"/>
 		<annotator language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRAnnotator"/>
 		<stubElementTypeHolder class="org.ice1000.tt.psi.mlpolyr.MLPolyRTypes"/>
-		<completion.contributor language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRCompletionContributor"/>
+		<completion.contributor language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRSmartCompletionContributor"/>
 		<lang.foldingBuilder language="MLPolyR" implementationClass="org.ice1000.tt.editing.mlpolyr.MLPolyRFoldingBuilder"/>
 		<lang.elementManipulator
 			forClass="org.ice1000.tt.psi.mlpolyr.MLPolyRStringMixin"

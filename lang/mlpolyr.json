@@ -31,5 +31,35 @@
 		"PARAMETER_CALL": "PARAMETER",
 		"PARAMETER_DECL": "PARAMETER",
 		"CONSTRUCTOR": "LABEL"
-	}
+	},
+	"keywordList": [
+		"rehandling",
+		"handling",
+		"default",
+		"nocases",
+		"orelse",
+		"isnull",
+		"false",
+		"match",
+		"cases",
+		"where",
+		"raise",
+		"then",
+		"else",
+		"true",
+		"with",
+		"case",
+		"let",
+		"end",
+		"fun",
+		"and",
+		"val",
+		"try",
+		"not",
+		"if",
+		"fn",
+		"as",
+		"of",
+		"in"
+	]
 }

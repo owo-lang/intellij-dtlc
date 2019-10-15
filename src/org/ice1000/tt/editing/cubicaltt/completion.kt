@@ -1,28 +1,19 @@
 package org.ice1000.tt.editing.cubicaltt
 
-import com.intellij.codeInsight.completion.*
-import com.intellij.openapi.project.DumbAware
+import com.intellij.codeInsight.completion.CompletionParameters
+import com.intellij.codeInsight.completion.CompletionProvider
+import com.intellij.codeInsight.completion.CompletionResultSet
+import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.patterns.PlatformPatterns.psiElement
 import com.intellij.util.ProcessingContext
-import icons.TTIcons
-import org.ice1000.tt.editing.SimpleProvider
-import org.ice1000.tt.editing.makeKeywordsCompletion
 import org.ice1000.tt.psi.childrenWithLeaves
 import org.ice1000.tt.psi.cubicaltt.CubicalCompletionElement
 import org.ice1000.tt.psi.cubicaltt.CubicalTTFileImpl
 import org.ice1000.tt.psi.cubicaltt.CubicalTTImportMixin
 import org.ice1000.tt.psi.cubicaltt.CubicalTTModuleMixin
 
-class CubicalTTCompletionContributor : CompletionContributor(), DumbAware {
-	private val keywords = makeKeywordsCompletion(TTIcons.CUBICAL_TT, listOf(
-		"transparentAll", "transparent",
-		"transport", "undefined", "import", "module", "mutual", "opaque",
-		"split@", "unglue", "hComp", "hdata", "PathP", "split", "where", "comp",
-		"data", "fill", "glue", "Glue", "with", "id", "id", "let", "Id", "in", "U"
-	))
-
+class CubicalTTSmartCompletionContributor : CubicalTTCompletionContributor() {
 	init {
-		extend(CompletionType.BASIC, psiElement(), SimpleProvider(keywords))
 		extend(CompletionType.BASIC, psiElement(), object : CompletionProvider<CompletionParameters>() {
 			override fun addCompletions(
 				parameters: CompletionParameters,
