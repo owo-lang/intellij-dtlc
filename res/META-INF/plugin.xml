@@ -140,6 +140,7 @@
 		<colorSettingsPage implementation="org.ice1000.tt.editing.acore.ACoreColorSettingsPage"/>
 		<annotator language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreAnnotator"/>
 		<stubElementTypeHolder class="org.ice1000.tt.psi.acore.ACoreTypes"/>
+		<completion.contributor language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreCompletionContributor"/>
 		<lang.refactoringSupport language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<lang.findUsagesProvider language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.acore.ACoreFindUsagesProvider"/>
 		<lang.commenter language="Vanilla Mini-TT" implementationClass="org.ice1000.tt.editing.HaskellCommenter"/>
@@ -155,6 +156,7 @@
 		<colorSettingsPage implementation="org.ice1000.tt.editing.minitt.MiniTTColorSettingsPage"/>
 		<stubElementTypeHolder class="org.ice1000.tt.psi.minitt.MiniTTTypes"/>
 		<lang.commenter language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTCommenter"/>
+		<completion.contributor language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTCompletionContributor"/>
 		<lang.braceMatcher language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTBraceMatcher"/>
 		<lang.findUsagesProvider language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTFindUsagesProvider"/>
 		<lang.refactoringSupport language="Mini-TT" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>

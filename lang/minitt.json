@@ -18,5 +18,17 @@
 		"UNRESOLVED": "IDENTIFIER",
 		"OPERATOR": "OPERATION_SIGN",
 		"COMMENT": "LINE_COMMENT"
-	}
+	},
+	"keywordList": [
+		"\\\\lambda",
+		"\\\\times",
+		"\\\\Sigma",
+		"\\\\Pi",
+		"split",
+		"const",
+		"Type",
+		"let",
+		"rec",
+		"Sum"
+	]
 }

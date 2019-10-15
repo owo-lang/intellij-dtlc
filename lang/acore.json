@@ -15,5 +15,14 @@
 		"FUNCTION_NAME": "FUNCTION_DECLARATION",
 		"UNRESOLVED": "IDENTIFIER",
 		"OPERATOR": "OPERATION_SIGN"
-	}
+	},
+	"keywordList": [
+		"letrec",
+		"Void",
+		"let",
+		"Sig",
+		"fun",
+		"Sum",
+		"Pi"
+	]
 }
