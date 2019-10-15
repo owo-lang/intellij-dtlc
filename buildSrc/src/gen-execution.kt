@@ -111,19 +111,15 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 
 	public class ${languageName}RunConfiguration extends InterpretedRunConfiguration<${languageName}CommandLineState> {
 		public String ${configName}Executable;
-		private Project project;
-		private ConfigurationFactory factory;
 		public ${languageName}RunConfiguration(@NotNull Project project, @NotNull ConfigurationFactory factory) {
 			super(project, factory, TTBundle.message("$nickname.name"));
-			this.project = project;
-			this.factory = factory;
 			${runConfigInit};
 		}
 
 		@NotNull
 		@Override
 		public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
-			return new ${languageName}RunConfigurationEditor(this, project);
+			return new ${languageName}RunConfigurationEditor(this, getProject());
 		}
 
 		@Nullable
@@ -294,10 +290,10 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	}
 	"""
 	val exe = outDir.resolve("execution").apply { mkdirs() }
-	exe.resolve("${languageName}RunConfigurationFactory.java").writeText((runConfigFactoryJava))
-	exe.resolve("${languageName}RunConfigurationType.java").writeText((runConfigTypeJava))
-	exe.resolve("${languageName}RunConfiguration.java").writeText((runConfigJava))
-	exe.resolve("${languageName}RunConfigurationEditor.java").writeText((runConfigEditorJava))
-	exe.resolve("${languageName}RunConfigurationProducer.java").writeText((runConfigProducerJava))
+	exe.resolve("${languageName}RunConfigurationFactory.java").writeText(runConfigFactoryJava)
+	exe.resolve("${languageName}RunConfigurationType.java").writeText(runConfigTypeJava)
+	exe.resolve("${languageName}RunConfiguration.java").writeText(runConfigJava)
+	exe.resolve("${languageName}RunConfigurationEditor.java").writeText(runConfigEditorJava)
+	exe.resolve("${languageName}RunConfigurationProducer.java").writeText(runConfigProducerJava)
 	if (generateCliState) exe.resolve("$nickname-cli-state.kt").writeText(cliState)
 }
