@@ -1,4 +1,4 @@
-import org.ice1000.tt.gradle.LanguageUtilityGenerationTask
+import org.ice1000.tt.gradle.LangUtilGenTask
 import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
 import org.jetbrains.intellij.tasks.PatchPluginXmlTask
@@ -185,7 +185,7 @@ grammar("Voile")
 grammar("Narc")
 grammar("Mlang")
 
-fun utilities(name: String, job: LanguageUtilityGenerationTask.() -> Unit) = task<LanguageUtilityGenerationTask>(name) {
+fun utilities(name: String, job: LangUtilGenTask.() -> Unit) = task<LangUtilGenTask>(name) {
 	this.job()
 	generateCode.dependsOn(this)
 }

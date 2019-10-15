@@ -7,7 +7,7 @@ import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.intellij.lang.annotations.Language
 
-open class LanguageUtilityGenerationTask : DefaultTask() {
+open class LangUtilGenTask : DefaultTask() {
 	@field:Input var basePackage: String = "org.ice1000.tt"
 	@field:Input var languageName: String = ""
 	@field:Input var constantPrefix: String = ""

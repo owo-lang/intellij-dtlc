@@ -2,7 +2,7 @@ package org.ice1000.tt.gradle
 
 import org.intellij.lang.annotations.Language
 
-fun LanguageUtilityGenerationTask.service(configName: String, nickname: String) {
+fun LangUtilGenTask.service(configName: String, nickname: String) {
 	@Language("kotlin")
 val service = """
 @file:JvmMultifileClass

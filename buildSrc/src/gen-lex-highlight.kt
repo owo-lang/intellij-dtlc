@@ -2,7 +2,7 @@ package org.ice1000.tt.gradle
 
 import org.intellij.lang.annotations.Language
 
-fun LanguageUtilityGenerationTask.lexHighlight(configName: String, nickname: String) {
+fun LangUtilGenTask.lexHighlight(configName: String, nickname: String) {
 	val outEditingDir = outDir.resolve("editing").resolve(nickname)
 	outEditingDir.mkdirs()
 
