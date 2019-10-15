@@ -39,5 +39,6 @@
 		"OPEN_IDIOM_BRACKET": "CLOSE_IDIOM_BRACKET",
 		"KW_LET": "KW_IN",
 		"OPEN_PAREN": "CLOSE_PAREN"
-	}
+	},
+	"findUsagesProvider": "DontGenerate"
 }

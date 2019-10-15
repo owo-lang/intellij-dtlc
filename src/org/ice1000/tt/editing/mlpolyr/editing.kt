@@ -5,7 +5,6 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
-import com.intellij.lang.cacheBuilder.DefaultWordsScanner
 import com.intellij.openapi.util.TextRange
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.PsiElement
@@ -13,10 +12,8 @@ import icons.TTIcons
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.editing.SimpleProvider
 import org.ice1000.tt.editing.TTCommenter
-import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.psi.endOffset
 import org.ice1000.tt.psi.mlpolyr.*
-import org.ice1000.tt.psi.mlpolyr.MLPolyRElementType.mlpolyrLexer
 import org.ice1000.tt.psi.startOffset
 
 class MLPolyRAnnotator : Annotator {
@@ -74,10 +71,6 @@ class MLPolyRCommenter : TTCommenter() {
 	override fun getBlockCommentPrefix() = "(*"
 	override fun getBlockCommentSuffix() = "*)"
 	override fun getLineCommentPrefix(): String? = null
-}
-
-class MLPolyRFindUsagesProvider : TTFindUsagesProvider() {
-	override fun getWordsScanner() = DefaultWordsScanner(mlpolyrLexer(), MLPolyRTokenType.IDENTIFIERS, MLPolyRTokenType.COMMENTS, MLPolyRTokenType.STRINGS)
 }
 
 class MLPolyRSmartCompletionContributor : MLPolyRCompletionContributor() {

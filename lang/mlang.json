@@ -25,5 +25,6 @@
 		"LBRACE": "RBRACE",
 		"LBRACK": "RBRACK",
 		"LPAREN": "RPAREN"
-	}
+	},
+	"findUsagesProvider": "DontGenerate"
 }

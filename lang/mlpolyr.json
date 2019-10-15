@@ -43,5 +43,6 @@
 		"LSB": "RSB",
 		"LCBB": "RCBB",
 		"LCB": "RCB"
-	}
+	},
+	"findUsagesProvider": "WithString"
 }

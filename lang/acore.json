@@ -19,5 +19,6 @@
 	"keywordList": ["letrec", "Void", "let", "Sig", "fun", "Sum", "Pi"],
 	"braceTokenPairs": {
 		"LEFT_PAREN": "RIGHT_PAREN"
-	}
+	},
+	"findUsagesProvider": "WithoutString"
 }
