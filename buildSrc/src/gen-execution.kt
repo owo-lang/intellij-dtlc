@@ -25,6 +25,69 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 		}
 	}
 	""".trimIndent()
+
+	@Language("java")
+	val runConfigTypeJava = """
+	package $basePackage.execution;
+
+	import com.intellij.execution.configurations.ConfigurationFactory;
+	import com.intellij.execution.configurations.ConfigurationType;
+	import icons.TTIcons;
+	import org.ice1000.tt.TTBundle;
+	import org.jetbrains.annotations.Nls;
+	import org.jetbrains.annotations.NotNull;
+
+	import javax.swing.*;
+
+	public class ${languageName}RunConfigurationType implements ConfigurationType {
+
+		ConfigurationFactory factory;
+		private ConfigurationFactory[] factories;
+		private static ${languageName}RunConfigurationType instance;
+		
+		synchronized public static ${languageName}RunConfigurationType getInstance() {
+			if (instance == null) {
+				instance = new ${languageName}RunConfigurationType();
+			}
+			return instance;
+		}
+
+		private ${languageName}RunConfigurationType() {
+			factory = new ${languageName}RunConfigurationFactory(this);
+			factories = new ConfigurationFactory[]{factory};
+		}
+
+		@NotNull
+		@Override
+		public String getDisplayName() {
+			return TTBundle.message("$nickname.name");
+		}
+
+		@Nls
+		@Override
+		public String getConfigurationTypeDescription() {
+			return TTBundle.message("$nickname.run-config.description");
+		}
+
+		@Override
+		public Icon getIcon() {
+			return TTIcons.$constantPrefix;
+		}
+
+		@NotNull
+		@Override
+		public String getId() {
+			return "${constantPrefix}_RUN_CONFIG_ID";
+		}
+
+		@Override
+		public ConfigurationFactory[] getConfigurationFactories() {
+			return factories;
+		}
+	}
+		
+	""".trimIndent()
+
 	@Language("kotlin")
 	val runConfig = """
 	package $basePackage.execution
@@ -51,16 +114,6 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	import $basePackage.validateExe
 	import org.jdom.Element
 
-
-	object ${languageName}RunConfigurationType : ConfigurationType {
-		internal val factory = ${languageName}RunConfigurationFactory(this)
-		private val factories = arrayOf(factory)
-		override fun getIcon() = TTIcons.$constantPrefix
-		override fun getConfigurationTypeDescription() = TTBundle.message("$nickname.run-config.description")
-		override fun getId() = "${constantPrefix}_RUN_CONFIG_ID"
-		override fun getDisplayName() = TTBundle.message("$nickname.name")
-		override fun getConfigurationFactories() = factories
-	}
 
 	class ${languageName}RunConfiguration(
 		project: Project,
@@ -111,7 +164,7 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	}
 
 	class ${languageName}RunConfigurationProducer : LazyRunConfigurationProducer<${languageName}RunConfiguration>() {
-		override fun getConfigurationFactory() = ${languageName}RunConfigurationType.factory
+		override fun getConfigurationFactory() = ${languageName}RunConfigurationType.getInstance().factory
 		override fun isConfigurationFromContext(
 			configuration: ${languageName}RunConfiguration, context: ConfigurationContext) =
 			configuration.targetFile == context.dataContext.getData(CommonDataKeys.VIRTUAL_FILE)?.path
@@ -153,5 +206,6 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	val exe = outDir.resolve("execution").apply { mkdirs() }
 	exe.resolve("$nickname-generated.kt").writeText(runConfig)
 	exe.resolve("${languageName}RunConfigurationFactory.java").writeText((runConfigFactoryJava))
+	exe.resolve("${languageName}RunConfigurationType.java").writeText((runConfigTypeJava))
 	if (generateCliState) exe.resolve("$nickname-cli-state.kt").writeText(cliState)
 }
