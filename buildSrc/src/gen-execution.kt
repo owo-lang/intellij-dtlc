@@ -5,6 +5,26 @@ import org.intellij.lang.annotations.Language
 import java.io.File
 
 fun LangData.execution(nickname: String, configName: String, outDir: File) {
+	@Language("java")
+	val runConfigFactoryJava = """
+	package $basePackage.execution;
+
+	import com.intellij.execution.configurations.ConfigurationFactory;
+	import com.intellij.openapi.project.Project;
+	import org.jetbrains.annotations.NotNull;
+	
+	public class ${languageName}RunConfigurationFactory extends ConfigurationFactory {
+		public ${languageName}RunConfigurationFactory(${languageName}RunConfigurationType type) {
+			super(type);
+		}
+		
+		@NotNull
+		@Override
+		public ${languageName}RunConfiguration createTemplateConfiguration(@NotNull Project project) {
+			return new ${languageName}RunConfiguration(project, this);
+		}
+	}
+	""".trimIndent()
 	@Language("kotlin")
 	val runConfig = """
 	package $basePackage.execution
@@ -31,9 +51,6 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	import $basePackage.validateExe
 	import org.jdom.Element
 
-	class ${languageName}RunConfigurationFactory(type: ${languageName}RunConfigurationType) : ConfigurationFactory(type) {
-		override fun createTemplateConfiguration(project: Project) = ${languageName}RunConfiguration(project, this)
-	}
 
 	object ${languageName}RunConfigurationType : ConfigurationType {
 		internal val factory = ${languageName}RunConfigurationFactory(this)
@@ -135,5 +152,6 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	"""
 	val exe = outDir.resolve("execution").apply { mkdirs() }
 	exe.resolve("$nickname-generated.kt").writeText(runConfig)
+	exe.resolve("${languageName}RunConfigurationFactory.java").writeText((runConfigFactoryJava))
 	if (generateCliState) exe.resolve("$nickname-cli-state.kt").writeText(cliState)
 }
