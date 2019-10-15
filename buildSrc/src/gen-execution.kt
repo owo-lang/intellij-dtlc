@@ -5,7 +5,7 @@ import org.intellij.lang.annotations.Language
 import java.io.File
 
 fun LangData.execution(nickname: String, configName: String, outDir: File) {
-	@Language("java")
+	@Language("JAVA")
 	val runConfigFactoryJava = """
 	package $basePackage.execution;
 
@@ -26,7 +26,7 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	}
 	""".trimIndent()
 
-	@Language("java")
+	@Language("JAVA")
 	val runConfigTypeJava = """
 	package $basePackage.execution;
 
@@ -88,7 +88,7 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 		
 	""".trimIndent()
 
-	@Language("java")
+	@Language("JAVA")
 	val runConfigJava = """
 	package $basePackage.execution;
 	
@@ -150,7 +150,7 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	}
 	""".trimIndent()
 
-	@Language("java")
+	@Language("JAVA")
 	val runConfigEditorJava = """
 	package $basePackage.execution;
 	
@@ -204,57 +204,80 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	}
 	""".trimIndent()
 
-	@Language("kotlin")
-	val runConfig = """
-	package $basePackage.execution
+	@Language("JAVA")
+	val runConfigProducerJava = """
+	package $basePackage.execution;
+	
+	import com.google.common.base.Strings;
+	import com.intellij.execution.actions.ConfigurationContext;
+	import com.intellij.execution.actions.LazyRunConfigurationProducer;
+	import com.intellij.execution.configurations.ConfigurationFactory;
+	import com.intellij.openapi.actionSystem.CommonDataKeys;
+	import com.intellij.openapi.util.Ref;
+	import com.intellij.openapi.util.io.FileUtilRt;
+	import com.intellij.openapi.vfs.VirtualFile;
+	import com.intellij.psi.PsiElement;
+	import kotlin.text.StringsKt;
+	import ${basePackage}.${languageName}FileType;
+	import ${basePackage}.UtilsKt;
+	import ${basePackage}.execution.${languageName}RunConfiguration;
+	import ${basePackage}.project.${languageName}ProjectSettingsService;
+	import ${basePackage}.project.${languageName}Settings;
+	import ${basePackage}.project.ProjectGenerated;
+	import ${basePackage}.execution.${languageName}RunConfigurationType;
+	import org.jetbrains.annotations.NotNull;
 
-	import com.intellij.execution.Executor
-	import com.intellij.execution.actions.ConfigurationContext
-	import com.intellij.execution.actions.LazyRunConfigurationProducer
-	import com.intellij.execution.actions.RunConfigurationProducer
-	import com.intellij.execution.configurations.ConfigurationFactory
-	import com.intellij.execution.configurations.ConfigurationType
-	import com.intellij.execution.runners.ExecutionEnvironment
-	import com.intellij.openapi.actionSystem.CommonDataKeys
-	import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
-	import com.intellij.openapi.project.Project
-	import com.intellij.openapi.util.JDOMExternalizerUtil
-	import com.intellij.openapi.util.Ref
-	import com.intellij.openapi.util.io.FileUtilRt
-	import com.intellij.psi.PsiElement
-	import icons.TTIcons
-	import $basePackage.${languageName}FileType
-	import $basePackage.TTBundle
-	import $basePackage.execution.ui.InterpretedRunConfigurationEditorImpl
-	import $basePackage.project.*
-	import $basePackage.validateExe
-	import org.jdom.Element
+	import java.util.Objects;
 
-	class ${languageName}RunConfigurationProducer : LazyRunConfigurationProducer<${languageName}RunConfiguration>() {
-		override fun getConfigurationFactory() = ${languageName}RunConfigurationType.getInstance().factory
-		override fun isConfigurationFromContext(
-			configuration: ${languageName}RunConfiguration, context: ConfigurationContext) =
-			configuration.targetFile == context.dataContext.getData(CommonDataKeys.VIRTUAL_FILE)?.path
+	public class ${languageName}RunConfigurationProducer extends LazyRunConfigurationProducer<${languageName}RunConfiguration> {
+		@NotNull
+		@Override
+		public ConfigurationFactory getConfigurationFactory() {
+			return ${languageName}RunConfigurationType.getInstance().factory;
+		}
 
-		override fun setupConfigurationFromContext(
-			configuration: ${languageName}RunConfiguration, context: ConfigurationContext, ref: Ref<PsiElement>): Boolean {
-			val file = context.dataContext.getData(CommonDataKeys.VIRTUAL_FILE)
-			if (file?.fileType != ${languageName}FileType) return false
-			val config = context.project.${configName}SettingsNullable ?: return false
-			configuration.targetFile = file.path
-			configuration.workingDir = context.project.basePath.orEmpty()
-			configuration.name = FileUtilRt.getNameWithoutExtension(configuration.targetFile)
-				.takeLastWhile { it != '/' && it != '\\' }
-			val existPath = config.settings.exePath
-			if (validateExe(existPath)) configuration.${configName}Executable = existPath
-			else {
-				val exePath = ${configName}Path ?: return true
-				if (validateExe(exePath)) configuration.${configName}Executable = exePath
+		@Override
+		public boolean isConfigurationFromContext(@NotNull ${languageName}RunConfiguration configuration, @NotNull ConfigurationContext context) {
+			String path = null;
+			if (context.getDataContext().getData(CommonDataKeys.VIRTUAL_FILE) != null) {
+				path = Objects.requireNonNull(context.getDataContext().getData(CommonDataKeys.VIRTUAL_FILE)).getPath();
 			}
-			return true
+			return Objects.equals(configuration.getTargetFile(), path);
+		}
+
+		@Override
+		protected boolean setupConfigurationFromContext(@NotNull ${languageName}RunConfiguration configuration,
+																										@NotNull ConfigurationContext context,
+																										@NotNull Ref<PsiElement> sourceElement) {
+			VirtualFile file = context.getDataContext().getData(CommonDataKeys.VIRTUAL_FILE);
+			if (file == null) return false;
+			if (!file.getFileType().equals(${languageName}FileType.INSTANCE)) return false;
+			if (ProjectGenerated.get${configName.capitalize()}SettingsNullable(context.getProject()) == null) {
+				return false;
+			}
+			${languageName}ProjectSettingsService config = ProjectGenerated.get${configName.capitalize()}SettingsNullable(context.getProject());
+			configuration.setTargetFile(file.getPath());
+			String basePath = context.getProject().getBasePath();
+			if (basePath == null) basePath = "";
+			configuration.setWorkingDir(basePath);
+			configuration.setName(StringsKt.takeLastWhile(
+				FileUtilRt.getNameWithoutExtension(configuration.getTargetFile()),
+				it -> it != '/' && it != '\\'));
+			String existPath = config.getSettings().getExePath();
+			if (UtilsKt.validateExe(existPath)) {
+				configuration.${configName}Executable = existPath;
+			} else {
+				String exePath = ProjectGenerated.get${configName.capitalize()}Path();
+				if (exePath == null) return true;
+				if (UtilsKt.validateExe(exePath)) {
+					configuration.${configName}Executable = exePath;
+				}
+			}
+			return true;
 		}
 	}
-	"""
+	""".trimIndent()
+
 	@Language("kotlin")
 	val cliState = """
 	package $basePackage.execution
@@ -271,10 +294,10 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	}
 	"""
 	val exe = outDir.resolve("execution").apply { mkdirs() }
-	exe.resolve("$nickname-generated.kt").writeText(runConfig)
 	exe.resolve("${languageName}RunConfigurationFactory.java").writeText((runConfigFactoryJava))
 	exe.resolve("${languageName}RunConfigurationType.java").writeText((runConfigTypeJava))
 	exe.resolve("${languageName}RunConfiguration.java").writeText((runConfigJava))
 	exe.resolve("${languageName}RunConfigurationEditor.java").writeText((runConfigEditorJava))
+	exe.resolve("${languageName}RunConfigurationProducer.java").writeText((runConfigProducerJava))
 	if (generateCliState) exe.resolve("$nickname-cli-state.kt").writeText(cliState)
 }
