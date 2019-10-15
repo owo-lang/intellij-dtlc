@@ -1,5 +1,6 @@
 package org.ice1000.tt.gradle
 
+import org.ice1000.tt.gradle.json.LangData
 import org.intellij.lang.annotations.Language
 import java.io.File
 

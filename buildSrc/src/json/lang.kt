@@ -1,4 +1,4 @@
-package org.ice1000.tt.gradle
+package org.ice1000.tt.gradle.json
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json

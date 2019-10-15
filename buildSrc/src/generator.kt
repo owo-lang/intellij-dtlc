@@ -5,6 +5,9 @@ import org.gradle.api.GradleException
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
+import org.ice1000.tt.gradle.json.DEFAULT_PKG
+import org.ice1000.tt.gradle.json.LangData
+import org.ice1000.tt.gradle.json.langGenJson
 import java.io.File
 
 open class LangUtilGenTask : DefaultTask() {
