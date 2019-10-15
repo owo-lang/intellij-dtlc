@@ -13,7 +13,7 @@ import org.ice1000.tt.CubicalTTLanguage
 import org.ice1000.tt.psi.LayoutLexer
 import org.ice1000.tt.psi.LetIn
 import org.ice1000.tt.psi.childrenWithLeaves
-import org.ice1000.tt.psi.cubicaltt.CubicalTTElementType.cubicalTTLexer
+import org.ice1000.tt.psi.cubicaltt.CubicalTTElementType.cubicalttLexer
 
 class CubicalTTFileImpl(viewProvider: FileViewProvider) : CubicalTTFile(viewProvider), PsiNameIdentifierOwner {
 	val module: CubicalTTModule? = childrenWithLeaves.filterIsInstance<CubicalTTModule>().firstOrNull()
@@ -55,7 +55,7 @@ private val LAYOUT_CREATOR = TokenSet.create(
 )
 
 fun cubicalTTLayoutLexer() = LayoutLexer(
-	cubicalTTLexer(),
+	cubicalttLexer(),
 	CubicalTTTokenType.EOL,
 	CubicalTTTypes.LAYOUT_START,
 	CubicalTTTypes.LAYOUT_SEP,

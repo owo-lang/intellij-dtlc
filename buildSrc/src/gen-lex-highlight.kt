@@ -3,7 +3,7 @@ package org.ice1000.tt.gradle
 import org.intellij.lang.annotations.Language
 import java.io.File
 
-fun LangData.lexHighlight(configName: String, nickname: String, outDir: File) {
+fun LangData.lexHighlight(nickname: String, outDir: File) {
 	val outEditingDir = outDir.resolve("editing").resolve(nickname)
 	outEditingDir.mkdirs()
 
@@ -62,7 +62,7 @@ public abstract class $highlighterClassName implements SyntaxHighlighter {
 	$textAttributeKeys
 
 	public @Override @NotNull Lexer getHighlightingLexer() {
-		return ${languageName}ElementType.${configName}Lexer();
+		return ${languageName}ElementType.${nickname}Lexer();
 	}
 }
 """

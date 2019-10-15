@@ -20,6 +20,7 @@ class LangData(
 	var hasVersion: Boolean = true,
 	var generateSettings: Boolean = true,
 	var supportsParsing: Boolean = false,
+	var keywordList: List<String> = emptyList(),
 	var highlightTokenPairs: Map<String, String> = emptyMap(),
 	var basePackage: String = DEFAULT_PKG
 ) {

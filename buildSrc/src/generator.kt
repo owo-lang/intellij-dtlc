@@ -42,8 +42,11 @@ open class LangUtilGenTask : DefaultTask() {
 		execution(nickname, configName, outDir)
 		pluginXml(nickname, pluginXmlDir)
 		if (supportsParsing) {
-			parser(configName, nickname, outDir)
-			lexHighlight(configName, nickname, outDir)
+			parser(nickname, outDir)
+			lexHighlight(nickname, outDir)
+		}
+		if (keywordList.isNotEmpty()) {
+			completionContributor(nickname, outDir)
 		}
 	}
 }

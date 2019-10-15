@@ -3,7 +3,7 @@ package org.ice1000.tt.gradle
 import org.intellij.lang.annotations.Language
 import java.io.File
 
-fun LangData.parser(configName: String, nickname: String, outDir: File) {
+fun LangData.parser(nickname: String, outDir: File) {
 	val outPsiDir = outDir.resolve("psi").resolve(nickname)
 	outPsiDir.mkdirs()
 
@@ -22,7 +22,7 @@ public class $elementTypeClassName extends IElementType {
 		super(debugName, ${languageName}Language.INSTANCE);
 	}
 
-	public static @NotNull FlexAdapter ${configName}Lexer() {
+	public static @NotNull FlexAdapter ${nickname}Lexer() {
 		return new FlexAdapter(new ${languageName}Lexer());
 	}
 }"""
@@ -52,7 +52,7 @@ import org.jetbrains.annotations.NotNull;
 public class $parserDefClassName implements ParserDefinition {
 	private static @NotNull IStubFileElementType<PsiFileStubImpl<${languageName}File>> FILE = new IStubFileElementType<>(${languageName}Language.INSTANCE);
 
-	public @NotNull @Override Lexer createLexer(Project project) { return $elementTypeClassName.${configName}Lexer(); }
+	public @NotNull @Override Lexer createLexer(Project project) { return $elementTypeClassName.${nickname}Lexer(); }
 	public @Override PsiParser createParser(Project project) { return new ${languageName}Parser(); }
 	public @Override IFileElementType getFileNodeType() { return FILE; }
 	public @NotNull @Override TokenSet getCommentTokens() { return ${languageName}TokenType.COMMENTS; }

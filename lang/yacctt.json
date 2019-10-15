@@ -1,1 +1,24 @@
-{"languageName":"YaccTT","constantPrefix":"YACC_TT","exeName":"yacctt","runConfigInit":"","trimVersion":"version.trim()","generateCliState":true,"hasVersion":true,"generateSettings":true,"supportsParsing":true,"highlightTokenPairs":{"KEYWORD":"KEYWORD","IDENTIFIER":"IDENTIFIER","COMMA":"COMMA","PAREN":"PARENTHESES","BRACK":"BRACKETS","SEMICOLON":"SEMICOLON","LINE_COMMENT":"LINE_COMMENT","BLOCK_COMMENT":"BLOCK_COMMENT","FUNCTION_NAME":"FUNCTION_DECLARATION","DATATYPE_NAME":"CLASS_NAME","UNDEFINED":"KEYWORD","HOLE":"LABEL","DIMENSION":"NUMBER","PROJECTION":"INSTANCE_FIELD"},"basePackage":"org.ice1000.tt"}
+{
+	"languageName": "YaccTT",
+	"constantPrefix": "YACC_TT",
+	"exeName": "yacctt",
+	"runConfigInit": "",
+	"trimVersion": "version.trim()",
+	"supportsParsing": true,
+	"highlightTokenPairs": {
+		"KEYWORD": "KEYWORD",
+		"IDENTIFIER": "IDENTIFIER",
+		"COMMA": "COMMA",
+		"PAREN": "PARENTHESES",
+		"BRACK": "BRACKETS",
+		"SEMICOLON": "SEMICOLON",
+		"LINE_COMMENT": "LINE_COMMENT",
+		"BLOCK_COMMENT": "BLOCK_COMMENT",
+		"FUNCTION_NAME": "FUNCTION_DECLARATION",
+		"DATATYPE_NAME": "CLASS_NAME",
+		"UNDEFINED": "KEYWORD",
+		"HOLE": "LABEL",
+		"DIMENSION": "NUMBER",
+		"PROJECTION": "INSTANCE_FIELD"
+	}
+}

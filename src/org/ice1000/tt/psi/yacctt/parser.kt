@@ -13,7 +13,7 @@ import org.ice1000.tt.YaccTTLanguage
 import org.ice1000.tt.psi.LayoutLexer
 import org.ice1000.tt.psi.LetIn
 import org.ice1000.tt.psi.childrenWithLeaves
-import org.ice1000.tt.psi.yacctt.YaccTTElementType.yaccTTLexer
+import org.ice1000.tt.psi.yacctt.YaccTTElementType.yaccttLexer
 
 class YaccTTFileImpl(viewProvider: FileViewProvider) : YaccTTFile(viewProvider), PsiNameIdentifierOwner {
 	val module: YaccTTModule? = childrenWithLeaves.filterIsInstance<YaccTTModule>().firstOrNull()
@@ -55,7 +55,7 @@ private val LAYOUT_CREATOR = TokenSet.create(
 )
 
 fun yaccTTLayoutLexer() = LayoutLexer(
-	yaccTTLexer(),
+	yaccttLexer(),
 	YaccTTTokenType.EOL,
 	YaccTTTypes.LAYOUT_START,
 	YaccTTTypes.LAYOUT_SEP,

@@ -12,7 +12,7 @@ import org.ice1000.tt.editing.SimpleProvider
 import org.ice1000.tt.editing.TTBraceMatcher
 import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.editing.makeKeywordsCompletion
-import org.ice1000.tt.psi.redprl.RedPrlElementType.redPrlLexer
+import org.ice1000.tt.psi.redprl.RedPrlElementType.redprlLexer
 import org.ice1000.tt.psi.redprl.RedPrlTokenType
 import org.ice1000.tt.psi.redprl.RedPrlTypes
 
@@ -28,7 +28,7 @@ class RedPrlBraceMatcher : TTBraceMatcher() {
 }
 
 class RedPrlFindUsagesProvider : TTFindUsagesProvider() {
-	override fun getWordsScanner() = DefaultWordsScanner(redPrlLexer(), RedPrlTokenType.IDENTIFIERS, RedPrlTokenType.COMMENTS, TokenSet.EMPTY)
+	override fun getWordsScanner() = DefaultWordsScanner(redprlLexer(), RedPrlTokenType.IDENTIFIERS, RedPrlTokenType.COMMENTS, TokenSet.EMPTY)
 }
 
 class RedPrlCompletionContributor : CompletionContributor(), DumbAware {

@@ -9,7 +9,7 @@ import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.editing.TTBraceMatcher
 import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.psi.cubicaltt.*
-import org.ice1000.tt.psi.cubicaltt.CubicalTTElementType.cubicalTTLexer
+import org.ice1000.tt.psi.cubicaltt.CubicalTTElementType.cubicalttLexer
 
 class CubicalTTBraceMatcher : TTBraceMatcher() {
 	private companion object Pairs {
@@ -25,7 +25,7 @@ class CubicalTTBraceMatcher : TTBraceMatcher() {
 }
 
 class CubicalTTFindUsagesProvider : TTFindUsagesProvider() {
-	override fun getWordsScanner() = DefaultWordsScanner(cubicalTTLexer(), CubicalTTTokenType.IDENTIFIERS, CubicalTTTokenType.COMMENTS, TokenSet.EMPTY)
+	override fun getWordsScanner() = DefaultWordsScanner(cubicalttLexer(), CubicalTTTokenType.IDENTIFIERS, CubicalTTTokenType.COMMENTS, TokenSet.EMPTY)
 }
 
 class CubicalTTAnnotator : Annotator {

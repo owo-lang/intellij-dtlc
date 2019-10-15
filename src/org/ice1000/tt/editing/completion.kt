@@ -15,6 +15,7 @@ class SimpleProvider(private val list: List<LookupElement>) :
 		list.forEach(result::addElement)
 }
 
+fun makeKeywordsCompletion(icon: Icon, vararg keywords: String) = makeKeywordsCompletion(icon, keywords.toList())
 fun makeKeywordsCompletion(icon: Icon, keywords: List<String>) = keywords.map {
 	LookupElementBuilder
 		.create(it)

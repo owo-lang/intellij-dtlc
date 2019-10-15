@@ -12,7 +12,7 @@ import org.ice1000.tt.editing.TTBraceMatcher
 import org.ice1000.tt.editing.TTCommenter
 import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.psi.minitt.*
-import org.ice1000.tt.psi.minitt.MiniTTElementType.miniTTLexer
+import org.ice1000.tt.psi.minitt.MiniTTElementType.minittLexer
 
 class MiniTTCommenter : TTCommenter() {
 	override fun getLineCommentPrefix() = "-- "
@@ -29,7 +29,7 @@ class MiniTTBraceMatcher : TTBraceMatcher() {
 }
 
 class MiniTTFindUsagesProvider : TTFindUsagesProvider() {
-	override fun getWordsScanner() = DefaultWordsScanner(miniTTLexer(), MiniTTTokenType.IDENTIFIERS, MiniTTTokenType.COMMENTS, TokenSet.EMPTY)
+	override fun getWordsScanner() = DefaultWordsScanner(minittLexer(), MiniTTTokenType.IDENTIFIERS, MiniTTTokenType.COMMENTS, TokenSet.EMPTY)
 }
 
 class MiniTTAnnotator : Annotator {

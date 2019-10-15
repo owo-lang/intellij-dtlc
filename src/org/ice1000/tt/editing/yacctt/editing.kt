@@ -9,7 +9,7 @@ import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.editing.TTBraceMatcher
 import org.ice1000.tt.editing.TTFindUsagesProvider
 import org.ice1000.tt.psi.yacctt.*
-import org.ice1000.tt.psi.yacctt.YaccTTElementType.yaccTTLexer
+import org.ice1000.tt.psi.yacctt.YaccTTElementType.yaccttLexer
 
 class YaccTTBraceMatcher : TTBraceMatcher() {
 	private companion object Pairs {
@@ -25,7 +25,7 @@ class YaccTTBraceMatcher : TTBraceMatcher() {
 }
 
 class YaccTTFindUsagesProvider : TTFindUsagesProvider() {
-	override fun getWordsScanner() = DefaultWordsScanner(yaccTTLexer(), YaccTTTokenType.IDENTIFIERS, YaccTTTokenType.COMMENTS, TokenSet.EMPTY)
+	override fun getWordsScanner() = DefaultWordsScanner(yaccttLexer(), YaccTTTokenType.IDENTIFIERS, YaccTTTokenType.COMMENTS, TokenSet.EMPTY)
 }
 
 class YaccTTAnnotator : Annotator {
