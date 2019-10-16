@@ -24,7 +24,7 @@ nameDecl ::= IDENTIFIER {
 	mixin='org.ice1000.tt.psi.agda.AgdaNameDeclMixin'
 }
 
-module ::= KW_MODULE (nameExp | UNDERSCORE) KW_WHERE
+module ::= KW_MODULE nameExp KW_WHERE
  layout {
 	pin=1
 	extends=declaration
