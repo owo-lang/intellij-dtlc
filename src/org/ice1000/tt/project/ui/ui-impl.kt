@@ -28,7 +28,7 @@ abstract class VersionedExecutableProjectConfigurableImpl : VersionedExecutableP
 
 	init {
 		exePathField.addPropertyChangeListener {
-			versionLabel.text = trimVersion(versionOf(exePathField.text))
+			versionLabel.text = versionOf(exePathField.text)?.let { trimVersion(it) }.orEmpty()
 		}
 	}
 

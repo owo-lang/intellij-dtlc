@@ -28,7 +28,7 @@ fun validateExe(exePath: String) = try {
 
 fun versionOf(exePath: String) = executeCommand("$exePath --version")
 	.first
-	.firstOrNull().orEmpty()
+	.firstOrNull()
 
 inline fun executeCommandToFindPath(command: String, validate: (String) -> Boolean = ::validateExe) =
 	executeCommand(command, null, 500L)
