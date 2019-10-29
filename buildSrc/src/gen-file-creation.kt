@@ -49,7 +49,7 @@ public final class $className extends DefaultActionGroup implements DumbAware {
 	outActionDir.resolve("$className.java").writeText(classContent)
 }
 
-fun LangData.fileCreation(nickname: String, outDir: File) {
+fun LangData.fileCreation(outDir: File) {
 	val outActionDir = outDir.resolve("action")
 	outActionDir.mkdirs()
 
@@ -65,11 +65,13 @@ import icons.TTIcons;
 import $basePackage.TTBundle;
 import org.jetbrains.annotations.NotNull;
 
+import static $basePackage.ConstantsKt.${constantPrefix}_LANGUAGE_NAME;
+
 public class $fileCreationClassName extends NewTTFile {
 	public $fileCreationClassName() {
 		super(
-			TTBundle.message("$nickname.actions.new-file.name"), 
-			TTBundle.message("$nickname.actions.new-file.description"),
+			TTBundle.message("tt.actions.new-file.name", ${constantPrefix}_LANGUAGE_NAME),
+			TTBundle.message("tt.actions.new-file.description", ${constantPrefix}_LANGUAGE_NAME),
 			TTIcons.${constantPrefix}_FILE
 		);
 	}
@@ -81,7 +83,7 @@ public class $fileCreationClassName extends NewTTFile {
 		@NotNull CreateFileFromTemplateDialog.Builder builder
 	) {
 		builder
-			.setTitle(TTBundle.message("$nickname.actions.new-file.title"))
+			.setTitle(TTBundle.message("tt.actions.new-file.title", ${constantPrefix}_LANGUAGE_NAME))
 			.addKind("File", TTIcons.${constantPrefix}_FILE, "$languageName File");
 	}
 }

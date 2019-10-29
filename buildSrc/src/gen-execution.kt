@@ -23,8 +23,7 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 		public ${languageName}RunConfiguration createTemplateConfiguration(@NotNull Project project) {
 			return new ${languageName}RunConfiguration(project, this);
 		}
-	}
-	""".trimIndent()
+	}""".trimIndent()
 
 	@Language("JAVA")
 	val runConfigTypeJava = """
@@ -36,6 +35,8 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	import ${basePackage}.TTBundle;
 	import org.jetbrains.annotations.Nls;
 	import org.jetbrains.annotations.NotNull;
+
+	import static $basePackage.ConstantsKt.${constantPrefix}_LANGUAGE_NAME;
 
 	import javax.swing.*;
 
@@ -60,13 +61,13 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 		@NotNull
 		@Override
 		public String getDisplayName() {
-			return $basePackage.ConstantsKt.${constantPrefix}_LANGUAGE_NAME;
+			return ${constantPrefix}_LANGUAGE_NAME;
 		}
 
 		@Nls
 		@Override
 		public String getConfigurationTypeDescription() {
-			return TTBundle.message("$nickname.run-config.description");
+			return TTBundle.message("tt.run-config.description", ${constantPrefix}_LANGUAGE_NAME);
 		}
 
 		@Override
@@ -84,9 +85,7 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 		public ConfigurationFactory[] getConfigurationFactories() {
 			return factories;
 		}
-	}
-		
-	""".trimIndent()
+	}""".trimIndent()
 
 	@Language("JAVA")
 	val runConfigJava = """
@@ -143,8 +142,7 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 			super.writeExternal(element);
 			JDOMExternalizerUtil.writeField(element, "${configName}Executable", ${configName}Executable);
 		}
-	}
-	""".trimIndent()
+	}""".trimIndent()
 
 	@Language("JAVA")
 	val runConfigEditorJava = """
@@ -197,8 +195,7 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 			s.${configName}Executable = exePathField.getText();
 
 		}
-	}
-	""".trimIndent()
+	}""".trimIndent()
 
 	@Language("JAVA")
 	val runConfigProducerJava = """
@@ -271,8 +268,7 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 			}
 			return true;
 		}
-	}
-	""".trimIndent()
+	}""".trimIndent()
 
 	@Language("kotlin")
 	val cliState = """
@@ -287,8 +283,7 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 		override fun ${languageName}RunConfiguration.pre(params: MutableList<String>) {
 			params += ${configName}Executable
 		}
-	}
-	"""
+	}""".trimIndent()
 	val exe = outDir.resolve("execution").apply { mkdirs() }
 	exe.resolve("${languageName}RunConfigurationFactory.java").writeText(runConfigFactoryJava)
 	exe.resolve("${languageName}RunConfigurationType.java").writeText(runConfigTypeJava)

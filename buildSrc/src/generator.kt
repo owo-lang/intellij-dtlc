@@ -63,7 +63,7 @@ open class LangUtilGenTask : DefaultTask() {
 		if (constantPrefix.isEmpty()) constantPrefix = languageName.toUpperCase()
 		infos(nickname, outDir)
 		service(configName, nickname, outDir)
-		fileCreation(nickname, outDir)
+		fileCreation(outDir)
 		editing(outDir)
 		if (generateRunConfig) execution(nickname, configName, outDir)
 		pluginXml(nickname, fyiDir)
