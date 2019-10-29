@@ -2,8 +2,6 @@ package org.ice1000.tt
 
 import com.intellij.CommonBundle
 import com.intellij.extapi.psi.PsiFileBase
-import com.intellij.openapi.fileTypes.FileTypeConsumer
-import com.intellij.openapi.fileTypes.FileTypeFactory
 import com.intellij.openapi.fileTypes.LanguageFileType
 import com.intellij.psi.FileViewProvider
 import icons.TTIcons
@@ -22,23 +20,6 @@ object OwOFileType : LanguageFileType(OwOLanguage.INSTANCE) {
 
 class OwOFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, OwOLanguage.INSTANCE) {
 	override fun getFileType() = OwOFileType
-}
-
-class TTFileTypeFactory : FileTypeFactory() {
-	override fun createFileTypes(consumer: FileTypeConsumer) {
-		consumer.consume(MiniTTFileType)
-		consumer.consume(ACoreFileType)
-		consumer.consume(OwOFileType)
-		consumer.consume(AgdaFileType)
-		consumer.consume(CubicalTTFileType)
-		consumer.consume(YaccTTFileType)
-		consumer.consume(VoileFileType)
-		consumer.consume(MLPolyRFileType)
-		consumer.consume(MlangFileType)
-		consumer.consume(NarcFileType)
-		consumer.consume(RedPrlFileType)
-		consumer.consume(VitalyRFileType)
-	}
 }
 
 object TTBundle {

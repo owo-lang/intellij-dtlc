@@ -135,9 +135,7 @@ task("isCI") {
 	doFirst { println(if (isCI) "Yes, I'm on a CI." else "No, I'm not on CI.") }
 }
 
-val generateCode = task("generateCode") {
-	group = "code generation"
-}
+val generateCode = task<GenMiscTask>("generateCode") {}
 
 val langDir = projectDir.resolve("lang")
 
@@ -168,13 +166,9 @@ fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
 	}
 }
 
-val genVariousClasses = task<GenMiscTask>("genVariousClasses") {
-	generateCode.dependsOn(this)
-}
-
 fun utilities(name: String) = task<LangUtilGenTask>("gen${name}Utility") {
 	langDataPath = "lang/${name.toLowerCase()}.json"
-	genVariousClasses.dependsOn(this)
+	generateCode.dependsOn(this)
 }
 
 listOf(

@@ -26,6 +26,7 @@ open class GenMiscTask : DefaultTask() {
 	@TaskAction
 	fun gen() {
 		fileCreationGroup(langGenTasks, outDir)
+		fileTypeFactory(langGenTasks, outDir)
 	}
 
 	companion object LangGenTaskHolder {

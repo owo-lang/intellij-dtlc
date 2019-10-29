@@ -4,6 +4,29 @@ import org.ice1000.tt.gradle.json.LangData
 import org.intellij.lang.annotations.Language
 import java.io.File
 
+fun fileTypeFactory(langData: List<LangData>, outDir: File) {
+	outDir.mkdirs()
+	val className = "TTFileTypeFactory"
+	@Language("JAVA")
+	val classContent = """
+package ${langData[0].basePackage};
+
+import com.intellij.openapi.fileTypes.FileTypeConsumer;
+import com.intellij.openapi.fileTypes.FileTypeFactory;
+import com.intellij.openapi.project.DumbAware;
+
+public final class $className extends FileTypeFactory implements DumbAware {
+	@Override
+	public void createFileTypes(FileTypeConsumer consumer) {
+		${langData.joinToString("\n\t\t") {
+		"consumer.consume(${it.languageName}FileType.INSTANCE);"
+	}}
+	}
+}
+"""
+	outDir.resolve("$className.java").writeText(classContent)
+}
+
 fun fileCreationGroup(langData: List<LangData>, outDir: File) {
 	val outActionDir = outDir.resolve("action")
 	outActionDir.mkdirs()
@@ -16,7 +39,7 @@ import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.project.DumbAware;
 import org.ice1000.tt.TTBundle;
 
-public class $className extends DefaultActionGroup implements DumbAware {
+public final class $className extends DefaultActionGroup implements DumbAware {
 	public $className() {
 		super(${langData.joinToString { "new New${it.languageName}File()" }});
 		setPopup(true);
