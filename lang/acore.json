@@ -4,6 +4,7 @@
 	"exeName": "agdacore",
 	"hasVersion": false,
 	"supportsParsing": true,
+	"website": "https://github.com/owo-lang/Mini-TT",
 	"highlightTokenPairs": {
 		"KEYWORD": "KEYWORD",
 		"IDENTIFIER": "IDENTIFIER",

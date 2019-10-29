@@ -27,6 +27,7 @@ class LangData constructor(
 	val findUsagesProvider: FindUsagesProviderOpt = FindUsagesProviderOpt.DontGenerate,
 	val generateCliState: Boolean = true,
 	val generateRunConfig: Boolean = true,
+	val website: String = "",
 	val verification: Boolean = true,
 	val hasVersion: Boolean = true,
 	val generateSettings: Boolean = true,

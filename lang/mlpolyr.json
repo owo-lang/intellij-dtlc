@@ -5,6 +5,7 @@
 	"runConfigInit": "setAdditionalOptions(\"-t\");",
 	"hasVersion": false,
 	"supportsParsing": true,
+	"website": "https://github.com/owo-lang/MLPolyR",
 	"highlightTokenPairs": {
 		"KEYWORD": "KEYWORD",
 		"IDENTIFIER": "IDENTIFIER",

@@ -5,6 +5,7 @@
 	"runConfigInit": "",
 	"trimVersion": "version.substring(\"voilec\".length()).trim()",
 	"supportsParsing": true,
+	"website": "https://docs.rs/voile",
 	"highlightTokenPairs": {
 		"KEYWORD": "KEYWORD",
 		"IDENTIFIER": "IDENTIFIER",

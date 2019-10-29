@@ -73,8 +73,10 @@ public final class $serviceClassName implements PersistentStateComponent<${langu
 
 		val configureSettings = """
 initWebsiteLabel(this);
-getWebsiteLabel().setText(${constantPrefix}_WEBSITE);
+${if (website.isNotBlank()) """
+getWebsiteLabel().setText("$website");
 getWebsiteLabel().setIcon(TTIcons.$constantPrefix);
+""" else "getWebsiteLabel().setVisible(false);"}
 getExePathField().addBrowseFolderListener(TTBundle.message("$nickname.ui.project.select-compiler"),
 	TTBundle.message("$nickname.ui.project.select-compiler.description"),
 	project,
@@ -96,7 +98,6 @@ import $basePackage.TTBundle;
 import $basePackage.project.ui.VersionedExecutableProjectConfigurableImpl;
 import org.jetbrains.annotations.NotNull;
 
-import static $basePackage.ConstantsKt.${constantPrefix}_WEBSITE;
 import static $basePackage.project.ProjectGenerated.*;
 import static $basePackage.project.ui.Ui_implKt.initWebsiteLabel;
 
@@ -131,7 +132,6 @@ import $basePackage.project.ui.OnlyExecutableProjectConfigurable;
 
 import java.util.Objects;
 
-import static $basePackage.ConstantsKt.${constantPrefix}_WEBSITE;
 import static $basePackage.project.ProjectGenerated.*;
 import static $basePackage.project.ui.Ui_implKt.initWebsiteLabel;
 

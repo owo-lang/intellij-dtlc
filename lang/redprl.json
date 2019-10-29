@@ -4,6 +4,7 @@
 	"exeName": "redprl",
 	"hasVersion": false,
 	"supportsParsing": true,
+	"website": "http://www.redprl.org",
 	"highlightTokenPairs": {
 		"KEYWORD": "KEYWORD",
 		"COMMA": "COMMA",

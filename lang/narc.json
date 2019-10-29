@@ -5,6 +5,7 @@
 	"runConfigInit": "",
 	"trimVersion": "version.substring(\"narc\".length()).trim()",
 	"supportsParsing": true,
+	"website": "https://docs.rs/nar",
 	"highlightTokenPairs": {
 		"KEYWORD": "KEYWORD",
 		"IDENTIFIER": "IDENTIFIER",

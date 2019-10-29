@@ -4,6 +4,7 @@
 	"exeName": "mlang.jar",
 	"generateCliState": false,
 	"supportsParsing": true,
+	"website": "https://github.com/molikto/mlang/blob/master/README.md#roadmap",
 	"highlightTokenPairs": {
 		"KEYWORD": "KEYWORD",
 		"IDENTIFIER": "IDENTIFIER",

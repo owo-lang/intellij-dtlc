@@ -5,6 +5,7 @@
 	"runConfigInit": "",
 	"trimVersion": "version.trim()",
 	"supportsParsing": true,
+	"website": "https://arxiv.org/abs/1611.02108",
 	"highlightTokenPairs": {
 		"KEYWORD": "KEYWORD",
 		"IDENTIFIER": "IDENTIFIER",

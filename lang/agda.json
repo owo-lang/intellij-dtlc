@@ -5,6 +5,7 @@
 	"runConfigInit": "",
 	"trimVersion": "version.substring(\"Agda version\".length()).trim()",
 	"supportsParsing": true,
+	"website": "https://wiki.portal.chalmers.se/agda/pmwiki.php",
 	"highlightTokenPairs": {
 		"KEYWORD": "KEYWORD",
 		"IDENTIFIER": "IDENTIFIER",
