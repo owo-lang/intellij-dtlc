@@ -1,0 +1,10 @@
+{
+	"languageName": "VitalyR",
+	"constantPrefix": "VITALYR",
+	"exeName": "vitalyr",
+	"generateCliState": false,
+	"generateRunConfig": false,
+	"hasVersion": false,
+	"generateSettings": false,
+	"supportsParsing": false
+}

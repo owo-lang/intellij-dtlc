@@ -37,6 +37,7 @@ class TTFileTypeFactory : FileTypeFactory() {
 		consumer.consume(MlangFileType)
 		consumer.consume(NarcFileType)
 		consumer.consume(RedPrlFileType)
+		consumer.consume(VitalyRFileType)
 	}
 }
 

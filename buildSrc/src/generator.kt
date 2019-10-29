@@ -28,7 +28,7 @@ open class LangUtilGenTask : DefaultTask() {
 		langGenJson(langDataFile).doGen()
 	}
 
-	fun LangData.doGen() {
+	private fun LangData.doGen() {
 		val nickname = languageName.toLowerCase()
 		val configName = when (languageName.length) {
 			0, 1 -> nickname
@@ -42,7 +42,7 @@ open class LangUtilGenTask : DefaultTask() {
 		service(configName, nickname, outDir)
 		fileCreation(nickname, outDir)
 		editing(outDir)
-		execution(nickname, configName, outDir)
+		if (generateRunConfig) execution(nickname, configName, outDir)
 		pluginXml(nickname, fyiDir)
 		if (supportsParsing) {
 			parser(nickname, outDir)

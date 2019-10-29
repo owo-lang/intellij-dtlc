@@ -49,6 +49,10 @@ import org.jetbrains.annotations.NonNls
 @NonNls const val M_LANG_EXTENSION = "poor"
 @NonNls const val M_LANG_LANGUAGE_NAME = "Mlang"
 
+@NonNls const val VITALYR_WEBSITE = "TO-BE-CREATED"
+@NonNls const val VITALYR_EXTENSION = "vitalyr"
+@NonNls const val VITALYR_LANGUAGE_NAME = "VitalyR"
+
 @NonNls const val OWO_CONTEXT_ID = "OWO_CONTEXT"
 @NonNls const val OWO_LANGUAGE_NAME = "OwO"
 @NonNls const val OWO_EXTENSION = "owo"

@@ -18,6 +18,7 @@
 		<internalFileTemplate name="Mlang File"/>
 		<internalFileTemplate name="Narc File"/>
 		<internalFileTemplate name="Voile File"/>
+		<internalFileTemplate name="VitalyR File"/>
 
 		<!--Common-->
 		<fileTypeFactory implementation="org.ice1000.tt.TTFileTypeFactory"/>
@@ -275,6 +276,9 @@
 		</component>
 		<component>
 			<implementation-class>org.ice1000.tt.project.VoileProjectSettingsService</implementation-class>
+		</component>
+		<component>
+			<implementation-class>org.ice1000.tt.project.VitalyRProjectSettingsService</implementation-class>
 		</component>
 		<component>
 			<implementation-class>org.ice1000.tt.project.MlangProjectSettingsService</implementation-class>

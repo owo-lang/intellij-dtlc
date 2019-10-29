@@ -64,6 +64,7 @@ class NewTTActionGroup : DefaultActionGroup(
 	NewYaccTTFile(),
 	NewMlangFile(),
 	NewNarcFile(),
+	NewVitalyRFile(),
 	NewMLPolyRFile()
 ), DumbAware {
 	init {

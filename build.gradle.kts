@@ -178,6 +178,7 @@ listOf(
 	"YaccTT", "Voile", "Narc",
 	"Mlang"
 ).onEach { utilities(it) }.forEach { grammar(it) }
+utilities("VitalyR")
 
 tasks.withType<KotlinCompile> {
 	dependsOn(generateCode)

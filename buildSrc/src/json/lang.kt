@@ -26,6 +26,8 @@ class LangData constructor(
 	val trimVersion: String = "version",
 	val findUsagesProvider: FindUsagesProviderOpt = FindUsagesProviderOpt.DontGenerate,
 	val generateCliState: Boolean = true,
+	val generateRunConfig: Boolean = true,
+	val verification: Boolean = true,
 	val hasVersion: Boolean = true,
 	val generateSettings: Boolean = true,
 	val supportsParsing: Boolean = false,
