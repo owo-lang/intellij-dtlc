@@ -156,6 +156,8 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	import $basePackage.${languageName}FileType;
 	import org.jetbrains.annotations.NotNull;
 
+	import static $basePackage.ConstantsKt.${constantPrefix}_LANGUAGE_NAME;
+
 	import javax.naming.ConfigurationException;
 	import java.lang.reflect.Executable;
 
@@ -172,8 +174,9 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 				TTBundle.message("$nickname.ui.run-config.select-$nickname-file.description"),
 				project,
 				FileChooserDescriptorFactory.createSingleFileDescriptor(${languageName}FileType.INSTANCE));
-			exePathField.addBrowseFolderListener(TTBundle.message("$nickname.ui.project.select-compiler"),
-				TTBundle.message("$nickname.ui.project.select-compiler.description"),
+			exePathField.addBrowseFolderListener(
+				TTBundle.message("tt.ui.project.select-compiler", ${constantPrefix}_LANGUAGE_NAME),
+				TTBundle.message("tt.ui.project.select-compiler.description", ${constantPrefix}_LANGUAGE_NAME),
 				project,
 				FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor());
 			resetEditorFrom(configuration);

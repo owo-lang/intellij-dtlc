@@ -77,8 +77,9 @@ ${if (website.isNotBlank()) """
 getWebsiteLabel().setText("$website");
 getWebsiteLabel().setIcon(TTIcons.$constantPrefix);
 """ else "getWebsiteLabel().setVisible(false);"}
-getExePathField().addBrowseFolderListener(TTBundle.message("$nickname.ui.project.select-compiler"),
-	TTBundle.message("$nickname.ui.project.select-compiler.description"),
+getExePathField().addBrowseFolderListener(
+	TTBundle.message("tt.ui.project.select-compiler", ${constantPrefix}_LANGUAGE_NAME),
+	TTBundle.message("tt.ui.project.select-compiler.description", ${constantPrefix}_LANGUAGE_NAME),
 	project,
 	FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor());
 getGuessExeButton().addActionListener(e -> {
@@ -98,6 +99,7 @@ import $basePackage.TTBundle;
 import $basePackage.project.ui.VersionedExecutableProjectConfigurableImpl;
 import org.jetbrains.annotations.NotNull;
 
+import static $basePackage.ConstantsKt.${constantPrefix}_LANGUAGE_NAME;
 import static $basePackage.project.ProjectGenerated.*;
 import static $basePackage.project.ui.Ui_implKt.initWebsiteLabel;
 
