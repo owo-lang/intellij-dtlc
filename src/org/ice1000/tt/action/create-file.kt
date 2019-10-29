@@ -7,7 +7,6 @@ import com.intellij.ide.fileTemplates.FileTemplate
 import com.intellij.ide.fileTemplates.FileTemplateManager
 import com.intellij.ide.fileTemplates.actions.AttributesDefaults
 import com.intellij.ide.fileTemplates.ui.CreateFromTemplateDialog
-import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.FileUtilRt
@@ -50,25 +49,5 @@ private object NewOwOFile : NewTTFile(
 		builder
 			.setTitle(TTBundle.message("owo.actions.new-file.title"))
 			.addKind("File", TTIcons.OWO_FILE, "OwO File")
-	}
-}
-
-class NewTTActionGroup : DefaultActionGroup(
-	NewOwOFile,
-	NewVoileFile(),
-	NewACoreFile(),
-	NewMiniTTFile(),
-	NewAgdaFile(),
-	NewRedPrlFile(),
-	NewCubicalTTFile(),
-	NewYaccTTFile(),
-	NewMlangFile(),
-	NewNarcFile(),
-	NewVitalyRFile(),
-	NewMLPolyRFile()
-), DumbAware {
-	init {
-		isPopup = true
-		templatePresentation.text = TTBundle.message("tt.actions.new-file-group")
 	}
 }

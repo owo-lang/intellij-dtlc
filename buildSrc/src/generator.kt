@@ -2,6 +2,8 @@ package org.ice1000.tt.gradle
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.Task
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
@@ -10,10 +12,30 @@ import org.ice1000.tt.gradle.json.LangData
 import org.ice1000.tt.gradle.json.langGenJson
 import java.io.File
 
+val Task.defaultPkg
+	get() = DEFAULT_PKG.split('.').fold(project.buildDir.resolve("gen")) { dir, p -> dir.resolve(p) }
+
+open class GenMiscTask : DefaultTask() {
+	@field:InputDirectory val input: String = "lang"
+	@field:OutputDirectory val outDir = defaultPkg
+
+	init {
+		group = "code generation"
+	}
+
+	@TaskAction
+	fun gen() {
+		fileCreationGroup(langGenTasks, outDir)
+	}
+
+	companion object LangGenTaskHolder {
+		@get:Synchronized val langGenTasks = mutableListOf<LangData>()
+	}
+}
+
 open class LangUtilGenTask : DefaultTask() {
 	@field:InputFile var langDataPath: String = ""
-	@field:OutputDirectory
-	val outDir = DEFAULT_PKG.split('.').fold(project.buildDir.resolve("gen")) { dir, p -> dir.resolve(p) }
+	@field:OutputDirectory val outDir = defaultPkg
 	@field:OutputDirectory
 	val fyiDir = project.buildDir.resolve("fyi")
 
@@ -25,7 +47,7 @@ open class LangUtilGenTask : DefaultTask() {
 	fun gen() {
 		val langDataFile = File(langDataPath)
 		if (!langDataFile.exists()) throw GradleException("File $langDataFile does not exists!")
-		langGenJson(langDataFile).doGen()
+		langGenJson(langDataFile).also { GenMiscTask.langGenTasks.add(it) }.doGen()
 	}
 
 	private fun LangData.doGen() {

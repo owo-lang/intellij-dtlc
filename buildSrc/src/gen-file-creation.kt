@@ -4,6 +4,28 @@ import org.ice1000.tt.gradle.json.LangData
 import org.intellij.lang.annotations.Language
 import java.io.File
 
+fun fileCreationGroup(langData: List<LangData>, outDir: File) {
+	val outActionDir = outDir.resolve("action")
+	outActionDir.mkdirs()
+	val className = "NewTTActionGroup"
+	@Language("JAVA")
+	val classContent = """
+package ${langData[0].basePackage}.action;
+
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
+import com.intellij.openapi.project.DumbAware;
+import org.ice1000.tt.TTBundle;
+
+public class $className extends DefaultActionGroup implements DumbAware {
+	public $className() {
+		super(${langData.joinToString { "new New${it.languageName}File()" }});
+		setPopup(true);
+		getTemplatePresentation().setText(TTBundle.message("tt.actions.new-file-group"));
+	}
+}"""
+	outActionDir.resolve("$className.java").writeText(classContent)
+}
+
 fun LangData.fileCreation(nickname: String, outDir: File) {
 	val outActionDir = outDir.resolve("action")
 	outActionDir.mkdirs()

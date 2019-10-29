@@ -1,3 +1,4 @@
+import org.ice1000.tt.gradle.GenMiscTask
 import org.ice1000.tt.gradle.LangUtilGenTask
 import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
@@ -167,9 +168,13 @@ fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
 	}
 }
 
+val genVariousClasses = task<GenMiscTask>("genVariousClasses") {
+	generateCode.dependsOn(this)
+}
+
 fun utilities(name: String) = task<LangUtilGenTask>("gen${name}Utility") {
 	langDataPath = "lang/${name.toLowerCase()}.json"
-	generateCode.dependsOn(this)
+	genVariousClasses.dependsOn(this)
 }
 
 listOf(
