@@ -22,7 +22,7 @@ public final class ${languageName}Language extends Language {
 			new ${languageName}Language(${constantPrefix}_LANGUAGE_NAME);
 
 	private ${languageName}Language(@NotNull String name) {
-		super(name, "text/" + ${constantPrefix}_LANGUAGE_NAME);
+		super(name, "text/" + name);
 	}
 }
 """
@@ -42,9 +42,9 @@ import $basePackage.psi.childrenRevWithLeaves
 
 object ${languageName}FileType : LanguageFileType(${languageName}Language.INSTANCE) {
 	override fun getDefaultExtension() = ${constantPrefix}_EXTENSION
-	override fun getName() = TTBundle.message("$nickname.name")
+	override fun getName() = ${constantPrefix}_LANGUAGE_NAME
 	override fun getIcon() = TTIcons.${constantPrefix}_FILE
-	override fun getDescription() = TTBundle.message("$nickname.name.description")
+	override fun getDescription() = TTBundle.message("tt.name.description", ${constantPrefix}_LANGUAGE_NAME)
 }
 
 open class ${languageName}File(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ${languageName}Language.INSTANCE), TTFile {

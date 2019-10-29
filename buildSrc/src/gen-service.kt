@@ -119,7 +119,7 @@ public final class $settingsClassName extends VersionedExecutableProjectConfigur
 	}
 
 	@Override
-	public String getDisplayName() { return TTBundle.message("$nickname.name"); }
+	public String getDisplayName() { return $basePackage.ConstantsKt.${constantPrefix}_LANGUAGE_NAME; }
 }
 """ else """
 package $basePackage.project;
@@ -150,7 +150,7 @@ public final class $settingsClassName extends OnlyExecutableProjectConfigurable 
 	}
 
 	@Override
-	public String getDisplayName() { return TTBundle.message("$nickname.name"); }
+	public String getDisplayName() { return $basePackage.ConstantsKt.${constantPrefix}_LANGUAGE_NAME; }
 
 	@Override
 	public void apply() { settings.setExePath(getExePathField().getText()); }

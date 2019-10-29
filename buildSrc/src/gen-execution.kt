@@ -60,7 +60,7 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 		@NotNull
 		@Override
 		public String getDisplayName() {
-			return TTBundle.message("$nickname.name");
+			return $basePackage.ConstantsKt.${constantPrefix}_LANGUAGE_NAME;
 		}
 
 		@Nls
@@ -112,7 +112,7 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	public class ${languageName}RunConfiguration extends InterpretedRunConfiguration<${languageName}CommandLineState> {
 		public String ${configName}Executable;
 		public ${languageName}RunConfiguration(@NotNull Project project, @NotNull ConfigurationFactory factory) {
-			super(project, factory, TTBundle.message("$nickname.name"));
+			super(project, factory, $basePackage.ConstantsKt.${constantPrefix}_LANGUAGE_NAME);
 			${runConfigInit};
 		}
 

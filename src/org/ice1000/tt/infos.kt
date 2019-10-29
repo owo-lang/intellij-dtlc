@@ -13,7 +13,7 @@ interface TTFile
 
 object OwOFileType : LanguageFileType(OwOLanguage.INSTANCE) {
 	override fun getDefaultExtension() = OWO_EXTENSION
-	override fun getName() = TTBundle.message("owo.name")
+	override fun getName() = OWO_LANGUAGE_NAME
 	override fun getIcon() = TTIcons.OWO_FILE
 	override fun getDescription() = TTBundle.message("owo.name.description")
 }
