@@ -80,18 +80,9 @@ abstract class RedPrlBoundVarMixin(node: ASTNode) : GeneralNameIdentifier(node),
 		replace(RedPrlTokenType.createBoundVar(newName, project) ?: invalidName(newName))
 }
 
-abstract class RedPrlOpUsageMixin(node: ASTNode) : RedPrlMlValueImpl(node), RedPrlOpUsage, PsiPolyVariantReference {
-	override fun isSoft() = true
-	override fun getRangeInElement() = TextRange(0, textLength)
-
-	override fun getElement() = this
-	override fun getReference() = this
-	override fun getReferences() = arrayOf(reference)
-	override fun isReferenceTo(reference: PsiElement) = reference == resolve()
-	override fun getCanonicalText(): String = text
+abstract class RedPrlOpUsageMixin(node: ASTNode) : GeneralReference(node), RedPrlOpUsage {
 	override fun resolve(): PsiElement? = multiResolve(false).firstOrNull()?.run { element }
 
-	override fun bindToElement(element: PsiElement): PsiElement = throw IncorrectOperationException("Unsupported")
 	override fun handleElementRename(newName: String): PsiElement? =
 		replace(RedPrlTokenType.createOpUsage(newName, project) ?: invalidName(newName))
 

@@ -576,7 +576,9 @@ private mlValueBrack ::= LBRACKET mlCmd RBRACKET { pin=1 }
 mlValue ::=
    opUsage
  | mlValueBrack
- | mlParen
+ | mlParen {
+	methods=[mlCmd='']
+}
 
 private mlAtomicPrint ::= PRINT mlValue { pin=1 }
 private mlAtomicExtract ::= EXTRACT mlValue { pin=1 }

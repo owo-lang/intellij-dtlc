@@ -16,7 +16,7 @@ val commitHash = kotlin.run {
 	output.trim()
 }
 
-val pluginComingVersion = "0.8.3"
+val pluginComingVersion = "0.9.0"
 val pluginVersion = if (isCI) "$pluginComingVersion-$commitHash" else pluginComingVersion
 val packageName = "org.ice1000.tt"
 
@@ -63,10 +63,10 @@ intellij {
 		os == "Linux" -> "/home/$user/.local/share/JetBrains/Toolbox/apps"
 		else -> return@intellij
 	}
-	val intellijPath = sequenceOf("IDEA-C-JDK11", "IDEA-C", "IDEA-JDK11", "IDEA-U")
+	val intellijPath = sequenceOf("IDEA-C", "IDEA-U")
 		.mapNotNull { fromToolbox(root, it) }.firstOrNull()
 	intellijPath?.absolutePath?.let { localPath = it }
-	val pycharmPath = sequenceOf("PyCharm-C", "IDEA-C-JDK11", "IDEA-C", "IDEA-JDK11", "IDEA-U")
+	val pycharmPath = sequenceOf("PyCharm-C", "IDEA-C", "IDEA-U")
 		.mapNotNull { fromToolbox(root, it) }.firstOrNull()
 	pycharmPath?.absolutePath?.let { alternativeIdePath = it }
 
