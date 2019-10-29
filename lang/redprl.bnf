@@ -253,6 +253,26 @@ termAndTac ::=
 	extends=tac
 	extends=term
 	extends=atomicMultitac
+	methods=[
+		arrowQuantifierData=''
+		backDir=''
+		binding=''
+		boundVar=''
+		boundary=''
+		dir=''
+		field=''
+		level=''
+		multinaryOperator=''
+		nullaryOperator=''
+		numAsDimension=''
+		opUsage=''
+		patVar=''
+		term=''
+		termAndTac=''
+		timesQuantifierData=''
+		tube=''
+		typedBinder=''
+	]
 	mixin='org.ice1000.tt.psi.redprl.RedPrlAnywayMixin'
 }
 

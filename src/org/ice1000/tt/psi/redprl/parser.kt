@@ -5,6 +5,7 @@ import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import org.ice1000.tt.RedPrlLanguage
+import org.ice1000.tt.psi.childrenWithLeaves
 
 class RedPrlTokenType(debugName: String) : IElementType(debugName, RedPrlLanguage.INSTANCE) {
 	@Suppress("MemberVisibilityCanBePrivate")
@@ -33,6 +34,7 @@ class RedPrlTokenType(debugName: String) : IElementType(debugName, RedPrlLanguag
 		fun createTac(text: String, project: Project) = createMultitac(text, project)?.tac
 		fun createQueryTac(text: String, project: Project) = createTac(text, project) as? RedPrlQueryTac
 		fun createVarDecl(text: String, project: Project) = createQueryTac("query $text <-", project)?.varDecl
-		fun createBoundVar(text: String, project: Project) = createTermAndTac("(abs bla [$text] Bla)", project)?.boundVarList?.firstOrNull()
+		fun createBoundVar(text: String, project: Project) = createTermAndTac("(abs bla [$text] Bla)", project)
+			?.childrenWithLeaves?.filterIsInstance<RedPrlBoundVar>()?.firstOrNull()
 	}
 }

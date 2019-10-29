@@ -1,6 +1,5 @@
 package org.ice1000.tt.psi.agda
 
-import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.ResolveResult
