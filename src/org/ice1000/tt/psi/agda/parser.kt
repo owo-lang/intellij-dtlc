@@ -31,6 +31,7 @@ class AgdaTokenType(debugName: String) : IElementType(debugName, AgdaLanguage.IN
 		fun createLayout(text: String, project: Project) = fromText(text, project) as? AgdaLayout
 		fun createSignature(text: String, project: Project) = createLayout(text, project)?.firstChild as? AgdaSignature
 		fun createExp(text: String, project: Project) = createSignature("f : $text", project)?.exp
+		fun createNameExp(text: String, project: Project) = createExp(text, project) as? AgdaNameExp
 		fun createStr(text: String, project: Project) = createExp(text, project) as? AgdaString
 	}
 }

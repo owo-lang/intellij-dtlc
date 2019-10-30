@@ -219,7 +219,7 @@ atomicExp ::=
  | FLOAT
  | OPEN_PAREN CLOSE_PAREN
 nameExp ::= IDENTIFIER (DOT IDENTIFIER)* | UNDERSCORE {
-	mixin='org.ice1000.tt.psi.agda.AgdaNameExpMixin'
+	mixin='org.ice1000.tt.psi.agda.AgdaNameExpGeneratedMixin'
 }
 typeExp ::= argPrefix ARROW? exp
 type2Exp ::= exp ARROW exp
