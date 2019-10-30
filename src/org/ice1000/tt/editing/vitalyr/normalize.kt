@@ -25,14 +25,14 @@ sealed class Term {
 }
 
 data class Var(val name: String) : Term() {
-	override fun bruteEval(ctx: Ctx) = ctx[name] ?: throw EvaluationException("Unresolved `$name`")
+	override fun bruteEval(ctx: Ctx) = ctx[name] ?: this
 	override fun toString(builder: StringBuilder, outer: Term?) {
 		builder.append(name)
 	}
 }
 
 data class Abs(val name: String, val body: Term) : Term() {
-	override fun bruteEval(ctx: Ctx) = this
+	override fun bruteEval(ctx: Ctx) = Abs(name, body.bruteEval(ctx))
 	override fun toString(builder: StringBuilder, outer: Term?) {
 		val paren = outer is App
 		if (paren) builder.append('(')
