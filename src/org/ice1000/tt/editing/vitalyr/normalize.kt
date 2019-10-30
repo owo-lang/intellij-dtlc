@@ -4,8 +4,10 @@ import org.ice1000.tt.psi.vitalyr.VitalyRAppExpr
 import org.ice1000.tt.psi.vitalyr.VitalyRExpr
 import org.ice1000.tt.psi.vitalyr.VitalyRLamExpr
 import org.ice1000.tt.psi.vitalyr.VitalyRNameUsage
+import java.util.*
 
-typealias Ctx = MutableMap<String, Term>
+typealias Bind = Pair<String, Term?>
+typealias Ctx = LinkedList<Bind>
 
 enum class ToStrCtx {
 	AbsBody,
@@ -28,10 +30,11 @@ sealed class Term {
 
 	abstract fun <T> fold(init: T, f: (Term, T) -> T): T
 	abstract fun toString(builder: StringBuilder, outer: ToStrCtx)
+	open fun eta() = this
 }
 
 data class Var(val name: String) : Term() {
-	override fun bruteEval(ctx: Ctx) = ctx[name] ?: this
+	override fun bruteEval(ctx: Ctx) = ctx.lastOrNull { (n, _) -> n == name }?.second ?: this
 	override fun <T> fold(init: T, f: (Term, T) -> T) = f(this, init)
 	override fun toString(builder: StringBuilder, outer: ToStrCtx) {
 		builder.append(name)
@@ -39,7 +42,13 @@ data class Var(val name: String) : Term() {
 }
 
 data class Abs(val name: String, val body: Term) : Term() {
-	override fun bruteEval(ctx: Ctx) = Abs(name, body.bruteEval(ctx)).eta()
+	override fun bruteEval(ctx: Ctx): Term {
+		ctx.addLast(name to null)
+		val newBody = body.bruteEval(ctx)
+		ctx.removeLast()
+		return Abs(name, newBody).eta()
+	}
+
 	override fun <T> fold(init: T, f: (Term, T) -> T) = f(this, f(body, init))
 	override fun toString(builder: StringBuilder, outer: ToStrCtx) {
 		val paren = outer != ToStrCtx.AbsBody
@@ -49,14 +58,19 @@ data class Abs(val name: String, val body: Term) : Term() {
 		if (paren) builder.append(')')
 	}
 
-	private fun eta() = if (
+	override fun eta() = if (
 		body is App && body.a == Var(name) && body.f.fold(true) { a, b -> b && a == Var(name) }
-	) body.f else this
+	) body.f.eta() else this
 }
 
 data class App(val f: Term, val a: Term) : Term() {
 	override fun bruteEval(ctx: Ctx) = when (val f = f.bruteEval(ctx)) {
-		is Abs -> f.body.bruteEval(ctx.also { it[f.name] = a })
+		is Abs -> {
+			ctx.addLast(f.name to a)
+			val fa = f.body.bruteEval(ctx)
+			ctx.removeLast()
+			fa.bruteEval(ctx)
+		}
 		else -> App(f, a.bruteEval(ctx))
 	}
 
