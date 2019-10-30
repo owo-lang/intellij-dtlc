@@ -121,7 +121,7 @@ public final class $settingsClassName extends VersionedExecutableProjectConfigur
 	}
 
 	@Override
-	public String getDisplayName() { return $basePackage.ConstantsKt.${constantPrefix}_LANGUAGE_NAME; }
+	public String getDisplayName() { return ${constantPrefix}_LANGUAGE_NAME; }
 }
 """ else """
 package $basePackage.project;
@@ -134,6 +134,7 @@ import $basePackage.project.ui.OnlyExecutableProjectConfigurable;
 
 import java.util.Objects;
 
+import static $basePackage.ConstantsKt.${constantPrefix}_LANGUAGE_NAME;
 import static $basePackage.project.ProjectGenerated.*;
 import static $basePackage.project.ui.Ui_implKt.initWebsiteLabel;
 
@@ -152,7 +153,7 @@ public final class $settingsClassName extends OnlyExecutableProjectConfigurable 
 	}
 
 	@Override
-	public String getDisplayName() { return $basePackage.ConstantsKt.${constantPrefix}_LANGUAGE_NAME; }
+	public String getDisplayName() { return ${constantPrefix}_LANGUAGE_NAME; }
 
 	@Override
 	public void apply() { settings.setExePath(getExePathField().getText()); }

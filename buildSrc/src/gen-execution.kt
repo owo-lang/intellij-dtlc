@@ -170,8 +170,9 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 			super(project);
 			this.configuration = configuration;
 			this.project = project;
-			targetFileField.addBrowseFolderListener(TTBundle.message("$nickname.ui.run-config.select-$nickname-file"),
-				TTBundle.message("$nickname.ui.run-config.select-$nickname-file.description"),
+			targetFileField.addBrowseFolderListener(
+				TTBundle.message("tt.ui.run-config.select-file"),
+				TTBundle.message("tt.ui.run-config.select-file.description"),
 				project,
 				FileChooserDescriptorFactory.createSingleFileDescriptor(${languageName}FileType.INSTANCE));
 			exePathField.addBrowseFolderListener(
