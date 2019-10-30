@@ -27,19 +27,6 @@ abstract class ACoreDeclarationExpressionMixin(node: ASTNode) : ASTWrapperPsiEle
 		declaration.processDeclarations(processor, state, lastParent, place)
 }
 
-abstract class ACoreGeneralDeclaration(node: ASTNode) : GeneralDeclaration(node) {
-	override fun getIcon(flags: Int) = TTIcons.AGDA_CORE
-	@Throws(IncorrectOperationException::class)
-	override fun setName(newName: String): PsiElement {
-		val newPattern = ACoreTokenType.createPattern(newName, project)
-			?: invalidName(newName)
-		nameIdentifier?.replace(newPattern)
-		return this
-	}
-
-	abstract override val type: ACoreExpression?
-}
-
 abstract class ACoreGeneralPattern(node: ASTNode) : GeneralNameIdentifier(node) {
 	override fun getIcon(flags: Int) = TTIcons.AGDA_CORE
 	@Throws(IncorrectOperationException::class)
@@ -48,25 +35,7 @@ abstract class ACoreGeneralPattern(node: ASTNode) : GeneralNameIdentifier(node) 
 			?: invalidName(newName))
 }
 
-abstract class ACoreLambdaMixin(node: ASTNode) : ACoreGeneralDeclaration(node), ACoreLambda {
-	override fun getNameIdentifier() = pattern
-	override val type: ACoreExpression? get() = null
-}
-
 abstract class ACoreTypedAbstractionMixin(node: ASTNode) : ACoreExpressionImpl(node), ACoreTypedAbstraction {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		typedPattern.processDeclarations(processor, state, lastParent, place).orTrue()
-}
-
-abstract class ACoreDeclarationMixin(node: ASTNode) : ACoreGeneralDeclaration(node), ACoreDeclaration {
-	override fun getNameIdentifier(): PsiElement? = pattern
-	override val type: ACoreExpression?
-		get() = expressionList.firstOrNull {
-			it.prevSiblingIgnoring<PsiElement>(TokenType.WHITE_SPACE)?.elementType == ACoreTypes.COLON
-		}
-}
-
-abstract class ACoreTypedPatternMixin(node: ASTNode) : ACoreGeneralDeclaration(node), ACoreTypedPattern {
-	override fun getNameIdentifier(): PsiElement? = pattern
-	override val type: ACoreExpression? get() = expression
 }

@@ -32,8 +32,7 @@
 		{
 			"name": "ConstDeclaration",
 			"identifierName": "Pattern",
-			"icon": "TTIcons.MINI_TT",
-			"findType": "null"
+			"icon": "TTIcons.MINI_TT"
 		},
 		{
 			"name": "TypedPattern",
@@ -50,8 +49,7 @@
 		{
 			"name": "LambdaExpression",
 			"identifierName": "Pattern",
-			"icon": "TTIcons.MINI_TT",
-			"findType": "null"
+			"icon": "TTIcons.MINI_TT"
 		}
 	],
 	"findUsagesProvider": "WithoutString"

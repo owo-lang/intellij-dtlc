@@ -34,7 +34,7 @@ optRcl ::= KW_WITH KW_CASES rcList? { pin=1 }
 rc ::= namePat EQ exp {
 	pin=2
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
-	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRRcMixin'
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRRcGeneratedMixin'
 }
 
 asPat ::= pat KW_AS pat
@@ -115,12 +115,12 @@ assignExp ::= exp ASSIGN exp
 tryExp ::= KW_TRY pat EQ exp KW_IN exp handlers KW_END {
 	pin=1
 	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwner']
-	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerMixin'
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerGeneratedMixin'
 }
 fnExp ::= KW_FN handling0 {
 	pin=1
 	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwner']
-	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerMixin'
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerGeneratedMixin'
 }
 letExp ::= KW_LET defs KW_IN expSeq KW_END {
 	pin=1
@@ -211,7 +211,8 @@ private mrList ::= mr mrRest*
 private mrRest ::= BAR mr { pin=1 }
 mr ::= BQ label handling0 {
 	pin=1
-	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerMixin'
+	implements=['org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwner']
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerGeneratedMixin'
 }
 
 rehandling ::= KW_REHANDLING mrList { pin=1 }
@@ -220,7 +221,7 @@ private handling1 ::= mr BAR handling { pin=2 }
 private handling2 ::= KW_HANDLING handling { pin=1 }
 handling ::= handling0 | mr | handling1 {
 	implements=['com.intellij.psi.PsiNameIdentifierOwner' 'org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwner']
-	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerMixin'
+	mixin='org.ice1000.tt.psi.mlpolyr.MLPolyRPatOwnerGeneratedMixin'
 }
 
 handlers ::= handling2? rehandling?

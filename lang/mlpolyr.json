@@ -45,5 +45,22 @@
 		"LCBB": "RCBB",
 		"LCB": "RCB"
 	},
+	"declarationTypes": [
+		{
+			"name": "Declaration",
+			"identifierName": "Pat",
+			"icon": "TTIcons.MLPOLYR"
+		},
+		{
+			"name": "PatOwner",
+			"identifierName": "Pat",
+			"icon": "TTIcons.MLPOLYR"
+		},
+		{
+			"name": "Rc",
+			"identifierName": "NamePat",
+			"icon": "TTIcons.MLPOLYR"
+		}
+	],
 	"findUsagesProvider": "WithString"
 }

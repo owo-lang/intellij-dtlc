@@ -8,24 +8,12 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
 import org.ice1000.tt.orTrue
-import org.ice1000.tt.psi.GeneralDeclaration
 import org.ice1000.tt.psi.GeneralNameIdentifier
 import org.ice1000.tt.psi.IPattern
 import org.ice1000.tt.psi.invalidName
 import org.ice1000.tt.psi.mlpolyr.impl.MLPolyRExpImpl
 
-abstract class MLPolyRDeclaration(node: ASTNode) : GeneralDeclaration(node) {
-	override val type: PsiElement? get() = null
-	override fun getIcon(flags: Int) = TTIcons.MLPOLYR
-	@Throws(IncorrectOperationException::class)
-	override fun setName(newName: String): PsiElement {
-		val newPattern = MLPolyRTokenType.createPat(newName, project) ?: invalidName(newName)
-		nameIdentifier?.replace(newPattern)
-		return this
-	}
-}
-
-abstract class MLPolyRPatListOwnerMixin(node: ASTNode) : MLPolyRDeclaration(node), MLPolyRPatListOwner {
+abstract class MLPolyRPatListOwnerMixin(node: ASTNode) : MLPolyRDeclarationGeneratedMixin(node), MLPolyRPatListOwner {
 	override fun getNameIdentifier(): PsiElement? = null
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		patList.asReversed().all { it.processDeclarations(processor, state, lastParent, place) }
@@ -69,27 +57,19 @@ interface MLPolyRPatListOwner : PsiElement {
 	val patList: List<MLPolyRPat>
 }
 
-abstract class MLPolyRRcMixin(node: ASTNode) : MLPolyRDeclaration(node), MLPolyRRc {
-	override fun getNameIdentifier() = namePat
-}
-
-abstract class MLPolyRPatOwnerMixin(node: ASTNode) : MLPolyRDeclaration(node), MLPolyRPatOwner {
-	override fun getNameIdentifier() = pat
-}
-
 abstract class MLPolyRLetExpMixin(node: ASTNode) : MLPolyRExpImpl(node), MLPolyRLetExp {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		defList.all { it.processDeclarations(processor, state, lastParent, place) }
 }
 
-abstract class MLPolyRDefMixin(node: ASTNode) : MLPolyRPatOwnerMixin(node), MLPolyRDef {
+abstract class MLPolyRDefMixin(node: ASTNode) : MLPolyRPatOwnerGeneratedMixin(node), MLPolyRDef {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		functionList.all { it.processDeclarations(processor, state, lastParent, place) }
 			&& optRcl?.rcList?.all { it.processDeclarations(processor, state, lastParent, place) }.orTrue()
 			&& super.processDeclarations(processor, state, lastParent, place)
 }
 
-abstract class MLPolyRCasesExpMixin(node: ASTNode) : MLPolyRDeclaration(node), MLPolyRCasesExp {
+abstract class MLPolyRCasesExpMixin(node: ASTNode) : MLPolyRDeclarationGeneratedMixin(node), MLPolyRCasesExp {
 	override fun getNameIdentifier(): PsiElement? = null
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		mrList.all { it.processDeclarations(processor, state, lastParent, place) }

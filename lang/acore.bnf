@@ -87,7 +87,7 @@ sum_data ::= LEFT_PAREN (summand (SEP summand)*)? RIGHT_PAREN { pin=1 }
 fun_case ::= LEFT_PAREN (branch  (SEP branch )*)? RIGHT_PAREN { pin=1 }
 typed_pattern ::= pattern COLON expression {
 	pin=2
-	mixin='org.ice1000.tt.psi.acore.ACoreTypedPatternMixin'
+	mixin='org.ice1000.tt.psi.acore.ACoreTypedPatternGeneratedMixin'
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 }
 
@@ -102,7 +102,7 @@ pi_type ::= PI typed_abstraction {
 lambda ::= BACKSLASH pattern DOT expression {
 	pin=1
 	extends=expression
-	mixin='org.ice1000.tt.psi.acore.ACoreLambdaMixin'
+	mixin='org.ice1000.tt.psi.acore.ACoreLambdaGeneratedMixin'
 }
 
 branch ::= IDENTIFIER ARROW expression { pin=1 }
@@ -128,7 +128,7 @@ declaration ::=
  EQ expression
  SEMICOLON {
 	pin=1
-	mixin='org.ice1000.tt.psi.acore.ACoreDeclarationMixin'
+	mixin='org.ice1000.tt.psi.acore.ACoreDeclarationGeneratedMixin'
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 }
 
