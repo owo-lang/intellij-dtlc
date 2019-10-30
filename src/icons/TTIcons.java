@@ -9,7 +9,7 @@ import javax.swing.*;
 public interface TTIcons {
 	@NotNull Icon MINI_TT_FILE = IconLoader.getIcon("/icons/minitt/minitt_file.svg");
 	@NotNull Icon MINI_TT = IconLoader.getIcon("/icons/minitt/minitt.svg");
-	@NotNull Icon OWO_FILE = IconLoader.getIcon("/icons/owo_file.svg");
+	@NotNull Icon OWO_FILE = IconLoader.getIcon("/icons/fileIcon/owo_file.svg");
 	@NotNull Icon AGDA_CORE_FILE = IconLoader.getIcon("/icons/fileIcon/mtt_file.svg");
 	@NotNull Icon AGDA_CORE = AGDA_CORE_FILE;
 	// TODO: this is a placeholder

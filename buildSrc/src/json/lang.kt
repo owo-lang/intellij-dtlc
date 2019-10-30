@@ -31,6 +31,7 @@ class LangData constructor(
 	val verification: Boolean = true,
 	val hasVersion: Boolean = true,
 	val generateSettings: Boolean = true,
+	val generateService: Boolean = true,
 	val supportsParsing: Boolean = false,
 	val keywordList: List<String> = emptyList(),
 	val highlightTokenPairs: Map<String, String> = emptyMap(),

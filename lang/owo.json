@@ -1,0 +1,10 @@
+{
+	"languageName": "OwO",
+	"constantPrefix": "OWO",
+	"exeName": "owoc",
+	"generateCliState": false,
+	"generateRunConfig": false,
+	"hasVersion": false,
+	"generateService": false,
+	"supportsParsing": false
+}

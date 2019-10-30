@@ -62,7 +62,7 @@ open class LangUtilGenTask : DefaultTask() {
 		if (generateSettings && exeName.isBlank()) throw GradleException("Executable name for $name must not be empty.")
 		if (constantPrefix.isEmpty()) constantPrefix = languageName.toUpperCase()
 		infos(nickname, outDir)
-		service(configName, nickname, outDir)
+		if (generateService) service(configName, nickname, outDir)
 		fileCreation(outDir)
 		editing(outDir)
 		if (generateRunConfig) execution(nickname, configName, outDir)
