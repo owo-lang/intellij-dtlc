@@ -17,14 +17,22 @@
 
 file ::= lambda*
 
-lambda ::= KW_LAMBDA nameDecl EQ expr { pin=1 }
+lambda ::= KW_LAMBDA nameDecl EQ expr {
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.vitalyr.VitalyRLambdaGeneratedMixin'
+	pin=1
+}
 expr ::= appExpr | nonApp
 private nonApp ::=
    lamExpr
  | nameUsage
  | parenExpr
 
-lamExpr ::= BACKSLASH nameDecl DOT expr { pin=1 }
+lamExpr ::= BACKSLASH nameDecl DOT expr {
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.vitalyr.VitalyRLamExprGeneratedMixin'
+	pin=1
+}
 appExpr ::= expr nonApp+
 parenExpr ::= LPAREN expr RPAREN { pin=1 }
 nameDecl ::= IDENTIFIER {

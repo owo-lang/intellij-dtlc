@@ -20,5 +20,17 @@
 		"LPAREN": "RPAREN"
 	},
 	"referenceTypes": ["NameUsage"],
+	"declarationTypes": [
+		{
+			"name": "LamExpr",
+			"identifierName": "NameDecl",
+			"icon": "SemanticIcons.PINK_LAMBDA"
+		},
+		{
+			"name": "Lambda",
+			"identifierName": "NameDecl",
+			"icon": "SemanticIcons.ORANGE_LAMBDA"
+		}
+	],
 	"findUsagesProvider": "WithoutString"
 }

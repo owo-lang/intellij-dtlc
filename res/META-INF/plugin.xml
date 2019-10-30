@@ -196,6 +196,7 @@
 		<configurationType implementation="org.ice1000.tt.execution.NarcRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.NarcRunConfigurationProducer"/>
 		<lang.commenter language="Narc" implementationClass="org.ice1000.tt.editing.CxxLineCommenter"/>
+		<lang.refactoringSupport language="Narc" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<lang.braceMatcher language="Narc" implementationClass="org.ice1000.tt.editing.narc.NarcBraceMatcher"/>
 		<lang.syntaxHighlighterFactory language="Narc" implementationClass="org.ice1000.tt.editing.narc.NarcHighlighterFactory"/>
 		<lang.parserDefinition language="Narc" implementationClass="org.ice1000.tt.psi.narc.NarcGeneratedParserDefinition"/>
@@ -204,6 +205,7 @@
 		<!--VitalyR-->
 		<lang.commenter language="VitalyR" implementationClass="org.ice1000.tt.editing.MiniTTCommenter"/>
 		<lang.braceMatcher language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRBraceMatcher"/>
+		<lang.refactoringSupport language="VitalyR" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<lang.syntaxHighlighterFactory language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRHighlighterFactory"/>
 		<completion.contributor language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRCompletionContributor"/>
 		<lang.parserDefinition language="VitalyR" implementationClass="org.ice1000.tt.psi.vitalyr.VitalyRGeneratedParserDefinition"/>
