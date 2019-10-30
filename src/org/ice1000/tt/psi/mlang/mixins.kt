@@ -4,11 +4,8 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.ResolveState
-import com.intellij.psi.TokenType
 import com.intellij.psi.scope.PsiScopeProcessor
-import com.intellij.util.IncorrectOperationException
 import icons.SemanticIcons
-import icons.TTIcons
 import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.*
 
@@ -79,18 +76,8 @@ abstract class MlangIdentMixin(node: ASTNode) : GeneralNameIdentifier(node), Mla
 		MlangTokenType.createIdent(newName, project) ?: invalidName(newName))
 }
 
-abstract class MlangGeneralDeclaration(node: ASTNode) : GeneralDeclaration(node) {
-	override fun getNameIdentifier(): MlangIdent? = childrenWithLeaves.filterIsInstance<MlangIdent>().firstOrNull()
-	override fun getIcon(flags: Int) = TTIcons.M_LANG
+abstract class MlangGeneralDeclaration(node: ASTNode) : MlangGeneralDeclarationGeneratedMixin(node) {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 		parameters?.processDeclarations(processor, state, lastParent, place).orTrue() && super.processDeclarations(processor, state, lastParent, place)
-	@Throws(IncorrectOperationException::class)
-	override fun setName(newName: String): PsiElement {
-		val newIdentifier = MlangTokenType.createIdent(newName, project) ?: invalidName(newName)
-		nameIdentifier?.replace(newIdentifier)
-		return this
-	}
-
 	val parameters: MlangTele? get() = childrenWithLeaves.filterIsInstance<MlangTele>().firstOrNull()
-	override val type: MlangTerm? get() = findChildByType<PsiElement>(MlangTypes.COLON)?.nextSiblingIgnoring(TokenType.WHITE_SPACE)
 }

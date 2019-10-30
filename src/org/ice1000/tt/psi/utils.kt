@@ -15,6 +15,9 @@ val PsiElement.elementType get() = node.elementType
 val PsiElement.startOffset get() = textRange.startOffset
 val PsiElement.endOffset get() = textRange.endOffset
 
+fun GeneralDeclaration.findType(colon: IElementType): PsiElement? =
+	node.findChildByType(colon)?.psi?.nextSiblingIgnoring(TokenType.WHITE_SPACE)
+
 inline fun <reified Psi : PsiElement> PsiElement.nextSiblingIgnoring(vararg types: IElementType): Psi? {
 	var next: PsiElement = nextSibling ?: return null
 	while (true) {

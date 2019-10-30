@@ -68,6 +68,7 @@ open class LangUtilGenTask : DefaultTask() {
 		if (generateRunConfig) execution(nickname, configName, outDir)
 		pluginXml(nickname, fyiDir)
 		if (supportsParsing) {
+			declarationMixins(nickname, outDir)
 			referenceMixins(nickname, outDir)
 			parser(nickname, outDir)
 			lexHighlight(nickname, outDir)

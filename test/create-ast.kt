@@ -7,6 +7,7 @@ import org.ice1000.tt.psi.mlang.MlangTokenType
 import org.ice1000.tt.psi.mlpolyr.MLPolyRTokenType
 import org.ice1000.tt.psi.narc.NarcTokenType
 import org.ice1000.tt.psi.redprl.RedPrlTokenType
+import org.ice1000.tt.psi.vitalyr.VitalyRTokenType
 import org.ice1000.tt.psi.voile.VoileTokenType
 
 class RedPrlCreateAstTest : LightPlatformTestCase() {
@@ -26,6 +27,7 @@ class AgdaCreateAstTest : LightPlatformTestCase() {
 	fun testCreate() {
 		val project = project
 		AgdaTokenType.createStr("\"Come and get your love!\"", project)!!
+		AgdaTokenType.createNameExp("OhOh", project)!!
 	}
 }
 
@@ -67,5 +69,13 @@ class NarcCreateAstTest : LightPlatformTestCase() {
 		val project = project
 		NarcTokenType.createNameDecl("gold", project)!!
 		NarcTokenType.createNameUsage("experience", project)!!
+	}
+}
+
+class VitalyRCreateAstTest : LightPlatformTestCase() {
+	fun testCreate() {
+		val project = project
+		VitalyRTokenType.createNameDecl("moody", project)!!
+		VitalyRTokenType.createNameUsage("blues", project)!!
 	}
 }

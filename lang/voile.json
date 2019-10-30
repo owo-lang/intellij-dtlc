@@ -27,5 +27,13 @@
 		"LPAREN": "RPAREN"
 	},
 	"referenceTypes": ["NameUsage"],
+	"declarationTypes": [
+		{
+			"name": "GlobDecl",
+			"identifierName": "NameDecl",
+			"icon": "SemanticIcons.ORANGE_LAMBDA",
+			"findType": "UtilsKt.findType(this, VoileTypes.COLON)"
+		}
+	],
 	"findUsagesProvider": "WithoutString"
 }

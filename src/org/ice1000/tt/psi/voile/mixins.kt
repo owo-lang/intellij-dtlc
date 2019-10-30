@@ -4,12 +4,12 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.ResolveState
-import com.intellij.psi.TokenType
 import com.intellij.psi.scope.PsiScopeProcessor
 import icons.SemanticIcons
-import icons.TTIcons
 import org.ice1000.tt.orTrue
-import org.ice1000.tt.psi.*
+import org.ice1000.tt.psi.GeneralNameIdentifier
+import org.ice1000.tt.psi.childrenRevWithLeaves
+import org.ice1000.tt.psi.invalidName
 
 abstract class VoileNameDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), VoileNameDecl {
 	override fun getIcon(flags: Int) = SemanticIcons.BLUE_HOLE
@@ -17,19 +17,9 @@ abstract class VoileNameDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), 
 		VoileTokenType.createNameDecl(newName, project) ?: invalidName(newName))
 }
 
-abstract class VoileGlobDeclMixin(node: ASTNode) : GeneralDeclaration(node) {
-	override val type: PsiElement? get() = findChildByType<PsiElement>(VoileTypes.COLON)?.nextSiblingIgnoring(TokenType.WHITE_SPACE)
-	override fun getNameIdentifier(): PsiElement? = findChildByClass(VoileNameDeclMixin::class.java)
-	override fun setName(newName: String): PsiElement {
-		nameIdentifier?.replace(
-			VoileTokenType.createNameDecl(newName, project) ?: invalidName(newName))
-		return this
-	}
-}
-
-abstract class VoileLocalDeclMixin(node: ASTNode) : VoileGlobDeclMixin(node) {
+abstract class VoileLocalDeclMixin(node: ASTNode) : VoileGlobDeclGeneratedMixin(node) {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		childrenRevWithLeaves.filterIsInstance<VoileNameDeclMixin>().all { it.processDeclarations(processor, state, lastParent, place) }
+		childrenRevWithLeaves.all { it.processDeclarations(processor, state, lastParent, place) }
 	override fun getIcon(flags: Int) = SemanticIcons.PURPLE_P
 	override fun setName(newName: String): PsiElement = invalidName(newName)
 }

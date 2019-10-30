@@ -4,6 +4,56 @@ import org.ice1000.tt.gradle.json.LangData
 import org.intellij.lang.annotations.Language
 import java.io.File
 
+fun LangData.declarationMixins(nickname: String, outDir: File) {
+	val outPsiDir = outDir.resolve("psi").resolve(nickname)
+	outPsiDir.mkdirs()
+
+	declarationTypes.forEach { decl ->
+		val prefix = "$languageName${decl.name}"
+		val declTypeClassName = "${prefix}GeneratedMixin"
+		@Language("JAVA")
+		val declTypeClassContent = """
+package $basePackage.psi.$nickname;
+
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.util.IncorrectOperationException;
+import icons.TTIcons;
+import icons.SemanticIcons;
+import org.ice1000.tt.psi.UtilsKt;
+import org.ice1000.tt.psi.GeneralDeclaration;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
+
+import static org.ice1000.tt.psi.UtilsKt.invalidName;
+
+public abstract class $declTypeClassName extends GeneralDeclaration {
+	public $declTypeClassName(@NotNull ASTNode node) { super(node); }
+	@Override public @Nullable PsiElement getType() { return ${decl.findType}; }
+	@Override public @Nullable Icon getIcon(int flags) { return ${decl.icon}; }
+
+	@Override
+	public @Nullable PsiElement getNameIdentifier() {
+		return findChildByClass($languageName${decl.identifierName}.class);
+	}
+
+	@Override
+	public @NotNull PsiElement setName(@NotNull String s) throws IncorrectOperationException {
+		PsiElement nameIdentifier = getNameIdentifier();
+		if (nameIdentifier != null) {
+			PsiElement element = ${languageName}TokenType.Builtin.create${decl.identifierName}(s, getProject());
+			if (element == null) invalidName(s);
+			nameIdentifier.replace(element);
+		}
+		return this;
+	}
+}"""
+		outPsiDir.resolve("$declTypeClassName.java").writeText(declTypeClassContent)
+	}
+}
+
 fun LangData.referenceMixins(nickname: String, outDir: File) {
 	val outPsiDir = outDir.resolve("psi").resolve(nickname)
 	outPsiDir.mkdirs()

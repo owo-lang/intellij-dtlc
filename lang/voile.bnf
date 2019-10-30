@@ -95,10 +95,10 @@ parenExpr ::= LPAREN expr RPAREN
 signature ::= KW_VAL nameDecl COLON expr SEMI {
 	pin=1
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
-	mixin='org.ice1000.tt.psi.voile.VoileGlobDeclMixin'
+	mixin='org.ice1000.tt.psi.voile.VoileGlobDeclGeneratedMixin'
 }
 implementation ::= KW_LET nameDecl EQ expr SEMI {
 	pin=1
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
-	mixin='org.ice1000.tt.psi.voile.VoileGlobDeclMixin'
+	mixin='org.ice1000.tt.psi.voile.VoileGlobDeclGeneratedMixin'
 }

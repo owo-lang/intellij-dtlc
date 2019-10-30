@@ -27,5 +27,13 @@
 		"LBRACK": "RBRACK",
 		"LPAREN": "RPAREN"
 	},
+	"declarationTypes": [
+		{
+			"name": "GeneralDeclaration",
+			"identifierName": "Ident",
+			"icon": "TTIcons.M_LANG",
+			"findType": "UtilsKt.findType(this, MlangTypes.COLON)"
+		}
+	],
 	"findUsagesProvider": "DontGenerate"
 }
