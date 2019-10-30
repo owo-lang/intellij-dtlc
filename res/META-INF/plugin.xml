@@ -209,6 +209,7 @@
 		<lang.syntaxHighlighterFactory language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRHighlighterFactory"/>
 		<completion.contributor language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRCompletionContributor"/>
 		<lang.parserDefinition language="VitalyR" implementationClass="org.ice1000.tt.psi.vitalyr.VitalyRGeneratedParserDefinition"/>
+		<annotator language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRAnnotator"/>
 
 		<projectConfigurable
 			groupId="language"
