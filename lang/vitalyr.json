@@ -6,5 +6,18 @@
 	"generateRunConfig": false,
 	"hasVersion": false,
 	"generateSettings": false,
-	"supportsParsing": false
+	"supportsParsing": true,
+	"highlightTokenPairs": {
+		"KEYWORD": "KEYWORD",
+		"IDENTIFIER": "IDENTIFIER",
+		"PAREN": "PARENTHESES",
+		"LINE_COMMENT": "LINE_COMMENT",
+		"FUNCTION_NAME": "FUNCTION_DECLARATION",
+		"UNRESOLVED": "IDENTIFIER"
+	},
+	"keywordList": ["lambda"],
+	"braceTokenPairs": {
+		"LPAREN": "RPAREN"
+	},
+	"findUsagesProvider": "WithoutString"
 }

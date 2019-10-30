@@ -175,9 +175,8 @@ listOf(
 	"MiniTT", "ACore", "MLPolyR",
 	"RedPrl", "Agda", "CubicalTT",
 	"YaccTT", "Voile", "Narc",
-	"Mlang"
+	"Mlang", "VitalyR"
 ).onEach { utilities(it) }.forEach { grammar(it) }
-utilities("VitalyR")
 utilities("OwO")
 
 tasks.withType<KotlinCompile> {

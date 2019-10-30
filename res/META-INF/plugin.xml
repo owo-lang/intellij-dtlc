@@ -156,7 +156,7 @@
 		<annotator language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTAnnotator"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.minitt.MiniTTColorSettingsPage"/>
 		<stubElementTypeHolder class="org.ice1000.tt.psi.minitt.MiniTTTypes"/>
-		<lang.commenter language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTCommenter"/>
+		<lang.commenter language="Mini-TT" implementationClass="org.ice1000.tt.editing.MiniTTCommenter"/>
 		<completion.contributor language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTCompletionContributor"/>
 		<lang.braceMatcher language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTBraceMatcher"/>
 		<lang.findUsagesProvider language="Mini-TT" implementationClass="org.ice1000.tt.editing.minitt.MiniTTFindUsagesProvider"/>
@@ -199,6 +199,12 @@
 		<lang.syntaxHighlighterFactory language="Narc" implementationClass="org.ice1000.tt.editing.narc.NarcHighlighterFactory"/>
 		<lang.parserDefinition language="Narc" implementationClass="org.ice1000.tt.psi.narc.NarcGeneratedParserDefinition"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.narc.NarcColorSettingsPage"/>
+
+		<!--VitalyR-->
+		<lang.commenter language="VitalyR" implementationClass="org.ice1000.tt.editing.MiniTTCommenter"/>
+		<lang.braceMatcher language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRBraceMatcher"/>
+		<lang.syntaxHighlighterFactory language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRHighlighterFactory"/>
+		<lang.parserDefinition language="VitalyR" implementationClass="org.ice1000.tt.psi.vitalyr.VitalyRGeneratedParserDefinition"/>
 
 		<projectConfigurable
 			groupId="language"

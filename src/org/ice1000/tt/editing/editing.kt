@@ -48,6 +48,10 @@ class CxxCommenter : CxxLineCommenter() {
 	override fun getBlockCommentSuffix() = "*/"
 }
 
+class MiniTTCommenter : TTCommenter() {
+	override fun getLineCommentPrefix() = "-- "
+}
+
 inline fun collectFoldRegions(root: PsiElement, visitorFactory: (MutableList<FoldingDescriptor>) -> PsiElementVisitor): Array<FoldingDescriptor> {
 	val descriptors = mutableListOf<FoldingDescriptor>()
 	val visitor = visitorFactory(descriptors)

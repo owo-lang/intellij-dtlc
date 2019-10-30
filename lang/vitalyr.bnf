@@ -1,0 +1,31 @@
+{
+  generate=[java="8" names="long"]
+
+  parserClass="org.ice1000.tt.psi.vitalyr.VitalyRParser"
+
+  psiClassPrefix="VitalyR"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.ice1000.tt.psi.vitalyr"
+  psiImplPackage="org.ice1000.tt.psi.vitalyr.impl"
+
+  elementTypeHolderClass="org.ice1000.tt.psi.vitalyr.VitalyRTypes"
+  elementTypeClass="org.ice1000.tt.psi.vitalyr.VitalyRElementType"
+  tokenTypeClass="org.ice1000.tt.psi.vitalyr.VitalyRTokenType"
+
+  extends(".*Expr")=expr
+}
+
+file ::= lambda*
+
+lambda ::= KW_LAMBDA nameDecl EQ expr { pin=1 }
+expr ::= appExpr | nonApp
+private nonApp ::=
+   lamExpr
+ | nameUsage
+ | parenExpr
+
+lamExpr ::= BACKSLASH nameDecl DOT expr { pin=1 }
+appExpr ::= expr nonApp+
+parenExpr ::= LPAREN expr RPAREN { pin=1 }
+nameDecl ::= IDENTIFIER
+nameUsage ::= IDENTIFIER { extends=expr }

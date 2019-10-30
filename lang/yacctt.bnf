@@ -131,7 +131,7 @@ private atomic ::=
  | nameExp
  | parenExp
 
-appExp ::= exp exp+
+appExp ::= exp atomic+
 funExp ::= exp ARROW exp
 appIIExp ::= exp AT ii
 letExp ::= KW_LET LAYOUT_START decls LAYOUT_END? KW_IN exp {
