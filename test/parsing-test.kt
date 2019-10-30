@@ -9,6 +9,7 @@ import org.ice1000.tt.psi.minitt.MiniTTGeneratedParserDefinition
 import org.ice1000.tt.psi.mlang.MlangGeneratedParserDefinition
 import org.ice1000.tt.psi.mlpolyr.MLPolyRParserDefinition
 import org.ice1000.tt.psi.redprl.RedPrlGeneratedParserDefinition
+import org.ice1000.tt.psi.voile.VoileGeneratedParserDefinition
 
 abstract class DtlcParsingTestCase(
 	dataPath: String,
@@ -99,4 +100,11 @@ class MlangParsingTest : DtlcParsingTestCase("parse/mlang-poor", "poor", MlangGe
 	fun `test implicits`() = doTest(true, true)
 	fun `test pattern_matching_syntax`() = doTest(true, true)
 	fun `test formula`() = doTest(true, true)
+}
+
+class VoileParsingTest : DtlcParsingTestCase("parse/voile", "voile", VoileGeneratedParserDefinition()) {
+	fun `test extensible-pattern-match`() = doTest(true, true)
+	fun `test project-poly`() = doTest(true, true)
+	fun `test simple-pattern-match`() = doTest(true, true)
+	fun `test solve-ext-meta`() = doTest(true, true)
 }

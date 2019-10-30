@@ -1,0 +1,12 @@
+//
+// Created by Dependently-Typed Lambda Calculus on 2019-08-23
+// project-poly
+// Author: ice10
+//
+
+val project_poly
+   :  (A : Type)
+   -> (r : Rec [x])
+   -> Rec { x: A; ... = r }
+   -> A;
+let project_poly = \A R r. r.x;
