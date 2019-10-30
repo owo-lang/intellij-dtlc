@@ -1,10 +1,17 @@
+@file:Suppress("PackageDirectoryMismatch")
+
 package org.ice1000.tt.psi.vitalyr
 
+import com.intellij.lang.ASTNode
 import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
+import icons.SemanticIcons
 import org.ice1000.tt.VitalyRLanguage
+import org.ice1000.tt.psi.GeneralNameIdentifier
+import org.ice1000.tt.psi.invalidName
 
 class VitalyRTokenType(debugName: String) : IElementType(debugName, VitalyRLanguage.INSTANCE) {
 	companion object Builtin {
@@ -18,4 +25,10 @@ class VitalyRTokenType(debugName: String) : IElementType(debugName, VitalyRLangu
 		fun createExpr(text: String, project: Project) = createLambda("lambda x = $text", project)?.expr
 		fun createNameUsage(text: String, project: Project) = createExpr(text, project) as? VitalyRNameUsage
 	}
+}
+
+abstract class VitalyRNameDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), VitalyRNameDecl {
+	override fun getIcon(flags: Int) = SemanticIcons.BLUE_HOLE
+	override fun setName(newName: String): PsiElement = replace(
+		VitalyRTokenType.createNameDecl(newName, project) ?: invalidName(newName))
 }
