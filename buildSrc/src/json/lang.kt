@@ -33,6 +33,7 @@ class LangData constructor(
 	val generateSettings: Boolean = true,
 	val generateService: Boolean = true,
 	val supportsParsing: Boolean = false,
+	val referenceTypes: List<String> = emptyList(),
 	val keywordList: List<String> = emptyList(),
 	val highlightTokenPairs: Map<String, String> = emptyMap(),
 	val braceTokenPairs: Map<String, String> = emptyMap(),

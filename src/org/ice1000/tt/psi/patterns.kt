@@ -46,7 +46,8 @@ class PatternResolveProcessor(
 	}
 }
 
-class NameIdentifierResolveProcessor(
+class NameIdentifierResolveProcessor
+@JvmOverloads constructor(
 	private val name: String,
 	private val accessible: (GeneralNameIdentifier) -> Boolean = { it.text == name }
 ) : ResolveProcessor<PsiElementResolveResult>() {

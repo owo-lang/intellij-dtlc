@@ -27,5 +27,8 @@ private nonApp ::=
 lamExpr ::= BACKSLASH nameDecl DOT expr { pin=1 }
 appExpr ::= expr nonApp+
 parenExpr ::= LPAREN expr RPAREN { pin=1 }
-nameDecl ::= IDENTIFIER
+nameDecl ::= IDENTIFIER {
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.vitalyr.VitalyRNameDeclMixin'
+}
 nameUsage ::= IDENTIFIER { extends=expr }

@@ -4,6 +4,67 @@ import org.ice1000.tt.gradle.json.LangData
 import org.intellij.lang.annotations.Language
 import java.io.File
 
+fun LangData.referenceMixins(nickname: String, outDir: File) {
+	val outPsiDir = outDir.resolve("psi").resolve(nickname)
+	outPsiDir.mkdirs()
+
+	referenceTypes.forEach { referenceType ->
+		val prefix = "$languageName$referenceType"
+		val referenceTypeClassName = "${prefix}GeneratedMixin"
+		@Language("JAVA")
+		val referenceTypeClassContent = """
+package $basePackage.psi.$nickname;
+
+import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.ResolveResult;
+import com.intellij.psi.impl.source.resolve.ResolveCache;
+import com.intellij.util.IncorrectOperationException;
+import org.ice1000.tt.psi.GeneralReference;
+import org.ice1000.tt.psi.NameIdentifierCompletionProcessor;
+import org.ice1000.tt.psi.NameIdentifierResolveProcessor;
+import org.jetbrains.annotations.NotNull;
+
+import static org.ice1000.tt.psi.ResolveKt.resolveWithToList;
+import static org.ice1000.tt.psi.UtilsKt.invalidName;
+
+public abstract class $referenceTypeClassName extends GeneralReference implements $prefix {
+	public $referenceTypeClassName(@NotNull ASTNode node) {
+		super(node);
+	}
+
+	private static @NotNull ResolveCache.PolyVariantResolver<$referenceTypeClassName> resolver = (self, b) ->
+		resolveWithToList(new NameIdentifierResolveProcessor(self.getCanonicalText()), self)
+			.toArray(ResolveResult.EMPTY_ARRAY);
+
+	@Override
+	public PsiElement handleElementRename(@NotNull String s) throws IncorrectOperationException {
+		$prefix element = ${languageName}TokenType.Builtin.create$referenceType(s, getProject());
+		if (element == null) invalidName(s);
+		return replace(element);
+	}
+
+	@Override
+	public @NotNull Object[] getVariants() {
+		return resolveWithToList(new NameIdentifierCompletionProcessor(), this)
+			.toArray(LookupElement.EMPTY_ARRAY);
+	}
+
+	@Override
+	public @NotNull ResolveResult[] multiResolve(boolean incomplete) {
+		PsiFile containingFile = getContainingFile();
+		if (containingFile == null) return ResolveResult.EMPTY_ARRAY;
+		if (!isValid() || getProject().isDisposed()) return ResolveResult.EMPTY_ARRAY;
+		return ResolveCache.getInstance(getProject())
+			.resolveWithCaching(this, resolver, true, incomplete, containingFile);
+	}
+}"""
+		outPsiDir.resolve("$referenceTypeClassName.java").writeText(referenceTypeClassContent)
+	}
+}
+
 fun LangData.parser(nickname: String, outDir: File) {
 	val outPsiDir = outDir.resolve("psi").resolve(nickname)
 	outPsiDir.mkdirs()

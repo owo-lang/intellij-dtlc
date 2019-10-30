@@ -27,7 +27,7 @@ nameDecl ::= identifier {
 }
 nameUsage ::= identifier {
 	extends=expr
-	mixin='org.ice1000.tt.psi.voile.VoileNameUsageMixin'
+	mixin='org.ice1000.tt.psi.voile.VoileNameUsageGeneratedMixin'
 }
 label ::= IDENTIFIER
 

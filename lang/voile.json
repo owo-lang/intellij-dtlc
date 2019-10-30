@@ -26,5 +26,6 @@
 		"LBRACE2": "RBRACE2",
 		"LPAREN": "RPAREN"
 	},
+	"referenceTypes": ["NameUsage"],
 	"findUsagesProvider": "WithoutString"
 }

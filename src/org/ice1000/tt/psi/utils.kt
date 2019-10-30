@@ -8,6 +8,7 @@ import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
+import org.jetbrains.annotations.Contract
 
 val PsiElement.elementType get() = node.elementType
 
@@ -70,5 +71,6 @@ fun PsiElement.bodyText(maxSizeExpected: Int) = buildString {
 }
 
 @Throws(IncorrectOperationException::class)
+@Contract("_->fail", pure = true)
 fun invalidName(newName: String) : Nothing
 	= throw IncorrectOperationException("Invalid name: $newName")

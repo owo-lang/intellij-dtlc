@@ -40,10 +40,14 @@ fun treeWalkUp(
 	return true
 }
 
-inline fun <reified T> resolveWith(processor: ResolveProcessor<T>, ref: PsiReference): Array<T> {
-	val file = ref.element.containingFile ?: return emptyArray()
+fun <T> resolveWithToList(processor: ResolveProcessor<T>, ref: PsiReference): List<T> {
+	val file = ref.element.containingFile ?: return emptyList()
 	treeWalkUp(processor, ref.element, file)
-	return processor.candidateSet.toTypedArray()
+	return processor.candidateSet
+}
+
+inline fun <reified T> resolveWith(processor: ResolveProcessor<T>, ref: PsiReference): Array<T> {
+	return resolveWithToList(processor, ref).toTypedArray()
 }
 
 abstract class GeneralDeclaration(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner {

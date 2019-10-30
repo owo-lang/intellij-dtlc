@@ -21,6 +21,7 @@
 		<internalFileTemplate name="VitalyR File"/>
 
 		<!--Common-->
+		<!--suppress PluginXmlValidity -->
 		<fileTypeFactory implementation="org.ice1000.tt.TTFileTypeFactory"/>
 		<errorHandler implementation="org.ice1000.tt.error.GitHubErrorReporter"/>
 		<additionalTextAttributes scheme="Default" file="/colorSchemes/TT.xml"/>
@@ -204,6 +205,7 @@
 		<lang.commenter language="VitalyR" implementationClass="org.ice1000.tt.editing.MiniTTCommenter"/>
 		<lang.braceMatcher language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRBraceMatcher"/>
 		<lang.syntaxHighlighterFactory language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRHighlighterFactory"/>
+		<completion.contributor language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRCompletionContributor"/>
 		<lang.parserDefinition language="VitalyR" implementationClass="org.ice1000.tt.psi.vitalyr.VitalyRGeneratedParserDefinition"/>
 
 		<projectConfigurable
