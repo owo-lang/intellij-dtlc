@@ -89,7 +89,7 @@ branches ::= LEFT_BRACE (constructor (SEP constructor)*)? RIGHT_BRACE { pin=1 }
 choices ::= LEFT_BRACE (pattern_match (SEP pattern_match)*)? RIGHT_BRACE { pin=1 }
 typed_pattern ::= pattern COLON expression {
 	pin=2
-	mixin='org.ice1000.tt.psi.minitt.MiniTTTypedPatternMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTTypedPatternGeneratedMixin'
 }
 
 // Atomic expressions
@@ -103,7 +103,7 @@ pi_type ::= PI typed_abstraction {
 lambda_expression ::= LAMBDA pattern DOT expression {
 	pin=1
 	extends=expression
-	mixin='org.ice1000.tt.psi.minitt.MiniTTLambdaExpressionMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTLambdaExpressionGeneratedMixin'
 }
 
 constructor ::= CONSTRUCTOR_NAME expression? { pin=1 extends=expression }
@@ -134,7 +134,7 @@ const_declaration ::=
  EQ expression
  SEMICOLON {
 	pin=1
-	mixin='org.ice1000.tt.psi.minitt.MiniTTConstDeclarationMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTConstDeclarationGeneratedMixin'
 }
 
 const_expression ::= const_declaration expression? {

@@ -28,8 +28,8 @@ abstract class MiniTTVariableMixin(node: ASTNode) : GeneralReference(node), Mini
 		private val resolver = ResolveCache.PolyVariantResolver<MiniTTVariableMixin> { ref, _ ->
 			val name = ref.canonicalText
 			resolveWith(PatternResolveProcessor(name) {
-				if ((it as? IPattern<*>)?.parent !is MiniTTTypedPatternMixin) it.text == name
-				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, MiniTTGeneralDeclaration::class.java), ref, true)
+				if ((it as? IPattern<*>)?.parent !is MiniTTTypedPatternGeneratedMixin) it.text == name
+				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java), ref, true)
 			}, ref)
 		}
 	}

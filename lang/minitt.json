@@ -28,5 +28,31 @@
 		"LEFT_PAREN": "RIGHT_PAREN",
 		"LEFT_BRACE": "RIGHT_BRACE"
 	},
+	"declarationTypes": [
+		{
+			"name": "ConstDeclaration",
+			"identifierName": "Pattern",
+			"icon": "TTIcons.MINI_TT",
+			"findType": "null"
+		},
+		{
+			"name": "TypedPattern",
+			"identifierName": "Pattern",
+			"icon": "SemanticIcons.PURPLE_P",
+			"findType": "findChildByClass(MiniTTExpression.class)"
+		},
+		{
+			"name": "Declaration",
+			"identifierName": "Pattern",
+			"icon": "TTIcons.MINI_TT",
+			"findType": "UtilsKt.findType(this, MiniTTTypes.COLON)"
+		},
+		{
+			"name": "LambdaExpression",
+			"identifierName": "Pattern",
+			"icon": "TTIcons.MINI_TT",
+			"findType": "null"
+		}
+	],
 	"findUsagesProvider": "WithoutString"
 }
