@@ -31,13 +31,13 @@ nameUsage ::= identifier {
 }
 label ::= IDENTIFIER
 
-expr ::=
+expr ::= appExpr | nonApp
+private nonApp ::=
    sigExpr
  | piExpr
  | dollarExpr
  | commaExpr
  | pipeExpr
- | appExpr
  | litExpr
  | lamExpr
  | nameUsage
@@ -89,7 +89,7 @@ lamExpr ::= LAM nameDecl+ DOT expr {
 	mixin='org.ice1000.tt.psi.voile.VoileLocalDeclMixin'
 }
 litExpr ::= META | CONS | KW_TYPE | KW_NOCASES
-appExpr ::= expr expr+
+appExpr ::= expr nonApp+
 parenExpr ::= LPAREN expr RPAREN
 
 signature ::= KW_VAL nameDecl COLON expr SEMI {

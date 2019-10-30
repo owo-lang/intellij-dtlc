@@ -104,7 +104,7 @@ minusExp ::= exp MINUS exp
 timesExp ::= exp TIMES exp
 divExp ::= exp DIV exp
 modExp ::= exp MOD exp
-appExp ::= exp exp+
+appExp ::= exp atomicExp+
 prefixExp ::=
  ( MINUS
  | KW_ISNULL

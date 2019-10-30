@@ -28,10 +28,10 @@ nameUsage ::= identifier {
 	extends=expr
 }
 
-expr ::=
+expr ::= appExpr | nonApp
+private nonApp ::=
    piExpr
  | dollarExpr
- | appExpr
  | litExpr
  | nameUsage
  | projectExpr
@@ -52,7 +52,7 @@ telescopicExpr ::= LPAREN nameDecl+ COLON expr RPAREN {
 }
 dollarExpr ::= expr DOLLAR expr
 litExpr ::= META IDENTIFIER | KW_TYPE
-appExpr ::= expr expr+
+appExpr ::= expr nonApp+
 parenExpr ::= LPAREN expr RPAREN
 
 definition ::= KW_DEFINITION nameDecl COLON expr SEMI {

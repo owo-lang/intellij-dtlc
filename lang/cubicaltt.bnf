@@ -105,7 +105,8 @@ label ::= nameDecl teles (LT nameDecl* GT system)? {
 	elementTypeFactory='org.ice1000.tt.psi.cubicaltt.StubsKt.factory'
 }
 
-exp ::=
+exp ::= appExp | nonApp
+private nonApp ::=
    pConExp
  | expExpExp
  | pLamExp
@@ -113,7 +114,6 @@ exp ::=
  | sysExp
  | sysExpExp
  | appFormulaExp
- | appExp
  | funExp
  | letExp
  | splitExp
@@ -130,7 +130,7 @@ private atomic ::=
  | nameExp
  | parenExp
 
-appExp ::= exp exp+
+appExp ::= exp nonApp+
 funExp ::= exp ARROW exp
 appFormulaExp ::= exp AT formula
 letExp ::= KW_LET LAYOUT_START decls LAYOUT_END? KW_IN exp {

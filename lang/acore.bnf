@@ -51,7 +51,7 @@ pair_type ::= expression MUL expression { extends=expression }
 // Higher-level expressions
 first ::= expression DOT_ONE { extends=expression }
 second ::= expression DOT_TWO { extends=expression }
-application ::= expression expression+ { extends=expression }
+application ::= expression exp3+ { extends=expression }
 pair ::= expression COMMA expression { extends=expression }
 constructor ::= DOLLAR IDENTIFIER expression { extends=expression }
 variable ::= IDENTIFIER {
