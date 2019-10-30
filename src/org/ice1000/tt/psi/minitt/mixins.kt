@@ -42,7 +42,7 @@ abstract class MiniTTGeneralPattern(node: ASTNode) : GeneralNameIdentifier(node)
 
 abstract class MiniTTTypedAbstractionMixin(node: ASTNode) : MiniTTExpressionImpl(node), MiniTTTypedAbstraction {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		typedPattern.processDeclarations(processor, state, lastParent, place).orTrue()
+		typedPattern.processDeclarations(processor, state, lastParent, place)
 }
 
 abstract class MiniTTDeclarationMixin(node: ASTNode) : MiniTTDeclarationGeneratedMixin(node), MiniTTDeclaration {

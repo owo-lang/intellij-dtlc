@@ -13,5 +13,9 @@ class VitalyRTokenType(debugName: String) : IElementType(debugName, VitalyRLangu
 		@JvmField val IDENTIFIERS = TokenSet.create(VitalyRTypes.IDENTIFIER)
 
 		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(VitalyRLanguage.INSTANCE, text).firstChild
+		fun createLambda(text: String, project: Project) = fromText(text, project) as? VitalyRLambda
+		fun createNameDecl(text: String, project: Project) = createLambda("lambda $text = e", project)?.nameDecl
+		fun createExpr(text: String, project: Project) = createLambda("lambda x = $text", project)?.expr
+		fun createNameUsage(text: String, project: Project) = createExpr(text, project) as? VitalyRNameUsage
 	}
 }

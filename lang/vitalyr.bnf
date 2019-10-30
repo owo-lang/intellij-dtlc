@@ -31,4 +31,7 @@ nameDecl ::= IDENTIFIER {
 	implements=['com.intellij.psi.PsiNameIdentifierOwner']
 	mixin='org.ice1000.tt.psi.vitalyr.VitalyRNameDeclMixin'
 }
-nameUsage ::= IDENTIFIER { extends=expr }
+nameUsage ::= IDENTIFIER {
+	extends=expr
+	mixin='org.ice1000.tt.psi.vitalyr.VitalyRNameUsageGeneratedMixin'
+}

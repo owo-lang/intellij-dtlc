@@ -19,5 +19,6 @@
 	"braceTokenPairs": {
 		"LPAREN": "RPAREN"
 	},
+	"referenceTypes": ["NameUsage"],
 	"findUsagesProvider": "WithoutString"
 }
