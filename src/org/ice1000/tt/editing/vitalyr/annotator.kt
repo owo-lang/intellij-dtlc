@@ -44,7 +44,7 @@ class BrutalEval(val expr: VitalyRExpr) : BaseIntentionAction(), DumbAware {
 				.filterNot(PsiUtil::hasErrorElementChild)
 				.map { it.nameDecl!!.text to fromPsi(it.expr!!) }
 				.toMap().toMutableMap()
-			fromPsi(expr).bruteEval(ctx).toString(string, null)
+			fromPsi(expr).bruteEval(ctx).toString(string, ToStrCtx.AbsBody)
 			VitalyRTokenType.createExpr(string.toString(), project)?.let(expr::replace)
 		}
 	}
