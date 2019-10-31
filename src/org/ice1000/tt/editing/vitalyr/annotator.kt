@@ -39,12 +39,12 @@ class BrutalEval(val expr: VitalyRExpr) : BaseIntentionAction(), DumbAware {
 		if (PsiUtil.hasErrorElementChild(expr)) return
 		ApplicationManager.getApplication().runWriteAction {
 			val string = StringBuilder()
-			val ctx = Ctx()
-			file?.childrenWithLeaves.orEmpty()
+			val ctx = file?.childrenWithLeaves.orEmpty()
 				.filterIsInstance<VitalyRLambda>()
 				.filterNot(PsiUtil::hasErrorElementChild)
-				.mapTo(ctx) { it.nameDecl!!.text to fromPsi(it.expr!!) }
-			// fromPsi(expr).bruteEval(ctx).toString(string, ToStrCtx.AbsBody)
+				.map { it.nameDecl!!.text to fromPsi(it.expr!!) }
+				.toMap()
+			normalize(fromPsi(expr), ctx).toString(string, ToStrCtx.AbsBody)
 			VitalyRTokenType.createExpr(string.toString(), project)?.let(expr::replace)
 		}
 	}
