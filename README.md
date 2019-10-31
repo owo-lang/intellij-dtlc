@@ -15,20 +15,20 @@ usages), including:
   [Narc]
 + ![](./res/icons/minitt/minitt.svg)
   [Mini-TT][minitt]
-+ ![](./res/icons/mlpr/mlpr_file.svg)
++ ![](./res/icons/fileIcon/mlpr_file.svg)
   [MLPolyR] ([GitHub source][MLPolyR-gh])
-+ ![](./res/icons/ctt/ctt_file.svg)
++ ![](./res/icons/fileIcon/ctt_file.svg)
   [CubicalTT] ([GitHub source][Cubical-gh])
-+ ![](./res/icons/ytt/ytt_file.svg)
++ ![](./res/icons/fileIcon/ytt_file.svg)
   [YaccTT] ([GitHub source][Yacc-gh])
-+ ![](./res/icons/mtt/mtt_file.svg)
++ ![](./res/icons/fileIcon/mtt_file.svg)
   [Vanilla Mini-TT][Mini-TT] ([GitHub mirror][acore-mirror])
 + ![](./res/icons/redprl/redprl.svg)
   [RedPRL] ([GitHub source][RedPRL-gh])
 + ![](./res/icons/agda/agda.svg)
   [Agda]
 + Molikto's [mlang]
-+ ![](./res/icons/owo_file.png)
++ ![](./res/icons/fileIcon/owo_file.svg)
   [OwO] (WIP)
 
 This plugin is created for personal entertainment purpose.

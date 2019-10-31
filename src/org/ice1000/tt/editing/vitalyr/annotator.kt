@@ -45,7 +45,7 @@ class BrutalEval(val expr: VitalyRExpr) : BaseIntentionAction(), DumbAware {
 				.filterIsInstance<VitalyRLambda>()
 				.filterNot(PsiUtil::hasErrorElementChild)
 				.mapTo(ctx) { it.nameDecl!!.text to fromPsi(it.expr!!) }
-			fromPsi(expr).bruteEval(ctx).toString(string, ToStrCtx.AbsBody)
+			// fromPsi(expr).bruteEval(ctx).toString(string, ToStrCtx.AbsBody)
 			VitalyRTokenType.createExpr(string.toString(), project)?.let(expr::replace)
 		}
 	}

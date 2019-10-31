@@ -25,31 +25,22 @@ fun fromPsi(element: VitalyRExpr): Term = when (element) {
 }
 
 sealed class Term {
-	@Throws(EvaluationException::class)
-	abstract fun bruteEval(ctx: Ctx): Term
-
-	abstract fun <T> fold(init: T, f: (Term, T) -> T): T
+	abstract fun findOccurrence(name: String): Boolean
 	abstract fun toString(builder: StringBuilder, outer: ToStrCtx)
 	open fun eta() = this
 }
 
 data class Var(val name: String) : Term() {
-	override fun bruteEval(ctx: Ctx) = ctx.lastOrNull { (n, _) -> n == name }?.second ?: this
-	override fun <T> fold(init: T, f: (Term, T) -> T) = f(this, init)
+	override fun findOccurrence(name: String) = name == this.name
 	override fun toString(builder: StringBuilder, outer: ToStrCtx) {
 		builder.append(name)
 	}
 }
 
 data class Abs(val name: String, val body: Term) : Term() {
-	override fun bruteEval(ctx: Ctx): Term {
-		ctx.addLast(name to null)
-		val newBody = body.bruteEval(ctx)
-		ctx.removeLast()
-		return Abs(name, newBody).eta()
-	}
+	override fun findOccurrence(name: String) =
+		name != this.name && body.findOccurrence(name)
 
-	override fun <T> fold(init: T, f: (Term, T) -> T) = f(this, f(body, init))
 	override fun toString(builder: StringBuilder, outer: ToStrCtx) {
 		val paren = outer != ToStrCtx.AbsBody
 		if (paren) builder.append('(')
@@ -59,22 +50,14 @@ data class Abs(val name: String, val body: Term) : Term() {
 	}
 
 	override fun eta() = if (
-		body is App && body.a == Var(name) && body.f.fold(true) { a, b -> b && a == Var(name) }
+		body is App && body.a == Var(name) && body.f.findOccurrence(name)
 	) body.f.eta() else this
 }
 
 data class App(val f: Term, val a: Term) : Term() {
-	override fun bruteEval(ctx: Ctx) = when (val f = f.bruteEval(ctx)) {
-		is Abs -> {
-			ctx.addLast(f.name to a)
-			val fa = f.body.bruteEval(ctx)
-			ctx.removeLast()
-			fa.bruteEval(ctx)
-		}
-		else -> App(f, a.bruteEval(ctx))
-	}
+	override fun findOccurrence(name: String) =
+		f.findOccurrence(name) && a.findOccurrence(name)
 
-	override fun <T> fold(init: T, f: (Term, T) -> T) = f(this, f(this.f, f(a, init)))
 	override fun toString(builder: StringBuilder, outer: ToStrCtx) {
 		val paren = outer == ToStrCtx.AppRhs
 		if (paren) builder.append('(')
