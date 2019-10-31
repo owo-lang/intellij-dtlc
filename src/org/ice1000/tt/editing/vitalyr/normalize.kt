@@ -1,13 +1,62 @@
 package org.ice1000.tt.editing.vitalyr
 
-import org.ice1000.tt.psi.vitalyr.VitalyRAppExpr
-import org.ice1000.tt.psi.vitalyr.VitalyRExpr
-import org.ice1000.tt.psi.vitalyr.VitalyRLamExpr
-import org.ice1000.tt.psi.vitalyr.VitalyRNameUsage
-import java.util.*
+import com.intellij.openapi.progress.ProgressIndicatorProvider
+import com.intellij.util.containers.Stack
+import org.ice1000.tt.psi.vitalyr.*
 
 typealias Bind = Pair<String, Term?>
-typealias Ctx = LinkedList<Bind>
+typealias Ctx = Stack<Bind>
+
+sealed class Out {
+	data class Abs(val name: String) : Out()
+	data class App(val term: Term) : Out()
+}
+
+fun normalize(term: Term, scope: Ctx = Ctx()): Term {
+	// The term we're working on
+	var wip = term
+	// The execution stack
+	val stack = Stack<Out>()
+	loop@ do {
+		// First, normalize the outer-most (wip) term
+		doing@ while (true) {
+			ProgressIndicatorProvider.checkCanceled()
+			when (wip) {
+				is Abs -> {
+					// Obtaining the information that we're working inside of an abstraction
+					stack.push(Out.Abs(wip.name))
+					// Start working on the inner term
+					wip = term
+				}
+				is App -> {
+					// Remember to work on the argument later on
+					stack.push(Out.App(wip.a))
+					// Start working on the term being applied
+					wip = wip.f
+				}
+				is Var -> {
+					val name = wip.name
+					// We're reaching an abstraction variable, therefore already normal
+					if (Out.Abs(name) in stack) break@doing
+					// Look for global declaration of this name
+					wip = scope.lastOrNull { it?.first == name }?.second
+						// In case not found
+						?: throw EvaluationException("Unresolved `$name`")
+				}
+			}
+		}
+		// Second, try wrapping them with abs/app
+		while (stack.isNotEmpty()) when (val top = stack.pop()) {
+			is Out.Abs -> wip = Abs(top.name, wip)
+			is Out.App -> {
+				TODO()
+			}
+		}
+	} while (stack.isNotEmpty())
+	return wip
+}
+
+// Below: not recommended for reading
 
 enum class ToStrCtx {
 	AbsBody,
@@ -20,6 +69,7 @@ class EvaluationException(message: String) : Exception(message)
 fun fromPsi(element: VitalyRExpr): Term = when (element) {
 	is VitalyRLamExpr -> Abs(element.nameDecl!!.text, fromPsi(element.expr!!))
 	is VitalyRNameUsage -> Var(element.text)
+	is VitalyRParenExpr -> fromPsi(element.expr!!)
 	is VitalyRAppExpr -> element.exprList.asSequence().map(::fromPsi).reduce(::App)
 	else -> throw EvaluationException("Bad expression: `${element.text}` of type ${element.javaClass}")
 }
@@ -28,9 +78,11 @@ sealed class Term {
 	abstract fun findOccurrence(name: String): Boolean
 	abstract fun toString(builder: StringBuilder, outer: ToStrCtx)
 	open fun eta() = this
+	abstract fun subst(s: String, term: Term): Term
 }
 
 data class Var(val name: String) : Term() {
+	override fun subst(s: String, term: Term) = if (s == name) term else this
 	override fun findOccurrence(name: String) = name == this.name
 	override fun toString(builder: StringBuilder, outer: ToStrCtx) {
 		builder.append(name)
@@ -38,9 +90,8 @@ data class Var(val name: String) : Term() {
 }
 
 data class Abs(val name: String, val body: Term) : Term() {
-	override fun findOccurrence(name: String) =
-		name != this.name && body.findOccurrence(name)
-
+	override fun subst(s: String, term: Term) = if (name != this.name) Abs(name, body.subst(s, term)) else this
+	override fun findOccurrence(name: String) = name != this.name && body.findOccurrence(name)
 	override fun toString(builder: StringBuilder, outer: ToStrCtx) {
 		val paren = outer != ToStrCtx.AbsBody
 		if (paren) builder.append('(')
@@ -55,9 +106,8 @@ data class Abs(val name: String, val body: Term) : Term() {
 }
 
 data class App(val f: Term, val a: Term) : Term() {
-	override fun findOccurrence(name: String) =
-		f.findOccurrence(name) && a.findOccurrence(name)
-
+	override fun subst(s: String, term: Term) = App(f.subst(s, term), a.subst(s, term))
+	override fun findOccurrence(name: String) = f.findOccurrence(name) && a.findOccurrence(name)
 	override fun toString(builder: StringBuilder, outer: ToStrCtx) {
 		val paren = outer == ToStrCtx.AppRhs
 		if (paren) builder.append('(')

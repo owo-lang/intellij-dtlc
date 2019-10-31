@@ -16,7 +16,6 @@ import org.ice1000.tt.psi.childrenWithLeaves
 import org.ice1000.tt.psi.vitalyr.VitalyRExpr
 import org.ice1000.tt.psi.vitalyr.VitalyRLambda
 import org.ice1000.tt.psi.vitalyr.VitalyRTokenType
-import java.util.*
 
 class VitalyRAnnotator : Annotator, DumbAware {
 	override fun annotate(element: PsiElement, holder: AnnotationHolder) {
@@ -40,7 +39,7 @@ class BrutalEval(val expr: VitalyRExpr) : BaseIntentionAction(), DumbAware {
 		if (PsiUtil.hasErrorElementChild(expr)) return
 		ApplicationManager.getApplication().runWriteAction {
 			val string = StringBuilder()
-			val ctx = LinkedList<Bind>()
+			val ctx = Ctx()
 			file?.childrenWithLeaves.orEmpty()
 				.filterIsInstance<VitalyRLambda>()
 				.filterNot(PsiUtil::hasErrorElementChild)
