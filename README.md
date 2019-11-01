@@ -28,6 +28,7 @@ usages), including:
 + ![](./res/icons/agda/agda.svg)
   [Agda]
 + Molikto's [mlang]
++ [VitalyR]
 + ![](./res/icons/fileIcon/owo_file.svg)
   [OwO] (WIP)
 
@@ -39,6 +40,7 @@ Screenshots:
 ![preview image].
 
  [preview image]: https://i.imgur.com/QxysJ9X.gif
+ [VitalyR]: https://ice1000.org/pages/vitalyr-normalizer.html
  [MLPolyR]: https://people.cs.uchicago.edu/~blume/mlpolyr/
  [MLPolyR-gh]: https://github.com/owo-lang/MLPolyR
  [minitt]: https://github.com/owo-lang/minitt-rs
