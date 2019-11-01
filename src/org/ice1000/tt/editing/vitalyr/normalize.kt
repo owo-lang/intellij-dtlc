@@ -1,6 +1,7 @@
 package org.ice1000.tt.editing.vitalyr
 
 import com.intellij.openapi.progress.ProgressIndicatorProvider
+import com.intellij.psi.PsiElement
 import com.intellij.util.containers.Stack
 import org.ice1000.tt.psi.vitalyr.*
 
@@ -82,11 +83,14 @@ enum class ToStrCtx {
 
 class EvaluationException(message: String) : Exception(message)
 
+fun <T: PsiElement> ensure(element: T?): T = element ?:
+	throw EvaluationException("Syntax error in `${element?.text}`")
+
 /// When invoked, the element is guaranteed to have no parsing errors
 fun fromPsi(element: VitalyRExpr): Term = when (element) {
-	is VitalyRLamExpr -> Abs(element.nameDecl!!.text, fromPsi(element.expr!!))
+	is VitalyRLamExpr -> Abs(ensure(element.nameDecl).text, fromPsi(ensure(element.expr)))
 	is VitalyRNameUsage -> Var(element.text)
-	is VitalyRParenExpr -> fromPsi(element.expr!!)
+	is VitalyRParenExpr -> fromPsi(ensure(element.expr))
 	is VitalyRAppExpr -> element.exprList.asSequence().map(::fromPsi).reduce(::App)
 	else -> throw EvaluationException("Bad expression: `${element.text}` of type ${element.javaClass}")
 }
