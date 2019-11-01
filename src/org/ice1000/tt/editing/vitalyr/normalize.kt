@@ -118,13 +118,13 @@ data class Abs(val name: String, val body: Term) : Term() {
 	}
 
 	override fun eta() = if (
-		body is App && body.f == Var(name) && body.a.findOccurrence(name)
-	) body.a else this
+		body is App && body.a == Var(name) && !body.f.findOccurrence(name)
+	) body.f else this
 }
 
 data class App(val f: Term, val a: Term) : Term() {
 	override fun subst(s: String, term: Term) = App(f.subst(s, term), a.subst(s, term))
-	override fun findOccurrence(name: String) = f.findOccurrence(name) && a.findOccurrence(name)
+	override fun findOccurrence(name: String) = f.findOccurrence(name) || a.findOccurrence(name)
 	override fun toString(builder: StringBuilder, outer: ToStrCtx) {
 		val paren = outer == ToStrCtx.AppRhs
 		if (paren) builder.append('(')
