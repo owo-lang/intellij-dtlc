@@ -88,6 +88,7 @@ sealed class Term {
 	abstract fun toString(builder: StringBuilder, outer: ToStrCtx)
 	open fun eta() = this
 	abstract fun subst(s: String, term: Term): Term
+	fun rename(from: String, to: String) = subst(from, Var(to))
 }
 
 data class Var(val name: String) : Term() {
@@ -100,7 +101,13 @@ data class Var(val name: String) : Term() {
 
 data class Abs(val name: String, val body: Term) : Term() {
 	infix fun `$`(term: Term) = body.subst(name, term)
-	override fun subst(s: String, term: Term) = if (name != s) Abs(name, body.subst(s, term)) else this
+	override fun subst(s: String, term: Term) = if (name != s) {
+		if (term == Var(name)) {
+			val betterName = "_$name"
+			Abs(betterName, body.rename(name, betterName).subst(s, term))
+		} else Abs(name, body.subst(s, term))
+	} else this
+
 	override fun findOccurrence(name: String) = name != this.name && body.findOccurrence(name)
 	override fun toString(builder: StringBuilder, outer: ToStrCtx) {
 		val paren = outer != ToStrCtx.AbsBody
