@@ -9,6 +9,7 @@ typealias Ctx = Map<String, Term>
 sealed class Out {
 	data class Abs(val name: String) : Out()
 	data class App(val term: Term) : Out()
+	data class To(val term: Term) : Out()
 }
 
 fun normalize(term: Term, scope: Ctx): Term {
@@ -54,10 +55,15 @@ fun normalize(term: Term, scope: Ctx): Term {
 				// Go to next loop and normalize again
 				continue@loop
 			} else {
+				// `wip` is probably canonical now,
+				// but the argument might be redex
+				stack.push(Out.To(wip))
+				wip = top.term
+				continue@loop
+			}
+			is Out.To -> {
 				// Maybe it's still canonical, continue wrapping
-				wip = App(wip, if (top.term is Var && top.term.name in scope)
-					scope.getValue(top.term.name)
-				else top.term)
+				wip = App(top.term, wip)
 				continue@doing
 			}
 		}
