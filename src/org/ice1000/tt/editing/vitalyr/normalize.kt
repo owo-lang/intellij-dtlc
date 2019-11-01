@@ -55,7 +55,9 @@ fun normalize(term: Term, scope: Ctx): Term {
 				continue@loop
 			} else {
 				// Maybe it's still canonical, continue wrapping
-				wip = App(wip, top.term)
+				wip = App(wip, if (top.term is Var && top.term.name in scope)
+					scope.getValue(top.term.name)
+				else top.term)
 				continue@doing
 			}
 		}
