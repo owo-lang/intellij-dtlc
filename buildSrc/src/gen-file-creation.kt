@@ -1,5 +1,6 @@
 package org.ice1000.tt.gradle
 
+import org.ice1000.tt.gradle.json.DEFAULT_PKG
 import org.ice1000.tt.gradle.json.LangData
 import org.intellij.lang.annotations.Language
 import java.io.File
@@ -9,7 +10,7 @@ fun fileTypeFactory(langData: List<LangData>, outDir: File) {
 	val className = "TTFileTypeFactory"
 	@Language("JAVA")
 	val classContent = """
-package ${langData[0].basePackage};
+package $DEFAULT_PKG;
 
 import com.intellij.openapi.fileTypes.FileTypeConsumer;
 import com.intellij.openapi.fileTypes.FileTypeFactory;
@@ -33,11 +34,11 @@ fun fileCreationGroup(langData: List<LangData>, outDir: File) {
 	val className = "NewTTActionGroup"
 	@Language("JAVA")
 	val classContent = """
-package ${langData[0].basePackage}.action;
+package $DEFAULT_PKG.action;
 
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.project.DumbAware;
-import org.ice1000.tt.TTBundle;
+import $DEFAULT_PKG.TTBundle;
 
 public final class $className extends DefaultActionGroup implements DumbAware {
 	public $className() {

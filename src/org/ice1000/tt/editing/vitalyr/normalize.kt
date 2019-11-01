@@ -103,7 +103,7 @@ data class Abs(val name: String, val body: Term) : Term() {
 	infix fun `$`(term: Term) = body.subst(name, term)
 	override fun subst(s: String, term: Term) = if (name != s) {
 		if (term == Var(name)) {
-			val betterName = "_$name"
+			val betterName = "${name}'"
 			Abs(betterName, body.rename(name, betterName).subst(s, term))
 		} else Abs(name, body.subst(s, term))
 	} else this
@@ -118,8 +118,8 @@ data class Abs(val name: String, val body: Term) : Term() {
 	}
 
 	override fun eta() = if (
-		body is App && body.a == Var(name) && body.f.findOccurrence(name)
-	) body.f else this
+		body is App && body.f == Var(name) && body.a.findOccurrence(name)
+	) body.a else this
 }
 
 data class App(val f: Term, val a: Term) : Term() {

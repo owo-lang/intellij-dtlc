@@ -24,7 +24,7 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 %eof}
 
 WHITE_SPACE=[\ \t\f\r\n]+
-IDENTIFIER=[a-zA-Z][a-zA-Z0-9\-'\\/]*
+IDENTIFIER=[a-zA-Z_'\-/][a-zA-Z0-9_\-'\\/]*
 COMMENTS = --[^\n\r]*
 
 %%
