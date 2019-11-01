@@ -16,7 +16,7 @@ fun normalize(term: Term, scope: Ctx): Term {
 	var wip = term
 	// The execution stack
 	val stack = Stack<Out>()
-	loop@ do {
+	loop@ while (true) {
 		// First, head into the innermost term
 		doing@ while (true) {
 			ProgressIndicatorProvider.checkCanceled()
@@ -25,7 +25,7 @@ fun normalize(term: Term, scope: Ctx): Term {
 					// Obtaining the information that we're working inside of an abstraction
 					stack.push(Out.Abs(wip.name))
 					// Start working on the inner term
-					wip = term
+					wip = wip.body
 				}
 				is App -> {
 					// Remember to work on the argument later on
@@ -47,14 +47,20 @@ fun normalize(term: Term, scope: Ctx): Term {
 		// Second, try wrapping it with `Abs`, until we reach an `App`
 		doing@ while (stack.isNotEmpty()) when (val top = stack.pop()) {
 			is Out.Abs -> wip = Abs(top.name, wip).eta()
-			is Out.App -> {
-				// Do the application
+			// Do the application
+			is Out.App -> if (wip is Abs) {
+				// By doing this, we have a potential redex
 				wip = wip `$` top.term
-				// Now we have a potential redex, go to next loop and normalize again
-				break@doing
+				// Go to next loop and normalize again
+				continue@loop
+			} else {
+				// Maybe it's still canonical, continue wrapping
+				wip = App(wip, top.term)
+				continue@doing
 			}
 		}
-	} while (stack.isNotEmpty())
+		if (stack.isEmpty()) break@loop
+	}
 	return wip
 }
 
@@ -82,7 +88,6 @@ sealed class Term {
 	abstract fun toString(builder: StringBuilder, outer: ToStrCtx)
 	open fun eta() = this
 	abstract fun subst(s: String, term: Term): Term
-	open infix fun `$`(term: Term): Term = App(this, term)
 }
 
 data class Var(val name: String) : Term() {
@@ -94,9 +99,9 @@ data class Var(val name: String) : Term() {
 }
 
 data class Abs(val name: String, val body: Term) : Term() {
-	override fun subst(s: String, term: Term) = if (name != this.name) Abs(name, body.subst(s, term)) else this
+	infix fun `$`(term: Term) = body.subst(name, term)
+	override fun subst(s: String, term: Term) = if (name != s) Abs(name, body.subst(s, term)) else this
 	override fun findOccurrence(name: String) = name != this.name && body.findOccurrence(name)
-	override infix fun `$`(term: Term) = body.subst(name, term)
 	override fun toString(builder: StringBuilder, outer: ToStrCtx) {
 		val paren = outer != ToStrCtx.AbsBody
 		if (paren) builder.append('(')
