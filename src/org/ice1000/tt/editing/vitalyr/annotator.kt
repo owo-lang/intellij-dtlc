@@ -16,7 +16,7 @@ import com.intellij.openapi.ui.popup.Balloon
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.intellij.psi.util.PsiUtil
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.ui.JBColor
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.VITALYR_LANGUAGE_NAME
@@ -33,13 +33,13 @@ class VitalyRAnnotator : Annotator, DumbAware {
 	}
 
 	private fun lambda(element: VitalyRLambda, holder: AnnotationHolder) {
-		if (PsiUtil.hasErrorElementChild(element)) return
+		if (PsiTreeUtil.hasErrorElements(element)) return
 		val expr = element.expr ?: return
-		holder.createInfoAnnotation(expr, "null").registerFix(BrutalEval(expr))
+		holder.createInfoAnnotation(expr, "null").registerFix(Eval(expr))
 	}
 }
 
-class BrutalEval(val expr: VitalyRExpr) : BaseIntentionAction(), DumbAware {
+private class Eval(val expr: VitalyRExpr) : BaseIntentionAction(), DumbAware {
 	override fun getFamilyName() = VITALYR_LANGUAGE_NAME
 	override fun isAvailable(project: Project, editor: Editor?, psiFile: PsiFile?) = true
 	override fun getText() = TTBundle.message("vitalyr.lint.brutal-normalize", expr.text)
@@ -54,12 +54,12 @@ class BrutalEval(val expr: VitalyRExpr) : BaseIntentionAction(), DumbAware {
 	}
 
 	override operator fun invoke(project: Project, editor: Editor?, file: PsiFile?) {
-		if (PsiUtil.hasErrorElementChild(expr)) return
+		if (PsiTreeUtil.hasErrorElements(expr)) return
 		val (ctx, term) = try {
 			ApplicationManager.getApplication().runReadAction<Pair<Ctx, Term>, EvaluationException> {
 				file?.childrenWithLeaves.orEmpty()
 					.filterIsInstance<VitalyRLambda>()
-					.filterNot(PsiUtil::hasErrorElementChild)
+					.filterNot(PsiTreeUtil::hasErrorElements)
 					.mapNotNull { it.nameDecl?.text?.let { a -> it.expr?.let(::fromPsi)?.let { b -> a to b } } }
 					.toMap() to fromPsi(expr)
 			}
