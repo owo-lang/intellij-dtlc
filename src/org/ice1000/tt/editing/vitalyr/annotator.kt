@@ -17,10 +17,13 @@ import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.parentOfType
+import com.intellij.psi.util.siblings
 import com.intellij.ui.JBColor
 import org.ice1000.tt.TTBundle
 import org.ice1000.tt.VITALYR_LANGUAGE_NAME
 import org.ice1000.tt.psi.childrenWithLeaves
+import org.ice1000.tt.psi.leftSiblings
 import org.ice1000.tt.psi.vitalyr.VitalyRExpr
 import org.ice1000.tt.psi.vitalyr.VitalyRLambda
 import org.ice1000.tt.psi.vitalyr.VitalyRTokenType
@@ -57,7 +60,9 @@ private class Eval(val expr: VitalyRExpr) : BaseIntentionAction(), DumbAware {
 		if (PsiTreeUtil.hasErrorElements(expr)) return
 		val (ctx, term) = try {
 			ApplicationManager.getApplication().runReadAction<Pair<Ctx, Term>, EvaluationException> {
-				file?.childrenWithLeaves.orEmpty()
+				expr.parentOfType<VitalyRLambda>()
+					?.leftSiblings
+					.orEmpty()
 					.filterIsInstance<VitalyRLambda>()
 					.filterNot(PsiTreeUtil::hasErrorElements)
 					.mapNotNull { it.nameDecl?.text?.let { a -> it.expr?.let(::fromPsi)?.let { b -> a to b } } }
