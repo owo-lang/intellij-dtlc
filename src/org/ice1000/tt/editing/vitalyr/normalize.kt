@@ -5,7 +5,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.util.containers.Stack
 import org.ice1000.tt.psi.vitalyr.*
 
-typealias Ctx = Map<String, Term>
+typealias Ctx = List<Pair<String, Term>>
 
 sealed class Out {
 	data class Abs(val name: String) : Out()
@@ -16,8 +16,8 @@ sealed class Out {
 private var renameCounter = 0
 
 fun normalize(term: Term, scope: Ctx): Term {
+	var wip = scope.fold(term) { tt, (s, t) -> tt.subst(s, t) }
 	// The term we're working on
-	var wip = term
 	// The execution stack
 	val stack = Stack<Out>()
 	loop@ while (true) {
@@ -41,8 +41,8 @@ fun normalize(term: Term, scope: Ctx): Term {
 					val name = wip.name
 					// We're reaching an abstraction variable, therefore already normal
 					if (Out.Abs(name) in stack) break@doing
-					// Look for global declaration of this name
-					wip = scope[name] ?: throw EvaluationException("Unresolved `$name`")
+					// Ooops, unresolved references
+					else throw EvaluationException("Unresolved `$name`")
 				}
 			}
 		}
