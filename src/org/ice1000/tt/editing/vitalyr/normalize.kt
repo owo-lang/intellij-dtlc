@@ -13,6 +13,8 @@ sealed class Out {
 	data class To(val term: Term) : Out()
 }
 
+private var renameCounter = 0
+
 fun normalize(term: Term, scope: Ctx): Term {
 	// The term we're working on
 	var wip = term
@@ -96,16 +98,19 @@ fun fromPsi(element: VitalyRExpr): Term = when (element) {
 }
 
 sealed class Term {
-	abstract fun findOccurrence(name: String): Boolean
+	abstract fun findOccurrence(s: String): Boolean
+	abstract fun isAbstracting(s: String): Boolean
 	abstract fun toString(builder: StringBuilder, outer: ToStrCtx)
 	open fun eta() = this
 	abstract fun subst(s: String, term: Term): Term
 	fun rename(from: String, to: String) = subst(from, Var(to))
+	final override fun toString() = buildString { toString(this, ToStrCtx.AppRhs) }
 }
 
 data class Var(val name: String) : Term() {
 	override fun subst(s: String, term: Term) = if (s == name) term else this
-	override fun findOccurrence(name: String) = name == this.name
+	override fun isAbstracting(s: String) = false
+	override fun findOccurrence(s: String) = s == this.name
 	override fun toString(builder: StringBuilder, outer: ToStrCtx) {
 		builder.append(name)
 	}
@@ -113,14 +118,15 @@ data class Var(val name: String) : Term() {
 
 data class Abs(val name: String, val body: Term) : Term() {
 	infix fun `$`(term: Term) = body.subst(name, term)
+	override fun isAbstracting(s: String) = name == s || body.isAbstracting(s)
 	override fun subst(s: String, term: Term) = if (name != s) {
-		if (term == Var(name)) {
-			val betterName = "${name}'"
+		if (term == Var(name) || term.isAbstracting(name)) {
+			val betterName = "${name}${renameCounter++}'"
 			Abs(betterName, body.rename(name, betterName).subst(s, term))
 		} else Abs(name, body.subst(s, term))
 	} else this
 
-	override fun findOccurrence(name: String) = name != this.name && body.findOccurrence(name)
+	override fun findOccurrence(s: String) = s != name && body.findOccurrence(s)
 	override fun toString(builder: StringBuilder, outer: ToStrCtx) {
 		val paren = outer != ToStrCtx.AbsBody
 		if (paren) builder.append('(')
@@ -136,7 +142,8 @@ data class Abs(val name: String, val body: Term) : Term() {
 
 data class App(val f: Term, val a: Term) : Term() {
 	override fun subst(s: String, term: Term) = App(f.subst(s, term), a.subst(s, term))
-	override fun findOccurrence(name: String) = f.findOccurrence(name) || a.findOccurrence(name)
+	override fun isAbstracting(s: String) = f.isAbstracting(s) || a.isAbstracting(s)
+	override fun findOccurrence(s: String) = f.findOccurrence(s) || a.findOccurrence(s)
 	override fun toString(builder: StringBuilder, outer: ToStrCtx) {
 		val paren = outer == ToStrCtx.AppRhs
 		if (paren) builder.append('(')
