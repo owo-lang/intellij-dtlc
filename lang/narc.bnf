@@ -69,10 +69,10 @@ codata ::= KW_CODATA nameDecl telescopic* LBRACE projection* RBRACE SEMI {
 }
 
 private sig ::= COLON telescopic+
-projection ::= KW_PROJECTION nameDecl sig SEMI {
+projection ::= KW_PROJECTION nameDecl COLON expr SEMI {
 	pin=1
 }
-constructor ::= KW_CONSTRUCTOR nameDecl COLON expr SEMI {
+constructor ::= KW_CONSTRUCTOR nameDecl sig? SEMI {
 	pin=1
 }
 
