@@ -26,9 +26,9 @@ version = pluginVersion
 
 plugins {
 	java
-	id("org.jetbrains.intellij") version "0.4.10"
+	id("org.jetbrains.intellij") version "0.4.14"
 	id("org.jetbrains.grammarkit") version "2019.3"
-	kotlin("jvm") version "1.3.50"
+	kotlin("jvm") version "1.3.60"
 }
 
 grammarKit {
