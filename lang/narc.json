@@ -22,6 +22,7 @@
 		"data", "clause", "codata", "definition",
 		"projection", "constructor", "Type"
 	],
+	"findUsagesProvider": "WithoutString",
 	"braceTokenPairs": {
 		"LBRACE": "RBRACE",
 		"LINACCESS": "RINACCESS",

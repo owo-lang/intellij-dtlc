@@ -200,6 +200,7 @@
 		<lang.refactoringSupport language="Narc" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<lang.braceMatcher language="Narc" implementationClass="org.ice1000.tt.editing.narc.NarcBraceMatcher"/>
 		<stubElementTypeHolder class="org.ice1000.tt.psi.narc.NarcTypes"/>
+		<lang.findUsagesProvider language="Narc" implementationClass="org.ice1000.tt.editing.narc.NarcFindUsagesProvider"/>
 		<lang.syntaxHighlighterFactory language="Narc" implementationClass="org.ice1000.tt.editing.narc.NarcHighlighterFactory"/>
 		<completion.contributor language="Narc" implementationClass="org.ice1000.tt.editing.narc.NarcCompletionContributor"/>
 		<lang.parserDefinition language="Narc" implementationClass="org.ice1000.tt.psi.narc.NarcGeneratedParserDefinition"/>
