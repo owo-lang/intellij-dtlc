@@ -26,6 +26,7 @@ nameDecl ::= identifier {
 }
 nameUsage ::= identifier {
 	extends=expr
+	mixin='org.ice1000.tt.psi.narc.NarcNameUsageMixin'
 }
 
 expr ::= appExpr | nonApp

@@ -1,10 +1,14 @@
 package org.ice1000.tt.psi.narc
 
+import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import com.intellij.psi.ResolveResult
 import com.intellij.psi.ResolveState
+import com.intellij.psi.impl.source.resolve.ResolveCache
 import com.intellij.psi.scope.PsiScopeProcessor
-import org.ice1000.tt.psi.GeneralReference
+import icons.TTIcons
+import org.ice1000.tt.psi.*
 
 abstract class NarcDataMixin(node: ASTNode) : NarcDataGeneratedMixin(node), NarcData {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
@@ -21,4 +25,22 @@ abstract class NarcCodataMixin(node: ASTNode) : NarcCodataGeneratedMixin(node), 
 }
 
 abstract class NarcNameUsageMixin(node: ASTNode) : GeneralReference(node), NarcNameUsage {
-}
+	override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
+		val file = containingFile ?: return emptyArray()
+		if (!isValid || project.isDisposed) return emptyArray()
+		return ResolveCache.getInstance(project)
+			.resolveWithCaching(this, resolver, true, incompleteCode, file)
+	}
+
+	override fun handleElementRename(newName: String): PsiElement? =
+		replace(NarcTokenType.createNameUsage(newName, project) ?: invalidName(newName))
+
+	override fun getVariants() = resolveWith(PatternCompletionProcessor(lookupElement = {
+		LookupElementBuilder.create(it.text).withIcon(TTIcons.NARC)
+	}), this)
+
+	private companion object ResolverHolder {
+		private val resolver = ResolveCache.PolyVariantResolver<NarcNameUsageMixin> { ref, _ ->
+			resolveWith(PatternResolveProcessor(ref.canonicalText), ref)
+		}
+	}}
