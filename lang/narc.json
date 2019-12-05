@@ -23,6 +23,38 @@
 		"projection", "constructor", "Type"
 	],
 	"findUsagesProvider": "WithoutString",
+	"declarationTypes": [
+		{
+			"name": "Definition",
+			"identifierName": "NameDecl",
+			"icon": "SemanticIcons.ORANGE_LAMBDA",
+			"findType": "UtilsKt.findType(this, NarcTypes.COLON)"
+		},
+		{
+			"name": "Data",
+			"identifierName": "NameDecl",
+			"icon": "SemanticIcons.BLUE_HOLE",
+			"findType": "UtilsKt.findType(this, NarcTypes.COLON)"
+		},
+		{
+			"name": "Constructor",
+			"identifierName": "NameDecl",
+			"icon": "SemanticIcons.BLUE_C",
+			"findType": "UtilsKt.findType(this, NarcTypes.COLON)"
+		},
+		{
+			"name": "Projection",
+			"identifierName": "NameDecl",
+			"icon": "SemanticIcons.PURPLE_P",
+			"findType": "UtilsKt.findType(this, NarcTypes.COLON)"
+		},
+		{
+			"name": "Codata",
+			"identifierName": "NameDecl",
+			"icon": "SemanticIcons.PINK_HOLE",
+			"findType": "UtilsKt.findType(this, NarcTypes.COLON)"
+		}
+	],
 	"braceTokenPairs": {
 		"LBRACE": "RBRACE",
 		"LINACCESS": "RINACCESS",

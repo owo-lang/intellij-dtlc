@@ -57,22 +57,32 @@ parenExpr ::= LPAREN expr RPAREN
 
 definition ::= KW_DEFINITION nameDecl COLON expr SEMI {
 	pin=1
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.narc.NarcDefinitionGeneratedMixin'
 }
 clause ::= KW_CLAUSE nameUsage copattern* EQ expr SEMI {
 	pin=1
 }
 data ::= KW_DATA nameDecl telescopic* LBRACE constructor* RBRACE SEMI {
 	pin=1
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.narc.NarcDataMixin'
 }
 codata ::= KW_CODATA nameDecl telescopic* LBRACE projection* RBRACE SEMI {
 	pin=1
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.narc.NarcCodataMixin'
 }
 
 projection ::= KW_PROJECTION nameDecl COLON expr SEMI {
 	pin=1
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.narc.NarcProjectionGeneratedMixin'
 }
 constructor ::= KW_CONSTRUCTOR nameDecl telescopic* SEMI {
 	pin=1
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.narc.NarcConstructorGeneratedMixin'
 }
 
 copattern ::= projectOp | pattern
