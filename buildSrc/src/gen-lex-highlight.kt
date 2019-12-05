@@ -5,8 +5,7 @@ import org.intellij.lang.annotations.Language
 import java.io.File
 
 fun LangData.lexHighlight(nickname: String, outDir: File) {
-	val outEditingDir = outDir.resolve("editing").resolve(nickname)
-	outEditingDir.mkdirs()
+	val outEditingDir = dir(outDir, "editing", nickname)
 
 	val colorSettingsClassName = "${languageName}GeneratedColorSettingsPage"
 	@Language("JAVA")

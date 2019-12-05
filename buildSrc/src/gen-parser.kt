@@ -4,10 +4,51 @@ import org.ice1000.tt.gradle.json.LangData
 import org.intellij.lang.annotations.Language
 import java.io.File
 
-fun LangData.declarationMixins(nickname: String, outDir: File) {
-	val outPsiDir = outDir.resolve("psi").resolve(nickname)
-	outPsiDir.mkdirs()
+fun LangData.declarationDefaultName(nickname: String, outDir: File) {
+	if (declarationDefaultIdentifierName.isEmpty()) return
+	val outPsiDir = dir(outDir, "psi", nickname)
+	declarationTypes.forEach { decl ->
+		val prefix = "$languageName${decl.name}"
+		val declTypeClassName = "${prefix}GeneratedMixin"
+		@Language("JAVA")
+		val declTypeClassContent = """
+package $basePackage.psi.$nickname;
 
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.util.IncorrectOperationException;
+import icons.TTIcons;
+import icons.SemanticIcons;
+import org.ice1000.tt.psi.UtilsKt;
+import org.ice1000.tt.psi.GeneralNameIdentifier;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
+
+import static org.ice1000.tt.psi.UtilsKt.invalidName;
+
+public abstract class $declTypeClassName extends GeneralNameIdentifier {
+	public $declTypeClassName(@NotNull ASTNode node) { super(node); }
+	@Override public @Nullable Icon getIcon(int flags) { return SemanticIcons.BLUE_HOLE; }
+
+	@Override
+	public @NotNull PsiElement setName(@NotNull String s) throws IncorrectOperationException {
+		PsiElement nameIdentifier = getNameIdentifier();
+		if (nameIdentifier != null) {
+			PsiElement element = ${languageName}TokenType.Builtin.create$declarationDefaultIdentifierName(s, getProject());
+			if (element == null) invalidName(s);
+			nameIdentifier.replace(element);
+		}
+		return this;
+	}
+}"""
+		outPsiDir.resolve("$declTypeClassName.java").writeText(declTypeClassContent)
+	}
+}
+
+fun LangData.declarationMixins(nickname: String, outDir: File) {
+	val outPsiDir = dir(outDir, "psi", nickname)
 	declarationTypes.forEach { decl ->
 		val prefix = "$languageName${decl.name}"
 		val declTypeClassName = "${prefix}GeneratedMixin"
@@ -57,9 +98,7 @@ public abstract class $declTypeClassName extends GeneralDeclaration {
 }
 
 fun LangData.referenceMixins(nickname: String, outDir: File) {
-	val outPsiDir = outDir.resolve("psi").resolve(nickname)
-	outPsiDir.mkdirs()
-
+	val outPsiDir = dir(outDir, "psi", nickname)
 	referenceTypes.forEach { referenceType ->
 		val prefix = "$languageName$referenceType"
 		val referenceTypeClassName = "${prefix}GeneratedMixin"
@@ -118,9 +157,7 @@ public abstract class $referenceTypeClassName extends GeneralReference implement
 }
 
 fun LangData.parser(nickname: String, outDir: File) {
-	val outPsiDir = outDir.resolve("psi").resolve(nickname)
-	outPsiDir.mkdirs()
-
+	val outPsiDir = dir(outDir, "psi", nickname)
 	val elementTypeClassName = "${languageName}ElementType"
 	@Language("JAVA")
 	val elementTypeClassContent = """

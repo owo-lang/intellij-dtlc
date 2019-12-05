@@ -28,23 +28,23 @@
 	"declarationTypes": [
 		{
 			"name": "Definition",
-			"icon": "SemanticIcons.ORANGE_LAMBDA",
+			"icon": "SemanticIcons.ORANGE_LAMBDA"
 		},
 		{
 			"name": "Data",
-			"icon": "SemanticIcons.BLUE_HOLE",
+			"icon": "SemanticIcons.BLUE_HOLE"
 		},
 		{
 			"name": "Constructor",
-			"icon": "SemanticIcons.BLUE_C",
+			"icon": "SemanticIcons.BLUE_C"
 		},
 		{
 			"name": "Projection",
-			"icon": "SemanticIcons.PURPLE_P",
+			"icon": "SemanticIcons.PURPLE_P"
 		},
 		{
 			"name": "Codata",
-			"icon": "SemanticIcons.PINK_HOLE",
+			"icon": "SemanticIcons.PINK_HOLE"
 		}
 	],
 	"braceTokenPairs": {

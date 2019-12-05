@@ -4,6 +4,12 @@ import org.ice1000.tt.gradle.json.LangData
 import org.intellij.lang.annotations.Language
 import java.io.File
 
+fun dir(outDir: File, relative: String, nickname: String): File {
+	val outPsiDir = outDir.resolve(relative).resolve(nickname)
+	outPsiDir.mkdirs()
+	return outPsiDir
+}
+
 fun LangData.infos(nickname: String, outDir: File) {
 	@Language("Java")
 	val language = """
