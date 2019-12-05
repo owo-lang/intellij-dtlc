@@ -35,12 +35,12 @@ abstract class NarcNameUsageMixin(node: ASTNode) : GeneralReference(node), NarcN
 	override fun handleElementRename(newName: String): PsiElement? =
 		replace(NarcTokenType.createNameUsage(newName, project) ?: invalidName(newName))
 
-	override fun getVariants() = resolveWith(PatternCompletionProcessor(lookupElement = {
+	override fun getVariants() = resolveWith(NameIdentifierCompletionProcessor(lookupElement = {
 		LookupElementBuilder.create(it.text).withIcon(TTIcons.NARC)
 	}), this)
 
 	private companion object ResolverHolder {
 		private val resolver = ResolveCache.PolyVariantResolver<NarcNameUsageMixin> { ref, _ ->
-			resolveWith(PatternResolveProcessor(ref.canonicalText), ref)
+			resolveWith(NameIdentifierResolveProcessor(ref.canonicalText), ref)
 		}
 	}}

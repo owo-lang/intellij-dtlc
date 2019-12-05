@@ -5,4 +5,4 @@
 //
 
 definition ${NAME_CAMEL} : Type;
-clause ${NAME_CAMEL} : _;
+clause ${NAME_CAMEL} = Type;
