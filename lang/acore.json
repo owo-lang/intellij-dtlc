@@ -21,21 +21,19 @@
 	"braceTokenPairs": {
 		"LEFT_PAREN": "RIGHT_PAREN"
 	},
+	"declarationDefaultIdentifierName": "Pattern",
 	"declarationTypes": [
 		{
 			"name": "Lambda",
-			"identifierName": "Pattern",
 			"icon": "TTIcons.AGDA_CORE"
 		},
 		{
 			"name": "Declaration",
-			"identifierName": "Pattern",
 			"icon": "TTIcons.AGDA_CORE",
 			"findType": "UtilsKt.findType(this, ACoreTypes.COLON)"
 		},
 		{
 			"name": "TypedPattern",
-			"identifierName": "Pattern",
 			"icon": "TTIcons.AGDA_CORE",
 			"findType": "findChildByClass(ACoreExpression.class)"
 		}

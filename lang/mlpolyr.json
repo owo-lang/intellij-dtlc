@@ -45,15 +45,14 @@
 		"LCBB": "RCBB",
 		"LCB": "RCB"
 	},
+	"declarationDefaultIdentifierName": "Pat",
 	"declarationTypes": [
 		{
 			"name": "Declaration",
-			"identifierName": "Pat",
 			"icon": "TTIcons.MLPOLYR"
 		},
 		{
 			"name": "PatOwner",
-			"identifierName": "Pat",
 			"icon": "TTIcons.MLPOLYR"
 		},
 		{

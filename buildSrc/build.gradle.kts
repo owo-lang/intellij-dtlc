@@ -3,8 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 group = "org.ice1000.tt.gradle"
 version = "114514"
 plugins {
-	kotlin("jvm") version "1.3.50"
-	id("org.jetbrains.kotlin.plugin.serialization") version "1.3.50"
+	kotlin("jvm") version "1.3.61"
+	id("org.jetbrains.kotlin.plugin.serialization") version "1.3.60"
 }
 sourceSets { main { withConvention(KotlinSourceSet::class) { kotlin.srcDirs("src") } } }
 repositories { jcenter() }

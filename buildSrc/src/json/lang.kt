@@ -20,9 +20,9 @@ enum class FindUsagesProviderOpt {
 @Serializable
 class DeclType constructor(
 	val name: String,
-	val identifierName: String,
+	val identifierName: String? = null,
 	val icon: String = "super.getIcon(flags)",
-	val findType: String = "null"
+	val findType: String? = null
 )
 
 @Serializable
@@ -43,6 +43,8 @@ class LangData constructor(
 	val supportsParsing: Boolean = false,
 	val referenceTypes: List<String> = emptyList(),
 	val declarationTypes: List<DeclType> = emptyList(),
+	val declarationDefaultIdentifierName: String = "",
+	val declarationDefaultFindType: String = "null",
 	val keywordList: List<String> = emptyList(),
 	val highlightTokenPairs: Map<String, String> = emptyMap(),
 	val braceTokenPairs: Map<String, String> = emptyMap(),

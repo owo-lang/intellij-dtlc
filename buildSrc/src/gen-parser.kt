@@ -11,6 +11,8 @@ fun LangData.declarationMixins(nickname: String, outDir: File) {
 	declarationTypes.forEach { decl ->
 		val prefix = "$languageName${decl.name}"
 		val declTypeClassName = "${prefix}GeneratedMixin"
+		val identifierName = decl.identifierName ?: declarationDefaultIdentifierName
+		val findType = decl.findType ?: declarationDefaultFindType
 		@Language("JAVA")
 		val declTypeClassContent = """
 package $basePackage.psi.$nickname;
@@ -31,19 +33,19 @@ import static org.ice1000.tt.psi.UtilsKt.invalidName;
 
 public abstract class $declTypeClassName extends GeneralDeclaration {
 	public $declTypeClassName(@NotNull ASTNode node) { super(node); }
-	@Override public @Nullable PsiElement getType() { return ${decl.findType}; }
+	@Override public @Nullable PsiElement getType() { return $findType; }
 	@Override public @Nullable Icon getIcon(int flags) { return ${decl.icon}; }
 
 	@Override
 	public @Nullable PsiElement getNameIdentifier() {
-		return findChildByClass($languageName${decl.identifierName}.class);
+		return findChildByClass($languageName$identifierName.class);
 	}
 
 	@Override
 	public @NotNull PsiElement setName(@NotNull String s) throws IncorrectOperationException {
 		PsiElement nameIdentifier = getNameIdentifier();
 		if (nameIdentifier != null) {
-			PsiElement element = ${languageName}TokenType.Builtin.create${decl.identifierName}(s, getProject());
+			PsiElement element = ${languageName}TokenType.Builtin.create$identifierName(s, getProject());
 			if (element == null) invalidName(s);
 			nameIdentifier.replace(element);
 		}
