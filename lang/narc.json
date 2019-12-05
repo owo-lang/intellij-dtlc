@@ -18,6 +18,10 @@
 		"OPERATOR": "OPERATION_SIGN",
 		"INACCESS": "BRACES"
 	},
+	"keywordList": [
+		"data", "clause", "codata", "definition",
+		"projection", "constructor", "Type"
+	],
 	"braceTokenPairs": {
 		"LBRACE": "RBRACE",
 		"LINACCESS": "RINACCESS",

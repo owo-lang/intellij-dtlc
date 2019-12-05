@@ -187,6 +187,7 @@
 		<lang.parserDefinition language="Mlang" implementationClass="org.ice1000.tt.psi.mlang.MlangGeneratedParserDefinition"/>
 		<lang.refactoringSupport language="Mlang" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<lang.syntaxHighlighterFactory language="Mlang" implementationClass="org.ice1000.tt.editing.mlang.MlangHighlighterFactory"/>
+		<stubElementTypeHolder class="org.ice1000.tt.psi.mlang.MlangTypes"/>
 		<lang.commenter language="Mlang" implementationClass="org.ice1000.tt.editing.CxxCommenter"/>
 		<completion.contributor language="Mlang" implementationClass="org.ice1000.tt.editing.mlang.MlangCompletionContributor"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.mlang.MlangColorSettingsPage"/>
@@ -198,7 +199,9 @@
 		<lang.commenter language="Narc" implementationClass="org.ice1000.tt.editing.CxxLineCommenter"/>
 		<lang.refactoringSupport language="Narc" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<lang.braceMatcher language="Narc" implementationClass="org.ice1000.tt.editing.narc.NarcBraceMatcher"/>
+		<stubElementTypeHolder class="org.ice1000.tt.psi.narc.NarcTypes"/>
 		<lang.syntaxHighlighterFactory language="Narc" implementationClass="org.ice1000.tt.editing.narc.NarcHighlighterFactory"/>
+		<completion.contributor language="Narc" implementationClass="org.ice1000.tt.editing.narc.NarcCompletionContributor"/>
 		<lang.parserDefinition language="Narc" implementationClass="org.ice1000.tt.psi.narc.NarcGeneratedParserDefinition"/>
 		<colorSettingsPage implementation="org.ice1000.tt.editing.narc.NarcColorSettingsPage"/>
 
