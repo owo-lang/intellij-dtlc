@@ -10,14 +10,12 @@ val isCI = !System.getenv("CI").isNullOrBlank()
 val commitHash = kotlin.run {
 	val process: Process = Runtime.getRuntime().exec("git rev-parse --short HEAD")
 	process.waitFor()
-	val output = process.inputStream.use {
-		process.inputStream.use { it.readBytes().let(::String) }
-	}
+	val output = process.inputStream.use { it.readBytes().let(::String) }
 	process.destroy()
 	output.trim()
 }
 
-val pluginComingVersion = "0.9.2"
+val pluginComingVersion = "0.9.3"
 val pluginVersion = if (isCI) "$pluginComingVersion-$commitHash" else pluginComingVersion
 val packageName = "org.ice1000.tt"
 
@@ -28,7 +26,7 @@ plugins {
 	java
 	id("org.jetbrains.intellij") version "0.4.14"
 	id("org.jetbrains.grammarkit") version "2019.3"
-	kotlin("jvm") version "1.3.60"
+	kotlin("jvm") version "1.3.61"
 }
 
 grammarKit {
