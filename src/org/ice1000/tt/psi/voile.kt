@@ -14,7 +14,6 @@ import com.intellij.psi.tree.TokenSet
 import icons.SemanticIcons
 import org.ice1000.tt.VoileLanguage
 import org.ice1000.tt.orTrue
-import org.ice1000.tt.psi.GeneralNameIdentifier
 import org.ice1000.tt.psi.childrenRevWithLeaves
 import org.ice1000.tt.psi.invalidName
 
@@ -30,12 +29,6 @@ class VoileTokenType(debugName: String) : IElementType(debugName, VoileLanguage.
 		fun createExpr(text: String, project: Project) = createImpl("let n = $text;", project)?.expr
 		fun createNameUsage(text: String, project: Project) = createExpr(text, project) as? VoileNameUsage
 	}
-}
-
-abstract class VoileNameDeclMixin(node: ASTNode) : GeneralNameIdentifier(node), VoileNameDecl {
-	override fun getIcon(flags: Int) = SemanticIcons.BLUE_HOLE
-	override fun setName(newName: String): PsiElement = replace(
-		VoileTokenType.createNameDecl(newName, project) ?: invalidName(newName))
 }
 
 abstract class VoileLocalDeclMixin(node: ASTNode) : VoileGlobDeclGeneratedMixin(node) {

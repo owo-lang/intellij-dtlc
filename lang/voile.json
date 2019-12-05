@@ -27,10 +27,10 @@
 		"LPAREN": "RPAREN"
 	},
 	"referenceTypes": ["NameUsage"],
+	"declarationDefaultIdentifierName": "NameDecl",
 	"declarationTypes": [
 		{
 			"name": "GlobDecl",
-			"identifierName": "NameDecl",
 			"icon": "SemanticIcons.ORANGE_LAMBDA",
 			"findType": "UtilsKt.findType(this, VoileTypes.COLON)"
 		}

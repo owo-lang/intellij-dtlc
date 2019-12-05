@@ -7,11 +7,10 @@ import java.io.File
 fun LangData.declarationDefaultName(nickname: String, outDir: File) {
 	if (declarationDefaultIdentifierName.isEmpty()) return
 	val outPsiDir = dir(outDir, "psi", nickname)
-	declarationTypes.forEach { decl ->
-		val prefix = "$languageName${decl.name}"
-		val declTypeClassName = "${prefix}GeneratedMixin"
-		@Language("JAVA")
-		val declTypeClassContent = """
+	val prefix = "$languageName$declarationDefaultIdentifierName"
+	val declTypeClassName = "${prefix}GeneratedMixin"
+	@Language("JAVA")
+	val declTypeClassContent = """
 package $basePackage.psi.$nickname;
 
 import com.intellij.lang.ASTNode;
@@ -28,7 +27,7 @@ import javax.swing.*;
 
 import static org.ice1000.tt.psi.UtilsKt.invalidName;
 
-public abstract class $declTypeClassName extends GeneralNameIdentifier {
+public abstract class $declTypeClassName extends GeneralNameIdentifier implements $prefix {
 	public $declTypeClassName(@NotNull ASTNode node) { super(node); }
 	@Override public @Nullable Icon getIcon(int flags) { return SemanticIcons.BLUE_HOLE; }
 
@@ -43,8 +42,7 @@ public abstract class $declTypeClassName extends GeneralNameIdentifier {
 		return this;
 	}
 }"""
-		outPsiDir.resolve("$declTypeClassName.java").writeText(declTypeClassContent)
-	}
+	outPsiDir.resolve("$declTypeClassName.java").writeText(declTypeClassContent)
 }
 
 fun LangData.declarationMixins(nickname: String, outDir: File) {
@@ -84,13 +82,9 @@ public abstract class $declTypeClassName extends GeneralDeclaration {
 
 	@Override
 	public @NotNull PsiElement setName(@NotNull String s) throws IncorrectOperationException {
-		PsiElement nameIdentifier = getNameIdentifier();
-		if (nameIdentifier != null) {
-			PsiElement element = ${languageName}TokenType.Builtin.create$identifierName(s, getProject());
-			if (element == null) invalidName(s);
-			nameIdentifier.replace(element);
-		}
-		return this;
+		PsiElement element = ${languageName}TokenType.Builtin.create$identifierName(s, getProject());
+		if (element == null) invalidName(s);
+		return getNameIdentifier().replace(element);
 	}
 }"""
 		outPsiDir.resolve("$declTypeClassName.java").writeText(declTypeClassContent)

@@ -23,6 +23,8 @@ private declaration ::= clause | definition | data | codata
 
 private identifier ::= IDENTIFIER
 nameDecl ::= identifier {
+	implements=['com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.ice1000.tt.psi.narc.NarcNameDeclGeneratedMixin'
 }
 nameUsage ::= identifier {
 	extends=expr
