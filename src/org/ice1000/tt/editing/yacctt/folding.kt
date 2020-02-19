@@ -44,8 +44,8 @@ private class FoldingVisitor(
 		if (startLine != endLine) descriptors.add(FoldingDescriptor(o, o.textRange))
 	}
 
-	override fun visitComment(comment: PsiComment?) {
-		if (comment?.elementType == YaccTTTokenType.BLOCK_COMMENT)
+	override fun visitComment(comment: PsiComment) {
+		if (comment.elementType == YaccTTTokenType.BLOCK_COMMENT)
 			descriptors += FoldingDescriptor(comment, comment.textRange)
 	}
 

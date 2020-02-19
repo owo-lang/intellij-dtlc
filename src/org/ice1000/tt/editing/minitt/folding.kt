@@ -49,8 +49,7 @@ private class FoldingVisitor(
 			MiniTTTypes.SIGMA)
 	}
 
-	override fun visitElement(o: PsiElement?) {
-		if (o == null) return
+	override fun visitElement(o: PsiElement) {
 		if (o.elementType in types) descriptors.add(FoldingDescriptor(o, o.textRange))
 	}
 

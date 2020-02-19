@@ -24,14 +24,14 @@ version = pluginVersion
 
 plugins {
 	java
-	id("org.jetbrains.intellij") version "0.4.14"
-	id("org.jetbrains.grammarkit") version "2019.3"
+	id("org.jetbrains.intellij") version "0.4.16"
+	id("org.jetbrains.grammarkit") version "2020.1"
 	kotlin("jvm") version "1.3.61"
 }
 
-grammarKit {
-	grammarKitRelease = "7aecfcd72619e9c241866578e8312f339b4ddbd8"
-}
+// grammarKit {
+// 	grammarKitRelease = "7aecfcd72619e9c241866578e8312f339b4ddbd8"
+// }
 
 fun fromToolbox(root: String, ide: String) = file(root)
 	.resolve(ide)
@@ -70,7 +70,7 @@ intellij {
 	pycharmPath?.absolutePath?.let { alternativeIdePath = it }
 
 	if (!isCI) {
-		setPlugins("PsiViewer:193-SNAPSHOT", "java")
+		setPlugins("PsiViewer:201.3803.71-EAP-SNAPSHOT.1", "java")
 		tasks["buildSearchableOptions"]?.enabled = false
 	} else setPlugins("java")
 }
@@ -114,7 +114,7 @@ dependencies {
 	compile("org.eclipse.mylyn.github", "org.eclipse.egit.github.core", "2.1.5") {
 		exclude(module = "gson")
 	}
-	compile("org.jetbrains.kotlinx", "kotlinx-html-jvm", "0.6.12") {
+	compile("org.jetbrains.kotlinx", "kotlinx-html-jvm", "0.7.1") {
 		exclude(module = "kotlin-stdlib")
 	}
 	testCompile(kotlin("test-junit"))

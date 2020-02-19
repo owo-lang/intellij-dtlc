@@ -46,8 +46,8 @@ private class FoldingVisitor(
 		descriptors += FoldingDescriptor(o, o.textRange)
 	}
 
-	override fun visitComment(comment: PsiComment?) {
-		if (comment != null) descriptors += FoldingDescriptor(comment, comment.textRange)
+	override fun visitComment(comment: PsiComment) {
+		descriptors += FoldingDescriptor(comment, comment.textRange)
 	}
 
 	override fun visitLetExp(o: MLPolyRLetExp) {

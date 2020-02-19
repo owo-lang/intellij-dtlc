@@ -35,8 +35,8 @@ private class FoldingVisitor(
 	private val document: Document
 ) : MlangVisitor() {
 
-	override fun visitComment(comment: PsiComment?) {
-		if (comment != null) descriptors += FoldingDescriptor(comment, comment.textRange)
+	override fun visitComment(comment: PsiComment) {
+		descriptors += FoldingDescriptor(comment, comment.textRange)
 	}
 
 	override fun visitLetExpr(o: MlangLetExpr) = foldBetweenBraces(o)

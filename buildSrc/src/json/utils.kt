@@ -1,9 +1,6 @@
 package org.ice1000.tt.gradle.json
 
-import kotlinx.serialization.PrimitiveKind
-import kotlinx.serialization.SerialDescriptor
-import kotlinx.serialization.StructureKind
-import kotlinx.serialization.UnionKind
+import kotlinx.serialization.*
 
 /**
  * Base interface for a visitor of a [SerialDescriptor] tree,
@@ -26,7 +23,7 @@ abstract class BaseDescriptorVisitor<R> : DescriptorVisitor<R> {
 		is StructureKind.CLASS -> visitClass(descriptor)
 		is StructureKind -> visitCollection(descriptor)
 		is UnionKind.ENUM_KIND -> visitEnum(descriptor)
-		is UnionKind -> visitUnion(descriptor)
+		is UnionKind, is PolymorphicKind -> visitUnion(descriptor)
 	}
 
 	abstract fun visitString(descriptor: SerialDescriptor): R
