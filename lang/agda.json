@@ -41,6 +41,6 @@
 		"KW_LET": "KW_IN",
 		"OPEN_PAREN": "CLOSE_PAREN"
 	},
-	"referenceTypes": ["NameExp"],
+	"nameBasedReferenceTypes": ["NameExp"],
 	"findUsagesProvider": "DontGenerate"
 }

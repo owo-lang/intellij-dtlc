@@ -61,5 +61,5 @@ abstract class ACoreGeneralPattern(node: ASTNode) : GeneralNameIdentifier(node) 
 
 abstract class ACoreTypedAbstractionMixin(node: ASTNode) : ACoreExpressionImpl(node), ACoreTypedAbstraction {
 	override fun processDeclarations(processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-		typedPattern.processDeclarations(processor, state, lastParent, place).orTrue()
+		typedPattern.processDeclarations(processor, state, lastParent, place)
 }

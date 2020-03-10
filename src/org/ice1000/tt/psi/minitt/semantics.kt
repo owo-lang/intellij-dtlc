@@ -21,7 +21,7 @@ abstract class MiniTTVariableMixin(node: ASTNode) : GeneralReference(node), Mini
 		val file = element.containingFile ?: return emptyArray()
 		if (!element.isValid || element.project.isDisposed) return emptyArray()
 		return ResolveCache.getInstance(element.project)
-			.resolveWithCaching(this, resolver, true, incompleteCode, file)
+			.resolveWithCaching(this, MiniTTResolver, true, incompleteCode, file)
 	}
 
 	override fun handleElementRename(newName: String): PsiElement? =
@@ -30,16 +30,14 @@ abstract class MiniTTVariableMixin(node: ASTNode) : GeneralReference(node), Mini
 	override fun getVariants() = resolveWith(PatternCompletionProcessor(lookupElement = {
 		LookupElementBuilder.create(it.text).withIcon(TTIcons.MINI_TT)
 	}), this)
+}
 
-	private companion object ResolverHolder {
-		private val resolver = ResolveCache.PolyVariantResolver<MiniTTVariableMixin> { ref, _ ->
-			val name = ref.canonicalText
-			resolveWith(PatternResolveProcessor(name) {
-				if ((it as? IPattern<*>)?.parent !is MiniTTTypedPatternGeneratedMixin) it.text == name
-				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java), ref, true)
-			}, ref)
-		}
-	}
+val MiniTTResolver = ResolveCache.PolyVariantResolver<MiniTTVariableMixin> { ref, _ ->
+	val name = ref.canonicalText
+	resolveWith(PatternResolveProcessor(name) {
+		if ((it as? IPattern<*>)?.parent !is MiniTTTypedPatternGeneratedMixin) it.text == name
+		else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, GeneralDeclaration::class.java), ref, true)
+	}, ref)
 }
 
 abstract class MiniTTAtomPatternMixin(node: ASTNode) : MiniTTPatternImpl(node), MiniTTAtomPattern {

@@ -84,7 +84,9 @@ public abstract class $declTypeClassName extends GeneralDeclaration {
 	public @NotNull PsiElement setName(@NotNull String s) throws IncorrectOperationException {
 		PsiElement element = ${languageName}TokenType.Builtin.create$identifierName(s, getProject());
 		if (element == null) invalidName(s);
-		return getNameIdentifier().replace(element);
+		PsiElement nameIdentifier = getNameIdentifier();
+		if (nameIdentifier == null) throw new IncorrectOperationException("Cannot rename!");
+		return nameIdentifier.replace(element);
 	}
 }"""
 		outPsiDir.resolve("$declTypeClassName.java").writeText(declTypeClassContent)
@@ -93,7 +95,7 @@ public abstract class $declTypeClassName extends GeneralDeclaration {
 
 fun LangData.referenceMixins(nickname: String, outDir: File) {
 	val outPsiDir = dir(outDir, "psi", nickname)
-	referenceTypes.forEach { referenceType ->
+	nameBasedReferenceTypes.forEach { referenceType ->
 		val prefix = "$languageName$referenceType"
 		val referenceTypeClassName = "${prefix}GeneratedMixin"
 		@Language("JAVA")

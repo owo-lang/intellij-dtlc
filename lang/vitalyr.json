@@ -19,7 +19,7 @@
 	"braceTokenPairs": {
 		"LPAREN": "RPAREN"
 	},
-	"referenceTypes": ["NameUsage"],
+	"nameBasedReferenceTypes": ["NameUsage"],
 	"declarationDefaultIdentifierName": "NameDecl",
 	"declarationTypes": [
 		{

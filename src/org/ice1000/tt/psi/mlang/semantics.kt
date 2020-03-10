@@ -15,25 +15,25 @@ abstract class MlangRefExprMixin(node: ASTNode) : GeneralReference(node), MlangR
 		val file = containingFile ?: return emptyArray()
 		if (!isValid || project.isDisposed) return emptyArray()
 		return ResolveCache.getInstance(project)
-			.resolveWithCaching(this, resolver, true, incompleteCode, file)
+			.resolveWithCaching(this, MlangResolver, true, incompleteCode, file)
 	}
 
-	override fun getVariants() = resolveWith(PatternCompletionProcessor(lookupElement = lookup@ {
-		if (it !is MlangIdentMixin) return@lookup defaultLookup(it)
-		val decl = PsiTreeUtil.getParentOfType(it, MlangGeneralDeclaration::class.java)
-		defaultLookup(it).withTailText(decl?.parameters?.bodyText(80).orEmpty(), true)
-	}, accessible = {
-		if (it is MlangIdentMixin) true
-		else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, DeclarationMarker::class.java), this, false)
-	}), this)
+	override fun getVariants() = resolveWith(miniTTCompletion(this), this)
+}
 
-	companion object ResolverHolder {
-		private val resolver = ResolveCache.PolyVariantResolver<MlangRefExprMixin> { ref, _ ->
-			val name = ref.name.orEmpty()
-			resolveWith(PatternResolveProcessor(ref.canonicalText) {
-				if (it is MlangIdentMixin) it.text == name
-				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, DeclarationMarker::class.java), ref, false)
-			}, ref)
-		}
-	}
+fun miniTTCompletion(mixin: MlangRefExprMixin) = PatternCompletionProcessor(lookupElement = lookup@{
+	if (it !is MlangIdentMixin) return@lookup defaultLookup(it)
+	val decl = PsiTreeUtil.getParentOfType(it, MlangGeneralDeclaration::class.java)
+	defaultLookup(it).withTailText(decl?.parameters?.bodyText(80).orEmpty(), true)
+}, accessible = {
+	if (it is MlangIdentMixin) true
+	else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, DeclarationMarker::class.java), mixin, false)
+})
+
+private val MlangResolver = ResolveCache.PolyVariantResolver<MlangRefExprMixin> { ref, _ ->
+	val name = ref.name.orEmpty()
+	resolveWith(PatternResolveProcessor(ref.canonicalText) {
+		if (it is MlangIdentMixin) it.text == name
+		else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, DeclarationMarker::class.java), ref, false)
+	}, ref)
 }
