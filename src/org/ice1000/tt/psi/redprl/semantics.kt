@@ -2,17 +2,13 @@ package org.ice1000.tt.psi.redprl
 
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.ASTNode
-import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiPolyVariantReference
 import com.intellij.psi.ResolveResult
 import com.intellij.psi.impl.source.resolve.ResolveCache
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IncorrectOperationException
 import icons.SemanticIcons
 import org.ice1000.tt.psi.*
-import org.ice1000.tt.psi.redprl.impl.RedPrlMlValueImpl
-import org.ice1000.tt.psi.redprl.impl.RedPrlTermAndTacImpl
 import javax.swing.Icon
 
 enum class RedPrlSymbolKind(val icon: Icon?) {
