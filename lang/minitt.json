@@ -53,8 +53,8 @@
 		"custom": [
 			{
 				"name": "Variable",
-				"completion": "SemanticsKt.getMiniTTResolver()",
-				"resolver": "SemanticsKt.getMiniTTCompletion()"
+				"resolver": "SemanticsKt.getMiniTTResolver()",
+				"completion": "org.ice1000.tt.psi.PatternsKt.patternCompletionSimple(icons.TTIcons.MINI_TT)"
 			}
 		]
 	},

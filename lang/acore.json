@@ -42,8 +42,8 @@
 		"custom": [
 			{
 				"name": "Variable",
-				"completion": "SemanticsKt.getAcoreResolver()",
-				"resolver": "SemanticsKt.getAcoreCompletion()"
+				"resolver": "SemanticsKt.getAcoreResolver()",
+				"completion": "org.ice1000.tt.psi.PatternsKt.patternCompletionSimple(icons.TTIcons.AGDA_CORE)"
 			}
 		]
 	},

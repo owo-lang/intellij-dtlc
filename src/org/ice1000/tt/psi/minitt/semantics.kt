@@ -1,10 +1,8 @@
 package org.ice1000.tt.psi.minitt
 
-import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
-import com.intellij.psi.ResolveResult
 import com.intellij.psi.ResolveState
 import com.intellij.psi.impl.source.resolve.ResolveCache
 import com.intellij.psi.scope.PsiScopeProcessor
@@ -15,10 +13,6 @@ import org.ice1000.tt.orTrue
 import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.minitt.impl.MiniTTExpressionImpl
 import org.ice1000.tt.psi.minitt.impl.MiniTTPatternImpl
-
-val miniTTCompletion = PatternCompletionProcessor(lookupElement = {
-	LookupElementBuilder.create(it.text).withIcon(TTIcons.MINI_TT)
-})
 
 val miniTTResolver = ResolveCache.PolyVariantResolver<MiniTTVariableGeneratedMixin> { ref, _ ->
 	val name = ref.canonicalText

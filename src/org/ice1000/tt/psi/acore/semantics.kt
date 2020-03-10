@@ -1,6 +1,5 @@
 package org.ice1000.tt.psi.acore
 
-import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
@@ -10,16 +9,16 @@ import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.util.IncorrectOperationException
 import icons.TTIcons
 import org.ice1000.tt.orTrue
-import org.ice1000.tt.psi.*
+import org.ice1000.tt.psi.GeneralNameIdentifier
+import org.ice1000.tt.psi.PatternResolveProcessor
 import org.ice1000.tt.psi.acore.impl.ACoreExpressionImpl
 import org.ice1000.tt.psi.acore.impl.ACorePatternImpl
+import org.ice1000.tt.psi.invalidName
+import org.ice1000.tt.psi.resolveWith
 
 val acoreResolver = ResolveCache.PolyVariantResolver<ACoreVariableGeneratedMixin> { ref, _ ->
 	resolveWith(PatternResolveProcessor(ref.canonicalText), ref)
 }
-val acoreCompletion = PatternCompletionProcessor(lookupElement = {
-	LookupElementBuilder.create(it.text).withIcon(TTIcons.AGDA_CORE)
-})
 
 abstract class ACoreAtomPatternMixin(node: ASTNode) : ACorePatternImpl(node), ACoreAtomPattern {
 	override fun visit(visitor: (ACoreVariable) -> Boolean) =

@@ -9,6 +9,7 @@ import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.SmartList
 import org.ice1000.tt.orTrue
+import javax.swing.Icon
 
 interface IPattern<Var : PsiElement> : PsiElement {
 	fun visit(visitor: (Var) -> Boolean): Boolean
@@ -62,6 +63,10 @@ class NameIdentifierResolveProcessor
 		else -> true
 	}
 }
+
+fun patternCompletionSimple(icon: Icon) = PatternCompletionProcessor(lookupElement = {
+	LookupElementBuilder.create(it.text).withIcon(icon)
+})
 
 class PatternCompletionProcessor(
 	private val accessible: (PsiElement) -> Boolean = { true },
