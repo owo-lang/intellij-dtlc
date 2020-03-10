@@ -15,7 +15,7 @@ val commitHash = kotlin.run {
 	output.trim()
 }
 
-val pluginComingVersion = "0.10.0"
+val pluginComingVersion = "0.9.4"
 val pluginVersion = if (isCI) "$pluginComingVersion-$commitHash" else pluginComingVersion
 val packageName = "org.ice1000.tt"
 
@@ -26,7 +26,7 @@ plugins {
 	java
 	id("org.jetbrains.intellij") version "0.4.16"
 	id("org.jetbrains.grammarkit") version "2020.1"
-	kotlin("jvm") version "1.3.61"
+	kotlin("jvm") version "1.3.70"
 }
 
 // grammarKit {
@@ -110,15 +110,15 @@ repositories {
 }
 
 dependencies {
-	compile(kotlin("stdlib-jdk8"))
-	compile("org.eclipse.mylyn.github", "org.eclipse.egit.github.core", "2.1.5") {
+	implementation(kotlin("stdlib-jdk8"))
+	implementation("org.eclipse.mylyn.github", "org.eclipse.egit.github.core", "2.1.5") {
 		exclude(module = "gson")
 	}
-	compile("org.jetbrains.kotlinx", "kotlinx-html-jvm", "0.7.1") {
+	implementation("org.jetbrains.kotlinx", "kotlinx-html-jvm", "0.7.1") {
 		exclude(module = "kotlin-stdlib")
 	}
-	testCompile(kotlin("test-junit"))
-	testCompile("junit", "junit", "4.12")
+	testImplementation(kotlin("test-junit"))
+	testImplementation("junit", "junit", "4.12")
 }
 
 task("displayCommitHash") {

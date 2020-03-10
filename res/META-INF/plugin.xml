@@ -215,55 +215,59 @@
 		<lang.parserDefinition language="VitalyR" implementationClass="org.ice1000.tt.psi.vitalyr.VitalyRGeneratedParserDefinition"/>
 		<annotator language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRAnnotator"/>
 
+		<applicationConfigurable
+			groupId="language"
+			instance="org.ice1000.tt.project.ui.TTConfigurable"/>
+
 		<projectConfigurable
 			groupId="language"
+			parentId="language.TT"
 			id="TT.MiniTT.Configurable"
-			displayName="Mini-TT"
 			instance="org.ice1000.tt.project.MiniTTProjectConfigurable"/>
 		<projectConfigurable
 			groupId="language"
+			parentId="language.TT"
 			id="TT.Agda.Configurable"
-			displayName="Agda"
 			instance="org.ice1000.tt.project.AgdaProjectConfigurable"/>
 		<projectConfigurable
 			groupId="language"
+			parentId="language.TT"
 			id="TT.ACore.Configurable"
-			displayName="Vanilla Mini-TT"
 			instance="org.ice1000.tt.project.ACoreProjectConfigurable"/>
 		<projectConfigurable
 			groupId="language"
+			parentId="language.TT"
 			id="TT.MLPolyR.Configurable"
-			displayName="MLPolyR"
 			instance="org.ice1000.tt.project.MLPolyRProjectConfigurable"/>
 		<projectConfigurable
 			groupId="language"
+			parentId="language.TT"
 			id="TT.RedPrl.Configurable"
-			displayName="RedPRL"
 			instance="org.ice1000.tt.project.RedPrlProjectConfigurable"/>
 		<projectConfigurable
 			groupId="language"
+			parentId="language.TT"
 			id="TT.CubicalTT.Configurable"
-			displayName="Cubical-TT"
 			instance="org.ice1000.tt.project.CubicalTTProjectConfigurable"/>
 		<projectConfigurable
 			groupId="language"
+			parentId="language.TT"
 			id="TT.YaccTT.Configurable"
-			displayName="Yacc-TT"
 			instance="org.ice1000.tt.project.YaccTTProjectConfigurable"/>
 		<projectConfigurable
 			groupId="language"
+			parentId="language.TT"
 			id="TT.Voile.Configurable"
-			displayName="Voile"
 			instance="org.ice1000.tt.project.VoileProjectConfigurable"/>
 		<projectConfigurable
 			groupId="language"
+			parentId="language.TT"
 			id="TT.Mlang.Configurable"
-			displayName="Mlang"
 			instance="org.ice1000.tt.project.MlangProjectConfigurable"/>
 		<projectConfigurable
 			groupId="language"
+			parentId="language.TT"
 			id="TT.Narc.Configurable"
-			displayName="Narc"
 			instance="org.ice1000.tt.project.NarcProjectConfigurable"/>
 	</extensions>
 
@@ -310,7 +314,7 @@
 		<action
 			id="org.ice1000.tt.action.HtmlExportAction" class="org.ice1000.tt.action.HtmlExportAction"
 			text="Export to Clickable HTML"
-			description="Export current file supported by Dependently-Typed Lambda Calculus to clickable HTML">
+			description="Export the current file supported by Dependently-Typed Lambda Calculus to clickable HTML">
 			<add-to-group group-id="ToolsMenu" anchor="last"/>
 		</action>
 	</actions>

@@ -2,12 +2,23 @@ package org.ice1000.tt.project.ui
 
 import com.intellij.ide.browsers.BrowserLauncher
 import com.intellij.openapi.options.Configurable
+import com.intellij.openapi.options.SearchableConfigurable
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.labels.LinkLabel
 import org.ice1000.tt.project.VersionedExecutableSettings
 import org.ice1000.tt.versionOf
 import javax.swing.JButton
+import javax.swing.JComponent
 import javax.swing.JPanel
+
+class TTConfigurable : SearchableConfigurable {
+	override fun getId() = "language.TT"
+	override fun createComponent(): JComponent? = null
+	override fun isModified() = false
+	override fun getDisplayName() = "Type Theory"
+	override fun apply() {
+	}
+}
 
 abstract class CommonConfigurable : Configurable {
 	abstract val mainPanel: JPanel
