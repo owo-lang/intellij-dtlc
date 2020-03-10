@@ -16,23 +16,11 @@ import org.ice1000.tt.psi.*
 import org.ice1000.tt.psi.minitt.impl.MiniTTExpressionImpl
 import org.ice1000.tt.psi.minitt.impl.MiniTTPatternImpl
 
-abstract class MiniTTVariableMixin(node: ASTNode) : GeneralReference(node), MiniTTVariable {
-	override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
-		val file = element.containingFile ?: return emptyArray()
-		if (!element.isValid || element.project.isDisposed) return emptyArray()
-		return ResolveCache.getInstance(element.project)
-			.resolveWithCaching(this, MiniTTResolver, true, incompleteCode, file)
-	}
+val miniTTCompletion = PatternCompletionProcessor(lookupElement = {
+	LookupElementBuilder.create(it.text).withIcon(TTIcons.MINI_TT)
+})
 
-	override fun handleElementRename(newName: String): PsiElement? =
-		replace(MiniTTTokenType.createVariable(newName, project) ?: invalidName(newName))
-
-	override fun getVariants() = resolveWith(PatternCompletionProcessor(lookupElement = {
-		LookupElementBuilder.create(it.text).withIcon(TTIcons.MINI_TT)
-	}), this)
-}
-
-val MiniTTResolver = ResolveCache.PolyVariantResolver<MiniTTVariableMixin> { ref, _ ->
+val miniTTResolver = ResolveCache.PolyVariantResolver<MiniTTVariableGeneratedMixin> { ref, _ ->
 	val name = ref.canonicalText
 	resolveWith(PatternResolveProcessor(name) {
 		if ((it as? IPattern<*>)?.parent !is MiniTTTypedPatternGeneratedMixin) it.text == name

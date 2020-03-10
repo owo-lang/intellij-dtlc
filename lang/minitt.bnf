@@ -56,7 +56,7 @@ pair ::= atom COMMA expression { pin=2 extends=expression }
 merge_sum ::= atom CONCAT expression { pin=2 extends=expression }
 variable ::= IDENTIFIER {
 	extends=expression
-	mixin='org.ice1000.tt.psi.minitt.MiniTTVariableMixin'
+	mixin='org.ice1000.tt.psi.minitt.MiniTTVariableGeneratedMixin'
 }
 
 // Prefixed parameters

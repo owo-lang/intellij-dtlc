@@ -38,5 +38,14 @@
 			"findType": "findChildByClass(ACoreExpression.class)"
 		}
 	],
+	"referenceTypes": {
+		"custom": [
+			{
+				"name": "Variable",
+				"completion": "SemanticsKt.getAcoreResolver()",
+				"resolver": "SemanticsKt.getAcoreCompletion()"
+			}
+		]
+	},
 	"findUsagesProvider": "WithoutString"
 }

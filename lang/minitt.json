@@ -49,5 +49,14 @@
 			"icon": "TTIcons.MINI_TT"
 		}
 	],
+	"referenceTypes": {
+		"custom": [
+			{
+				"name": "Variable",
+				"completion": "SemanticsKt.getMiniTTResolver()",
+				"resolver": "SemanticsKt.getMiniTTCompletion()"
+			}
+		]
+	},
 	"findUsagesProvider": "WithoutString"
 }

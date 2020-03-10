@@ -56,7 +56,7 @@ pair ::= expression COMMA expression { extends=expression }
 constructor ::= DOLLAR IDENTIFIER expression { extends=expression }
 variable ::= IDENTIFIER {
 	extends=expression
-	mixin='org.ice1000.tt.psi.acore.ACoreVariableMixin'
+	mixin='org.ice1000.tt.psi.acore.ACoreVariableGeneratedMixin'
 }
 
 // Patterns

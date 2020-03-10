@@ -14,7 +14,7 @@ fun mlangCompletion(mixin: PsiElement) = PatternCompletionProcessor(lookupElemen
 	else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, DeclarationMarker::class.java), mixin, false)
 })
 
-val MlangResolver = ResolveCache.PolyVariantResolver<MlangRefExprGeneratedMixin> { ref, _ ->
+val mlangResolver = ResolveCache.PolyVariantResolver<MlangRefExprGeneratedMixin> { ref, _ ->
 	val name = ref.name.orEmpty()
 	resolveWith(PatternResolveProcessor(ref.canonicalText) {
 		if (it is MlangIdentMixin) it.text == name
