@@ -2,7 +2,9 @@ package org.ice1000.tt.psi.cubicaltt
 
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.ASTNode
-import com.intellij.psi.*
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiElementResolveResult
+import com.intellij.psi.ResolveResult
 import com.intellij.psi.impl.source.resolve.ResolveCache
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
@@ -62,47 +64,34 @@ abstract class CubicalTTModuleUsageMixin(node: ASTNode) : GeneralReference(node)
 	}
 }
 
-abstract class CubicalTTNameMixin(node: ASTNode) : GeneralReference(node), CubicalTTNameExp, CubicalTTNameUsage {
+abstract class CubicalTTNameMixin(node: ASTNode) : CubicalTTNameExpGeneratedMixin(node), CubicalTTNameUsage {
 	private val containingCubicalFile: CubicalTTFileImpl? get() = containingFile as? CubicalTTFileImpl
 	override fun getCanonicalText(): String {
 		val module = containingCubicalFile?.module ?: return text
 		val moduleName = module.nameDecl?.text ?: return text
 		return "$moduleName.$text"
 	}
-
-	override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
-		if (!isValid || project.isDisposed) return emptyArray()
-		val file = containingCubicalFile ?: return emptyArray()
-		return ResolveCache.getInstance(project)
-			.resolveWithCaching(this, resolver, true, incompleteCode, file)
-	}
-
-	override fun handleElementRename(newName: String): PsiElement? =
-		replace(CubicalTTTokenType.createNameExp(newName, project) ?: invalidName(newName))
-
-	override fun getVariants() = resolveWith(NameIdentifierCompletionProcessor({
-		if ((it as? CubicalTTNameDeclMixin)?.kind !in paramFamily) true
-		else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, CubicalTTDecl::class.java), this, false)
-	}, {
-		LookupElementBuilder
-			.create(it.text)
-			.withTypeText((it as? CubicalTTNameDeclMixin)?.kind?.name ?: "")
-			.withIcon(it.getIcon(0) ?: TTIcons.CUBICAL_TT)
-	}), this)
-
-	private companion object ResolverHolder {
-		val paramFamily = listOf(CubicalTTSymbolKind.Parameter)
-
-		private val resolver = ResolveCache.PolyVariantResolver<CubicalTTNameMixin> { ref, _ ->
-			val name = ref.name.orEmpty()
-			var stubBased: Collection<PsiElement> = CubicalTTDefStubKey[name, ref.project, GlobalSearchScope.fileScope(ref.containingFile)]
-			if (stubBased.isEmpty()) stubBased = CubicalTTLabelStubKey[name, ref.project, GlobalSearchScope.fileScope(ref.containingFile)]
-			if (stubBased.isEmpty()) stubBased = CubicalTTDataStubKey[name, ref.project, GlobalSearchScope.fileScope(ref.containingFile)]
-			if (stubBased.isNotEmpty()) return@PolyVariantResolver stubBased.map(::PsiElementResolveResult).toTypedArray()
-			resolveWith(NameIdentifierResolveProcessor(name) {
-				if ((it as? CubicalTTNameDeclMixin)?.kind !in paramFamily) it.text == name
-				else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, CubicalTTDecl::class.java), ref, false)
-			}, ref)
-		}
-	}
 }
+
+val paramFamily = listOf(CubicalTTSymbolKind.Parameter)
+val cubicalTTResolver = ResolveCache.PolyVariantResolver<CubicalTTNameExpGeneratedMixin> { ref, _ ->
+	val name = ref.name.orEmpty()
+	var stubBased: Collection<PsiElement> = CubicalTTDefStubKey[name, ref.project, GlobalSearchScope.fileScope(ref.containingFile)]
+	if (stubBased.isEmpty()) stubBased = CubicalTTLabelStubKey[name, ref.project, GlobalSearchScope.fileScope(ref.containingFile)]
+	if (stubBased.isEmpty()) stubBased = CubicalTTDataStubKey[name, ref.project, GlobalSearchScope.fileScope(ref.containingFile)]
+	if (stubBased.isNotEmpty()) return@PolyVariantResolver stubBased.map(::PsiElementResolveResult).toTypedArray()
+	resolveWith(NameIdentifierResolveProcessor(name) {
+		if ((it as? CubicalTTNameDeclMixin)?.kind !in paramFamily) it.text == name
+		else it.text == name && PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, CubicalTTDecl::class.java), ref, false)
+	}, ref)
+}
+
+fun cubicalttCompletion(mixin: PsiElement) = NameIdentifierCompletionProcessor({
+	if ((it as? CubicalTTNameDeclMixin)?.kind !in paramFamily) true
+	else PsiTreeUtil.isAncestor(PsiTreeUtil.getParentOfType(it, CubicalTTDecl::class.java), mixin, false)
+}, {
+	LookupElementBuilder
+		.create(it.text)
+		.withTypeText((it as? CubicalTTNameDeclMixin)?.kind?.name ?: "")
+		.withIcon(it.getIcon(0) ?: TTIcons.CUBICAL_TT)
+})

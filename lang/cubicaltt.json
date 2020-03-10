@@ -35,5 +35,14 @@
 		"LBRACK": "RBRACK",
 		"LAYOUT_START": "LAYOUT_END"
 	},
+	"referenceTypes": {
+		"custom": [
+			{
+				"name": "NameExp",
+				"resolver": "SemanticsKt.getCubicalTTResolver()",
+				"completion": "SemanticsKt.cubicalttCompletion(this)"
+			}
+		]
+	},
 	"findUsagesProvider": "WithoutString"
 }
