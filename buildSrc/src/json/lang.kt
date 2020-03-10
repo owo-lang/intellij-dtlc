@@ -26,7 +26,15 @@ class DeclType constructor(
 )
 
 @Serializable
+class PatRefTy constructor(
+	val name: String,
+	val completion: String,
+	val resolver: String
+)
+
+@Serializable
 class RefTy constructor(
+	val custom: List<PatRefTy> = emptyList(),
 	val nameBased: List<String> = emptyList()
 )
 

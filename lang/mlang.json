@@ -35,5 +35,14 @@
 			"findType": "UtilsKt.findType(this, MlangTypes.COLON)"
 		}
 	],
+	"referenceTypes": {
+		"custom": [
+			{
+				"name": "RefExpr",
+				"completion": "SemanticsKt.mlangCompletion(this)",
+				"resolver": "SemanticsKt.getMlangResolver()"
+			}
+		]
+	},
 	"findUsagesProvider": "DontGenerate"
 }

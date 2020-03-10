@@ -93,6 +93,30 @@ public abstract class $declTypeClassName extends GeneralDeclaration {
 	}
 }
 
+fun LangData.rename(prefix: String, name: String) = """@Override
+	public PsiElement handleElementRename(@NotNull String s) throws IncorrectOperationException {
+		$prefix element = ${languageName}TokenType.Builtin.create$name(s, getProject());
+		if (element == null) invalidName(s);
+		return replace(element);
+	}
+"""
+
+fun variants(completion: String) = """@Override
+	public @NotNull Object[] getVariants() {
+		return resolveWithToList($completion, this)
+			.toArray(LookupElement.EMPTY_ARRAY);
+	}
+"""
+fun multiResolve(resolver: String) = """@Override
+	public @NotNull ResolveResult[] multiResolve(boolean incomplete) {
+		PsiFile containingFile = getContainingFile();
+		if (containingFile == null) return ResolveResult.EMPTY_ARRAY;
+		if (!isValid() || getProject().isDisposed()) return ResolveResult.EMPTY_ARRAY;
+		return ResolveCache.getInstance(getProject())
+			.resolveWithCaching(this, $resolver, true, incomplete, containingFile);
+	}
+"""
+
 fun LangData.referenceMixins(nickname: String, outDir: File) {
 	val outPsiDir = dir(outDir, "psi", nickname)
 	referenceTypes.nameBased.forEach { referenceType ->
@@ -126,29 +150,43 @@ public abstract class $referenceTypeClassName extends GeneralReference implement
 		resolveWithToList(new NameIdentifierResolveProcessor(self.getCanonicalText()), self)
 			.toArray(ResolveResult.EMPTY_ARRAY);
 
-	@Override
-	public PsiElement handleElementRename(@NotNull String s) throws IncorrectOperationException {
-		$prefix element = ${languageName}TokenType.Builtin.create$referenceType(s, getProject());
-		if (element == null) invalidName(s);
-		return replace(element);
-	}
-
-	@Override
-	public @NotNull Object[] getVariants() {
-		return resolveWithToList(new NameIdentifierCompletionProcessor(), this)
-			.toArray(LookupElement.EMPTY_ARRAY);
-	}
-
-	@Override
-	public @NotNull ResolveResult[] multiResolve(boolean incomplete) {
-		PsiFile containingFile = getContainingFile();
-		if (containingFile == null) return ResolveResult.EMPTY_ARRAY;
-		if (!isValid() || getProject().isDisposed()) return ResolveResult.EMPTY_ARRAY;
-		return ResolveCache.getInstance(getProject())
-			.resolveWithCaching(this, resolver, true, incomplete, containingFile);
-	}
+	${rename(prefix, referenceType)}
+	${variants("new NameIdentifierCompletionProcessor()")}
+	${multiResolve("resolver")}
 }"""
 		outPsiDir.resolve("$referenceTypeClassName.java").writeText(referenceTypeClassContent)
+	}
+
+	referenceTypes.custom.forEach { referenceType ->
+		val prefix = "$languageName${referenceType.name}"
+		val referenceTypeClassName = "${prefix}GeneratedMixin"
+		@Language("JAVA")
+		val referenceTypeClassCode = """
+package $basePackage.psi.$nickname;
+
+import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.ResolveResult;
+import com.intellij.psi.impl.source.resolve.ResolveCache;
+import com.intellij.util.IncorrectOperationException;
+import org.ice1000.tt.psi.GeneralReference;
+import org.jetbrains.annotations.NotNull;
+
+import static org.ice1000.tt.psi.ResolveKt.resolveWithToList;
+import static org.ice1000.tt.psi.UtilsKt.invalidName;
+
+public abstract class $referenceTypeClassName extends GeneralReference implements $prefix {
+	public $referenceTypeClassName(@NotNull ASTNode node) {
+		super(node);
+	}
+
+	${rename(prefix, referenceType.name)}
+	${variants(referenceType.completion)}
+	${multiResolve(referenceType.resolver)}
+}"""
+		outPsiDir.resolve("$referenceTypeClassName.java").writeText(referenceTypeClassCode)
 	}
 }
 
