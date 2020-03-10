@@ -95,7 +95,7 @@ public abstract class $declTypeClassName extends GeneralDeclaration {
 
 fun LangData.referenceMixins(nickname: String, outDir: File) {
 	val outPsiDir = dir(outDir, "psi", nickname)
-	nameBasedReferenceTypes.forEach { referenceType ->
+	referenceTypes.nameBased.forEach { referenceType ->
 		val prefix = "$languageName$referenceType"
 		val referenceTypeClassName = "${prefix}GeneratedMixin"
 		@Language("JAVA")

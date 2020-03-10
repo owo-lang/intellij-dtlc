@@ -26,29 +26,34 @@ class DeclType constructor(
 )
 
 @Serializable
+class RefTy constructor(
+	val nameBased: List<String> = emptyList()
+)
+
+@Serializable
 class LangData constructor(
-        val languageName: String,
-        var constantPrefix: String,
-        val exeName: String,
-        val runConfigInit: String = "",
-        val trimVersion: String = "version",
-        val findUsagesProvider: FindUsagesProviderOpt = FindUsagesProviderOpt.DontGenerate,
-        val generateCliState: Boolean = true,
-        val generateRunConfig: Boolean = true,
-        val website: String = "",
-        val verification: Boolean = true,
-        val hasVersion: Boolean = true,
-        val generateSettings: Boolean = true,
-        val generateService: Boolean = true,
-        val supportsParsing: Boolean = false,
-        val nameBasedReferenceTypes: List<String> = emptyList(),
-        val declarationTypes: List<DeclType> = emptyList(),
-        val declarationDefaultIdentifierName: String = "",
-        val declarationDefaultFindType: String = "null",
-        val keywordList: List<String> = emptyList(),
-        val highlightTokenPairs: Map<String, String> = emptyMap(),
-        val braceTokenPairs: Map<String, String> = emptyMap(),
-        val basePackage: String = DEFAULT_PKG
+	val languageName: String,
+	var constantPrefix: String,
+	val exeName: String,
+	val runConfigInit: String = "",
+	val trimVersion: String = "version",
+	val findUsagesProvider: FindUsagesProviderOpt = FindUsagesProviderOpt.DontGenerate,
+	val generateCliState: Boolean = true,
+	val generateRunConfig: Boolean = true,
+	val website: String = "",
+	val verification: Boolean = true,
+	val hasVersion: Boolean = true,
+	val generateSettings: Boolean = true,
+	val generateService: Boolean = true,
+	val supportsParsing: Boolean = false,
+	val referenceTypes: RefTy = RefTy(),
+	val declarationTypes: List<DeclType> = emptyList(),
+	val declarationDefaultIdentifierName: String = "",
+	val declarationDefaultFindType: String = "null",
+	val keywordList: List<String> = emptyList(),
+	val highlightTokenPairs: Map<String, String> = emptyMap(),
+	val braceTokenPairs: Map<String, String> = emptyMap(),
+	val basePackage: String = DEFAULT_PKG
 ) {
 	fun toJson() = sharedJson.stringify(serializer(), this)
 
