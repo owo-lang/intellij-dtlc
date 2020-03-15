@@ -54,11 +54,11 @@ import org.jetbrains.annotations.Nullable;
 	name = "${languageName}ProjectSettings",
 	storages = @Storage("${languageName.decapitalize()}Config.xml"))
 public final class $serviceClassName implements PersistentStateComponent<${languageName}Settings> {
-	private @NotNull ${languageName}Settings settings = new ${languageName}Settings();
-	@NotNull public ${languageName}Settings getSettings() { return settings; }
+	private final @NotNull ${languageName}Settings settings = new ${languageName}Settings();
+	public @NotNull ${languageName}Settings getSettings() { return settings; }
 
-	@Nullable @Override
-	public ${languageName}Settings getState() { return XmlSerializerUtil.createCopy(settings); }
+	@Override
+	public @Nullable ${languageName}Settings getState() { return XmlSerializerUtil.createCopy(settings); }
 
 	@Override
 	public void loadState(@NotNull ${languageName}Settings state) {
@@ -104,24 +104,24 @@ import static $basePackage.project.ProjectGenerated.*;
 import static $basePackage.project.ui.Ui_implKt.initWebsiteLabel;
 
 public final class $settingsClassName extends VersionedExecutableProjectConfigurableImpl {
-	private ${languageName}Settings settings;
+	private final ${languageName}Settings settings;
 
-	@NotNull @Override
-	protected VersionedExecutableSettings getSettings() {
+	@Override
+	protected @NotNull VersionedExecutableSettings getSettings() {
 		return settings;
 	}
 
-	@NotNull @Override
-	protected String trimVersion(@NotNull String version) { return $trimVersion; }
+	@Override
+	protected @NotNull String trimVersion(@NotNull String version) { return $trimVersion; }
 
-	public $settingsClassName(Project project) {
+	public $settingsClassName(@NotNull Project project) {
 		settings = get${capitalizedConfigName}Settings(project).getSettings();
 		init();
 		$configureSettings
 	}
 
 	@Override
-	public String getDisplayName() { return ${constantPrefix}_LANGUAGE_NAME; }
+	public @NotNull String getDisplayName() { return ${constantPrefix}_LANGUAGE_NAME; }
 }
 """ else """
 package $basePackage.project;
@@ -131,6 +131,7 @@ import com.intellij.openapi.project.Project;
 import icons.TTIcons;
 import $basePackage.TTBundle;
 import $basePackage.project.ui.OnlyExecutableProjectConfigurable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -139,9 +140,9 @@ import static $basePackage.project.ProjectGenerated.*;
 import static $basePackage.project.ui.Ui_implKt.initWebsiteLabel;
 
 public final class $settingsClassName extends OnlyExecutableProjectConfigurable {
-	private ${languageName}Settings settings;
+	private final ${languageName}Settings settings;
 
-	public $settingsClassName(Project project) {
+	public $settingsClassName(@NotNull Project project) {
 		settings = get${capitalizedConfigName}Settings(project).getSettings();
 		getExePathField().setText(settings.getExePath());
 		$configureSettings
@@ -153,7 +154,7 @@ public final class $settingsClassName extends OnlyExecutableProjectConfigurable 
 	}
 
 	@Override
-	public String getDisplayName() { return ${constantPrefix}_LANGUAGE_NAME; }
+	public @NotNull String getDisplayName() { return ${constantPrefix}_LANGUAGE_NAME; }
 
 	@Override
 	public void apply() { settings.setExePath(getExePathField().getText()); }

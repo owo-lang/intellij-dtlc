@@ -8,7 +8,7 @@ import java.io.File
 fun fileTypeFactory(langNames: Sequence<String>, outDir: File) {
 	outDir.mkdirs()
 	val className = "TTFileTypeFactory"
-	// @Language("JAVA")
+	@Language("JAVA")
 	val classContent = """
 package $DEFAULT_PKG;
 
@@ -32,7 +32,7 @@ fun fileCreationGroup(langNames: Sequence<String>, outDir: File) {
 	val outActionDir = outDir.resolve("action")
 	outActionDir.mkdirs()
 	val className = "NewTTActionGroup"
-	// @Language("JAVA")
+	@Language("JAVA")
 	val classContent = """
 package $DEFAULT_PKG.action;
 

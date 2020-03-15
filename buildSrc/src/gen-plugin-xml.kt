@@ -20,6 +20,7 @@ fun LangData.pluginXml(nickname: String, fyiDir: File) {
 
 		<projectConfigurable
 			groupId="language"
+			parentId="language.TT"
 			id="TT.$languageName.Configurable"
 			displayName="$languageName"
 			instance="$basePackage.project.${languageName}ProjectConfigurable"/>

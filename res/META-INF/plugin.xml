@@ -276,8 +276,8 @@
 			instance="org.ice1000.tt.project.NarcProjectConfigurable"/>
 		<projectConfigurable
 			groupId="language"
+			parentId="language.TT"
 			id="TT.MiniAgda.Configurable"
-			displayName="MiniAgda"
 			instance="org.ice1000.tt.project.MiniAgdaProjectConfigurable"/>
 	</extensions>
 
