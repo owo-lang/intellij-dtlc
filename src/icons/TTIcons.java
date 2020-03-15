@@ -12,9 +12,10 @@ public interface TTIcons {
 	@NotNull Icon OWO_FILE = IconLoader.getIcon("/icons/fileIcon/owo_file.svg");
 	@NotNull Icon AGDA_CORE_FILE = IconLoader.getIcon("/icons/fileIcon/mtt_file.svg");
 	@NotNull Icon AGDA_CORE = AGDA_CORE_FILE;
-	// TODO: this is a placeholder
-	@NotNull Icon M_LANG_FILE = AGDA_CORE_FILE;
-	@NotNull Icon M_LANG = AGDA_CORE_FILE;
+	@NotNull Icon M_LANG_FILE = IconLoader.getIcon("/icons/fileIcon/mlang_file.svg");
+	@NotNull Icon M_LANG = M_LANG_FILE;
+	@NotNull Icon MINI_AGDA_FILE = IconLoader.getIcon("/icons/fileIcon/ma_file.svg");
+	@NotNull Icon MINI_AGDA = MINI_AGDA_FILE;
 	@NotNull Icon MLPOLYR_FILE = IconLoader.getIcon("/icons/fileIcon/mlpr_file.svg");
 	@NotNull Icon MLPOLYR = MLPOLYR_FILE;
 	@NotNull Icon CUBICAL_TT_FILE = IconLoader.getIcon("/icons/fileIcon/ctt_file.svg");

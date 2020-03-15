@@ -8,6 +8,9 @@ import org.jetbrains.annotations.NonNls
 @NonNls const val MINI_TT_LANGUAGE_NAME = "Mini-TT"
 @NonNls const val MINI_TT_EXTENSION = "minitt"
 
+@NonNls const val MINI_AGDA_LANGUAGE_NAME = "MiniAgda"
+@NonNls const val MINI_AGDA_EXTENSION = "ma"
+
 @NonNls const val AGDA_CORE_EXTENSION = "mtt"
 @NonNls const val AGDA_CORE_LANGUAGE_NAME = "Vanilla Mini-TT"
 

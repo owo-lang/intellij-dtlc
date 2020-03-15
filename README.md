@@ -27,8 +27,11 @@ usages), including:
   [RedPRL] ([GitHub source][RedPRL-gh])
 + ![](./res/icons/agda/agda.svg)
   [Agda]
-+ Molikto's [mlang]
++ ![](./res/icons/fileIcon/mlang_file.svg)
+  Molikto's [mlang]
 + [VitalyR]
++ ![](./res/icons/fileIcon/ma_file.svg)
+  [MiniAgda] ([GitHub source][MiniAgda-gh])
 + ![](./res/icons/fileIcon/owo_file.svg)
   [OwO] (WIP)
 
@@ -57,6 +60,8 @@ Screenshots:
  [RedPRL]: http://www.redprl.org
  [RedPRL-gh]: https://github.com/RedPRL/sml-redprl
  [mlang]: https://github.com/molikto/mlang
+ [MiniAgda]: http://www.cse.chalmers.se/~abela/miniagda
+ [MiniAgda-gh]: https://github.com/andreasabel/miniagda
  [d-svg]: https://img.shields.io/jetbrains/plugin/d/12176.svg
  [v-svg]: https://img.shields.io/jetbrains/plugin/v/12176.svg
  [jb-url]: https://plugins.jetbrains.com/plugin/12176
