@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
-@SuppressWarnings("NullableProblems")
 public abstract class InterpretedRunConfigurationEditor<T extends RunConfiguration> extends SettingsEditor<T> {
 	protected @NotNull JPanel mainPanel;
 	protected @NotNull TextFieldWithBrowseButton workingDirField;

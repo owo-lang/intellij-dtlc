@@ -57,20 +57,22 @@ intellij {
 	// downloadSources = true
 	val user = System.getProperty("user.name")
 	val os = System.getProperty("os.name")
-	val root = when {
+	// version = "2019.3"
+	when {
 		os.startsWith("Windows") -> "C:\\Users\\$user\\AppData\\Local\\JetBrains\\Toolbox\\apps"
 		os == "Linux" -> "/home/$user/.local/share/JetBrains/Toolbox/apps"
-		else -> return@intellij
+		else -> null
+	}?.let { root ->
+		val intellijPath = sequenceOf("IDEA-C", "IDEA-U")
+			.mapNotNull { fromToolbox(root, it) }.firstOrNull()
+		intellijPath?.absolutePath?.let { localPath = it }
+		val pycharmPath = sequenceOf("PyCharm-C", "IDEA-C", "IDEA-U")
+			.mapNotNull { fromToolbox(root, it) }.firstOrNull()
+		pycharmPath?.absolutePath?.let { alternativeIdePath = it }
 	}
-	val intellijPath = sequenceOf("IDEA-C", "IDEA-U")
-		.mapNotNull { fromToolbox(root, it) }.firstOrNull()
-	intellijPath?.absolutePath?.let { localPath = it }
-	val pycharmPath = sequenceOf("PyCharm-C", "IDEA-C", "IDEA-U")
-		.mapNotNull { fromToolbox(root, it) }.firstOrNull()
-	pycharmPath?.absolutePath?.let { alternativeIdePath = it }
 
 	if (!isCI) {
-		setPlugins("PsiViewer:201.3803.71-EAP-SNAPSHOT.1", "java")
+		setPlugins("PsiViewer:201.6251.22-EAP-SNAPSHOT.1", "java")
 		tasks["buildSearchableOptions"]?.enabled = false
 	} else setPlugins("java")
 }
