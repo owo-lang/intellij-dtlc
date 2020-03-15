@@ -3,9 +3,6 @@
 	"constantPrefix": "MINI_AGDA",
 	"exeName": "miniagda",
 	"website": "http://www.cse.chalmers.se/~abela/miniagda",
-	"generateCliState": false,
-	"generateRunConfig": false,
 	"hasVersion": false,
-	"generateService": false,
 	"supportsParsing": false
 }

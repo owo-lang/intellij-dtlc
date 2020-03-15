@@ -5,10 +5,10 @@ import org.ice1000.tt.gradle.json.LangData
 import org.intellij.lang.annotations.Language
 import java.io.File
 
-fun fileTypeFactory(langData: List<LangData>, outDir: File) {
+fun fileTypeFactory(langNames: Sequence<String>, outDir: File) {
 	outDir.mkdirs()
 	val className = "TTFileTypeFactory"
-	@Language("JAVA")
+	// @Language("JAVA")
 	val classContent = """
 package $DEFAULT_PKG;
 
@@ -19,8 +19,8 @@ import com.intellij.openapi.project.DumbAware;
 public final class $className extends FileTypeFactory implements DumbAware {
 	@Override
 	public void createFileTypes(FileTypeConsumer consumer) {
-		${langData.joinToString("\n\t\t") {
-		"consumer.consume(${it.languageName}FileType.INSTANCE);"
+		${langNames.joinToString("\n\t\t") {
+		"consumer.consume(${it}FileType.INSTANCE);"
 	}}
 	}
 }
@@ -28,11 +28,11 @@ public final class $className extends FileTypeFactory implements DumbAware {
 	outDir.resolve("$className.java").writeText(classContent)
 }
 
-fun fileCreationGroup(langData: List<LangData>, outDir: File) {
+fun fileCreationGroup(langNames: Sequence<String>, outDir: File) {
 	val outActionDir = outDir.resolve("action")
 	outActionDir.mkdirs()
 	val className = "NewTTActionGroup"
-	@Language("JAVA")
+	// @Language("JAVA")
 	val classContent = """
 package $DEFAULT_PKG.action;
 
@@ -42,7 +42,7 @@ import $DEFAULT_PKG.TTBundle;
 
 public final class $className extends DefaultActionGroup implements DumbAware {
 	public $className() {
-		super(${langData.joinToString { "new New${it.languageName}File()" }});
+		super(${langNames.joinToString { "new New${it}File()" }});
 		setPopup(true);
 		getTemplatePresentation().setText(TTBundle.message("tt.actions.new-file-group"));
 	}

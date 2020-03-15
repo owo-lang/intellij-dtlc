@@ -215,6 +215,11 @@
 		<lang.parserDefinition language="VitalyR" implementationClass="org.ice1000.tt.psi.vitalyr.VitalyRGeneratedParserDefinition"/>
 		<annotator language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRAnnotator"/>
 
+		<!--MiniAgda-->
+		<configurationType implementation="org.ice1000.tt.execution.MiniAgdaRunConfigurationType"/>
+		<runConfigurationProducer implementation="org.ice1000.tt.execution.MiniAgdaRunConfigurationProducer"/>
+		<lang.refactoringSupport language="MiniAgda" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
+
 		<applicationConfigurable
 			groupId="language"
 			instance="org.ice1000.tt.project.ui.TTConfigurable"/>
@@ -269,6 +274,11 @@
 			parentId="language.TT"
 			id="TT.Narc.Configurable"
 			instance="org.ice1000.tt.project.NarcProjectConfigurable"/>
+		<projectConfigurable
+			groupId="language"
+			id="TT.MiniAgda.Configurable"
+			displayName="MiniAgda"
+			instance="org.ice1000.tt.project.MiniAgdaProjectConfigurable"/>
 	</extensions>
 
 	<project-components>
@@ -304,6 +314,9 @@
 		</component>
 		<component>
 			<implementation-class>org.ice1000.tt.project.NarcProjectSettingsService</implementation-class>
+		</component>
+		<component>
+			<implementation-class>org.ice1000.tt.project.MiniAgdaProjectSettingsService</implementation-class>
 		</component>
 	</project-components>
 

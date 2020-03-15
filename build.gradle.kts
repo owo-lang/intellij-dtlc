@@ -167,6 +167,7 @@ fun grammar(name: String): Pair<GenerateParser, GenerateLexer> {
 }
 
 fun utilities(name: String) = task<LangUtilGenTask>("gen${name}Utility") {
+	langName = name
 	langDataPath = "lang/${name.toLowerCase()}.json"
 	generateCode.dependsOn(this)
 }

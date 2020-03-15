@@ -1,0 +1,9 @@
+{-
+ - Created by Dependently-Typed Lambda Calculus on ${YEAR}-${MONTH}-${DAY}
+ - ${NAME}
+ - Author: ${USER}
+ -}
+
+fun ${NAME_SNAKE} : (A : Set) -> A -> A
+{ ${NAME_SNAKE} A a = a
+}
