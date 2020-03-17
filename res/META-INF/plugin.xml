@@ -218,7 +218,12 @@
 		<!--MiniAgda-->
 		<configurationType implementation="org.ice1000.tt.execution.MiniAgdaRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.MiniAgdaRunConfigurationProducer"/>
+		<completion.contributor language="MiniAgda" implementationClass="org.ice1000.tt.editing.miniagda.MiniAgdaCompletionContributor"/>
+		<lang.braceMatcher language="MiniAgda" implementationClass="org.ice1000.tt.editing.miniagda.MiniAgdaBraceMatcher"/>
+		<lang.syntaxHighlighterFactory language="MiniAgda" implementationClass="org.ice1000.tt.editing.miniagda.MiniAgdaHighlighterFactory"/>
 		<lang.refactoringSupport language="MiniAgda" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
+		<lang.findUsagesProvider language="MiniAgda" implementationClass="org.ice1000.tt.editing.miniagda.MiniAgdaFindUsagesProvider"/>
+		<lang.parserDefinition language="MiniAgda" implementationClass="org.ice1000.tt.psi.miniagda.MiniAgdaGeneratedParserDefinition"/>
 
 		<applicationConfigurable
 			groupId="language"

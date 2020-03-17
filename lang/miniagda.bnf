@@ -39,7 +39,7 @@ decl ::=
  | modifiedSetOfDecl
 
 patternDecl ::= PATTERN
- name name*
+ nameDef nameDef*
  ASSIGN pairP {
 	pin=1
 }
@@ -51,7 +51,7 @@ modifiedSetOfDecl ::= modifier LBRACE declaration* RBRACE {
 	pin=2
 }
 
-name ::= IDENTIFIER
+nameDef ::= IDENTIFIER
 nameExpr ::= IDENTIFIER {
 }
 typeSig ::= COLON expr { pin=1 }
@@ -59,31 +59,33 @@ typeSig ::= COLON expr { pin=1 }
 dataKind ::= DATA | CODATA
 dataDecl ::=
  SIZED? dataKind
- name bind* typeSig?
+ nameDef bind* typeSig?
  LBRACE constructors RBRACE
  optFields? {
 	pin=2
 }
 recordDecl ::=
  RECORD
- name bind* typeSig?
+ nameDef bind* typeSig?
  LBRACE constructor RBRACE
  optFields? {
 	pin=1
 }
 
 private constructors ::= (constructor SEMI)* constructor?
+constructor ::= nameDef tele* typeSig?
+
 private clauses ::= (clause SEMI)* clause?
 
-private namesRest ::= COMMA name { pin=1 }
-names ::= name namesRest*
+private namesRest ::= COMMA nameDef { pin=1 }
+names ::= nameDef namesRest*
 
 optFields ::= FIELDS names { pin=1 }
 
 funKind ::= FUN | COFUN
 funDecl ::=
  funKind
- name typeSig
+ nameDef typeSig
  LBRACE clauses RBRACE {
 	pin=1
 }
@@ -93,7 +95,7 @@ exprT ::= expr exprTRest*
 
 private lhs ::= pats
 private clauseRhs ::= ASSIGN exprT { pin=1 }
-clause ::= name lhs clauseRhs? {
+clause ::= nameDef lhs clauseRhs? {
 	pin=1
 }
 
@@ -107,14 +109,12 @@ pat ::=
  | dotNamePat
  | succPat
  | dotSetPat
- | atomicPat {
-	extends=ePat
-}
+ | atomicPat
 private pairPatRest ::= COMMA ePat { pin=1 }
 pairP ::= ePat pairPatRest*
 tuplePat ::= LPAREN pairP? RPAREN { pin=1 }
-dotNamePat ::= DOT? name
-succPat ::= SUCC name { pin=1 }
+dotNamePat ::= DOT? nameDef
+succPat ::= SUCC nameDef { pin=1 }
 dotSetPat ::= DOT SET
 atomicPat ::= DOT atomic
 
@@ -126,8 +126,8 @@ ePat ::=
 
 // constructor with at least one argument pattern
 conPatE ::= dotNamePat pat+ [TRIANGLE_L ePat]
-exprIdPatE ::= atomic GT name { pin=2 }
-idExprPatE ::= name LT atomic { pin=2 }
+exprIdPatE ::= atomic GT nameDef { pin=2 }
+idExprPatE ::= nameDef LT atomic { pin=2 }
 
 letDecl ::= EVAL? LET polName tele* typeSig? ASSIGN exprT {
 	pin=2
@@ -153,7 +153,7 @@ hBind ::= LBRACE names bindRhs RBRACE {
 dBind ::= LPAREN PLUS names bindRhs RPAREN {
 }
 
-polName ::= pol name? | LBRACK name RBRACK
+polName ::= pol nameDef? | LBRACK nameDef RBRACK
 // uBind ::= pol? name | pol LPAREN name RPAREN | LBRACK name RBRACK
 
 oneCase ::= pat [ARROW exprT]
@@ -161,19 +161,18 @@ private casesRest ::= SEMI oneCase { pin=1 }
 cases ::= oneCase casesRest*
 
 localLet ::=
-   LBRACK name typeSig RBRACK ASSIGN expr
- | pol LPAREN name typeSig RPAREN ASSIGN expr
+   LBRACK nameDef typeSig RBRACK ASSIGN expr
+ | pol LPAREN nameDef typeSig RPAREN ASSIGN expr
 
 domain ::=
-   pol expr
- | atomic
+   pol? app
  | LBRACK expr RBRACK
  | bound
  // In MiniAgda, this can be tele*, but I doubt it's used actually
  | tele+
 
 sigDom ::=
-   pol expr
+   pol app
  | LBRACK expr RBRACK
  | bound
  | tele
@@ -185,22 +184,29 @@ expr ::=
  | caseExpr
  | plusExpr
  | pipeExpr
- | sigExpr
+ | app
+
+private app ::=
+   sigExpr
+ | appExpr
  | projExpr
  | setExpr
  | numberExpr
  | cosetExpr
- | appExpr
  | atomic
 
 piExpr ::= domain ARROW expr
-lamExpr ::= BACKSLASH name+ ARROW exprT { pin=1 }
-letExpr ::= LET localLet IN exprT { pin=1 }
+lamExpr ::= BACKSLASH nameDef+ ARROW exprT {
+	pin=1
+}
+letExpr ::= LET localLet IN exprT {
+	pin=1
+}
 caseExpr ::= CASE exprT typeSig? LBRACE cases LBRACE { pin=1 }
 plusExpr ::= expr PLUS expr
 pipeExpr ::= expr (TRIANGLE_L | TRIANGLE_R) expr
-appExpr ::= expr atomic+
-projExpr ::= expr DOT name
+appExpr ::= appExpr atomic+
+projExpr ::= appExpr DOT nameDef
 sigExpr ::= sigDom AND expr
 succExpr ::= SUCC atomic
 setExpr ::= SET expr

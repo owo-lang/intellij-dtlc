@@ -1,8 +1,54 @@
 {
 	"languageName": "MiniAgda",
 	"constantPrefix": "MINI_AGDA",
+	"findUsagesProvider": "WithoutString",
 	"exeName": "miniagda",
 	"website": "http://www.cse.chalmers.se/~abela/miniagda",
 	"hasVersion": false,
-	"supportsParsing": false
+	"highlightTokenPairs": {
+		"KEYWORD": "KEYWORD",
+		"IDENTIFIER": "IDENTIFIER",
+		"COMMA": "COMMA",
+		"OPERATOR": "OPERATION_SIGN",
+		"SEMICOLON": "SEMICOLON",
+		"BRACK": "BRACKETS",
+		"BRACE": "BRACES",
+		"PAREN": "PARENTHESES",
+		"NUMBER": "NUMBER",
+		"LINE_COMMENT": "LINE_COMMENT",
+		"BLOCK_COMMENT": "BLOCK_COMMENT",
+		"FUNCTION_NAME": "FUNCTION_DECLARATION",
+		"DATATYPE_NAME": "CLASS_NAME",
+		"HOLE": "LABEL",
+		"UNRESOLVED": "IDENTIFIER"
+	},
+	"keywordList": [
+		"in",
+		"fun",
+		"let",
+		"Set",
+		"max",
+		"data",
+		"eval",
+		"Size",
+		"fail",
+		"case",
+		"sized",
+		"cofun",
+		"check",
+		"CoSet",
+		"codata",
+		"record",
+		"mutual",
+		"fields",
+		"trustme",
+		"pattern",
+		"impredicative"
+	],
+	"braceTokenPairs": {
+		"LPAREN": "RPAREN",
+		"LBRACE": "RBRACE",
+		"LBRACK": "RBRACK"
+	},
+	"supportsParsing": true
 }

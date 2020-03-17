@@ -6,6 +6,7 @@ import com.intellij.lang.annotation.Annotator
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.progress.PerformInBackgroundOption
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
@@ -16,6 +17,7 @@ import com.intellij.openapi.ui.popup.Balloon
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.parentOfType
 import com.intellij.ui.JBColor
@@ -25,6 +27,17 @@ import org.ice1000.tt.psi.leftSiblings
 import org.ice1000.tt.psi.vitalyr.VitalyRExpr
 import org.ice1000.tt.psi.vitalyr.VitalyRLambda
 import org.ice1000.tt.psi.vitalyr.VitalyRTokenType
+import org.ice1000.tt.psi.vitalyr.VitalyRTypes
+
+object VitalyRHighlighter : VitalyRGeneratedHighlighter() {
+	override fun getTokenHighlights(type: IElementType?): Array<TextAttributesKey> = when (type) {
+		VitalyRTypes.IDENTIFIER -> IDENTIFIER_KEY
+		VitalyRTypes.KW_LAMBDA -> KEYWORD_KEY
+		VitalyRTokenType.LINE_COMMENT -> LINE_COMMENT_KEY
+		VitalyRTypes.LPAREN, VitalyRTypes.RPAREN -> PAREN_KEY
+		else -> emptyArray()
+	}
+}
 
 class VitalyRAnnotator : Annotator, DumbAware {
 	override fun annotate(element: PsiElement, holder: AnnotationHolder) {

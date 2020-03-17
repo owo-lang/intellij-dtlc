@@ -9,7 +9,8 @@ import org.ice1000.tt.MiniAgdaLanguage
 class MiniAgdaTokenType(debugName: String) : IElementType(debugName, MiniAgdaLanguage.INSTANCE) {
 	companion object Builtin {
 		@JvmField val LINE_COMMENT = MiniAgdaTokenType("line comment")
-		@JvmField val COMMENTS = TokenSet.create(LINE_COMMENT)
+		@JvmField val BLOCK_COMMENT = MiniAgdaTokenType("block comment")
+		@JvmField val COMMENTS = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT)
 		@JvmField val IDENTIFIERS = TokenSet.create(MiniAgdaTypes.IDENTIFIER)
 
 		fun fromText(text: String, project: Project) = PsiFileFactory.getInstance(project).createFileFromText(MiniAgdaLanguage.INSTANCE, text).firstChild

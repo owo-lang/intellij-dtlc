@@ -2,8 +2,8 @@ package org.ice1000.tt.psi.miniagda;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import static org.ice1000.tt.psi.miniafda.MiniAgdaTypes.*;
-import static org.ice1000.tt.psi.miniafda.MiniAgdaTokenType.*;
+import static org.ice1000.tt.psi.miniagda.MiniAgdaTypes.*;
+import static org.ice1000.tt.psi.miniagda.MiniAgdaTokenType.*;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
@@ -28,9 +28,8 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 
 %state INSIDE_COMMENT
 
-WHITE_SPACE=[\ \t\f]+
+WHITE_SPACE=[\ \r\n\t\f]+
 LINE_COMMENT=--[^\n\r]*
-EOL=\r\n|\r|\n
 IDENTIFIER=[a-zA-Z][_a-zA-Z'0-9]*
 
 %%
@@ -51,7 +50,7 @@ IDENTIFIER=[a-zA-Z][_a-zA-Z'0-9]*
 	}
 	[^{-]+ { }
 	\{[^-]+ { }
-	-[^}{-]* { }
+	-[^}{-]+ { }
 }
 
 "{-" { yybegin(INSIDE_COMMENT)
@@ -80,7 +79,7 @@ IDENTIFIER=[a-zA-Z][_a-zA-Z'0-9]*
 \. { return DOT; }
 \+ { return PLUS; }
 \- { return MINUS; }
-\/ { return DIVIDE; }
+//\/ { return DIVIDE; }
 \* { return TIMES; }
 \^ { return EXPONENT; }
 \& { return AND; }
@@ -91,13 +90,13 @@ IDENTIFIER=[a-zA-Z][_a-zA-Z'0-9]*
 \> { return GT; }
 in  { return IN ; }
 fun { return FUN; }
-def { return DEF; }
+//def { return DEF; }
 let { return LET; }
 Set { return SET; }
 max { return MAX; }
 data { return DATA; }
 eval { return EVAL; }
-Type { return TYPE; }
+//Type { return TYPE; }
 Size { return SIZE; }
 fail { return FAIL; }
 case { return CASE; }
