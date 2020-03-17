@@ -134,7 +134,7 @@ letDecl ::= EVAL? LET polName tele* typeSig? ASSIGN exprT {
 }
 
 pol ::= PLUS_PLUS | PLUS | MINUS | DOT | EXPONENT | TIMES
-measure ::= BAR exprT BAR { pin=1 }
+measure ::= BAR exprT BAR
 bound ::= measure less measure
 less ::= LT | LT_EQ
 
@@ -192,6 +192,7 @@ expr ::=
 
 private app ::=
    sigExpr
+ | sig2Expr
  | appExpr
  | projExpr
  | setExpr
@@ -201,6 +202,7 @@ private app ::=
 
 piExpr ::= domain ARROW expr
 pi2Expr ::= expr ARROW expr
+sig2Expr ::= expr AND expr
 lamExpr ::= BACKSLASH nameDef+ ARROW exprT {
 	pin=1
 }

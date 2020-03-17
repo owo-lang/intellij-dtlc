@@ -115,4 +115,5 @@ class MiniAgdaParsingTest : DtlcParsingTestCase("parse/miniagda", "ma", MiniAgda
 	fun `test ImplParadoxes`() = doTest(true, true)
 	fun `test Simplified`() = doTest(true, true)
 	fun `test withCaseEval`() = doTest(true, true)
+	fun `test Fib`() = doTest(true, true)
 }
