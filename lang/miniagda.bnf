@@ -155,7 +155,7 @@ dBind ::= LPAREN PLUS names bindRhs RPAREN {
 	pin=4
 }
 
-polName ::= pol nameDef? | LBRACK nameDef RBRACK
+polName ::= pol? nameDef | LBRACK nameDef RBRACK
 // uBind ::= pol? name | pol LPAREN name RPAREN | LBRACK name RBRACK
 
 oneCase ::= pat [ARROW exprT]
@@ -204,7 +204,6 @@ lamExpr ::= BACKSLASH nameDef+ ARROW exprT {
 	pin=1
 }
 letExpr ::= LET localLet IN exprT {
-	pin=1
 }
 caseExpr ::= CASE exprT typeSig? LBRACE cases LBRACE { pin=1 }
 plusExpr ::= expr PLUS expr
