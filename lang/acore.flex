@@ -50,7 +50,7 @@ COMMENTS = --[^\n\r]*
 	}
 	[^{-]+ { }
 	\{[^-]+ { }
-	-[^}{-]+ { }
+	-+[^}{-]+ { }
 }
 
 "{-" { yybegin(INSIDE_COMMENT); commentDepth = 1; commentStart = getTokenStart(); }

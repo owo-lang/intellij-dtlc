@@ -5,10 +5,8 @@ import com.intellij.lang.annotation.Annotator
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.IElementType
-import org.ice1000.tt.psi.miniagda.MiniAgdaDataDecl
-import org.ice1000.tt.psi.miniagda.MiniAgdaRecordDecl
-import org.ice1000.tt.psi.miniagda.MiniAgdaTokenType
-import org.ice1000.tt.psi.miniagda.MiniAgdaTypes
+import org.ice1000.tt.psi.childrenWithLeaves
+import org.ice1000.tt.psi.miniagda.*
 
 object MiniAgdaHighlighter : MiniAgdaGeneratedHighlighter() {
 	private val OPERATORS = listOf(
@@ -77,9 +75,19 @@ class MiniAgdaAnnotator : Annotator {
 	override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 		when (element) {
 			is MiniAgdaDataDecl, is MiniAgdaRecordDecl -> data(element, holder)
+			is MiniAgdaFunDecl -> funDecl(element, holder)
+		}
+	}
+
+	private fun funDecl(element: MiniAgdaFunDecl, holder: AnnotationHolder) {
+		element.childrenWithLeaves.firstOrNull { it is MiniAgdaNameDef }?.let {
+			holder.createInfoAnnotation(it, null).textAttributes = MiniAgdaGeneratedHighlighter.FUNCTION_NAME
 		}
 	}
 
 	private fun data(element: PsiElement, holder: AnnotationHolder) {
+		element.childrenWithLeaves.firstOrNull { it is MiniAgdaNameDef }?.let {
+			holder.createInfoAnnotation(it, null).textAttributes = MiniAgdaGeneratedHighlighter.DATATYPE_NAME
+		}
 	}
 }

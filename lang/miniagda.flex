@@ -50,7 +50,7 @@ IDENTIFIER=[a-zA-Z][_a-zA-Z'0-9]*
 	}
 	[^{-]+ { }
 	\{[^-]+ { }
-	-[^}{-]+ { }
+	-+[^}{-]+ { }
 }
 
 "{-" { yybegin(INSIDE_COMMENT)

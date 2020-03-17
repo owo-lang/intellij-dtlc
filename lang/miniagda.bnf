@@ -138,19 +138,21 @@ measure ::= BAR exprT BAR { pin=1 }
 bound ::= measure less measure { pin=2 }
 less ::= LT | LT_EQ
 
-tele ::= measure | bind
+tele ::= bind | measure
 
-bindRhs ::= typeSig | less expr
+private bindRhs ::= typeSig | less expr
 bind ::= aBind | eBind | hBind | dBind
 aBind ::= pol? LPAREN names bindRhs RPAREN {
+	pin=4
 }
 eBind ::= LBRACK names bindRhs RBRACK {
-	pin=1
+	pin=3
 }
 hBind ::= LBRACE names bindRhs RBRACE {
-	pin=1
+	pin=3
 }
 dBind ::= LPAREN PLUS names bindRhs RPAREN {
+	pin=4
 }
 
 polName ::= pol nameDef? | LBRACK nameDef RBRACK
@@ -165,20 +167,21 @@ localLet ::=
  | pol LPAREN nameDef typeSig RPAREN ASSIGN expr
 
 domain ::=
-   pol? app
- | LBRACK expr RBRACK
- | bound
  // In MiniAgda, this can be tele*, but I doubt it's used actually
+   bound
  | tele+
+ | LBRACK expr RBRACK
+ | pol app
 
 sigDom ::=
-   pol app
- | LBRACK expr RBRACK
- | bound
+   bound
  | tele
+ | LBRACK expr RBRACK
+ | pol app
 
 expr ::=
    piExpr
+ | pi2Expr
  | lamExpr
  | letExpr
  | caseExpr
@@ -196,6 +199,7 @@ private app ::=
  | atomic
 
 piExpr ::= domain ARROW expr
+pi2Expr ::= expr ARROW expr
 lamExpr ::= BACKSLASH nameDef+ ARROW exprT {
 	pin=1
 }
@@ -205,14 +209,14 @@ letExpr ::= LET localLet IN exprT {
 caseExpr ::= CASE exprT typeSig? LBRACE cases LBRACE { pin=1 }
 plusExpr ::= expr PLUS expr
 pipeExpr ::= expr (TRIANGLE_L | TRIANGLE_R) expr
-appExpr ::= appExpr atomic+
-projExpr ::= appExpr DOT nameDef
+appExpr ::= expr atomic+
+projExpr ::= expr DOT nameDef
 sigExpr ::= sigDom AND expr
-succExpr ::= SUCC atomic
-setExpr ::= SET expr
+succExpr ::= SUCC atomic { pin=1 }
+setExpr ::= SET expr?
 cosetExpr ::= COSET expr { pin=1 }
 numberExpr ::= NUMBER TIMES expr { pin=2 }
-keywordExpr ::= SIZE | MAX | INFTY | METAVAR | NUMBER | SET
+keywordExpr ::= SIZE | MAX | INFTY | METAVAR | NUMBER
 tupleExpr ::= LPAREN exprT RPAREN
 angleExpr ::= LT exprT typeSig GT
 
