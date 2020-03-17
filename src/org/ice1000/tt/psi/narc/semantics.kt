@@ -43,4 +43,5 @@ abstract class NarcNameUsageMixin(node: ASTNode) : GeneralReference(node), NarcN
 		private val resolver = ResolveCache.PolyVariantResolver<NarcNameUsageMixin> { ref, _ ->
 			resolveWith(NameIdentifierResolveProcessor(ref.canonicalText), ref)
 		}
-	}}
+	}
+}

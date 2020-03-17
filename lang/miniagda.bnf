@@ -1,0 +1,222 @@
+//noinspection BnfResolveForFile
+{
+  generate=[java="8" names="long"]
+
+  parserClass="org.ice1000.tt.psi.miniagda.MiniAgdaParser"
+
+  psiClassPrefix="MiniAgda"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.ice1000.tt.psi.miniagda"
+  psiImplPackage="org.ice1000.tt.psi.miniagda.impl"
+
+  elementTypeHolderClass="org.ice1000.tt.psi.miniagda.MiniAgdaTypes"
+  elementTypeClass="org.ice1000.tt.psi.miniagda.MiniAgdaElementType"
+  tokenTypeClass="org.ice1000.tt.psi.miniagda.MiniAgdaTokenType"
+
+  extends(".*Decl")=decl
+  extends(".*Expr")=expr
+  extends(".*Pat")=pat
+  extends(".*PatE")=ePat
+  extends(".*Bind")=bind
+}
+
+topLevel ::= declaration*
+
+modifier ::=
+   IMPREDICATIVE
+ | CHECK
+ | TRUSTME
+ | FAIL
+
+private declaration ::= modifier? decl
+decl ::=
+   dataDecl
+ | recordDecl
+ | funDecl
+ | mutualDecl
+ | letDecl
+ | patternDecl
+ | modifiedSetOfDecl
+
+patternDecl ::= PATTERN
+ name name*
+ ASSIGN pairP {
+	pin=1
+}
+
+mutualDecl ::= MUTUAL LBRACE declaration* RBRACE {
+	pin=1
+}
+modifiedSetOfDecl ::= modifier LBRACE declaration* RBRACE {
+	pin=2
+}
+
+name ::= IDENTIFIER
+nameExpr ::= IDENTIFIER {
+}
+typeSig ::= COLON expr { pin=1 }
+
+dataKind ::= DATA | CODATA
+dataDecl ::=
+ SIZED? dataKind
+ name bind* typeSig?
+ LBRACE constructors RBRACE
+ optFields? {
+	pin=2
+}
+recordDecl ::=
+ RECORD
+ name bind* typeSig?
+ LBRACE constructor RBRACE
+ optFields? {
+	pin=1
+}
+
+private constructors ::= (constructor SEMI)* constructor?
+private clauses ::= (clause SEMI)* clause?
+
+private namesRest ::= COMMA name { pin=1 }
+names ::= name namesRest*
+
+optFields ::= FIELDS names { pin=1 }
+
+funKind ::= FUN | COFUN
+funDecl ::=
+ funKind
+ name typeSig
+ LBRACE clauses RBRACE {
+	pin=1
+}
+
+private exprTRest ::= COMMA expr { pin=1 }
+exprT ::= expr exprTRest*
+
+private lhs ::= pats
+private clauseRhs ::= ASSIGN exprT { pin=1 }
+clause ::= name lhs clauseRhs? {
+	pin=1
+}
+
+pats ::= (elimPats | pat)*
+elimPats ::= TRIANGLE_L ePat {
+	pin=1
+}
+
+pat ::=
+   tuplePat
+ | dotNamePat
+ | succPat
+ | dotSetPat
+ | atomicPat {
+	extends=ePat
+}
+private pairPatRest ::= COMMA ePat { pin=1 }
+pairP ::= ePat pairPatRest*
+tuplePat ::= LPAREN pairP? RPAREN { pin=1 }
+dotNamePat ::= DOT? name
+succPat ::= SUCC name { pin=1 }
+dotSetPat ::= DOT SET
+atomicPat ::= DOT atomic
+
+ePat ::=
+   conPatE
+ | exprIdPatE
+ | idExprPatE
+ | pat
+
+// constructor with at least one argument pattern
+conPatE ::= dotNamePat pat+ [TRIANGLE_L ePat]
+exprIdPatE ::= atomic GT name { pin=2 }
+idExprPatE ::= name LT atomic { pin=2 }
+
+letDecl ::= EVAL? LET polName tele* typeSig? ASSIGN exprT {
+	pin=2
+}
+
+pol ::= PLUS_PLUS | PLUS | MINUS | DOT | EXPONENT | TIMES
+measure ::= BAR exprT BAR { pin=1 }
+bound ::= measure less measure { pin=2 }
+less ::= LT | LT_EQ
+
+tele ::= measure | bind
+
+bindRhs ::= typeSig | less expr
+bind ::= aBind | eBind | hBind | dBind
+aBind ::= pol? LPAREN names bindRhs RPAREN {
+}
+eBind ::= LBRACK names bindRhs RBRACK {
+	pin=1
+}
+hBind ::= LBRACE names bindRhs RBRACE {
+	pin=1
+}
+dBind ::= LPAREN PLUS names bindRhs RPAREN {
+}
+
+polName ::= pol name? | LBRACK name RBRACK
+// uBind ::= pol? name | pol LPAREN name RPAREN | LBRACK name RBRACK
+
+oneCase ::= pat [ARROW exprT]
+private casesRest ::= SEMI oneCase { pin=1 }
+cases ::= oneCase casesRest*
+
+localLet ::=
+   LBRACK name typeSig RBRACK ASSIGN expr
+ | pol LPAREN name typeSig RPAREN ASSIGN expr
+
+domain ::=
+   pol? app
+ | LBRACK expr RBRACK
+ | bound
+ // In MiniAgda, this can be tele*, but I doubt it's used actually
+ | tele+
+
+sigDom ::=
+   pol app
+ | LBRACK expr RBRACK
+ | bound
+ | tele
+
+expr ::=
+   piExpr
+ | lamExpr
+ | letExpr
+ | caseExpr
+ | plusExpr
+ | pipeExpr
+ | app
+
+private app ::=
+   sigExpr
+ | appExpr
+ | projExpr
+ | setExpr
+ | appSetExpr
+ | numberExpr
+ | cosetExpr
+ | atomic
+
+piExpr ::= domain ARROW expr
+lamExpr ::= BACKSLASH name+ ARROW exprT { pin=1 }
+letExpr ::= LET localLet IN exprT { pin=1 }
+caseExpr ::= CASE exprT typeSig? LBRACE cases LBRACE { pin=1 }
+plusExpr ::= expr PLUS expr
+pipeExpr ::= expr (TRIANGLE_L | TRIANGLE_R) expr
+appExpr ::= app expr+
+appSetExpr ::= app SET
+projExpr ::= app DOT name
+sigExpr ::= sigDom AND expr
+succExpr ::= SUCC atomic
+setExpr ::= SET expr?
+cosetExpr ::= COSET expr { pin=1 }
+numberExpr ::= NUMBER TIMES expr
+keywordExpr ::= SIZE | MAX | INFTY | METAVAR | NUMBER
+tupleExpr ::= LPAREN exprT RPAREN
+angleExpr ::= LT exprT typeSig GT
+
+private atomic ::=
+   nameExpr
+ | succExpr
+ | tupleExpr
+ | angleExpr
+ | keywordExpr
