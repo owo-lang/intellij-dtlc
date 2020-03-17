@@ -2,7 +2,6 @@ package org.ice1000.tt.action
 
 import com.intellij.lang.Language
 import com.intellij.notification.Notification
-import com.intellij.notification.NotificationGroup
 import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications
 import com.intellij.openapi.actionSystem.AnAction

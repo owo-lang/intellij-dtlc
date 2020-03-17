@@ -211,6 +211,7 @@
 		<lang.braceMatcher language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRBraceMatcher"/>
 		<lang.refactoringSupport language="VitalyR" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<lang.syntaxHighlighterFactory language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRHighlighterFactory"/>
+		<stubElementTypeHolder class="org.ice1000.tt.psi.vitalyr.VitalyRTypes"/>
 		<completion.contributor language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRCompletionContributor"/>
 		<lang.parserDefinition language="VitalyR" implementationClass="org.ice1000.tt.psi.vitalyr.VitalyRGeneratedParserDefinition"/>
 		<annotator language="VitalyR" implementationClass="org.ice1000.tt.editing.vitalyr.VitalyRAnnotator"/>
@@ -218,6 +219,7 @@
 		<!--MiniAgda-->
 		<configurationType implementation="org.ice1000.tt.execution.MiniAgdaRunConfigurationType"/>
 		<runConfigurationProducer implementation="org.ice1000.tt.execution.MiniAgdaRunConfigurationProducer"/>
+		<stubElementTypeHolder class="org.ice1000.tt.psi.miniagda.MiniAgdaTypes"/>
 		<annotator language="MiniAgda" implementationClass="org.ice1000.tt.editing.miniagda.MiniAgdaAnnotator"/>
 		<completion.contributor language="MiniAgda" implementationClass="org.ice1000.tt.editing.miniagda.MiniAgdaCompletionContributor"/>
 		<lang.braceMatcher language="MiniAgda" implementationClass="org.ice1000.tt.editing.miniagda.MiniAgdaBraceMatcher"/>
@@ -225,6 +227,7 @@
 		<lang.refactoringSupport language="MiniAgda" implementationClass="org.ice1000.tt.editing.InplaceRenameRefactoringSupportProvider"/>
 		<lang.findUsagesProvider language="MiniAgda" implementationClass="org.ice1000.tt.editing.miniagda.MiniAgdaFindUsagesProvider"/>
 		<lang.parserDefinition language="MiniAgda" implementationClass="org.ice1000.tt.psi.miniagda.MiniAgdaGeneratedParserDefinition"/>
+		<lang.commenter language="MiniAgda" implementationClass="org.ice1000.tt.editing.HaskellCommenter"/>
 
 		<applicationConfigurable
 			groupId="language"

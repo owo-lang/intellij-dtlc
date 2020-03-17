@@ -1,0 +1,40 @@
+/* Token types. */
+.VitalyR .VITALYR_KEYWORD {
+	color: #000080;
+	font-weight: bold;
+}
+
+.VitalyR .VITALYR_IDENTIFIER {
+	color: #000000;
+}
+
+.VitalyR .VITALYR_PAREN {
+}
+
+.VitalyR .VITALYR_LINE_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+.VitalyR .VITALYR_FUNCTION_NAME {
+}
+
+.VitalyR .VITALYR_UNRESOLVED {
+	color: #000000;
+}
+
+/* Standard attributes. */
+.VitalyR a {
+	text-decoration: none;
+}
+
+.VitalyR :target {
+	border: 2px solid #ECFAEB;
+	background-color: #ECFAEB;
+}
+
+.VitalyR a[href]:hover {
+	color: #0000FF;
+	text-decoration: underline;
+	text-decoration-color: #0000FF;
+}

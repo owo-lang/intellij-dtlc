@@ -1,0 +1,70 @@
+/* Token types. */
+.MiniAgda .MINI_AGDA_KEYWORD {
+	color: #000080;
+	font-weight: bold;
+}
+
+.MiniAgda .MINI_AGDA_IDENTIFIER {
+	color: #000000;
+}
+
+.MiniAgda .MINI_AGDA_COMMA {
+}
+
+.MiniAgda .MINI_AGDA_OPERATOR {
+}
+
+.MiniAgda .MINI_AGDA_SEMICOLON {
+}
+
+.MiniAgda .MINI_AGDA_BRACK {
+}
+
+.MiniAgda .MINI_AGDA_BRACE {
+}
+
+.MiniAgda .MINI_AGDA_PAREN {
+}
+
+.MiniAgda .MINI_AGDA_NUMBER {
+	color: #0000FF;
+}
+
+.MiniAgda .MINI_AGDA_LINE_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+.MiniAgda .MINI_AGDA_BLOCK_COMMENT {
+	color: #808080;
+	font-style: italic;
+}
+
+.MiniAgda .MINI_AGDA_FUNCTION_NAME {
+}
+
+.MiniAgda .MINI_AGDA_DATATYPE_NAME {
+}
+
+.MiniAgda .MINI_AGDA_HOLE {
+}
+
+.MiniAgda .MINI_AGDA_UNRESOLVED {
+	color: #000000;
+}
+
+/* Standard attributes. */
+.MiniAgda a {
+	text-decoration: none;
+}
+
+.MiniAgda :target {
+	border: 2px solid #ECFAEB;
+	background-color: #ECFAEB;
+}
+
+.MiniAgda a[href]:hover {
+	color: #0000FF;
+	text-decoration: underline;
+	text-decoration-color: #0000FF;
+}
