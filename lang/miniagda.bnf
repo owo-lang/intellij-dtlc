@@ -91,7 +91,7 @@ funDecl ::=
 }
 
 private exprTRest ::= COMMA expr { pin=1 }
-exprT ::= expr exprTRest*
+exprT ::= expr exprTRest+ | expr
 
 private lhs ::= pats
 private clauseRhs ::= ASSIGN exprT { pin=1 }
@@ -135,10 +135,10 @@ letDecl ::= EVAL? LET polName tele* typeSig? ASSIGN exprT {
 
 pol ::= PLUS_PLUS | PLUS | MINUS | DOT | EXPONENT | TIMES
 measure ::= BAR exprT BAR { pin=1 }
-bound ::= measure less measure { pin=2 }
+bound ::= measure less measure
 less ::= LT | LT_EQ
 
-tele ::= bind | measure
+tele ::= measure | bind
 
 private bindRhs ::= typeSig | less expr
 bind ::= aBind | eBind | hBind | dBind
@@ -166,17 +166,18 @@ localLet ::=
    LBRACK nameDef typeSig RBRACK ASSIGN expr
  | pol LPAREN nameDef typeSig RPAREN ASSIGN expr
 
+private exprDom ::= LBRACK expr RBRACK
 domain ::=
  // In MiniAgda, this can be tele*, but I doubt it's used actually
    bound
  | tele+
- | LBRACK expr RBRACK
+ | exprDom
  | pol app
 
 sigDom ::=
    bound
  | tele
- | LBRACK expr RBRACK
+ | exprDom
  | pol app
 
 expr ::=
@@ -205,7 +206,7 @@ lamExpr ::= BACKSLASH nameDef+ ARROW exprT {
 }
 letExpr ::= LET localLet IN exprT {
 }
-caseExpr ::= CASE exprT typeSig? LBRACE cases LBRACE { pin=1 }
+caseExpr ::= CASE exprT typeSig? LBRACE cases RBRACE { pin=1 }
 plusExpr ::= expr PLUS expr
 pipeExpr ::= expr (TRIANGLE_L | TRIANGLE_R) expr
 appExpr ::= expr atomic+

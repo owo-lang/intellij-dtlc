@@ -5,6 +5,7 @@ import com.intellij.testFramework.ParsingTestCase
 import org.ice1000.tt.psi.acore.ACoreGeneratedParserDefinition
 import org.ice1000.tt.psi.agda.AgdaParserDefinition
 import org.ice1000.tt.psi.cubicaltt.CubicalTTParserDefinition
+import org.ice1000.tt.psi.miniagda.MiniAgdaGeneratedParserDefinition
 import org.ice1000.tt.psi.minitt.MiniTTGeneratedParserDefinition
 import org.ice1000.tt.psi.mlang.MlangGeneratedParserDefinition
 import org.ice1000.tt.psi.mlpolyr.MLPolyRParserDefinition
@@ -107,4 +108,11 @@ class VoileParsingTest : DtlcParsingTestCase("parse/voile", "voile", VoileGenera
 	fun `test project-poly`() = doTest(true, true)
 	fun `test simple-pattern-match`() = doTest(true, true)
 	fun `test solve-ext-meta`() = doTest(true, true)
+}
+
+class MiniAgdaParsingTest : DtlcParsingTestCase("parse/miniagda", "ma", MiniAgdaGeneratedParserDefinition()) {
+	fun `test Bits`() = doTest(true, true)
+	fun `test ImplParadoxes`() = doTest(true, true)
+	fun `test Simplified`() = doTest(true, true)
+	fun `test withCaseEval`() = doTest(true, true)
 }
