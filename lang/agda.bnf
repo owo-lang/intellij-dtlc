@@ -168,7 +168,7 @@ layout ::= indentationLayout | declaration {
 }
 private indentationLayout ::=
  LAYOUT_START
-  (declaration (LAYOUT_SEP? declaration)*)?
+  [declaration (LAYOUT_SEP? declaration)*]
  LAYOUT_END? { pin=1 }
 
 layoutSignature ::= indentationSignatureLayout | blockOrSig {
@@ -176,14 +176,14 @@ layoutSignature ::= indentationSignatureLayout | blockOrSig {
 }
 private indentationSignatureLayout ::=
  LAYOUT_START
-  (blockOrSig (LAYOUT_SEP? blockOrSig)*)?
+  [blockOrSig (LAYOUT_SEP? blockOrSig)*]
  LAYOUT_END? { pin=1 }
 private blockOrSig ::= block | signature
 
 layoutRecord ::= indentationRecordLayout | recordDecl
 private indentationRecordLayout ::=
  LAYOUT_START
-  (recordDecl (LAYOUT_SEP? recordDecl)*)?
+  [recordDecl (LAYOUT_SEP? recordDecl)*]
  LAYOUT_END? { pin=1 }
 
 exp ::=

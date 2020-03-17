@@ -165,14 +165,15 @@ localLet ::=
  | pol LPAREN name typeSig RPAREN ASSIGN expr
 
 domain ::=
-   pol? app
+   pol expr
+ | atomic
  | LBRACK expr RBRACK
  | bound
  // In MiniAgda, this can be tele*, but I doubt it's used actually
  | tele+
 
 sigDom ::=
-   pol app
+   pol expr
  | LBRACK expr RBRACK
  | bound
  | tele
@@ -184,16 +185,12 @@ expr ::=
  | caseExpr
  | plusExpr
  | pipeExpr
- | app
-
-private app ::=
-   sigExpr
- | appExpr
+ | sigExpr
  | projExpr
  | setExpr
- | appSetExpr
  | numberExpr
  | cosetExpr
+ | appExpr
  | atomic
 
 piExpr ::= domain ARROW expr
@@ -202,15 +199,14 @@ letExpr ::= LET localLet IN exprT { pin=1 }
 caseExpr ::= CASE exprT typeSig? LBRACE cases LBRACE { pin=1 }
 plusExpr ::= expr PLUS expr
 pipeExpr ::= expr (TRIANGLE_L | TRIANGLE_R) expr
-appExpr ::= app expr+
-appSetExpr ::= app SET
-projExpr ::= app DOT name
+appExpr ::= expr atomic+
+projExpr ::= expr DOT name
 sigExpr ::= sigDom AND expr
 succExpr ::= SUCC atomic
-setExpr ::= SET expr?
+setExpr ::= SET expr
 cosetExpr ::= COSET expr { pin=1 }
-numberExpr ::= NUMBER TIMES expr
-keywordExpr ::= SIZE | MAX | INFTY | METAVAR | NUMBER
+numberExpr ::= NUMBER TIMES expr { pin=2 }
+keywordExpr ::= SIZE | MAX | INFTY | METAVAR | NUMBER | SET
 tupleExpr ::= LPAREN exprT RPAREN
 angleExpr ::= LT exprT typeSig GT
 
