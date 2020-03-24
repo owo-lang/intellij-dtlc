@@ -31,8 +31,8 @@ internal val SerialDescriptor.jsonType
  * if they want.
  */
 fun schema(descriptor: SerialDescriptor): JsonObject {
-	val properties: MutableMap<String, JsonObject> = mutableMapOf()
-	val requiredProperties: MutableSet<String> = mutableSetOf()
+	val properties = mutableMapOf<String, JsonObject>()
+	val requiredProperties = mutableSetOf<String>()
 	val isEnum = descriptor.kind == UnionKind.ENUM_KIND
 
 	if (!isEnum) descriptor.elementDescriptors().forEachIndexed { index, child ->
@@ -43,7 +43,7 @@ fun schema(descriptor: SerialDescriptor): JsonObject {
 
 	val jsonType = descriptor.jsonType
 	val objectData: MutableMap<String, JsonElement> = mutableMapOf(
-		"description" to JsonLiteral(descriptor.name),
+		"description" to JsonLiteral(descriptor.serialName),
 		"type" to JsonLiteral(jsonType)
 	)
 	if (isEnum) {
@@ -53,7 +53,7 @@ fun schema(descriptor: SerialDescriptor): JsonObject {
 	when (jsonType) {
 		"object" -> if (requiredProperties != setOf("0", "1")) {
 			objectData["properties"] = JsonObject(properties)
-			objectData["required"] = JsonArray(requiredProperties.map { JsonLiteral(it) })
+			objectData["required"] = JsonArray(requiredProperties.map(::JsonLiteral))
 		}
 		"array" -> objectData["items"] = properties.values.let {
 			check(it.size == 1) { "Array descriptor has returned inconsistent number of elements: expected 1, found ${it.size}" }
