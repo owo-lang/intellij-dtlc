@@ -66,7 +66,7 @@ intellij {
 		val intellijPath = sequenceOf("IDEA-C", "IDEA-U")
 			.mapNotNull { fromToolbox(root, it) }.firstOrNull()
 		intellijPath?.absolutePath?.let { localPath = it }
-		val pycharmPath = sequenceOf("PyCharm-C", "IDEA-C", "IDEA-U")
+		val pycharmPath = sequenceOf("IDEA-C", "IDEA-U")
 			.mapNotNull { fromToolbox(root, it) }.firstOrNull()
 		pycharmPath?.absolutePath?.let { alternativeIdePath = it }
 	}
