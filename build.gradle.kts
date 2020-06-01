@@ -25,7 +25,7 @@ version = pluginVersion
 plugins {
 	java
 	id("org.jetbrains.intellij") version "0.4.21"
-	id("org.jetbrains.grammarkit") version "2020.1.4"
+	id("org.jetbrains.grammarkit") version "2020.2"
 	kotlin("jvm") version "1.3.72"
 }
 
@@ -72,7 +72,7 @@ intellij {
 	}
 
 	if (!isCI) {
-		setPlugins("PsiViewer:201.6251.22-EAP-SNAPSHOT.1", "java")
+		setPlugins("PsiViewer:202-SNAPSHOT.3", "java")
 		tasks["buildSearchableOptions"]?.enabled = false
 	} else setPlugins("java")
 }

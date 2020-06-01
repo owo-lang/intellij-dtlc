@@ -65,7 +65,7 @@ class LangData constructor(
 ) {
 	fun toJson() = sharedJson.stringify(serializer(), this)
 
-	@UseExperimental(ImplicitReflectionSerializer::class)
+	@OptIn(ImplicitReflectionSerializer::class)
 	companion object SchemaWriter {
 		init {
 			val map = schema(serializer().descriptor)
