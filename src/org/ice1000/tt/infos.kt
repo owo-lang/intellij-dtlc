@@ -1,6 +1,6 @@
 package org.ice1000.tt
 
-import com.intellij.CommonBundle
+import com.intellij.AbstractBundle
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 import java.util.*
@@ -13,5 +13,5 @@ object TTBundle {
 
 	@JvmStatic
 	fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any) =
-		CommonBundle.message(bundle, key, *params)
+		AbstractBundle.message(bundle, key, *params)
 }
