@@ -15,7 +15,7 @@ val commitHash = kotlin.run {
 	output.trim()
 }
 
-val pluginComingVersion = "0.10.1"
+val pluginComingVersion = "0.10.2"
 val pluginVersion = if (isCI) "$pluginComingVersion-$commitHash" else pluginComingVersion
 val packageName = "org.ice1000.tt"
 
@@ -23,10 +23,11 @@ group = packageName
 version = pluginVersion
 
 plugins {
+	id("com.github.ben-manes.versions") version "0.38.0"
 	java
-	id("org.jetbrains.intellij") version "0.4.21"
-	id("org.jetbrains.grammarkit") version "2020.2"
-	kotlin("jvm") version "1.3.72"
+	id("org.jetbrains.intellij") version "0.7.2"
+	id("org.jetbrains.grammarkit") version "2020.3.2"
+	kotlin("jvm") version "1.4.30"
 }
 
 // grammarKit {
@@ -72,7 +73,7 @@ intellij {
 	}
 
 	if (!isCI) {
-		setPlugins("PsiViewer:202-SNAPSHOT.3", "java")
+		setPlugins("PsiViewer:203-SNAPSHOT", "java")
 		tasks["buildSearchableOptions"]?.enabled = false
 	} else setPlugins("java")
 }
@@ -120,7 +121,7 @@ dependencies {
 		exclude(module = "kotlin-stdlib")
 	}
 	testImplementation(kotlin("test-junit"))
-	testImplementation("junit", "junit", "4.12")
+	testImplementation("junit", "junit", "4.13.2")
 }
 
 task("displayCommitHash") {
