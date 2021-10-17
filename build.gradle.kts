@@ -110,7 +110,6 @@ kotlin {
 
 repositories {
 	mavenCentral()
-	jcenter()
 }
 
 dependencies {
@@ -185,7 +184,7 @@ utilities("OwO")
 tasks.withType<KotlinCompile>().configureEach {
 	dependsOn(generateCode)
 	kotlinOptions {
-		jvmTarget = "1.11"
+		jvmTarget = "11"
 		languageVersion = "1.5"
 		apiVersion = "1.5"
 		freeCompilerArgs = listOf("-Xjvm-default=enable")

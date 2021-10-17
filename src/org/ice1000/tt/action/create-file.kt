@@ -19,7 +19,7 @@ import javax.swing.Icon
 fun createProperties(project: Project, className: String): Properties {
 	val properties = FileTemplateManager.getInstance(project).defaultProperties
 	properties += "NAME" to className
-	val snakeCase = className.toLowerCase().replace(Regex("[ \\r\\t\\-()!@#~]+"), "_")
+	val snakeCase = className.lowercase(Locale.getDefault()).replace(Regex("[ \\r\\t\\-()!@#~]+"), "_")
 	properties += "NAME_SNAKE" to snakeCase
 	properties += "NAME_CAMEL" to CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, snakeCase)
 	return properties
