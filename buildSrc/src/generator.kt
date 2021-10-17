@@ -8,6 +8,7 @@ import org.ice1000.tt.gradle.json.DEFAULT_PKG
 import org.ice1000.tt.gradle.json.LangData
 import org.ice1000.tt.gradle.json.langGenJson
 import java.io.File
+import java.util.*
 
 val Task.defaultPkg
 	get() = DEFAULT_PKG.split('.').fold(project.buildDir.resolve("gen")) { dir, p -> dir.resolve(p) }
@@ -32,7 +33,7 @@ open class GenMiscTask : DefaultTask() {
 }
 
 open class LangUtilGenTask : DefaultTask() {
-	var langName = ""
+	@Internal var langName = ""
 		set(value) {
 			field = value
 			GenMiscTask.langGenTasks.add(value)
@@ -55,15 +56,15 @@ open class LangUtilGenTask : DefaultTask() {
 	}
 
 	private fun LangData.doGen() {
-		val nickname = languageName.toLowerCase()
+		val nickname = languageName.lowercase(Locale.getDefault())
 		val configName = when (languageName.length) {
 			0, 1 -> nickname
-			else -> languageName.substring(0, 2).toLowerCase() + languageName.substring(2)
+			else -> languageName.substring(0, 2).lowercase(Locale.getDefault()) + languageName.substring(2)
 		}
 		outDir.mkdirs()
 		if (languageName.isBlank()) throw GradleException("Language name of $name must not be empty.")
 		if (generateSettings && exeName.isBlank()) throw GradleException("Executable name for $name must not be empty.")
-		if (constantPrefix.isEmpty()) constantPrefix = languageName.toUpperCase()
+		if (constantPrefix.isEmpty()) constantPrefix = languageName.uppercase(Locale.getDefault())
 		infos(nickname, outDir)
 		if (generateService) service(configName, nickname, outDir)
 		fileCreation(outDir)

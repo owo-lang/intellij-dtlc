@@ -2,7 +2,6 @@ package org.ice1000.tt.gradle.json
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.encodeToString
 import java.io.File
 
 const val DEFAULT_PKG = "org.ice1000.tt"
