@@ -1,13 +1,9 @@
 package org.ice1000.tt.gradle.json
 
-import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
-import kotlinx.serialization.stringify
+import kotlinx.serialization.encodeToString
 import java.io.File
-
-private val sharedJson = Json(JsonConfiguration.Stable)
 
 const val DEFAULT_PKG = "org.ice1000.tt"
 
@@ -63,16 +59,15 @@ class LangData constructor(
 	val braceTokenPairs: Map<String, String> = emptyMap(),
 	val basePackage: String = DEFAULT_PKG
 ) {
-	fun toJson() = sharedJson.stringify(serializer(), this)
+	fun toJson() = Json.encodeToString(serializer(), this)
 
-	@OptIn(ImplicitReflectionSerializer::class)
 	companion object SchemaWriter {
 		init {
-			val map = schema(serializer().descriptor)
-			File("build/fyi/schema.json").writeText(sharedJson.stringify(map))
+			// val map = schema(serializer().descriptor)
+			// File("build/fyi/schema.json").writeText(Json.encodeToString(map))
 		}
 	}
 }
 
 fun langGenJson(json: File) = langGenJson(json.readText())
-fun langGenJson(json: String) = sharedJson.parse(LangData.serializer(), json)
+fun langGenJson(json: String) = Json.decodeFromString(LangData.serializer(), json)

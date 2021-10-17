@@ -3,7 +3,6 @@ import org.ice1000.tt.gradle.LangUtilGenTask
 import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
 import org.jetbrains.intellij.tasks.PatchPluginXmlTask
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val isCI = !System.getenv("CI").isNullOrBlank()
@@ -15,7 +14,7 @@ val commitHash = kotlin.run {
 	output.trim()
 }
 
-val pluginComingVersion = "0.10.2"
+val pluginComingVersion = "0.11.0"
 val pluginVersion = if (isCI) "$pluginComingVersion-$commitHash" else pluginComingVersion
 val packageName = "org.ice1000.tt"
 
@@ -25,9 +24,9 @@ version = pluginVersion
 plugins {
 	id("com.github.ben-manes.versions") version "0.38.0"
 	java
-	id("org.jetbrains.intellij") version "0.7.2"
-	id("org.jetbrains.grammarkit") version "2020.3.2"
-	kotlin("jvm") version "1.4.30"
+	id("org.jetbrains.intellij") version "1.2.0"
+	id("org.jetbrains.grammarkit") version "2021.1.3"
+	kotlin("jvm") version "1.5.31"
 }
 
 // grammarKit {
@@ -37,7 +36,7 @@ plugins {
 fun fromToolbox(root: String, ide: String) = file(root)
 	.resolve(ide)
 	.takeIf { it.exists() }
-	?.resolve("ch-0")
+	?.run { resolve("ch-0").takeIf { it.exists() } ?: resolve("ch-1") }
 	?.listFiles()
 	.orEmpty()
 	.asSequence()
@@ -53,12 +52,11 @@ fun fromToolbox(root: String, ide: String) = file(root)
 allprojects { apply { plugin("org.jetbrains.grammarkit") } }
 
 intellij {
-	updateSinceUntilBuild = false
-	instrumentCode = true
-	// downloadSources = true
+	updateSinceUntilBuild.set(false)
+	instrumentCode.set(true)
+	// downloadSources.set(true)
 	val user = System.getProperty("user.name")
 	val os = System.getProperty("os.name")
-	// version = "2019.3"
 	when {
 		os.startsWith("Windows") -> "C:\\Users\\$user\\AppData\\Local\\JetBrains\\Toolbox\\apps"
 		os == "Linux" -> "/home/$user/.local/share/JetBrains/Toolbox/apps"
@@ -66,44 +64,47 @@ intellij {
 	}?.let { root ->
 		val intellijPath = sequenceOf("IDEA-C", "IDEA-U")
 			.mapNotNull { fromToolbox(root, it) }.firstOrNull()
-		intellijPath?.absolutePath?.let { localPath = it }
-		val pycharmPath = sequenceOf("IDEA-C", "IDEA-U")
-			.mapNotNull { fromToolbox(root, it) }.firstOrNull()
-		pycharmPath?.absolutePath?.let { alternativeIdePath = it }
+		intellijPath?.absolutePath?.let(localPath::set)
 	}
 
 	if (!isCI) {
-		setPlugins("PsiViewer:203-SNAPSHOT", "java")
+		plugins.set(listOf("PsiViewer:213-SNAPSHOT", "java"))
 		tasks["buildSearchableOptions"]?.enabled = false
-	} else setPlugins("java")
+	} else plugins.set(listOf("java"))
 }
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_1_8
-	targetCompatibility = JavaVersion.VERSION_1_8
+	sourceCompatibility = JavaVersion.VERSION_11
+	targetCompatibility = JavaVersion.VERSION_11
 }
 
 tasks.withType<PatchPluginXmlTask> {
-	changeNotes(file("res/META-INF/change-notes.html").readText())
-	pluginDescription(file("res/META-INF/description.html").readText())
-	version(pluginVersion)
-	pluginId(packageName)
+	changeNotes.set(file("res/META-INF/change-notes.html").readText())
+	pluginDescription.set(file("res/META-INF/description.html").readText())
+	version.set(pluginVersion)
+	pluginId.set(packageName)
 }
 
 
-sourceSets {
-	main {
-		withConvention(KotlinSourceSet::class) {
-			listOf(java, kotlin).forEach { it.srcDirs("src", "$buildDir/gen") }
-		}
-		resources.srcDir("res")
-	}
+sourceSets.main {
+	java.srcDirs("src", "$buildDir/gen")
+	resources.srcDir("res")
+}
 
-	test {
-		withConvention(KotlinSourceSet::class) {
-			listOf(java, kotlin).forEach { it.srcDirs("test") }
+sourceSets.test {
+	java.srcDir("test")
+	resources.srcDir("testData")
+}
+
+kotlin {
+	sourceSets {
+		main {
+			kotlin.srcDir("src")
+			kotlin.srcDir("$buildDir/gen")
 		}
-		resources.srcDir("testData")
+		test {
+			kotlin.srcDir("test")
+		}
 	}
 }
 
@@ -117,7 +118,7 @@ dependencies {
 	implementation("org.eclipse.mylyn.github", "org.eclipse.egit.github.core", "2.1.5") {
 		exclude(module = "gson")
 	}
-	implementation("org.jetbrains.kotlinx", "kotlinx-html-jvm", "0.7.1") {
+	implementation("org.jetbrains.kotlinx", "kotlinx-html-jvm", "0.7.2") {
 		exclude(module = "kotlin-stdlib")
 	}
 	testImplementation(kotlin("test-junit"))
@@ -181,12 +182,12 @@ listOf(
 ).onEach { utilities(it) }.forEach { grammar(it) }
 utilities("OwO")
 
-tasks.withType<KotlinCompile> {
+tasks.withType<KotlinCompile>().configureEach {
 	dependsOn(generateCode)
 	kotlinOptions {
-		jvmTarget = "1.8"
-		languageVersion = "1.3"
-		apiVersion = "1.3"
+		jvmTarget = "1.11"
+		languageVersion = "1.5"
+		apiVersion = "1.5"
 		freeCompilerArgs = listOf("-Xjvm-default=enable")
 	}
 }

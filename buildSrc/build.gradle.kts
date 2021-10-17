@@ -1,17 +1,16 @@
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 group = "org.ice1000.tt.gradle"
 version = "114514"
 plugins {
-	kotlin("jvm") version "1.3.70"
-	kotlin("plugin.serialization") version "1.3.70"
+	kotlin("jvm") version "1.5.31"
+	kotlin("plugin.serialization") version "1.5.31"
 }
-sourceSets { main { withConvention(KotlinSourceSet::class) { kotlin.srcDirs("src") } } }
-repositories { jcenter() }
+kotlin { sourceSets { main { kotlin.srcDir("src") } } }
+repositories { mavenCentral() }
 dependencies {
-	compile(kotlin("stdlib-jdk8"))
-	compile(kotlin("reflect"))
-	compile("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
+	implementation(kotlin("stdlib-jdk8"))
+	implementation(kotlin("reflect"))
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
 }
 val compilerArgs = listOf("-Xuse-experimental=kotlin.Experimental")
-tasks.withType<KotlinCompile> { kotlinOptions { freeCompilerArgs = compilerArgs } }
+tasks.withType<KotlinCompile>().configureEach { kotlinOptions { freeCompilerArgs = compilerArgs } }
