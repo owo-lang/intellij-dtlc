@@ -62,7 +62,7 @@ intellij {
 		os == "Linux" -> "/home/$user/.local/share/JetBrains/Toolbox/apps"
 		else -> null
 	}?.let { root ->
-		val intellijPath = sequenceOf("IDEA-C", "IDEA-U")
+		val intellijPath = sequenceOf("IDEA-U", "IDEA-C")
 			.mapNotNull { fromToolbox(root, it) }.firstOrNull()
 		intellijPath?.absolutePath?.let(localPath::set)
 	}
@@ -110,6 +110,7 @@ kotlin {
 
 repositories {
 	mavenCentral()
+	maven("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
 }
 
 dependencies {
