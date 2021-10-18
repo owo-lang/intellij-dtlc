@@ -46,8 +46,8 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 
 	public class ${languageName}RunConfigurationType implements ConfigurationType {
 
-		ConfigurationFactory factory;
-		private ConfigurationFactory[] factories;
+		final ConfigurationFactory factory;
+		private final ConfigurationFactory[] factories;
 		private static ${languageName}RunConfigurationType instance;
 		
 		synchronized public static ${languageName}RunConfigurationType getInstance() {
