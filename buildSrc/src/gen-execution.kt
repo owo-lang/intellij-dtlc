@@ -17,9 +17,12 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 		public ${languageName}RunConfigurationFactory(${languageName}RunConfigurationType type) {
 			super(type);
 		}
-		
-		@NotNull
-		@Override
+
+		@Override public @NotNull @NonNls String getId() {
+			return "$languageName";
+		}
+
+		@NotNull @Override
 		public ${languageName}RunConfiguration createTemplateConfiguration(@NotNull Project project) {
 			return new ${languageName}RunConfiguration(project, this);
 		}
@@ -58,20 +61,15 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 			factories = new ConfigurationFactory[]{factory};
 		}
 
-		@NotNull
-		@Override
-		public String getDisplayName() {
+		@Override public @NotNull String getDisplayName() {
 			return ${constantPrefix}_LANGUAGE_NAME;
 		}
 
-		@Nls
-		@Override
-		public String getConfigurationTypeDescription() {
+		@Override public @Nls String getConfigurationTypeDescription() {
 			return TTBundle.message("tt.run-config.description", ${constantPrefix}_LANGUAGE_NAME);
 		}
 
-		@Override
-		public Icon getIcon() {
+		@Override public Icon getIcon() {
 			return TTIcons.$constantPrefix;
 		}
 
