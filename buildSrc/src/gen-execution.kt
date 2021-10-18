@@ -12,6 +12,7 @@ fun LangData.execution(nickname: String, configName: String, outDir: File) {
 	import com.intellij.execution.configurations.ConfigurationFactory;
 	import com.intellij.openapi.project.Project;
 	import org.jetbrains.annotations.NotNull;
+	import org.jetbrains.annotations.NonNls;
 	
 	public class ${languageName}RunConfigurationFactory extends ConfigurationFactory {
 		public ${languageName}RunConfigurationFactory(${languageName}RunConfigurationType type) {

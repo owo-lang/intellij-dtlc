@@ -81,7 +81,7 @@ private object AnonymousFeedback {
 	 * @return The report info that is then used in [GitHubErrorReporter] to show the user a balloon with the link
 	 * of the created issue.
 	 */
-	internal fun sendFeedback(environmentDetails: MutableMap<String, String>): SubmittedReportInfo {
+	fun sendFeedback(environmentDetails: MutableMap<String, String>): SubmittedReportInfo {
 		val logger = Logger.getInstance(javaClass.name)
 		try {
 			val resource: URL? = javaClass.classLoader.getResource(tokenFile)
@@ -130,9 +130,9 @@ private object AnonymousFeedback {
 		buildString {
 			val errorDescription = details.remove("error.description").orEmpty()
 			val stackTrace = details.remove("error.stacktrace")?.takeIf(String::isNotBlank) ?: "invalid stacktrace"
-			if (errorDescription.isNotEmpty()) append(errorDescription).appendln("\n\n----------------------\n")
-			for ((key, value) in details) append("- ").append(key).append(": ").appendln(value)
-			if (includeStacktrace) appendln("\n```").appendln(stackTrace).appendln("```")
+			if (errorDescription.isNotEmpty()) append(errorDescription).appendLine("\n\n----------------------\n")
+			for ((key, value) in details) append("- ").append(key).append(": ").appendLine(value)
+			if (includeStacktrace) appendLine("\n```").appendLine(stackTrace).appendLine("```")
 		}
 }
 
@@ -213,10 +213,12 @@ class GitHubErrorReporter : ErrorReportSubmitter() {
 		private val project: Project?) : Consumer<SubmittedReportInfo> {
 		override fun consume(reportInfo: SubmittedReportInfo) {
 			consumer.consume(reportInfo)
-			if (reportInfo.status == SubmissionStatus.FAILED) ReportMessages.GROUP.createNotification(ReportMessages.getErrorReport(),
-				reportInfo.linkText, NotificationType.ERROR, null).setImportant(false).notify(project)
-			else ReportMessages.GROUP.createNotification(ReportMessages.getErrorReport(), reportInfo.linkText,
-				NotificationType.INFORMATION, NotificationListener.URL_OPENING_LISTENER).setImportant(false).notify(project)
+			if (reportInfo.status == SubmissionStatus.FAILED) ReportMessages.GROUP.createNotification("Error report",
+				reportInfo.linkText, NotificationType.ERROR).setImportant(false).notify(project)
+			else ReportMessages.GROUP.createNotification("Error report", reportInfo.linkText,
+				NotificationType.INFORMATION)
+				.setListener(NotificationListener.URL_OPENING_LISTENER)
+				.setImportant(false).notify(project)
 		}
 	}
 }
